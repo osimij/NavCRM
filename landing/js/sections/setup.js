@@ -120,9 +120,10 @@ export function init(root) {
       return;
     }
 
-    // Vertical: the drawn part of the line reaches down to 75% of the screen, and never undraws.
+    // Vertical: the drawn part of the line reaches down to 85% of the screen, and never undraws.
+    // Once the whole track is on screen, nothing is left waiting below the fold.
     const r = line.getBoundingClientRect();
-    const reach = (vh * 0.75 - r.top) / r.height;
+    const reach = board.getBoundingClientRect().bottom <= vh ? 1 : (vh * 0.85 - r.top) / r.height;
     if (reach < 0) return;
     fill = Math.max(fill, Math.min(1, reach));
     line.style.setProperty('--cut', `${((1 - fill) * 100).toFixed(2)}%`);
