@@ -1,171 +1,134 @@
-// Made here (#local): the offline phone demo and the language switcher.
+// Made here (#local): the offline phone demo and the language switch.
 import { sleep, loopWhileVisible, reducedMotion } from '../main.js';
 
 export function init(root) {
   const offline = root.querySelector('[data-offline]');
-  const steps = root.querySelector('[data-steps]');
   const langs = root.querySelector('[data-langs]');
-  if (offline) initOffline(offline, steps);
+  if (offline) initOffline(offline);
   if (langs) initLanguages(langs);
 }
 
-/* Online -> offline, three changes saved on the phone -> back online, each change synced. About 9s. */
-const PHASE = { online: 1500, offline: 3600, synced: 3740 };
-
-function initOffline(el, stepsEl) {
-  const states = [...el.querySelectorAll('[data-net]')];
+/*
+  Today's schedule on a phone. About 9s:
+  online (schedule only) -> offline (banner, then three changes saved on the phone, then the count)
+  -> syncing (each change ticks) -> synced (check, "Everything synced.") -> fade back.
+  Phase and row count live on data attributes; CSS does the layout and motion.
+*/
+function initOffline(el) {
+  const rows = el.querySelectorAll('[data-row]').length;
   const wifiOn = el.querySelector('[data-wifi="on"]');
   const wifiOff = el.querySelector('[data-wifi="off"]');
+  const netOffline = el.querySelector('[data-net="offline"]');
+  const netSynced = el.querySelector('[data-net="synced"]');
   const spin = el.querySelector('[data-sync="spin"]');
   const done = el.querySelector('[data-sync="done"]');
-  const rows = [...el.querySelectorAll('.s-local__change')];
 
   const hide = (node, hidden) => (node.dataset.hidden = String(hidden));
-  const net = (name) => states.forEach((s) => hide(s, s.dataset.net !== name));
-  const wifi = (on) => {
-    hide(wifiOn, !on);
-    hide(wifiOff, on);
+  const banner = (back, syncing = false) => {
+    hide(netOffline, back);
+    hide(netSynced, !back);
+    hide(spin, !syncing);
+    hide(done, syncing);
   };
-  const syncIcon = (finished) => {
-    hide(spin, finished);
-    hide(done, !finished);
-  };
-
-  // Progress line under the text: one part per phase, filled linearly while that phase plays.
-  const steps = stepsEl ? [...stepsEl.children] : [];
-  const phase = (name) => {
-    let past = true;
-    steps.forEach((li) => {
-      const here = li.dataset.step === name;
-      if (here) past = false;
-      li.classList.toggle('is-done', past && !!name);
-      li.classList.toggle('is-active', here);
-      if (here) li.style.setProperty('--dur', `${PHASE[name]}ms`);
-    });
+  const render = (phase, count) => {
+    el.dataset.phase = phase;
+    el.dataset.rows = String(count);
+    const offline = phase === 'offline';
+    hide(wifiOn, offline);
+    hide(wifiOff, !offline);
+    // While online the banner is hidden; its content keeps whatever it last said.
+    if (phase !== 'online') banner(!offline, phase === 'syncing');
   };
 
-  let dirty = false;
-  const toStart = () => {
-    dirty = false;
-    net('online');
-    wifi(true);
-    syncIcon(false);
-    rows.forEach((r) => r.classList.remove('is-in', 'is-synced'));
-    phase(null);
-  };
-  const toEnd = () => {
-    net('synced');
-    wifi(true);
-    syncIcon(true);
-    rows.forEach((r) => r.classList.add('is-in', 'is-synced'));
-    steps.forEach((li) => li.classList.add('is-done'));
-  };
-
-  // Fade back to the start: opacity only, nothing travels on the way out.
+  // Fade back to the start: the banner and changes fade, the schedule settles back up.
+  // Once the banner is invisible, its content quietly returns to "Offline." for the next round.
   const rewind = async (signal) => {
     el.classList.add('is-resetting');
-    toStart();
+    render('online', 0);
     try {
-      await sleep(450, signal);
+      await sleep(700, signal);
     } finally {
       el.classList.remove('is-resetting');
+      banner(false);
     }
   };
 
-  // The markup ships in the end state (no JS, reduced motion). With motion, start from the top.
-  if (!reducedMotion.matches) toStart();
+  // The markup ships in the end state (no JS, reduced motion). With motion, jump to the start unseen.
+  if (!reducedMotion.matches) {
+    el.classList.add('is-instant');
+    render('online', 0);
+    banner(false);
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.remove('is-instant')));
+  }
 
   loopWhileVisible(
     el,
     async (signal) => {
       // Coming back mid-scene (scrolled away, tab hidden): fade back to the start first.
-      if (dirty) await rewind(signal);
-      phase('online');
-      await sleep(PHASE.online, signal);
+      if (el.dataset.phase !== 'online') await rewind(signal);
+      await sleep(1400, signal);
 
-      // The connection drops
-      dirty = true;
-      net('offline');
-      wifi(false);
-      phase('offline');
-      await sleep(550, signal);
-
-      // Work carries on: each change is saved on the phone
-      for (const row of rows) {
-        row.classList.add('is-in');
+      // The connection drops; work carries on and each change is kept on the phone.
+      render('offline', 0);
+      await sleep(700, signal);
+      for (let n = 1; n <= rows; n++) {
+        render('offline', n);
         await sleep(650, signal);
       }
-      await sleep(1100, signal);
+      await sleep(1000, signal);
 
-      // Back online: changes sync one by one
-      net('synced');
-      wifi(true);
-      phase('synced');
-      await sleep(450, signal);
-      for (const row of rows) {
-        row.classList.add('is-synced');
-        await sleep(180, signal);
-      }
-      await sleep(150, signal);
-      syncIcon(true);
-      await sleep(2600, signal);
+      // Back online: the changes sync one after another, then the banner confirms it.
+      render('syncing', rows);
+      await sleep(900, signal);
+      render('synced', rows);
+      await sleep(2400, signal);
       await rewind(signal);
     },
-    { final: toEnd }
+    { final: () => render('synced', rows) }
   );
 }
 
-/* The "New booking" button in Tajik, Russian and English, every 2.4s. */
+/* The "New booking" button in Tajik, Russian and English. Cycles every 2.4s until someone picks one. */
 function initLanguages(el) {
   const seg = el.querySelector('.ui-seg');
-  const thumb = seg.querySelector('.ui-seg__thumb');
-  const tabs = [...seg.querySelectorAll('[data-lang]')];
+  const tabs = [...seg.querySelectorAll('button[data-lang]')];
   const labels = [...el.querySelectorAll('.s-local__new-swap > [data-lang]')];
   const order = tabs.map((t) => t.dataset.lang);
   let current = order[0];
 
-  const place = () => {
-    const tab = tabs.find((t) => t.dataset.lang === current);
-    seg.style.setProperty('--x', `${tab.offsetLeft}px`);
-    seg.style.setProperty('--w', `${tab.offsetWidth}px`);
-  };
-
   const show = (lang) => {
+    if (lang === current) return;
     const prev = current;
     current = lang;
-    tabs.forEach((t) => t.classList.toggle('is-active', t.dataset.lang === lang));
+    tabs.forEach((t) => {
+      const on = t.dataset.lang === lang;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-pressed', String(on));
+    });
+    seg.style.setProperty('--i', order.indexOf(lang));
     labels.forEach((l) => {
       const name = l.dataset.lang;
-      if (name === lang) {
-        l.classList.remove('is-leaving');
-        l.dataset.hidden = 'false';
-      } else if (name === prev) {
-        l.classList.add('is-leaving');
-        l.dataset.hidden = 'true';
-      } else {
-        // invisible, so it can travel back below without being seen
-        l.classList.remove('is-leaving');
-        l.dataset.hidden = 'true';
-      }
+      // The outgoing label leaves upwards; the others wait below, unseen, for their turn.
+      l.classList.toggle('is-leaving', name === prev);
+      l.dataset.hidden = String(name !== lang);
     });
-    place();
   };
 
-  // Place the thumb without animating it in.
-  thumb.style.transition = 'none';
-  place();
-  requestAnimationFrame(() => requestAnimationFrame(() => (thumb.style.transition = '')));
-  document.fonts?.ready.then(place);
-  new ResizeObserver(place).observe(seg);
-
-  loopWhileVisible(
+  const stop = loopWhileVisible(
     el,
     async (signal) => {
-      for (const lang of order) {
-        if (lang !== current) show(lang);
-        await sleep(2400, signal);
-      }
+      await sleep(2400, signal);
+      show(order[(order.indexOf(current) + 1) % order.length]);
     },
     { final: () => show(order[0]) }
+  );
+
+  // Picking a language (or tabbing in to pick one) ends the cycle for good.
+  seg.addEventListener('focusin', stop, { once: true });
+  tabs.forEach((t) =>
+    t.addEventListener('click', () => {
+      stop();
+      show(t.dataset.lang);
+    })
   );
 }

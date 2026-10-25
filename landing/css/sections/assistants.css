@@ -1,5 +1,6 @@
-/* Assistants (#assistants): an Instagram Direct chat on a stage, and three cards for who the assistants serve.
-   The stage and the cards form one bento block with a shared 16px gutter. */
+/* Assistants (#assistants): an Instagram Direct chat on a stage, beside one panel that lists
+   who the assistants serve. Chat parts come from the UI kit (ui-bubble, ui-avatar, ui-tile);
+   this file only adds the Instagram look and the layout. */
 
 .s-assistants {
   --gap: 16px;
@@ -24,53 +25,37 @@
   font-size: 16px;
 }
 
-/* Layout: stage and cards side by side, then stage over a row of cards, then one column */
+/* Layout: stage and panel side by side, then stacked */
 .s-assistants__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.28fr) minmax(0, 0.72fr);
+  grid-template-columns: minmax(0, 1.22fr) minmax(0, 0.78fr);
   gap: var(--gap);
-  align-items: stretch;
 }
 
 /* Stage: layout only, the art direction paints .stage__art */
 .s-assistants__stage {
+  --inset: 40px;
+  --chat-w: 384px;
   container-type: inline-size;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 24px;
-  padding: 40px 40px 32px;
+  padding: var(--inset) var(--inset) 32px;
   border-radius: var(--r-xl);
 }
 
-/* Demo: the chat, with the NavCRM notification overlapping its right edge */
+/* Demo */
 .s-assistants__demo {
-  --chat-w: 384px;
-  --toast-w: 268px;
-  --overlap: 72px; /* how far the notification reaches over the chat */
-  --lift: 88px; /* how far its top rises above the chat's bottom edge */
-  display: grid;
-  grid-template-columns: var(--chat-w) calc(var(--toast-w) - var(--overlap));
+  /* Instagram Direct's sent-message gradient, used for outgoing bubbles and the camera button */
+  --ig: linear-gradient(180deg, #6a4dff 0%, #3f62ff 100%);
   width: 100%;
-  max-width: calc(var(--chat-w) + var(--toast-w) - var(--overlap));
+  max-width: var(--chat-w);
 }
-.s-assistants__chat {
-  grid-area: 1 / 1;
-}
-.s-assistants__toast {
-  grid-area: 2 / 1 / 3 / 3;
-  z-index: 1;
-  justify-self: end;
-  width: var(--toast-w);
-  margin-top: calc(var(--lift) * -1);
-}
-
-/* Chat window */
 .s-assistants__chat {
   display: flex;
   flex-direction: column;
-  min-width: 0;
 }
 .s-assistants__head {
   display: flex;
@@ -83,24 +68,11 @@
   flex: 1;
   min-width: 0;
 }
-.s-assistants__brand {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  flex: none;
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.02em;
+/* The salon's profile picture: a dark avatar, as in the other Gulnor Beauty chats on the page */
+.s-assistants__brand.ui-avatar {
   color: #fff;
-  background: linear-gradient(160deg, #3a3f4c, #11161f);
+  background: var(--ink);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
-}
-.s-assistants__brand--sm {
-  width: 24px;
-  height: 24px;
-  font-size: 8.5px;
 }
 .s-assistants__ig {
   width: 28px;
@@ -111,25 +83,21 @@
   font-size: 16px;
 }
 
-/* Thread */
+/* Thread: anchored to the bottom like a messenger; its height is locked by the script */
 .s-assistants__thread {
   display: grid;
-  align-content: start;
+  align-content: end;
   gap: 16px;
   padding: 16px 16px 20px;
-}
-.s-assistants__stamp {
-  justify-self: center;
-  font-size: 11.5px;
-  font-weight: 520;
-  color: var(--ink-3);
+  overflow: clip;
 }
 .s-assistants__msg {
   display: grid;
   row-gap: 4px;
   transition:
     opacity 350ms ease,
-    transform 350ms var(--ease-out);
+    transform 350ms var(--ease-out),
+    translate 450ms var(--ease-out);
 }
 .s-assistants__msg--out {
   justify-items: end;
@@ -141,10 +109,11 @@
   justify-items: start;
   transform-origin: bottom left;
 }
-.s-assistants__msg--in > .s-assistants__brand {
+.s-assistants__msg--in > .ui-avatar {
   grid-row: 1;
   align-self: end;
 }
+/* The typing indicator and the reply share one cell, so one crossfades into the other */
 .s-assistants__slot {
   grid-row: 1;
   grid-column: 2;
@@ -156,62 +125,55 @@
 }
 .s-assistants__msg--in > .s-assistants__tr {
   grid-column: 2;
-  max-width: 88%;
 }
 
-.s-assistants__bubble {
-  max-width: 80%;
-  padding: 9px 14px;
-  border-radius: 20px;
-  font-size: 14px;
-  line-height: 1.42;
-  letter-spacing: -0.006em;
+/* Instagram look on the kit's bubbles */
+.s-assistants .ui-bubble {
   text-wrap: pretty;
 }
-.s-assistants__slot .s-assistants__bubble {
+.s-assistants .ui-bubble--out {
+  background: var(--ig);
+}
+.s-assistants .ui-bubble--in {
+  background: var(--bg-sunk);
+  box-shadow: none;
+}
+.s-assistants__slot .ui-bubble {
   max-width: none;
 }
-.s-assistants__msg--out .s-assistants__bubble {
-  color: #fff;
-  background: linear-gradient(180deg, #6a4dff 0%, #3f62ff 100%);
-}
-.s-assistants__msg--in .s-assistants__bubble {
-  color: var(--ink);
-  background: #eff1f5;
-}
+
+/* English translation under each line */
 .s-assistants__tr {
   max-width: 86%;
-  padding-left: 14px;
+  padding-inline: 12px;
   font-size: 12px;
   line-height: 1.4;
-  color: var(--ink-3);
+  color: var(--ink-2);
   text-wrap: balance;
+}
+.s-assistants__msg--out .s-assistants__tr {
+  text-align: right;
 }
 .s-assistants__keep {
   white-space: nowrap;
 }
-.s-assistants__msg--out .s-assistants__tr {
-  padding: 0 14px 0 0;
-  text-align: right;
-}
 
 /* Typing indicator */
 .s-assistants__typing {
-  display: none;
+  display: inline-flex;
   align-items: center;
+  align-self: end;
   justify-self: start;
   gap: 4px;
-  height: 38px;
+  height: 36px;
   padding: 0 14px;
-  border-radius: 20px;
-  background: #eff1f5;
 }
 .s-assistants__typing i {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--ink-3);
-  animation: s-assistants-dot 1.2s ease-in-out infinite;
+  animation: s-assistants-dot 1.2s var(--ease-in-out) infinite;
 }
 .s-assistants__typing i:nth-child(2) {
   animation-delay: 160ms;
@@ -254,7 +216,7 @@
   height: 36px;
   border-radius: 50%;
   color: #fff;
-  background: linear-gradient(180deg, #6a4dff 0%, #3f62ff 100%);
+  background: var(--ig);
 }
 .s-assistants__cam .i {
   font-size: 17px;
@@ -262,56 +224,6 @@
 .s-assistants__placeholder {
   flex: 1;
   color: var(--ink-3);
-  font-size: 13.5px;
-}
-
-/* NavCRM notification: the booking the assistant made */
-.s-assistants__toast {
-  padding: 14px;
-  border-radius: var(--r-md);
-}
-.s-assistants__toast-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.s-assistants__by {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 1px;
-  font-size: 11.5px;
-  font-weight: 540;
-  color: var(--accent-ink);
-  white-space: nowrap;
-}
-.s-assistants__by .i {
-  font-size: 13px;
-}
-.s-assistants__toast-who {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-top: 12px;
-  padding-top: 12px;
-  box-shadow: inset 0 1px 0 var(--line);
-}
-.s-assistants__toast-line {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  min-height: 20px;
-}
-.s-assistants__toast-name {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-.s-assistants__toast-who .ui-sub {
-  margin-top: 2px;
-  line-height: 1.35;
-  text-wrap: balance;
 }
 
 /* Footnote under the chat */
@@ -338,96 +250,83 @@
   color: var(--good);
 }
 
-/* Cards */
-.s-assistants__cards {
-  display: grid;
-  grid-template-rows: repeat(3, minmax(0, 1fr));
-  gap: var(--gap);
-}
-.s-assistants__card {
+/* Who the assistants serve: one panel, three rows split by hairlines */
+.s-assistants__who {
   display: flex;
   flex-direction: column;
-  padding: 32px;
+  padding: 4px 32px;
 }
-.s-assistants__icon {
+.s-assistants__row {
+  flex: 1;
   display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--r-sm);
-  color: var(--accent);
-  background: linear-gradient(180deg, #f1f5ff 0%, var(--accent-soft) 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(42, 91, 255, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  grid-template-columns: 32px minmax(0, 1fr);
+  align-content: center;
+  align-items: center;
+  column-gap: 14px;
+  padding: 28px 0;
 }
-.s-assistants__icon .i {
-  font-size: 20px;
+.s-assistants__row + .s-assistants__row {
+  box-shadow: inset 0 1px 0 var(--line);
 }
-.s-assistants__card h3 {
-  margin-top: 20px;
-}
-.s-assistants__card p {
-  max-width: 56ch;
+.s-assistants__row p {
+  grid-column: 2;
+  max-width: 52ch;
   margin-top: 8px;
   font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--ink-2);
 }
-.s-assistants__card q {
+.s-assistants__ask {
   color: var(--ink);
+  font-weight: 520;
 }
 
-/* Animation states, set by js/sections/assistants.js. Without JS the whole exchange shows.
-   A message that has not arrived takes no space; the thread height is locked to the full
-   exchange by the script, so the window never resizes while the chat plays. */
-.js .s-assistants__msg:not([data-state]) {
+/* Animation states, set by js/sections/assistants.js once it runs ([data-ready]).
+   Without the script the whole exchange shows. A message that has not arrived takes no space;
+   the thread height is locked to the full exchange, so the window never resizes. */
+.s-assistants__demo[data-ready] .s-assistants__msg:not([data-state]) {
   display: none;
 }
-.s-assistants__msg[data-state="pre"],
-.s-assistants__msg[data-state="pre-typing"] {
+.s-assistants__msg[data-state="pre"] {
   opacity: 0;
   transform: translateY(8px) scale(0.98);
 }
-.s-assistants__msg[data-state="pre-typing"] .s-assistants__typing,
-.s-assistants__msg[data-state="typing"] .s-assistants__typing {
-  display: inline-flex;
-}
-.s-assistants__msg[data-state="pre-typing"] :is(.s-assistants__bubble, .s-assistants__tr),
-.s-assistants__msg[data-state="typing"] :is(.s-assistants__bubble, .s-assistants__tr) {
+/* Incoming: the typing indicator shows first, the translation joins with the reply */
+.s-assistants__msg[data-typing]:is([data-state="pre"], [data-state="typing"]) .s-assistants__tr {
   display: none;
 }
-.s-assistants__slot .s-assistants__bubble,
-.s-assistants__tr {
+.s-assistants__typing {
+  opacity: 0;
+  transform: scale(0.95);
+  transform-origin: left bottom;
+  transition:
+    opacity 150ms ease,
+    transform 150ms var(--ease-out);
+}
+.s-assistants__msg:is([data-state="pre"], [data-state="typing"], [data-state="land"]) .s-assistants__typing {
+  opacity: 1;
+  transform: none;
+}
+.s-assistants__slot .ui-bubble:not(.s-assistants__typing) {
+  transform-origin: left bottom;
   transition:
     opacity 350ms ease,
     transform 350ms var(--ease-out);
 }
-.s-assistants__slot .s-assistants__bubble {
-  transform-origin: bottom left;
-}
-.s-assistants__msg[data-state="land"] .s-assistants__bubble {
+.s-assistants__msg[data-typing]:is([data-state="pre"], [data-state="typing"], [data-state="land"]) .s-assistants__slot .ui-bubble:not(.s-assistants__typing) {
   opacity: 0;
-  transform: translateY(8px) scale(0.98);
+  transform: translateY(4px) scale(0.96);
+}
+.s-assistants__tr {
+  transition:
+    opacity 350ms ease 120ms,
+    transform 350ms var(--ease-out) 120ms;
 }
 .s-assistants__msg:is([data-state="pre"], [data-state="land"]) .s-assistants__tr {
   opacity: 0;
   transform: translateY(4px);
 }
-.s-assistants__tr {
-  transition-delay: 120ms;
-}
-.s-assistants__toast {
-  transform-origin: left bottom;
-  transition:
-    opacity 450ms ease,
-    transform 450ms var(--ease-out);
-}
-.js .s-assistants__toast:not([data-state="on"]) {
-  opacity: 0;
-  transform: translateX(12px) scale(0.98);
-}
-.s-assistants__demo.is-out :is(.s-assistants__msg, .s-assistants__toast) {
+.s-assistants__demo.is-out .s-assistants__msg {
   opacity: 0;
   transition: opacity 400ms ease;
 }
@@ -443,61 +342,106 @@
 .s-assistants__demo.is-measure .s-assistants__msg {
   display: grid !important;
 }
-.s-assistants__demo.is-measure :is(.s-assistants__bubble, .s-assistants__tr) {
+.s-assistants__demo.is-measure .s-assistants__tr {
   display: block !important;
-}
-.s-assistants__demo.is-measure .s-assistants__typing {
-  display: none !important;
 }
 .s-assistants__demo.is-measure * {
   transform: none !important;
+  translate: none !important;
 }
 
-/* Narrow stage: the notification drops under the chat */
+/* Narrow stage: the footnote wraps, so it becomes a rounded block as wide as the chat */
 @container (max-width: 579px) {
-  .s-assistants__demo {
-    grid-template-columns: minmax(0, 1fr);
-    max-width: var(--chat-w);
-  }
-  .s-assistants__toast {
-    grid-area: 2 / 1;
-    justify-self: stretch;
-    width: auto;
-    margin-top: 12px;
-  }
-}
-
-/* Below desktop: stage on top, cards in a row, then a single column */
-@media (max-width: 1179px) {
-  .s-assistants__grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .s-assistants__cards {
-    grid-template-rows: none;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-@media (max-width: 899px) {
-  .s-assistants__cards {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-@media (max-width: 560px) {
-  .s-assistants__stage {
-    padding: 24px 12px 20px;
-    gap: 16px;
-  }
   .s-assistants__note {
     align-items: flex-start;
-    border-radius: var(--r-md);
+    width: 100%;
+    max-width: var(--chat-w);
     padding: 10px 14px 10px 12px;
-    text-align: left;
+    border-radius: var(--r-md);
   }
   .s-assistants__note .i {
     margin-top: 1px;
   }
-  .s-assistants__card {
-    padding: 24px 24px 26px;
+}
+
+/* Below desktop: stage on top, the panel's rows side by side */
+@media (max-width: 1179px) {
+  .s-assistants__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .s-assistants__who {
+    flex-direction: row;
+    padding: 0;
+  }
+  .s-assistants__row {
+    flex: 1 1 0;
+    align-content: start;
+    padding: 28px;
+  }
+  .s-assistants__row + .s-assistants__row {
+    box-shadow: inset 1px 0 0 var(--line);
+  }
+  .s-assistants__row p {
+    grid-column: 1 / -1;
+    margin-top: 14px;
+  }
+}
+/* Tablet and phone: rows stacked again */
+@media (max-width: 899px) {
+  .s-assistants .section-head h2 {
+    max-width: 20ch;
+  }
+  .s-assistants__who {
+    flex-direction: column;
+    padding: 0 28px;
+  }
+  .s-assistants__row {
+    padding: 24px 0;
+  }
+  .s-assistants__row + .s-assistants__row {
+    box-shadow: inset 0 1px 0 var(--line);
+  }
+  .s-assistants__row p {
+    grid-column: 2;
+    margin-top: 6px;
+  }
+}
+@media (max-width: 560px) {
+  .s-assistants__stage {
+    --inset: 12px;
+    padding: var(--inset);
+    gap: var(--inset);
+  }
+  /* Nested corners stay concentric with the stage */
+  .s-assistants__chat,
+  .s-assistants__note {
+    border-radius: calc(var(--r-xl) - var(--inset));
+  }
+  .s-assistants__thread {
+    gap: 12px;
+    padding: 12px 12px 14px;
+  }
+  .s-assistants__composer {
+    height: 36px;
+    margin: 0 10px 10px;
+    padding-left: 3px;
+  }
+  .s-assistants__cam {
+    width: 30px;
+    height: 30px;
+  }
+  .s-assistants__cam .i {
+    font-size: 15px;
+  }
+  .s-assistants__who {
+    padding: 0 24px;
+  }
+  .s-assistants__row {
+    padding: 22px 0;
+  }
+  .s-assistants__row p {
+    grid-column: 1 / -1;
+    margin-top: 10px;
   }
   .s-assistants__beta {
     height: 26px;

@@ -1,29 +1,23 @@
-// Assistants: the Instagram Direct chat plays one exchange, the booking lands in NavCRM,
-// everything holds, fades out together and the loop repeats.
+// Assistants: an Instagram Direct exchange plays in the chat. The client's question is already
+// there; the assistant types and replies, and earlier messages slide up as new ones arrive at the
+// bottom, the way a messenger does. It holds, fades out and starts again.
 import { sleep, loopWhileVisible } from '../main.js';
 
 export function init(root) {
   const demo = root.querySelector('.s-assistants__demo');
-  const chat = root.querySelector('[data-chat]');
-  if (!demo || !chat) return;
-  const thread = chat.querySelector('.s-assistants__thread');
-  const msgs = [...chat.querySelectorAll('[data-m]')];
-  const toast = demo.querySelector('[data-toast]');
+  const thread = demo?.querySelector('[data-thread]');
+  if (!thread) return;
+  const msgs = [...thread.querySelectorAll('[data-m]')];
+  const [first, ...rest] = msgs;
 
   const set = (el, state) => {
     if (state) el.dataset.state = state;
     else delete el.dataset.state;
   };
-  // Commit a starting state before the next one, so the change transitions.
-  const step = (el, from, to) => {
-    set(el, from);
-    void el.offsetWidth;
-    set(el, to);
-  };
 
   // Shrink each wrapped bubble to its longest line, the way a messenger draws it
   // (CSS alone leaves a wrapped box at its full available width).
-  const bubbles = [...chat.querySelectorAll('.s-assistants__bubble')];
+  const bubbles = [...thread.querySelectorAll('.ui-bubble:not(.s-assistants__typing)')];
   const range = document.createRange();
   const tighten = (el) => {
     el.style.width = '';
@@ -39,6 +33,7 @@ export function init(root) {
   let lastWidth = 0;
   const measure = () => {
     demo.classList.add('is-reset', 'is-measure');
+    thread.style.height = '';
     bubbles.forEach(tighten);
     const h = thread.offsetHeight;
     demo.classList.remove('is-measure');
@@ -54,35 +49,69 @@ export function init(root) {
   }).observe(thread);
   document.fonts?.ready.then(measure);
 
-  // Back to an empty thread without animating the way back.
+  // FLIP: messages already on screen glide from where they were to where the change puts them.
+  const flip = (change) => {
+    const shown = msgs.filter((m) => m.dataset.state);
+    const before = shown.map((m) => m.getBoundingClientRect().top);
+    change();
+    shown.forEach((m, i) => {
+      const dy = before[i] - m.getBoundingClientRect().top;
+      if (Math.abs(dy) < 0.5) return;
+      m.style.transition = 'none';
+      m.style.translate = `0 ${dy}px`;
+    });
+    void thread.offsetWidth;
+    shown.forEach((m) => {
+      m.style.transition = '';
+      m.style.translate = '';
+    });
+  };
+  // Lay a message out in its starting state (others make room), then let it transition.
+  const arrive = (msg, from, to) => {
+    flip(() => set(msg, from));
+    set(msg, to);
+  };
+
+  // Back to the opening state, the client's question alone, without animating the way back.
   const reset = () => {
     demo.classList.add('is-reset');
     demo.classList.remove('is-out');
-    [...msgs, toast].forEach((el) => set(el, null));
+    msgs.forEach((m) => {
+      m.style.translate = '';
+      set(m, m === first ? 'on' : null);
+    });
     void demo.offsetWidth;
     demo.classList.remove('is-reset');
   };
+  const atStart = () => !demo.classList.contains('is-out') && msgs.every((m) => (m === first ? m.dataset.state === 'on' : !m.dataset.state));
 
   const scene = async (signal) => {
-    reset();
-    await sleep(700, signal);
-    for (const msg of msgs) {
-      if ('typing' in msg.dataset) {
-        step(msg, 'pre-typing', 'typing');
-        await sleep(200 + 900, signal);
-        step(msg, 'land', 'on');
-      } else {
-        step(msg, 'pre', 'on');
-      }
-      await sleep(1500, signal);
+    if (!atStart()) {
+      demo.classList.add('is-out');
+      await sleep(450, signal);
+      reset();
+      set(first, 'pre');
+      void first.offsetWidth;
+      set(first, 'on');
     }
-    set(toast, 'on');
-    await sleep(4000, signal);
-    demo.classList.add('is-out');
-    await sleep(600, signal);
+    await sleep(1000, signal);
+    for (const msg of rest) {
+      if ('typing' in msg.dataset) {
+        arrive(msg, 'pre', 'typing');
+        await sleep(1100, signal);
+        arrive(msg, 'land', 'on');
+        await sleep(msg === rest.at(-1) ? 3600 : 1700, signal);
+      } else {
+        arrive(msg, 'pre', 'on');
+        await sleep(1100, signal);
+      }
+    }
   };
 
+  // The hidden states only apply from here on, so the chat is never empty if this script fails.
+  demo.dataset.ready = '';
+  reset();
   loopWhileVisible(demo, scene, {
-    final: () => [...msgs, toast].forEach((el) => set(el, 'on')),
+    final: () => msgs.forEach((m) => set(m, 'on')),
   });
 }

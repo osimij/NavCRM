@@ -1,47 +1,62 @@
-/* Made here (#local): a bento of seven cards. Every card is the same system:
-   a text block (32px from the card edge) and a visual well inset 8px from the edge,
-   so the well's corners run parallel to the card's. */
+/* Made here (#local): a bento of seven cards. Each card is a text block over a visual well.
+   The well sits 8px inside the card with a radius 8px smaller, and both are squircles
+   (.card, .sq), so the band between them stays even all the way round the corner. */
 
 .s-local {
   --well-inset: 8px;
   --well-r: calc(var(--r-lg) - var(--well-inset));
-  --well-bg: #f3f6fa;
+  --gap: 16px;
 }
 
+/* Grid: each card spans two rows (text, well) and takes them as a subgrid,
+   so headings and wells line up across a row and wells in a row share one height. */
 .s-local__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--gap);
 }
-
-/* Card shell */
 .s-local__card {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: auto 1fr;
+  grid-template-rows: subgrid;
+  row-gap: 0;
   padding: var(--well-inset);
   min-width: 0;
 }
-.s-local__card--offline,
-.s-local__card--support {
-  grid-column: span 2;
+
+/* Reveal: stagger within a row only */
+.s-local__grid > :nth-child(2),
+.s-local__grid > :nth-child(4),
+.s-local__grid > :nth-child(7) {
+  --delay: 60ms;
 }
-.s-local__card--offline {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--well-inset);
+.s-local__grid > :nth-child(5) {
+  --delay: 120ms;
 }
+
+/* Kit cards in this section share the card's squircle corners */
+@supports (corner-shape: superellipse(1.6)) {
+  .s-local .ui-card,
+  .s-local__change-icon,
+  .s-local__contact-tile {
+    corner-shape: superellipse(1.6);
+  }
+}
+
+/* Text */
 .s-local__text {
   padding: 24px 24px 28px;
 }
 .s-local__icon {
   display: grid;
-  align-self: flex-start;
   place-items: center;
   width: 40px;
   height: 40px;
   border-radius: var(--r-sm);
   color: var(--accent);
-  background: linear-gradient(180deg, #f1f5ff 0%, var(--accent-soft) 100%);
+  background: var(--accent-soft);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent-soft) 45%, var(--surface)) 0%, var(--accent-soft) 100%);
   box-shadow:
     inset 0 0 0 1px rgba(42, 91, 255, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
@@ -60,123 +75,83 @@
   color: var(--ink-2);
 }
 
-/* The wide support card: one sentence per line */
-.s-local__card--support .s-local__text p {
-  max-width: 49ch;
-}
-
 /* Visual well */
 .s-local__well {
   display: grid;
   place-items: center;
-  margin-top: auto;
   min-height: 152px;
-  padding: 20px;
+  padding: 16px;
   border-radius: var(--well-r);
-  background: var(--well-bg);
-  box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.035);
+  background: var(--bg-sunk);
+  box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.03);
+}
+.s-local__well > * {
+  width: 100%;
 }
 
-/* Offline: phone on a stage, with a three part progress line under the text */
-.s-local__card--offline {
-  min-height: 480px;
+/* Wide cards: text on the left, the visual on the right. The visual is exactly one grid
+   column minus the inset, so its edges line up with the wells of the cards above and below. */
+.s-local__card--offline,
+.s-local__card--support {
+  grid-column: span 2;
+  grid-template-columns: minmax(0, 1fr) calc((100% - 2 * var(--well-inset) - var(--gap)) / 2);
+  grid-template-rows: auto;
+  column-gap: var(--well-inset);
 }
-.s-local__card--offline .s-local__text {
-  display: flex;
-  flex-direction: column;
-}
-.s-local__steps {
-  display: flex;
-  gap: 8px;
-  margin-top: auto;
-  padding-top: 32px;
-}
-.s-local__steps li {
-  display: grid;
-  flex: 1 1 auto;
-  gap: 10px;
-  white-space: nowrap;
-}
-.s-local__step-bar {
-  height: 2px;
-  border-radius: 2px;
-  background: var(--line-2);
-  overflow: hidden;
-}
-.s-local__step-bar i {
-  display: block;
-  height: 100%;
-  background: var(--accent);
-  transform-origin: left center;
-  transform: scaleX(0);
-  transition: transform 450ms var(--ease-in-out);
-}
-.s-local__steps .is-active i {
-  transform: scaleX(1);
-  transition: transform var(--dur, 3000ms) linear;
-}
-.s-local__steps .is-done i {
-  transform: scaleX(1);
-  transition: none;
-}
-.s-local__step-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: var(--fs-xs);
-  font-weight: 520;
-  color: var(--ink-3);
-  transition: color 200ms ease;
-}
-.s-local__step-label .i {
-  font-size: 15px;
-}
-.s-local__steps .is-active .s-local__step-label,
-.s-local__steps .is-done .s-local__step-label {
-  color: var(--ink);
-}
+
+/* ---------- Offline: today's schedule on a phone that loses its connection ---------- */
+
 .s-local__stage {
+  min-height: 440px;
   border-radius: var(--well-r);
-  min-height: 100%;
 }
 .s-local__offline {
   position: absolute;
   inset: 0;
+  /* How far the schedule moves down to make room for the banner and saved changes:
+     banner 48 + gap 8, then 44 for each change (40 + 4 gap). End state by default. */
+  --q: 188px;
+}
+.s-local__offline[data-phase="online"] {
+  --q: 0px;
+}
+.s-local__offline[data-phase="offline"][data-rows="0"] {
+  --q: 56px;
+}
+.s-local__offline[data-phase="offline"][data-rows="1"] {
+  --q: 100px;
+}
+.s-local__offline[data-phase="offline"][data-rows="2"] {
+  --q: 144px;
 }
 .s-local__phone {
   position: absolute;
-  top: 44px;
+  top: 40px;
   left: 50%;
-  width: 288px;
+  width: min(300px, calc(100% - 16px));
   transform: translateX(-50%);
-}
-.s-local__phone .ui-phone__screen {
-  background: var(--bg);
 }
 .s-local__sb .i {
   font-size: 15px;
   stroke-width: 2;
 }
 .s-local__app {
-  padding: 4px 10px 0;
+  padding: 4px 12px 0;
 }
 .s-local__app-head {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 8px;
-  padding: 6px 6px 14px;
-}
-.s-local__app-head .ui-sub {
-  margin-top: 1px;
+  padding: 4px 4px 12px;
 }
 .s-local__branch {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   height: 24px;
-  padding: 0 8px 0 6px;
-  border-radius: 999px;
+  padding: 0 8px 0 8px;
+  border-radius: var(--r-pill);
   font-size: 11px;
   font-weight: 560;
   color: var(--ink-2);
@@ -184,161 +159,279 @@
   box-shadow: var(--shadow-xs);
 }
 .s-local__branch .i {
-  font-size: 13px;
+  font-size: 14px;
+}
+.s-local__body {
+  position: relative;
 }
 
-/* Connection banner: three states stacked in one cell */
-.s-local__net {
-  padding: 10px;
-  align-items: center;
-}
-.s-local__net-state {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 34px;
-}
-.s-local__net-state p {
-  font-size: 12.5px;
-  line-height: 1.35;
-  color: var(--ink-2);
-}
-.s-local__net-state b {
-  display: block;
-  font-weight: 600;
-  color: var(--ink);
-}
-.s-local__net .ui-tile {
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
-}
-.s-local__net .ui-tile .i {
-  font-size: 16px;
-}
-.s-local__net .ui-tile .ui-swap {
-  place-items: center;
-}
-
-/* Changes saved on the phone: each arrives as its own row */
-.s-local__changes {
+/* Banner and saved changes: laid over the top of the schedule */
+.s-local__queue {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
   display: grid;
-  gap: 6px;
-  margin-top: 8px;
-  padding: 0;
-  background: none;
-  box-shadow: none;
+  gap: 4px;
 }
+.s-local__net,
 .s-local__change {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 44px;
-  padding: 0 12px 0 8px;
-  border-radius: 12px;
-  background: var(--surface);
-  box-shadow: var(--shadow-xs);
-  opacity: 0;
-  transform: translateY(8px);
   transition:
     opacity 300ms ease,
     transform 450ms var(--ease-out);
 }
-.s-local__change.is-in {
-  opacity: 1;
-  transform: none;
+.s-local__net {
+  height: 48px;
+  padding: 0 12px 0 8px;
+  align-items: center;
+  border-radius: var(--r-sm);
 }
-.s-local__offline.is-resetting .s-local__change {
-  transition: opacity 400ms ease;
+.s-local__offline[data-phase="online"] .s-local__net {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+}
+.s-local__net-state {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.s-local__net .ui-tile .ui-swap {
+  place-items: center;
+}
+.s-local__net-text {
+  display: grid;
+}
+/* The headline sits centred until its second line arrives, then makes room for it */
+.s-local__net-text .ui-title {
+  transform: translateY(8px);
+  transition: transform 400ms var(--ease-out);
+}
+.s-local__net-text [data-sub] {
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.s-local__offline[data-rows="3"] [data-sub="saved"],
+.s-local__offline[data-phase="synced"] [data-sub="synced"] {
+  opacity: 1;
+  transition-delay: 300ms;
+}
+.s-local__offline[data-rows="3"] [data-net="offline"] .ui-title,
+.s-local__offline[data-phase="synced"] [data-net="synced"] .ui-title {
+  transform: none;
+  transition-delay: 240ms;
+}
+.s-local__spin {
+  display: grid;
+}
+.s-local__offline[data-phase="syncing"] .s-local__spin .i {
+  animation: s-local-spin 900ms linear infinite;
+}
+@keyframes s-local-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.s-local__change {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px 0 8px;
+  border-radius: var(--r-sm);
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+}
+.s-local__offline:is([data-rows="1"], [data-rows="2"], [data-rows="3"]) [data-row="1"],
+.s-local__offline:is([data-rows="2"], [data-rows="3"]) [data-row="2"],
+.s-local__offline[data-rows="3"] [data-row="3"] {
+  opacity: 1;
   transform: none;
 }
 .s-local__change-icon {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--r-2xs);
   color: var(--ink-2);
-  background: #eef1f6;
+  background: var(--bg-sunk);
   flex: none;
 }
 .s-local__change-icon .i {
-  font-size: 15px;
+  font-size: 14px;
 }
 .s-local__change-text {
   flex: 1;
   min-width: 0;
-  font-size: 12.5px;
-  font-weight: 520;
+  font-size: 12px;
+  font-weight: 540;
   white-space: nowrap;
 }
-.s-local__change-state {
+.s-local__tick {
+  display: grid;
   place-items: center;
 }
-.s-local__change-state .i {
+.s-local__tick .i {
+  grid-area: 1 / 1;
   font-size: 16px;
+  transition:
+    opacity 250ms ease,
+    filter 250ms ease,
+    transform 250ms var(--ease-out);
 }
-.s-local__change-state [data-state="saved"] {
+.s-local__tick [data-tick="saved"] {
   color: var(--ink-3);
 }
-.s-local__change-state [data-state="synced"] {
+.s-local__tick [data-tick="done"] {
   color: var(--good);
 }
-.s-local__change:not(.is-synced) [data-state="synced"],
-.s-local__change.is-synced [data-state="saved"] {
+.s-local__offline:is([data-phase="online"], [data-phase="offline"]) [data-tick="done"],
+.s-local__offline:is([data-phase="syncing"], [data-phase="synced"]) [data-tick="saved"] {
   opacity: 0;
   filter: blur(4px);
-  transform: scale(0.95);
+  transform: scale(0.9);
+}
+/* Changes sync one after another */
+.s-local__offline[data-phase="syncing"] [data-row="2"] .s-local__tick .i {
+  transition-delay: 180ms;
+}
+.s-local__offline[data-phase="syncing"] [data-row="3"] .s-local__tick .i {
+  transition-delay: 360ms;
 }
 
-/* Payments */
-.s-local__pay {
+/* Today's schedule */
+.s-local__sched {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  width: 100%;
+  transform: translateY(var(--q));
+  transition: transform 500ms var(--ease-out);
 }
-.s-local__pay .chip {
-  justify-content: flex-start;
+.s-local__booking {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  align-items: center;
   gap: 8px;
-  height: 36px;
-  padding: 0 12px;
-  border-radius: var(--r-xs);
+  height: 52px;
+  padding: 0 8px 0 12px;
+  border-radius: var(--r-sm);
+}
+.s-local__time {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.s-local__who {
+  display: grid;
+  min-width: 0;
+}
+.s-local__name {
   font-size: 13px;
-  color: var(--ink);
-  transition:
-    transform 200ms var(--ease-out),
-    box-shadow 200ms ease;
+  font-weight: 580;
+  letter-spacing: -0.008em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.s-local__pay .chip .i {
-  font-size: 16px;
-  color: var(--ink-3);
-}
-@media (hover: hover) and (pointer: fine) {
-  .s-local__pay .chip:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-  }
+.s-local__who .ui-sub {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Languages */
+/* Rewind to the start: the banner and changes fade, then the schedule settles back */
+.s-local__offline.is-resetting :is(.s-local__net, .s-local__change) {
+  transition: opacity 250ms ease;
+  transform: none;
+}
+.s-local__offline.is-resetting .s-local__sched {
+  transition: transform 600ms var(--ease-in-out) 100ms;
+}
+.s-local__offline.is-instant * {
+  transition: none !important;
+}
+
+/* ---------- Payments: the payment step of a receipt ---------- */
+
+.s-local__picker {
+  display: grid;
+  gap: 12px;
+}
+.s-local__picker-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.s-local__picker-head .ui-title {
+  flex: 1;
+  min-width: 0;
+}
+.s-local__methods {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+}
+.s-local__methods .ui-option {
+  grid-column: span 2;
+  padding: 0 4px;
+}
+.s-local__methods .ui-option:nth-child(n + 4) {
+  grid-column: span 3;
+}
+.s-local__picker .ui-divider {
+  margin: 0;
+}
+.s-local__extras {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.s-local__extras .ui-btn {
+  padding: 0 4px;
+}
+
+/* ---------- Languages ---------- */
+
 .s-local__langs {
   display: grid;
-  justify-items: center;
-  gap: 14px;
+  gap: 12px;
+  max-width: 300px;
 }
 .s-local__seg {
-  background: rgba(11, 18, 32, 0.055);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
-.s-local__new {
-  width: 172px;
-  height: 36px;
+/* Equal tabs, so the thumb only ever moves (never resizes) */
+.s-local__seg .ui-seg__thumb {
+  width: calc((100% - 6px) / 3);
+  transform: translateX(calc(3px + var(--i, 0) * 100%));
+  transition: transform 300ms var(--ease-in-out);
+}
+.s-local__seg button {
+  color: var(--ink-2);
+  transition:
+    color 200ms ease,
+    transform 160ms var(--ease-out);
+}
+.s-local__seg button.is-active {
+  color: var(--ink);
+}
+.s-local__seg button:active {
+  transform: scale(0.97);
+}
+.s-local__seg button:focus-visible {
+  outline-offset: 0;
+  border-radius: var(--r-2xs);
+}
+@media (hover: hover) and (pointer: fine) {
+  .s-local__seg button:not(.is-active):hover {
+    color: var(--ink);
+  }
 }
 .s-local__new-swap > span {
   display: inline-flex;
   align-items: center;
   justify-self: center;
-  gap: 6px;
+  gap: 8px;
 }
 .s-local__new-swap > [data-hidden="true"] {
   transform: translateY(6px);
@@ -347,84 +440,111 @@
   transform: translateY(-6px);
 }
 
-/* Small lists (Telegram, Data) */
-.s-local__list {
-  width: 100%;
-  padding: 2px 12px 2px 10px;
+/* ---------- Telegram ---------- */
+
+.s-local__tg {
+  display: grid;
+  gap: 8px;
 }
-.s-local__list li {
+.s-local__chat-head {
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 54px;
+  gap: 8px;
 }
-.s-local__list li + li {
-  box-shadow: 0 -1px 0 var(--line);
+.s-local__chat-who {
+  display: grid;
 }
-.s-local__list .ui-tile {
-  width: 30px;
-  height: 30px;
-  border-radius: 9px;
+.s-local__chat-who .ui-sub {
+  line-height: 1.2;
 }
-.s-local__list .ui-tile .i {
-  font-size: 16px;
+.s-local__tg .ui-bubble {
+  max-width: none;
 }
-.s-local__list-text {
-  flex: 1;
-  min-width: 0;
-  font-size: 13px;
-  font-weight: 540;
-  line-height: 1.3;
+.s-local__cost {
+  margin-top: 4px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 12px 0;
 }
-.s-local__list-text .ui-sub {
-  display: block;
-  font-weight: 400;
+.s-local__cost > div {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  padding: 0 12px;
 }
-.s-local__tile-neutral {
-  color: var(--ink-2);
-  background: #eef1f6;
-}
-.s-local__list-go {
-  font-size: 17px;
-  color: var(--ink-3);
+.s-local__cost > div + div {
+  box-shadow: -1px 0 0 var(--line);
 }
 
-/* Platforms */
+/* ---------- Data ---------- */
+
+.s-local__clients {
+  display: grid;
+  padding: 12px;
+}
+.s-local__clients-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 4px;
+}
+.s-local__client-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+}
+.s-local__client-list li + li {
+  box-shadow: 0 -1px 0 var(--line);
+}
+.s-local__client-list .s-local__name {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+}
+.s-local__where {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-top: 8px;
+  box-shadow: 0 -1px 0 var(--line);
+}
+.s-local__where .i {
+  font-size: 14px;
+}
+
+/* ---------- Platforms ---------- */
+
 .s-local__platforms {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
-  width: 100%;
 }
 .s-local__platforms li {
   display: grid;
   justify-items: center;
   gap: 8px;
-  padding: 16px 8px 14px;
-  border-radius: var(--r-sm);
-  font-size: 13px;
+  padding: 16px 8px 12px;
   font-weight: 540;
-  background: var(--surface);
-  box-shadow: var(--shadow-xs);
 }
 .s-local__platforms .i {
-  font-size: 22px;
+  font-size: 18px;
   color: var(--ink-2);
 }
 
-/* Support contacts */
+/* ---------- Support contacts ---------- */
+
 .s-local__well--contact {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  place-items: center stretch;
+  align-content: center;
   gap: 8px;
-  padding: 16px;
 }
 .s-local__contact {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 18px 14px 14px;
-  border-radius: calc(var(--well-r) - 6px);
+  gap: 12px;
+  padding: 12px 16px 12px 12px;
+  border-radius: var(--r-sm);
   background: var(--surface);
   box-shadow: var(--shadow-xs);
   transition:
@@ -434,12 +554,12 @@
 .s-local__contact:active {
   transform: scale(0.97);
 }
-.s-local__contact .ui-tile {
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
+.s-local__contact-tile {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-xs);
 }
-.s-local__contact .ui-tile .i {
+.s-local__contact-tile .i {
   font-size: 20px;
 }
 .s-local__contact-text {
@@ -450,10 +570,10 @@
 .s-local__contact-label {
   font-size: var(--fs-2xs);
   font-weight: 520;
-  color: var(--ink-3);
+  color: var(--ink-2);
 }
 .s-local__contact-value {
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   font-weight: 600;
   letter-spacing: -0.015em;
   white-space: nowrap;
@@ -471,62 +591,120 @@
   }
   .s-local__contact:hover .s-local__contact-go {
     color: var(--ink);
+    transform: translateX(2px);
+  }
+  .s-local__contact[target]:hover .s-local__contact-go {
     transform: translate(2px, -2px);
   }
 }
 
-/* Tablet: two columns, the wide cards keep their split */
+/* Desktop: the support card is wide, so the two contacts become large tiles filling the well */
+@media (min-width: 1101px) {
+  .s-local__card--support .s-local__well--contact {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    align-content: stretch;
+    place-items: stretch;
+  }
+  .s-local__card--support .s-local__contact {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "tile . go"
+      "text text text";
+    align-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    border-radius: var(--r-md);
+  }
+  .s-local__card--support .s-local__contact-tile {
+    grid-area: tile;
+  }
+  .s-local__card--support .s-local__contact-text {
+    grid-area: text;
+    gap: 2px;
+  }
+  .s-local__card--support .s-local__contact-go {
+    grid-area: go;
+    align-self: start;
+  }
+  .s-local__card--support .s-local__contact-value {
+    font-size: 1.25rem;
+  }
+}
+
+/* ---------- Tablet: two columns. Offline keeps its split, Support stacks ---------- */
 @media (max-width: 1100px) {
   .s-local__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .s-local__card--support {
     grid-column: span 1;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-rows: subgrid;
   }
-  .s-local__well--contact {
-    grid-template-columns: 1fr;
+  .s-local__stage {
+    min-height: 460px;
+  }
+  /* Rows are now: Offline / Payments, Languages / Telegram, Data / Phone, Support */
+  .s-local__grid > :nth-child(n) {
+    --delay: 0ms;
+  }
+  .s-local__grid > :nth-child(3),
+  .s-local__grid > :nth-child(5),
+  .s-local__grid > :nth-child(7) {
+    --delay: 60ms;
   }
 }
 
-/* Phone: one column, offline first */
+/* ---------- Phone: one column, offline first ---------- */
 @media (max-width: 699px) {
-  .s-local__grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+  .s-local {
+    --gap: 12px;
   }
-  .s-local__card--offline,
-  .s-local__card--support {
-    grid-column: auto;
+  .s-local__grid {
+    grid-template-columns: minmax(0, 1fr);
   }
   .s-local__card--offline {
-    display: flex;
-    min-height: 0;
-  }
-  .s-local__steps {
-    padding-top: 24px;
-  }
-  .s-local__well {
-    min-height: 128px;
-    padding: 16px;
+    grid-column: auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    row-gap: 0;
   }
   .s-local__text {
     padding: 20px 20px 24px;
   }
+  .s-local__well {
+    min-height: 128px;
+    padding: 12px;
+  }
   .s-local__stage {
-    min-height: 372px;
+    min-height: 440px;
   }
   .s-local__phone {
-    top: 36px;
+    top: 32px;
+  }
+  /* Cards arrive one at a time as they scroll in: no stagger */
+  .js .s-local__grid > .reveal {
+    transition-delay: 0ms;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .s-local__net,
   .s-local__change,
-  .s-local__new-swap > * {
+  .s-local__new-swap > *,
+  .s-local__tick .i,
+  .s-local__net-text .ui-title {
     transform: none !important;
+    filter: none !important;
     transition: opacity 200ms ease;
   }
-  .s-local__pay .chip {
-    transition: box-shadow 200ms ease;
+  .s-local__offline[data-phase="syncing"] .s-local__spin .i {
+    animation: none;
+  }
+  .s-local__sched,
+  .s-local__seg .ui-seg__thumb {
+    transition: none;
   }
 }

@@ -69,6 +69,14 @@
   color: #fff;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
+/* Without JS the clip is never measured, so the selected tab carries the dark pill itself. */
+:root:not(.js) .s-industries__tabs--active {
+  display: none;
+}
+:root:not(.js) .s-industries__tab[aria-selected="true"] {
+  color: #fff;
+  background: linear-gradient(180deg, #1c2536 0%, #0b1220 100%);
+}
 
 /* Panels: all stacked in one grid area so switching never shifts the layout. */
 .s-industries__panels {
@@ -84,7 +92,10 @@
   min-height: 508px;
   border-radius: var(--r-xl);
 }
+/* Positioned so the panel (and its focus ring) paints above the shared stage.
+   The outgoing panel clears quickly and the incoming one starts a beat later, so the titles never blur into each other. */
 .s-industries__panel {
+  position: relative;
   grid-column: 1 / -1;
   grid-row: 1 / -1;
   display: grid;
@@ -95,17 +106,17 @@
   filter: blur(4px);
   visibility: hidden;
   transition:
-    opacity 250ms ease,
-    filter 250ms ease,
-    visibility 0s linear 250ms;
+    opacity 150ms ease,
+    filter 150ms ease,
+    visibility 0s linear 150ms;
 }
 .s-industries__panel[data-active] {
   opacity: 1;
   filter: none;
   visibility: visible;
   transition:
-    opacity 250ms ease,
-    filter 250ms ease,
+    opacity 250ms ease 60ms,
+    filter 250ms ease 60ms,
     visibility 0s;
 }
 .s-industries__panel:focus-visible {
@@ -116,22 +127,9 @@
   grid-column: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 40px;
-  padding: 34px 48px 32px 34px;
-}
-.s-industries__title {
-  display: grid;
-  justify-items: start;
-  gap: 16px;
-}
-.s-industries__status {
-  height: 26px;
-  padding: 0 10px 0 8px;
-  font-size: var(--fs-2xs);
-}
-.s-industries__status .i {
-  font-size: 14px;
+  justify-content: center;
+  gap: 28px;
+  padding: 40px 48px 40px 34px;
 }
 .s-industries__copy h3 {
   max-width: 18ch;
@@ -166,7 +164,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   place-items: center;
-  padding: 40px 48px 56px;
+  padding: 48px;
   min-width: 0;
 }
 .s-industries__demo {
@@ -181,7 +179,8 @@
   margin-top: 20px;
   padding-left: 44px;
   font-size: var(--fs-sm);
-  color: var(--ink-3);
+  /* Between ink-2 and ink-3: ink-3 alone is 3.4:1 on the page background, this clears 4.5:1. */
+  color: color-mix(in srgb, var(--ink-2) 50%, var(--ink-3));
 }
 .s-industries__note .i {
   flex: none;
@@ -194,15 +193,15 @@
   opacity: 0;
   transform: translateY(6px);
   transition:
-    opacity 0s linear 260ms,
-    transform 0s linear 260ms;
+    opacity 0s linear 160ms,
+    transform 0s linear 160ms;
 }
 .s-industries__panel[data-active] .ind-in {
   opacity: 1;
   transform: none;
   transition:
-    opacity 300ms ease calc(var(--i, 0) * 40ms + 40ms),
-    transform 450ms var(--ease-out) calc(var(--i, 0) * 40ms + 40ms);
+    opacity 300ms ease calc(var(--i, 0) * 40ms + 100ms),
+    transform 450ms var(--ease-out) calc(var(--i, 0) * 40ms + 100ms);
 }
 .s-industries[data-armed]:not([data-seen]) .s-industries__panel[data-active] .ind-in {
   opacity: 0;
@@ -280,47 +279,43 @@
   box-shadow: inset 0 0 0 1px var(--line-2);
 }
 
-/* Floating glass note that hangs off a corner of the main card */
+/* Floating glass note that overlaps a lower corner of the main card. It stays in flow,
+   so the card and the note centre together on the stage. */
 .s-industries .ind-float {
-  position: absolute;
-  top: calc(100% - 14px);
   display: flex;
   align-items: center;
   gap: 10px;
+  width: max-content;
   max-width: 264px;
   padding: 10px 14px 10px 10px;
   border-radius: var(--r-md);
 }
 .s-industries .ind-comp--float-r .ind-float {
-  right: -36px;
+  margin: -14px -36px 0 auto;
 }
 .s-industries .ind-comp--float-l .ind-float {
-  left: -36px;
+  margin: -14px auto 0 -36px;
 }
 .s-industries .ind-float .ui-label {
   line-height: 1.2;
 }
 
-/* Extra avatar tints for people outside the shared cast */
-.s-industries .ui-avatar[data-tint="rose"] {
-  color: #9b2c55;
-  background: #fbe4ec;
-}
-.s-industries .ui-avatar[data-tint="teal"] {
-  color: #0d6b63;
-  background: #dcf3ef;
-}
+/* Avatar tints for people outside the shared cast, in hues none of the cast wears */
 .s-industries .ui-avatar[data-tint="sky"] {
   color: #1d5f99;
   background: #e1effb;
 }
-.s-industries .ui-avatar[data-tint="violet"] {
-  color: #5536cf;
-  background: #ece8fe;
+.s-industries .ui-avatar[data-tint="olive"] {
+  color: #4f6413;
+  background: #ecf2d9;
 }
-.s-industries .ui-avatar[data-tint="amber"] {
-  color: #8f5400;
-  background: #fdefd6;
+.s-industries .ui-avatar[data-tint="coral"] {
+  color: #a83e1c;
+  background: #fde6dc;
+}
+.s-industries .ui-avatar[data-tint="sand"] {
+  color: #6b5634;
+  background: #efe7da;
 }
 
 /* 1. Beauty */
@@ -647,9 +642,10 @@
 
 /* 5. Education */
 .s-industries .ind-att {
+  --col: 38px;
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) repeat(5, 38px);
+  grid-template-columns: minmax(0, 1fr) repeat(5, var(--col));
   grid-auto-rows: 34px;
   align-items: center;
   column-gap: 4px;
@@ -660,7 +656,7 @@
   top: -6px;
   bottom: -6px;
   right: 0;
-  width: 38px;
+  width: var(--col);
   border-radius: 10px;
   background: rgba(42, 91, 255, 0.07);
   box-shadow: inset 0 0 0 1px rgba(42, 91, 255, 0.14);
@@ -677,15 +673,19 @@
   font-weight: 600;
   color: var(--ink);
 }
-.s-industries .ind-att__day.is-today,
-.s-industries .ind-att__day.is-today b {
+.s-industries .ind-att__day.is-today {
+  font-size: 11px;
+  font-weight: 620;
+  letter-spacing: -0.01em;
   color: var(--accent-ink);
 }
 .s-industries .ind-att__name {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
   font-weight: 520;
+  white-space: nowrap;
 }
 .s-industries .ind-mark {
   justify-self: center;
@@ -1024,7 +1024,10 @@
   }
 }
 
-/* Single column below 980px: copy first, then the demo on its stage */
+/* Single column below 980px: the demo on its stage first, right under the tabs, then the copy.
+   Panels stay stacked in one grid area, so the card keeps the height of the tallest one: switching
+   never moves the page below, and the outgoing panel crossfades as on desktop. Spare height lands
+   in the stage around the demo and under the list, at the bottom of the card. */
 @media (max-width: 980px) {
   .s-industries__panels {
     grid-template-columns: minmax(0, 1fr);
@@ -1033,41 +1036,26 @@
   }
   .s-industries__stage {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
     min-height: 0;
+  }
+  .s-industries__cell {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 40px 24px;
   }
   .s-industries__copy {
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 2;
     justify-content: flex-start;
     gap: 20px;
-    padding: 24px 24px 28px;
+    padding: 28px 24px 24px;
   }
   .s-industries__copy h3 {
     max-width: none;
   }
-  .s-industries__cell {
-    grid-column: 1;
-    grid-row: 2;
-    padding: 40px 24px 64px;
-  }
   .s-industries__note {
     padding-left: 0;
-  }
-  /* Stacked panels would leave the shorter ones with a gap, so only the active one takes space here.
-     The incoming panel and its items still fade in, from @starting-style. */
-  .s-industries__panel:not([data-active]) {
-    display: none;
-  }
-  @starting-style {
-    .s-industries__panel[data-active] {
-      opacity: 0;
-      filter: blur(4px);
-    }
-    .s-industries__panel[data-active] .ind-in {
-      opacity: 0;
-      transform: translateY(6px);
-    }
   }
 }
 
@@ -1080,26 +1068,37 @@
     border-radius: var(--r-lg);
   }
   .s-industries__copy {
-    padding: 20px 14px 24px;
+    padding: 24px 14px 20px;
   }
   .s-industries__cell {
-    padding: 24px 12px 28px;
+    padding: 24px 12px;
   }
   .s-industries .ind-card {
     padding: 14px;
   }
-  /* The floating note joins the flow, overlapping the card's lower edge */
+  /* The floating note tucks inside the card's width instead of hanging past it */
   .s-industries .ind-float {
-    position: relative;
-    bottom: auto;
-    left: auto !important;
-    right: auto !important;
-    width: max-content;
     max-width: calc(100% - 28px);
+  }
+  .s-industries .ind-comp--float-r .ind-float {
     margin: -12px 14px 0 auto;
   }
   .s-industries .ind-comp--float-l .ind-float {
     margin: -12px auto 0 14px;
+  }
+  /* Attendance: narrower date columns so names keep their room */
+  .s-industries .ind-att {
+    --col: 32px;
+    column-gap: 2px;
+  }
+  .s-industries .ind-att__day.is-today {
+    font-size: 10.5px;
+  }
+}
+
+@media (max-width: 400px) {
+  .s-industries .ind-att__name .ui-avatar {
+    display: none;
   }
 }
 

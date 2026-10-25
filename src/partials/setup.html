@@ -5,30 +5,37 @@
       <p class="lead reveal" style="--delay: 60ms">You don't have to set it up alone. We do it together with you, and moving your client list is part of it.</p>
     </div>
 
-    <div class="s-setup__board card reveal" style="--delay: 120ms">
+    <div class="s-setup__board card">
       <div class="s-setup__stage stage" aria-hidden="true">
-        <div class="stage__art" aria-hidden="true"></div>
+        <div class="stage__art"></div>
       </div>
       <span class="s-setup__line" aria-hidden="true"></span>
 
-      <ol class="s-setup__steps">
+      <ol class="s-setup__steps" role="list">
         <!-- 1. Profile -->
         <li class="s-setup__step">
-          <div class="s-setup__vis stage ui" role="img" aria-label="The business profile for Gulnor Beauty: the Beauty industry is selected, with services and prices such as Haircut and styling for 180 TJS, and three staff members added.">
-            <div class="stage__art" aria-hidden="true"></div>
+          <span class="s-setup__node sq" aria-hidden="true">1</span>
+          <div class="s-setup__text">
+            <div class="s-setup__head">
+              <span class="s-setup__icon sq" aria-hidden="true"><svg class="i"><use href="assets/icons.svg#settings" /></svg></span>
+              <h3>Choose your profile</h3>
+            </div>
+            <p>Pick your industry, then add your services, prices and staff.</p>
+          </div>
+          <div class="s-setup__vis ui" role="img" aria-label="The business profile for Gulnor Beauty: the Beauty industry is selected, with services and prices such as Haircut and styling for 180 TJS, and three staff members added.">
             <div class="s-setup__card ui-card ui-card--glass" aria-hidden="true">
               <div class="s-setup__ch">
-                <span class="ui-tile s-setup__tile"><svg class="i"><use href="assets/icons.svg#settings" /></svg></span>
+                <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#settings" /></svg></span>
                 <div class="s-setup__ct">
                   <div class="ui-title">Business profile</div>
                   <div class="ui-sub">Gulnor Beauty</div>
                 </div>
               </div>
-              <div class="s-setup__pick">
-                <span class="s-setup__pick-icon"><svg class="i"><use href="assets/icons.svg#scissor" /></svg></span>
+              <span class="ui-option is-selected s-setup__pick">
+                <svg class="i"><use href="assets/icons.svg#scissor" /></svg>
                 <span class="s-setup__grow">Beauty</span>
-                <span class="s-setup__radio"><svg class="i i--bold"><use href="assets/icons.svg#check" /></svg></span>
-              </div>
+                <svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg>
+              </span>
               <div class="s-setup__group">
                 <div class="ui-label">Services</div>
                 <ul class="s-setup__rows">
@@ -47,20 +54,22 @@
               </div>
             </div>
           </div>
-          <span class="s-setup__node sq" aria-hidden="true">1</span>
-          <div class="s-setup__text">
-            <h3>Choose your profile</h3>
-            <p>Pick your industry, then add your services, prices and staff.</p>
-          </div>
         </li>
 
         <!-- 2. Clients -->
         <li class="s-setup__step">
-          <div class="s-setup__vis stage ui" role="img" aria-label="A client import from an Excel file: 1,240 clients moved in, including Sitora Rahimova, Nigina S. and Shahlo M.">
-            <div class="stage__art" aria-hidden="true"></div>
+          <span class="s-setup__node sq" aria-hidden="true">2</span>
+          <div class="s-setup__text">
+            <div class="s-setup__head">
+              <span class="s-setup__icon sq" aria-hidden="true"><svg class="i"><use href="assets/icons.svg#file-import" /></svg></span>
+              <h3>Bring your clients</h3>
+            </div>
+            <p>Send us an Excel file, photos of your notebook or an export from your old system, and we'll move it in.</p>
+          </div>
+          <div class="s-setup__vis ui" role="img" aria-label="A client import from an Excel file: 1,486 clients moved in, including Sitora Rahimova, Nigina S. and Shahlo M.">
             <div class="s-setup__card ui-card ui-card--glass" aria-hidden="true">
               <div class="s-setup__ch">
-                <span class="ui-tile s-setup__tile"><svg class="i"><use href="assets/icons.svg#file-import" /></svg></span>
+                <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#file-import" /></svg></span>
                 <div class="s-setup__ct">
                   <div class="ui-title">Client import</div>
                   <div class="ui-sub">clients.xlsx</div>
@@ -70,7 +79,7 @@
                 <div class="s-setup__kpi-top">
                   <div>
                     <div class="ui-label">Clients</div>
-                    <div class="s-setup__kpi-v">1,240</div>
+                    <div class="s-setup__kpi-v">1,486</div>
                   </div>
                   <span class="ui-swap s-setup__state">
                     <span class="ui-status ui-status--waiting" data-state="wait" data-hidden="true"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg>Moving in</span>
@@ -86,20 +95,22 @@
               </ul>
             </div>
           </div>
-          <span class="s-setup__node sq" aria-hidden="true">2</span>
-          <div class="s-setup__text">
-            <h3>Bring your clients</h3>
-            <p>Send us an Excel file, photos of your notebook or an export from your old system, and we'll move it in.</p>
-          </div>
         </li>
 
         <!-- 3. Training -->
         <li class="s-setup__step">
-          <div class="s-setup__vis stage ui" role="img" aria-label="A team training session of about two hours, in person or remote, for the administrator and the staff: Malika, Farrukh and Zarina.">
-            <div class="stage__art" aria-hidden="true"></div>
+          <span class="s-setup__node sq" aria-hidden="true">3</span>
+          <div class="s-setup__text">
+            <div class="s-setup__head">
+              <span class="s-setup__icon sq" aria-hidden="true"><svg class="i"><use href="assets/icons.svg#users" /></svg></span>
+              <h3>Train the team</h3>
+            </div>
+            <p>About two hours with your administrator and staff, in Dushanbe or remotely.</p>
+          </div>
+          <div class="s-setup__vis ui" role="img" aria-label="A team training session of about two hours, in person or remote, for the administrator and the staff: Malika, Farrukh and Zarina.">
             <div class="s-setup__card ui-card ui-card--glass" aria-hidden="true">
               <div class="s-setup__ch">
-                <span class="ui-tile s-setup__tile"><svg class="i"><use href="assets/icons.svg#users" /></svg></span>
+                <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#users" /></svg></span>
                 <div class="s-setup__ct">
                   <div class="ui-title">Team training</div>
                   <div class="ui-sub">About 2 hours</div>
@@ -111,27 +122,29 @@
                 <span>Remote</span>
               </div>
               <ul class="s-setup__people">
-                <li><span class="ui-avatar s-setup__admin"><svg class="i"><use href="assets/icons.svg#user" /></svg></span><span class="s-setup__grow">Administrator</span><span class="ui-sub">Front desk</span></li>
+                <li><span class="ui-avatar s-setup__admin"><svg class="i"><use href="assets/icons.svg#user" /></svg></span><span class="s-setup__grow">Administrator</span></li>
                 <li><span class="ui-avatar" data-person="malika">M</span><span class="s-setup__grow">Malika</span><span class="ui-sub">Hair stylist</span></li>
                 <li><span class="ui-avatar" data-person="farrukh">F</span><span class="s-setup__grow">Farrukh</span><span class="ui-sub">Barber</span></li>
                 <li><span class="ui-avatar" data-person="zarina">Z</span><span class="s-setup__grow">Zarina</span><span class="ui-sub">Nails</span></li>
               </ul>
             </div>
           </div>
-          <span class="s-setup__node sq" aria-hidden="true">3</span>
-          <div class="s-setup__text">
-            <h3>Train the team</h3>
-            <p>About two hours with your administrator and staff, in Dushanbe or remotely.</p>
-          </div>
         </li>
 
         <!-- 4. Booking link -->
         <li class="s-setup__step">
-          <div class="s-setup__vis stage ui" role="img" aria-label="The Gulnor Beauty booking link, added to Instagram, Telegram, 2GIS and Yandex Maps, with a QR code for the door.">
-            <div class="stage__art" aria-hidden="true"></div>
+          <span class="s-setup__node sq" aria-hidden="true">4</span>
+          <div class="s-setup__text">
+            <div class="s-setup__head">
+              <span class="s-setup__icon sq" aria-hidden="true"><svg class="i"><use href="assets/icons.svg#qr" /></svg></span>
+              <h3>Open your booking link</h3>
+            </div>
+            <p>Add it to Instagram, Telegram, 2GIS, Yandex Maps and a QR code by the door.</p>
+          </div>
+          <div class="s-setup__vis ui" role="img" aria-label="The Gulnor Beauty booking link, added to Instagram, Telegram, 2GIS and Yandex Maps, with a QR code for the door.">
             <div class="s-setup__card ui-card ui-card--glass" aria-hidden="true">
               <div class="s-setup__ch">
-                <span class="ui-tile s-setup__tile"><svg class="i"><use href="assets/icons.svg#qr" /></svg></span>
+                <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#qr" /></svg></span>
                 <div class="s-setup__ct">
                   <div class="ui-title">Booking link</div>
                   <div class="ui-sub">Rudaki 54</div>
@@ -140,32 +153,34 @@
               <ul class="s-setup__channels">
                 <li><span class="ui-tile ui-tile--instagram s-setup__ch-icon"><svg class="i"><use href="assets/icons.svg#instagram" /></svg></span><span class="s-setup__grow">Instagram</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
                 <li><span class="ui-tile ui-tile--telegram s-setup__ch-icon"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span><span class="s-setup__grow">Telegram</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
-                <li><span class="ui-tile ui-tile--good s-setup__ch-icon"><svg class="i"><use href="assets/icons.svg#maps" /></svg></span><span class="s-setup__grow">2GIS</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
-                <li><span class="ui-tile ui-tile--warn s-setup__ch-icon"><svg class="i"><use href="assets/icons.svg#map-pin" /></svg></span><span class="s-setup__grow">Yandex Maps</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
+                <li><span class="ui-tile s-setup__ch-icon s-setup__ch-icon--plain"><svg class="i"><use href="assets/icons.svg#maps" /></svg></span><span class="s-setup__grow">2GIS</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
+                <li><span class="ui-tile s-setup__ch-icon s-setup__ch-icon--plain"><svg class="i"><use href="assets/icons.svg#map-pin" /></svg></span><span class="s-setup__grow">Yandex Maps</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
               </ul>
               <div class="s-setup__qr">
                 <svg class="s-setup__qr-code" viewBox="-2 -2 29 29"><path d="M0 0h7v1h-7zM8 0h3v1h-3zM14 0h1v1h-1zM16 0h1v1h-1zM18 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h5v1h-5zM16 1h1v1h-1zM18 1h1v1h-1zM24 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h3v1h-3zM14 2h2v1h-2zM18 2h1v1h-1zM20 2h3v1h-3zM24 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM11 3h2v1h-2zM16 3h1v1h-1zM18 3h1v1h-1zM20 3h3v1h-3zM24 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM10 4h1v1h-1zM12 4h1v1h-1zM14 4h2v1h-2zM18 4h1v1h-1zM20 4h3v1h-3zM24 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h3v1h-3zM18 5h1v1h-1zM24 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h7v1h-7zM13 7h4v1h-4zM0 8h1v1h-1zM3 8h1v1h-1zM5 8h2v1h-2zM12 8h3v1h-3zM16 8h1v1h-1zM19 8h1v1h-1zM23 8h1v1h-1zM0 9h1v1h-1zM2 9h1v1h-1zM4 9h2v1h-2zM7 9h1v1h-1zM10 9h1v1h-1zM12 9h8v1h-8zM23 9h1v1h-1zM2 10h2v1h-2zM6 10h1v1h-1zM9 10h6v1h-6zM16 10h1v1h-1zM20 10h1v1h-1zM23 10h2v1h-2zM0 11h1v1h-1zM3 11h1v1h-1zM5 11h1v1h-1zM9 11h3v1h-3zM13 11h1v1h-1zM15 11h1v1h-1zM17 11h2v1h-2zM20 11h3v1h-3zM1 12h1v1h-1zM3 12h2v1h-2zM6 12h2v1h-2zM10 12h1v1h-1zM12 12h6v1h-6zM19 12h1v1h-1zM21 12h4v1h-4zM0 13h6v1h-6zM10 13h1v1h-1zM13 13h2v1h-2zM18 13h2v1h-2zM22 13h3v1h-3zM0 14h3v1h-3zM4 14h1v1h-1zM6 14h1v1h-1zM8 14h1v1h-1zM10 14h4v1h-4zM17 14h1v1h-1zM19 14h1v1h-1zM23 14h2v1h-2zM1 15h3v1h-3zM9 15h1v1h-1zM12 15h1v1h-1zM15 15h1v1h-1zM18 15h1v1h-1zM20 15h1v1h-1zM23 15h2v1h-2zM0 16h7v1h-7zM12 16h2v1h-2zM15 16h9v1h-9zM8 17h4v1h-4zM14 17h1v1h-1zM16 17h1v1h-1zM20 17h2v1h-2zM0 18h7v1h-7zM8 18h1v1h-1zM11 18h2v1h-2zM15 18h2v1h-2zM18 18h1v1h-1zM20 18h1v1h-1zM22 18h1v1h-1zM24 18h1v1h-1zM0 19h1v1h-1zM6 19h1v1h-1zM9 19h3v1h-3zM13 19h4v1h-4zM20 19h3v1h-3zM24 19h1v1h-1zM0 20h1v1h-1zM2 20h3v1h-3zM6 20h1v1h-1zM10 20h1v1h-1zM15 20h6v1h-6zM22 20h1v1h-1zM0 21h1v1h-1zM2 21h3v1h-3zM6 21h1v1h-1zM10 21h3v1h-3zM14 21h1v1h-1zM19 21h1v1h-1zM21 21h1v1h-1zM23 21h1v1h-1zM0 22h1v1h-1zM2 22h3v1h-3zM6 22h1v1h-1zM10 22h2v1h-2zM13 22h3v1h-3zM17 22h2v1h-2zM23 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM10 23h1v1h-1zM14 23h1v1h-1zM16 23h1v1h-1zM19 23h3v1h-3zM23 23h2v1h-2zM0 24h7v1h-7zM8 24h3v1h-3zM12 24h1v1h-1zM18 24h1v1h-1zM22 24h3v1h-3z" /></svg>
                 <div class="s-setup__ct">
-                  <div class="s-setup__qr-title">QR code</div>
+                  <div class="ui-title">QR code</div>
                   <div class="ui-sub">By the door</div>
                 </div>
               </div>
             </div>
           </div>
-          <span class="s-setup__node sq" aria-hidden="true">4</span>
-          <div class="s-setup__text">
-            <h3>Open your booking link</h3>
-            <p>Add it to Instagram, Telegram, 2GIS, Yandex Maps and a QR code by the door.</p>
-          </div>
         </li>
 
         <!-- 5. First month -->
         <li class="s-setup__step">
-          <div class="s-setup__vis stage ui" role="img" aria-label="A first month report for Gulnor Beauty: 834 bookings, 21 no-shows, cash and payroll.">
-            <div class="stage__art" aria-hidden="true"></div>
+          <span class="s-setup__node sq" aria-hidden="true">5</span>
+          <div class="s-setup__text">
+            <div class="s-setup__head">
+              <span class="s-setup__icon sq" aria-hidden="true"><svg class="i"><use href="assets/icons.svg#chart" /></svg></span>
+              <h3>Look at the first month together</h3>
+            </div>
+            <p>We go through bookings, <span class="s-setup__nb">no-shows</span>, cash and payroll with you.</p>
+          </div>
+          <div class="s-setup__vis ui" role="img" aria-label="A first month report for Gulnor Beauty for September: 834 bookings, about 28 a day with quieter Sundays, 21 no-shows, 58,620 TJS in cash and 41,360 TJS in payroll.">
             <div class="s-setup__card ui-card ui-card--glass" aria-hidden="true">
               <div class="s-setup__ch">
-                <span class="ui-tile s-setup__tile"><svg class="i"><use href="assets/icons.svg#chart" /></svg></span>
+                <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#chart" /></svg></span>
                 <div class="s-setup__ct">
                   <div class="ui-title">First month</div>
                   <div class="ui-sub">September</div>
@@ -179,23 +194,14 @@
                   </div>
                   <span class="ui-sub">28 a day</span>
                 </div>
-                <svg class="s-setup__spark" viewBox="0 0 160 36">
-                  <path class="s-setup__spark-area" d="M4.0 27.5C5.0 27.4 7.1 27.2 9.2 26.9C11.3 26.7 12.4 26.5 14.5 26.2C16.6 26.0 17.6 25.8 19.7 25.5C21.8 25.2 22.9 25.1 25.0 24.8C27.1 24.5 28.1 24.3 30.2 23.9C32.3 23.6 33.4 23.2 35.4 22.9C37.5 22.7 38.6 22.7 40.7 22.5C42.8 22.3 43.8 22.1 45.9 21.9C48.0 21.6 49.1 21.5 51.2 21.2C53.3 20.9 54.3 20.8 56.4 20.5C58.5 20.2 59.6 20.1 61.7 19.8C63.8 19.4 64.8 19.3 66.9 18.9C69.0 18.5 70.0 18.2 72.1 17.9C74.2 17.6 75.3 17.7 77.4 17.5C79.5 17.2 80.5 17.1 82.6 16.9C84.7 16.6 85.8 16.5 87.9 16.2C90.0 15.9 91.0 15.8 93.1 15.5C95.2 15.2 96.2 15.1 98.3 14.7C100.4 14.4 101.5 14.2 103.6 13.9C105.7 13.5 106.7 13.2 108.8 12.9C110.9 12.6 112.0 12.6 114.1 12.4C116.2 12.2 117.2 12.1 119.3 11.9C121.4 11.6 122.5 11.5 124.6 11.2C126.6 10.9 127.7 10.8 129.8 10.5C131.9 10.2 132.9 10.0 135.0 9.7C137.1 9.4 138.2 9.2 140.3 8.9C142.4 8.5 143.4 8.2 145.5 7.9C147.6 7.6 148.7 7.6 150.8 7.4C152.9 7.2 155.0 6.9 156.0 6.8L156.0 36L4.0 36Z" />
-                  <path class="s-setup__spark-line" d="M4.0 27.5C5.0 27.4 7.1 27.2 9.2 26.9C11.3 26.7 12.4 26.5 14.5 26.2C16.6 26.0 17.6 25.8 19.7 25.5C21.8 25.2 22.9 25.1 25.0 24.8C27.1 24.5 28.1 24.3 30.2 23.9C32.3 23.6 33.4 23.2 35.4 22.9C37.5 22.7 38.6 22.7 40.7 22.5C42.8 22.3 43.8 22.1 45.9 21.9C48.0 21.6 49.1 21.5 51.2 21.2C53.3 20.9 54.3 20.8 56.4 20.5C58.5 20.2 59.6 20.1 61.7 19.8C63.8 19.4 64.8 19.3 66.9 18.9C69.0 18.5 70.0 18.2 72.1 17.9C74.2 17.6 75.3 17.7 77.4 17.5C79.5 17.2 80.5 17.1 82.6 16.9C84.7 16.6 85.8 16.5 87.9 16.2C90.0 15.9 91.0 15.8 93.1 15.5C95.2 15.2 96.2 15.1 98.3 14.7C100.4 14.4 101.5 14.2 103.6 13.9C105.7 13.5 106.7 13.2 108.8 12.9C110.9 12.6 112.0 12.6 114.1 12.4C116.2 12.2 117.2 12.1 119.3 11.9C121.4 11.6 122.5 11.5 124.6 11.2C126.6 10.9 127.7 10.8 129.8 10.5C131.9 10.2 132.9 10.0 135.0 9.7C137.1 9.4 138.2 9.2 140.3 8.9C142.4 8.5 143.4 8.2 145.5 7.9C147.6 7.6 148.7 7.6 150.8 7.4C152.9 7.2 155.0 6.9 156.0 6.8" pathLength="1" />
-                  <circle class="s-setup__spark-dot" cx="156" cy="6.8" r="2.6" />
-                </svg>
+                <div class="s-setup__bars"><span style="--v: 22"></span><span style="--v: 21"></span><span style="--v: 24"></span><span style="--v: 27"></span><span style="--v: 29"></span><span style="--v: 15"></span><span style="--v: 23"></span><span style="--v: 23"></span><span style="--v: 26"></span><span style="--v: 27"></span><span style="--v: 28"></span><span style="--v: 34"></span><span style="--v: 17"></span><span style="--v: 26"></span><span style="--v: 26"></span><span style="--v: 29"></span><span style="--v: 29"></span><span style="--v: 33"></span><span style="--v: 40"></span><span style="--v: 18"></span><span style="--v: 28"></span><span style="--v: 30"></span><span style="--v: 30"></span><span style="--v: 33"></span><span style="--v: 36"></span><span style="--v: 41"></span><span style="--v: 21"></span><span style="--v: 31"></span><span style="--v: 32"></span><span style="--v: 35"></span></div>
               </div>
               <ul class="s-setup__rows">
                 <li><span class="s-setup__grow">No-shows</span><span class="ui-amount">21</span></li>
                 <li><span class="s-setup__grow">Cash</span><span class="ui-amount">58,620 TJS</span></li>
-                <li><span class="s-setup__grow">Payroll</span><span class="ui-amount">63,480 TJS</span></li>
+                <li><span class="s-setup__grow">Payroll</span><span class="ui-amount">41,360 TJS</span></li>
               </ul>
             </div>
-          </div>
-          <span class="s-setup__node sq" aria-hidden="true">5</span>
-          <div class="s-setup__text">
-            <h3>Look at the first month together</h3>
-            <p>We go through bookings, <span class="s-setup__nb">no-shows</span>, cash and payroll with you.</p>
           </div>
         </li>
       </ol>

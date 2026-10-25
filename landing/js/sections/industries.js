@@ -14,10 +14,12 @@ export function init(root) {
     tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true')
   );
 
-  // Clip the dark copy to the selected tab, in px relative to the tab row.
+  // Clip the dark copy to the selected tab, in px relative to the copy itself. Measuring the copy's
+  // own (never pressed) tab keeps the pill full width even while the real tab is scaled by :active.
+  const clipTabs = [...clip.children];
   const placeClip = () => {
-    const row = list.getBoundingClientRect();
-    const tab = tabs[current].getBoundingClientRect();
+    const row = clip.getBoundingClientRect();
+    const tab = clipTabs[current].getBoundingClientRect();
     clip.style.setProperty('--clip-l', `${(tab.left - row.left).toFixed(2)}px`);
     clip.style.setProperty('--clip-r', `${(row.right - tab.right).toFixed(2)}px`);
   };

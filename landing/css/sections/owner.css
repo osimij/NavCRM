@@ -303,12 +303,24 @@
   clip-path: inset(0 calc((1 - var(--v)) * 100%) 0 0 round 999px);
 }
 
-/* Booking sources: stacked bar with 2px surface gaps, legend in ink */
+/* Booking sources: stacked bar with 2px surface gaps, legend in ink. The track only shows
+   while the bar waits to play, and is wiped away in step with the bar. */
+.s-owner__track {
+  position: relative;
+  margin-top: 12px;
+}
+.s-owner__track::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  background: #eef1f6;
+  clip-path: inset(0 0 0 100%);
+}
 .s-owner__stack {
   display: flex;
   gap: 2px;
   height: 8px;
-  margin-top: 12px;
 }
 .s-owner__stack span {
   flex: var(--w) 1 0;
@@ -377,6 +389,9 @@
 .s-owner__phone.is-armed .s-owner__stack {
   clip-path: inset(0 100% 0 0);
 }
+.s-owner__phone.is-armed .s-owner__track::before {
+  clip-path: inset(0);
+}
 
 .s-owner__phone.is-armed .is-live .s-owner__hero,
 .s-owner__phone.is-armed .is-live .s-owner__value:has([data-count]) {
@@ -411,6 +426,10 @@
 }
 .s-owner__phone.is-armed .is-live .s-owner__stack {
   clip-path: inset(0);
+  transition: clip-path 700ms var(--ease-in-out) 80ms;
+}
+.s-owner__phone.is-armed .is-live .s-owner__track::before {
+  clip-path: inset(0 0 0 100%);
   transition: clip-path 700ms var(--ease-in-out) 80ms;
 }
 
@@ -478,13 +497,14 @@
   }
 }
 
-/* Desktop: callouts. Each note sits beside the phone at the height of what it describes, with a
-   hairline running into the screen and a dot beside that card. --y is the target's centre line in
-   phone pixels, measured from the top of the 340 x 725 frame. */
+/* Desktop: callouts. Each note sits beside the phone level with the middle of what it describes,
+   with a hairline running into the screen and a dot beside that element. --y is that middle in
+   phone pixels, measured from the top of the 340 x 725 frame. Notes take the room beside the phone. */
 @media (min-width: 1024px) {
   .s-owner__frame {
-    --gap: clamp(48px, 6vw, 88px);
-    --note-w: clamp(224px, 20vw, 272px);
+    --gap: clamp(48px, 5vw, 72px);
+    --note-w: clamp(216px, (100cqi - var(--phone-w) * var(--s)) / 2 - var(--gap) - 40px, 304px);
+    container-type: inline-size;
     --pin: calc(17px * var(--s)); /* dot: centre of the 16px gutter inside the 9px bezel */
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "stage";
@@ -514,16 +534,16 @@
     --y: 69;
   }
   .s-owner__note--reports {
-    --y: 591;
+    --y: 625;
   }
   .s-owner__note--branch {
     --y: 69;
   }
   .s-owner__note--cash {
-    --y: 291;
+    --y: 311;
   }
   .s-owner__note--pay {
-    --y: 447;
+    --y: 495;
   }
   .s-owner__note--access,
   .s-owner__note--reports {
@@ -559,7 +579,7 @@
   .s-owner__note::before {
     width: calc(var(--gap) - 8px + var(--pin));
     height: 1px;
-    background: rgba(11, 18, 32, 0.16);
+    background: rgba(11, 18, 32, 0.2);
   }
   .s-owner__note::after {
     width: 7px;

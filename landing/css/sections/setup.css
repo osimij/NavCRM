@@ -1,32 +1,30 @@
-/* Getting started: five steps on a track, each with a small piece of the product it produces.
-   Mobile first: a vertical track; from 640px the card sits beside the text; from 1200px the
-   steps run horizontally with the cards on one shared stage. */
+/* Getting started: five steps on a track.
+   Below 1200px: a compact vertical track (numbered node, icon tile, title, body) sitting on the page.
+   From 1200px: the steps run horizontally, each with a small piece of the product it produces,
+   all five cards on one shared stage. */
 
 .s-setup__board {
   --node: 28px;
   position: relative;
-  padding: 24px 20px 32px;
-  border-radius: var(--r-xl);
 }
 
-/* The shared stage only exists in the horizontal layout */
-.s-setup__stage {
+/* The shared stage and the cards only exist in the horizontal layout */
+.s-setup__stage,
+.s-setup__vis {
   display: none;
 }
 
 .s-setup__steps {
   position: relative;
   display: grid;
-  row-gap: 40px;
+  row-gap: 32px;
 }
 .s-setup__step {
   display: grid;
   grid-template-columns: var(--node) minmax(0, 1fr);
-  grid-template-areas:
-    "node text"
-    ".    vis";
+  grid-template-areas: "node text";
   column-gap: 16px;
-  row-gap: 16px;
+  align-items: start;
 }
 
 /* Node: numbered squircle sitting on the track */
@@ -38,6 +36,7 @@
   place-items: center;
   width: var(--node);
   height: var(--node);
+  margin-top: 4px;
   border-radius: var(--r-xs);
   font-size: 13px;
   font-weight: 600;
@@ -45,12 +44,13 @@
   color: #fff;
   background: var(--ink);
   box-shadow:
-    0 0 0 4px var(--node-ring, var(--surface)),
+    0 0 0 4px var(--node-ring, var(--bg)),
     0 2px 6px -1px rgba(11, 18, 32, 0.3);
 }
 
-/* Track line, positioned from the first node centre to the last by JS */
+/* Track line, placed from the first node centre to the last by JS */
 .s-setup__line {
+  --track: rgba(11, 18, 32, 0.2);
   position: absolute;
   z-index: 0;
   display: none;
@@ -58,7 +58,6 @@
   top: var(--ly, 0px);
   width: var(--lw, 2px);
   height: var(--lh, 2px);
-  --track: rgba(11, 18, 32, 0.2);
   pointer-events: none;
 }
 .s-setup__line[data-axis] {
@@ -76,10 +75,31 @@
     repeating-linear-gradient(180deg, var(--track) 0 4px, transparent 4px 9px) bottom / 100% calc(100% - var(--s4, 75%)) no-repeat;
 }
 
-/* Text */
+/* Text: icon tile and title on one row, body below */
 .s-setup__text {
   grid-area: text;
-  padding-top: 2px;
+  min-width: 0;
+}
+.s-setup__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.s-setup__icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: var(--r-sm);
+  color: var(--accent);
+  background: linear-gradient(180deg, #f1f5ff 0%, var(--accent-soft) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(42, 91, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.s-setup__icon .i {
+  font-size: 18px;
 }
 .s-setup__text h3 {
   font-size: 1.125rem;
@@ -88,31 +108,137 @@
   letter-spacing: -0.016em;
 }
 .s-setup__text p {
-  margin-top: 6px;
-  max-width: 40ch;
+  margin-top: 8px;
+  max-width: 46ch;
   font-size: 0.9375rem;
   line-height: 1.5;
   color: var(--ink-2);
 }
-
 .s-setup__nb {
   white-space: nowrap;
 }
 
-/* Visual: in the vertical layouts each card sits on its own small stage */
-.s-setup__vis {
-  grid-area: vis;
-  min-width: 0;
-  padding: 16px;
-  border-radius: var(--r-lg);
+/* Below 1200px there is no card around the steps: they sit straight on the page */
+@media (max-width: 1199.98px) {
+  .s-setup__board.card {
+    background: none;
+    box-shadow: none;
+  }
 }
+
+@media (min-width: 640px) {
+  .s-setup__steps {
+    row-gap: 36px;
+  }
+  .s-setup__step {
+    column-gap: 20px;
+  }
+  .s-setup__text p {
+    max-width: 56ch;
+  }
+}
+
+/* 960px to 1199px: heading on the left, the track beside it, so the width is used and the
+   section stays about one screen tall */
+@media (min-width: 960px) and (max-width: 1199.98px) {
+  .s-setup .container {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    column-gap: 64px;
+    align-items: start;
+  }
+  .s-setup .section-head {
+    position: sticky;
+    top: calc(var(--nav-h) + 32px);
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    margin-bottom: 0;
+  }
+  .s-setup__board {
+    padding-top: 8px;
+  }
+}
+
+/* ---------- 1200px and up: horizontal track with a card per step ---------- */
+@media (min-width: 1200px) {
+  .s-setup__board {
+    --node-ring: var(--surface);
+    /* Rows: cards, nodes, titles, bodies. The steps share them through subgrid, so every
+       card is the same height and every title and body starts on the same line. */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+    padding: 32px 32px 40px;
+    border-radius: var(--r-xl);
+  }
+  /* One stage behind the card row, sized by that row (an absolutely placed grid child) */
+  .s-setup__stage {
+    display: block;
+    position: absolute;
+    grid-row: 1 / 2; /* both lines: an absolutely placed item's auto end would be the padding edge */
+    grid-column: 1 / 2;
+    inset: -24px;
+    border-radius: calc(var(--r-xl) - 8px);
+  }
+  .s-setup__steps {
+    grid-row: 1 / span 4;
+    grid-column: 1;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: subgrid;
+    column-gap: 24px;
+    row-gap: 0;
+  }
+  .s-setup__step {
+    grid-row: span 4;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: subgrid;
+    grid-template-areas:
+      "vis"
+      "node"
+      "text"
+      "text";
+    column-gap: 0;
+  }
+  .s-setup__vis {
+    display: block;
+    grid-area: vis;
+    align-self: stretch;
+    min-width: 0;
+  }
+  .s-setup__node {
+    margin-top: 56px;
+  }
+  .s-setup__text {
+    display: grid;
+    grid-template-rows: subgrid;
+    align-content: start;
+  }
+  /* Titles hang from the top of their shared row; bodies all start on one line below it */
+  .s-setup__head {
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+  /* The card header carries the icon here */
+  .s-setup__icon {
+    display: none;
+  }
+  .s-setup__text p {
+    max-width: none;
+  }
+}
+
+/* ---------- The cards (horizontal layout only), built from the product UI kit ---------- */
 .s-setup__card {
   display: flex;
   flex-direction: column;
   gap: 12px;
   height: 100%;
   padding: 12px;
-  box-shadow: var(--glass-edge), var(--shadow-md);
+  box-shadow:
+    var(--glass-edge),
+    0 0 0 1px rgba(11, 18, 32, 0.05),
+    0 2px 4px -1px rgba(11, 18, 32, 0.05),
+    0 8px 20px -8px rgba(11, 18, 32, 0.16);
 }
 .s-setup__card > :last-child {
   margin-top: auto;
@@ -122,27 +248,19 @@
 .s-setup__ch {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding-bottom: 12px;
   box-shadow: 0 1px 0 var(--line);
 }
-.s-setup__tile {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-}
 .s-setup__ct {
   display: grid;
-  gap: 1px;
   min-width: 0;
 }
 .s-setup__ct .ui-title {
-  font-size: 13px;
-  line-height: 16px;
+  line-height: 20px;
 }
 .s-setup__ct .ui-sub {
-  font-size: 11.5px;
-  line-height: 15px;
+  line-height: 16px;
 }
 .s-setup__grow {
   flex: 1;
@@ -152,59 +270,43 @@
   white-space: nowrap;
 }
 
-/* 1. Profile */
-.s-setup__pick {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 36px;
-  padding: 0 10px 0 8px;
-  border-radius: 10px;
-  font-size: 12.5px;
-  font-weight: 580;
-  color: var(--accent-ink);
-  background: var(--accent-soft);
-  box-shadow: inset 0 0 0 1.5px var(--accent);
+/* Inner grids never grow past the card when text gets bigger (browser minimum font size) */
+.s-setup__group,
+.s-setup__import,
+.s-setup__people,
+.s-setup__channels,
+.s-setup__kpi {
+  grid-template-columns: minmax(0, 1fr);
 }
-.s-setup__pick-icon {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 7px;
-  color: #fff;
-  background: var(--accent);
-}
-.s-setup__pick-icon .i {
-  font-size: 14px;
-}
-.s-setup__radio {
-  display: grid;
-  place-items: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  color: #fff;
-  background: var(--accent);
-}
-.s-setup__radio .i {
-  font-size: 10px;
-}
-.s-setup__group {
-  display: grid;
-  gap: 5px;
-}
+
+/* Rows of label and right-aligned amount */
 .s-setup__rows li {
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 23px;
+  height: 24px;
   font-size: 12px;
   color: var(--ink-2);
 }
 .s-setup__rows .ui-amount {
   min-width: 64px;
   color: var(--ink);
+}
+
+/* 1. Profile */
+.s-setup__pick {
+  display: flex;
+  justify-content: flex-start;
+}
+.s-setup__pick .i {
+  font-size: 15px;
+}
+.s-setup__pick .s-setup__tick {
+  font-size: 13px;
+}
+.s-setup__group {
+  display: grid;
+  gap: 4px;
 }
 .s-setup__foot {
   display: flex;
@@ -213,13 +315,10 @@
 }
 .s-setup__faces {
   display: flex;
-  padding-left: 4px;
+  padding-left: 6px;
 }
 .s-setup__faces .ui-avatar {
-  width: 22px;
-  height: 22px;
-  margin-left: -4px;
-  font-size: 10px;
+  margin-left: -6px;
   box-shadow: 0 0 0 2px var(--surface);
 }
 
@@ -231,18 +330,9 @@
 .s-setup__state > * {
   justify-self: end;
 }
-.s-setup__meter > span {
-  background: var(--good);
-}
-.s-setup__meter {
-  background: rgba(18, 147, 90, 0.14);
-}
 .s-setup__people {
   display: grid;
   gap: 4px;
-}
-.s-setup__import + .s-setup__people {
-  gap: 5px;
 }
 .s-setup__people li {
   display: flex;
@@ -252,16 +342,12 @@
   font-size: 12px;
   font-weight: 520;
 }
-.s-setup__import + .s-setup__people li {
-  height: 30px;
+.s-setup__people .ui-sub {
+  white-space: nowrap;
 }
 .s-setup__admin .i {
   font-size: 13px;
   stroke-width: 1.8;
-}
-.s-setup__people .ui-sub {
-  font-size: 11.5px;
-  white-space: nowrap;
 }
 
 /* 3. Training */
@@ -270,9 +356,6 @@
   grid-template-columns: 1fr 1fr;
   --w: calc(50% - 3px);
   --x: 3px;
-}
-.s-setup__seg > span {
-  height: 28px;
 }
 
 /* 4. Booking link */
@@ -296,201 +379,76 @@
 .s-setup__ch-icon .i {
   font-size: 12px;
 }
-.s-setup__tick {
+.s-setup__ch-icon--plain {
+  color: var(--ink-2);
+  background: #eef1f6;
+}
+.s-setup__channels .s-setup__tick {
   font-size: 13px;
   color: var(--good);
 }
 .s-setup__qr {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 6px;
+  gap: 12px;
+  padding: 8px;
   border-radius: 10px;
   background: #f3f5f9;
 }
 .s-setup__qr-code {
   width: 40px;
   height: 40px;
-  padding: 0;
   border-radius: 6px;
   background: #fff;
   fill: var(--ink);
   box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.06);
 }
-.s-setup__qr-title {
-  font-size: 12px;
-  font-weight: 580;
-  line-height: 16px;
-}
 
-/* 5. First month */
+/* 2 and 5. Headline figure */
 .s-setup__kpi {
   display: grid;
   gap: 8px;
 }
-.s-setup__kpi .s-setup__kpi-top {
-  align-items: last baseline;
-}
-.s-setup__kpi .s-setup__kpi-top .ui-sub {
-  padding-bottom: 0;
-}
 .s-setup__kpi-top {
   display: flex;
-  align-items: flex-end;
+  align-items: last baseline;
   justify-content: space-between;
   gap: 8px;
 }
-.s-setup__kpi-top .ui-sub {
-  font-size: 11.5px;
-  line-height: 15px;
-  padding-bottom: 3px;
-}
 .s-setup__kpi-v {
   font-size: 22px;
-  line-height: 26px;
+  line-height: 28px;
   font-weight: 600;
   letter-spacing: -0.03em;
 }
-.s-setup__spark {
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-.s-setup__spark-area {
-  fill: rgba(42, 91, 255, 0.1);
-}
-.s-setup__spark-line {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1.75;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-}
-.s-setup__spark-dot {
-  fill: var(--accent);
-  stroke: var(--surface);
-  stroke-width: 1.75;
-}
 
-/* Phones: no outer card, so the steps and their stages sit straight on the page */
-@media (max-width: 639.98px) {
-  .s-setup__board {
-    --node-ring: var(--bg);
-    padding: 0;
-    background: none;
-    box-shadow: none;
-  }
-  .s-setup__vis {
-    padding: 12px;
-  }
+/* 5. Bookings per day through September: one bar a day, Sundays quieter */
+.s-setup__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 40px;
+  box-shadow: 0 1px 0 var(--line);
+  clip-path: inset(0 0 -2px 0);
 }
-
-/* ---------- 640px and up: text beside a stage with the card centred on it ---------- */
-@media (min-width: 640px) {
-  .s-setup__board {
-    padding: 32px;
-  }
-  .s-setup__steps {
-    row-gap: 32px;
-  }
-  .s-setup__step {
-    grid-template-columns: var(--node) minmax(0, 0.85fr) minmax(0, 1.15fr);
-    grid-template-areas: "node text vis";
-    column-gap: 20px;
-  }
-  .s-setup__text {
-    padding-right: 12px;
-  }
-  .s-setup__vis {
-    display: grid;
-    place-items: center;
-    padding: 24px;
-  }
-  .s-setup__card {
-    width: min(100%, 288px);
-  }
-}
-
-/* ---------- 1200px and up: horizontal track ---------- */
-@media (min-width: 1200px) {
-  .s-setup__board {
-    --vis-h: 252px;
-    --gap: 24px;
-    padding: 32px 32px 40px;
-  }
-  .s-setup__stage {
-    display: block;
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    height: calc(var(--vis-h) + 48px);
-    border-radius: calc(var(--r-xl) - 8px);
-  }
-  .s-setup__steps {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    grid-template-rows: var(--vis-h) auto auto;
-    column-gap: var(--gap);
-    row-gap: 0;
-  }
-  /* One shared stage holds all five cards, so the per-step stages step aside */
-  .s-setup__vis.stage {
-    display: block;
-    place-items: normal;
-    padding: 0;
-    overflow: visible;
-    background: none;
-    box-shadow: none;
-    border-radius: 0;
-  }
-  .s-setup__vis.stage::before,
-  .s-setup__vis.stage::after,
-  .s-setup__vis > .stage__art {
-    display: none;
-  }
-  .s-setup__card {
-    width: auto;
-    box-shadow:
-      var(--glass-edge),
-      0 0 0 1px rgba(11, 18, 32, 0.05),
-      0 2px 4px -1px rgba(11, 18, 32, 0.05),
-      0 8px 20px -8px rgba(11, 18, 32, 0.16);
-  }
-  .s-setup__step {
-    grid-row: span 3;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: subgrid;
-    grid-template-areas:
-      "vis"
-      "node"
-      "text";
-    row-gap: 0;
-  }
-  .s-setup__node {
-    margin-top: 56px;
-  }
-  .s-setup__text {
-    margin-top: 20px;
-    padding: 0;
-  }
-  .s-setup__text p {
-    margin-top: 8px;
-  }
+.s-setup__bars > span {
+  flex: 1;
+  height: calc(var(--v) * 100% / 42);
+  border-radius: 2px 2px 0 0;
+  background: color-mix(in srgb, var(--accent) 72%, #fff);
 }
 
 /* ---------- Entrance ----------
-   The line draws node to node (JS steps --cut, each segment eased), and each node, card and
-   text appears when the line reaches it (--d, set by JS). Without JS everything is static. */
+   Horizontal: the line draws in one eased stroke and each step appears as the line reaches its
+   node (--d is that moment, set by JS). Vertical: the line follows the scroll and each step
+   appears as the reader reaches it (--d is 0). Without JS, or with reduced motion, all is static. */
 .s-setup__line[data-axis="x"] {
   clip-path: inset(0 var(--cut, 0%) 0 0);
+  transition: clip-path 1200ms var(--ease-in-out);
 }
 .s-setup__line[data-axis="y"] {
   clip-path: inset(0 0 var(--cut, 0%) 0);
-}
-.s-setup__line {
-  transition: clip-path var(--seg, 300ms) var(--ease-in-out);
+  transition: clip-path 400ms var(--ease-out);
 }
 .s-setup__node {
   transition:
@@ -510,59 +468,46 @@
 .s-setup__meter > span {
   transition: transform 800ms var(--ease-out) calc(var(--d, 0ms) + 250ms);
 }
-.s-setup__spark-line {
-  transition: stroke-dashoffset 900ms var(--ease-out) calc(var(--d, 0ms) + 200ms);
+.s-setup__bars {
+  transition: clip-path 900ms var(--ease-in-out) calc(var(--d, 0ms) + 200ms);
 }
-.s-setup__spark-area,
-.s-setup__spark-dot {
-  transition: opacity 400ms ease calc(var(--d, 0ms) + 700ms);
-}
-.s-setup__tick,
-.s-setup__radio {
+.s-setup__tick {
   transition:
     opacity 200ms ease calc(var(--d, 0ms) + 250ms + var(--i, 0) * 70ms),
     transform 300ms var(--ease-out) calc(var(--d, 0ms) + 250ms + var(--i, 0) * 70ms);
 }
 
-.s-setup__board[data-anim="ready"] .s-setup__node {
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__node {
   opacity: 0;
   transform: scale(0.9);
 }
-.s-setup__board[data-anim="ready"] .s-setup__card {
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__card {
   opacity: 0;
   transform: translateY(10px) scale(0.98);
 }
-.s-setup__board[data-anim="ready"] .s-setup__text {
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__text {
   opacity: 0;
   transform: translateY(8px);
 }
-.s-setup__board[data-anim="ready"] .s-setup__meter > span {
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__meter > span {
   transform: scaleX(0.04);
 }
-.s-setup__board[data-anim="ready"] .s-setup__spark-line {
-  stroke-dashoffset: 1;
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__bars {
+  clip-path: inset(0 100% -2px 0);
 }
-.s-setup__board[data-anim="ready"] .s-setup__spark-area,
-.s-setup__board[data-anim="ready"] .s-setup__spark-dot {
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__tick {
   opacity: 0;
-}
-.s-setup__board[data-anim="ready"] .s-setup__tick,
-.s-setup__board[data-anim="ready"] .s-setup__radio {
-  opacity: 0;
-  transform: scale(0.6);
+  transform: scale(0.9);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .s-setup__line,
+  .s-setup__line[data-axis],
   .s-setup__node,
   .s-setup__card,
   .s-setup__text,
   .s-setup__meter > span,
-  .s-setup__spark-line,
-  .s-setup__spark-area,
-  .s-setup__spark-dot,
-  .s-setup__tick,
-  .s-setup__radio {
+  .s-setup__bars,
+  .s-setup__tick {
     transition: none;
   }
 }
