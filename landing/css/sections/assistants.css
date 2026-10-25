@@ -1,0 +1,397 @@
+/* Assistants (#assistants): an Instagram Direct chat on a stage, and three cards for who the assistants serve.
+   The stage and the cards form one bento block with a shared 16px gutter. */
+
+.s-assistants {
+  --gap: 16px;
+}
+
+/* Heading with the Beta chip set on the last line, so it never wraps alone */
+.s-assistants__last {
+  white-space: nowrap;
+}
+.s-assistants__beta {
+  position: relative;
+  top: -0.32em;
+  margin-left: 0.32em;
+  height: 30px;
+  padding: 0 12px 0 10px;
+  vertical-align: middle;
+  font-size: 0.875rem;
+  font-weight: 560;
+  letter-spacing: -0.005em;
+}
+.s-assistants__beta .i {
+  font-size: 16px;
+}
+
+/* Layout */
+.s-assistants__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  gap: var(--gap);
+  align-items: stretch;
+}
+
+/* Stage: layout only, the art direction paints .stage__art */
+.s-assistants__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 48px 40px 36px;
+  border-radius: var(--r-xl);
+}
+.s-assistants__demo {
+  width: 100%;
+  max-width: 404px;
+}
+
+/* Chat window */
+.s-assistants__chat {
+  display: flex;
+  flex-direction: column;
+}
+.s-assistants__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+.s-assistants__grow {
+  flex: 1;
+  min-width: 0;
+}
+.s-assistants__brand {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex: none;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: linear-gradient(160deg, #3a3f4c, #11161f);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+.s-assistants__brand--sm {
+  width: 24px;
+  height: 24px;
+  font-size: 8.5px;
+}
+.s-assistants__ig {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+.s-assistants__ig .i {
+  font-size: 16px;
+}
+
+/* Thread */
+.s-assistants__thread {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  padding: 16px 16px 20px;
+}
+.s-assistants__stamp {
+  justify-self: center;
+  font-size: 11.5px;
+  font-weight: 520;
+  color: var(--ink-3);
+}
+.s-assistants__msg {
+  display: grid;
+  row-gap: 4px;
+  transition:
+    opacity 350ms ease,
+    transform 350ms var(--ease-out);
+}
+.s-assistants__msg--out {
+  justify-items: end;
+  transform-origin: bottom right;
+}
+.s-assistants__msg--in {
+  grid-template-columns: 24px minmax(0, 1fr);
+  column-gap: 8px;
+  justify-items: start;
+  transform-origin: bottom left;
+}
+.s-assistants__msg--in > .s-assistants__brand {
+  grid-row: 1;
+  align-self: end;
+}
+.s-assistants__slot {
+  grid-row: 1;
+  grid-column: 2;
+  display: grid;
+  max-width: 86%;
+}
+.s-assistants__slot > * {
+  grid-area: 1 / 1;
+}
+.s-assistants__msg--in > .s-assistants__tr {
+  grid-column: 2;
+  max-width: 86%;
+}
+
+.s-assistants__bubble {
+  max-width: 80%;
+  padding: 9px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  line-height: 1.42;
+  letter-spacing: -0.006em;
+  text-wrap: pretty;
+}
+.s-assistants__slot .s-assistants__bubble {
+  max-width: none;
+}
+.s-assistants__msg--out .s-assistants__bubble {
+  color: #fff;
+  background: linear-gradient(180deg, #6a4dff 0%, #3f62ff 100%);
+}
+.s-assistants__msg--in .s-assistants__bubble {
+  color: var(--ink);
+  background: #eff1f5;
+}
+.s-assistants__tr {
+  max-width: 80%;
+  padding-inline: 14px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+.s-assistants__msg--out .s-assistants__tr {
+  text-align: right;
+}
+
+/* Typing indicator */
+.s-assistants__typing {
+  display: inline-flex;
+  align-items: center;
+  align-self: end;
+  justify-self: start;
+  gap: 4px;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 20px;
+  background: #eff1f5;
+  transform-origin: bottom left;
+  transition:
+    opacity 200ms ease,
+    transform 200ms var(--ease-out);
+}
+.s-assistants__typing i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-3);
+  animation: s-assistants-dot 1.2s ease-in-out infinite;
+}
+.s-assistants__typing i:nth-child(2) {
+  animation-delay: 160ms;
+}
+.s-assistants__typing i:nth-child(3) {
+  animation-delay: 320ms;
+}
+@keyframes s-assistants-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* Composer */
+.s-assistants__composer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  margin: 0 12px 12px;
+  padding: 0 14px 0 4px;
+  border-radius: var(--r-pill);
+  color: var(--ink-2);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+.s-assistants__composer > .i {
+  font-size: 18px;
+}
+.s-assistants__cam {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(180deg, #6a4dff 0%, #3f62ff 100%);
+}
+.s-assistants__cam .i {
+  font-size: 17px;
+}
+.s-assistants__placeholder {
+  flex: 1;
+  color: var(--ink-3);
+  font-size: 13.5px;
+}
+
+/* Footnote under the chat */
+.s-assistants__note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  min-height: 34px;
+  padding: 7px 16px 7px 12px;
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 520;
+  line-height: 1.4;
+  letter-spacing: -0.006em;
+  color: var(--ink-2);
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  backdrop-filter: blur(16px) saturate(1.6);
+  box-shadow: var(--glass-edge), var(--shadow-sm);
+}
+.s-assistants__note .i {
+  font-size: 16px;
+  color: var(--good);
+}
+
+/* Cards */
+.s-assistants__cards {
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
+}
+.s-assistants__card {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 32px 30px;
+}
+.s-assistants__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  color: var(--accent);
+  background: linear-gradient(180deg, #f1f5ff 0%, var(--accent-soft) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(42, 91, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.s-assistants__icon .i {
+  font-size: 20px;
+}
+.s-assistants__card h3 {
+  margin-top: auto;
+  padding-top: 20px;
+}
+.s-assistants__card p {
+  margin-top: 8px;
+  max-width: 44ch;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.s-assistants__card q {
+  color: var(--ink);
+  font-weight: 520;
+}
+
+/* Animation states (set by js/sections/assistants.js). Without JS everything shows. */
+.js .s-assistants__msg:not([data-state]) {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+}
+.s-assistants__msg:not([data-state="typing"]) .s-assistants__typing {
+  opacity: 0;
+  transform: scale(0.92);
+}
+.s-assistants__slot .s-assistants__bubble,
+.s-assistants__tr {
+  transition:
+    opacity 350ms ease,
+    transform 350ms var(--ease-out);
+}
+.s-assistants__slot .s-assistants__bubble {
+  transform-origin: bottom left;
+}
+.js .s-assistants__msg--in:not([data-state="on"]) .s-assistants__bubble {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+}
+.js .s-assistants__msg:not([data-state="on"]) .s-assistants__tr {
+  opacity: 0;
+  transform: translateY(4px);
+}
+.s-assistants__tr {
+  transition-delay: 120ms;
+}
+.s-assistants__chat.is-out .s-assistants__msg {
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.s-assistants__chat.is-reset *,
+.s-assistants__chat.is-reset *::before,
+.s-assistants__chat.is-reset *::after {
+  transition: none !important;
+}
+
+/* Tablet and below: one column, chat first */
+@media (max-width: 960px) {
+  .s-assistants__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .s-assistants__cards {
+    grid-template-rows: none;
+  }
+  .s-assistants__card h3 {
+    margin-top: 0;
+  }
+}
+@media (max-width: 560px) {
+  .s-assistants__stage {
+    padding: 24px 12px 20px;
+    gap: 16px;
+  }
+  .s-assistants__note {
+    align-items: flex-start;
+    border-radius: var(--r-md);
+    padding: 10px 14px 10px 12px;
+    text-align: left;
+  }
+  .s-assistants__note .i {
+    margin-top: 1px;
+  }
+  .s-assistants__card {
+    padding: 24px 24px 26px;
+  }
+  .s-assistants__beta {
+    height: 26px;
+    padding: 0 10px 0 8px;
+    font-size: 0.8125rem;
+  }
+  .s-assistants__beta .i {
+    font-size: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-assistants__typing i {
+    animation: none;
+  }
+}

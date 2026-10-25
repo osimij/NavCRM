@@ -24,6 +24,8 @@
 .s-local__card--offline,
 .s-local__card--support {
   grid-column: span 2;
+}
+.s-local__card--offline {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--well-inset);
@@ -33,12 +35,16 @@
 }
 .s-local__icon {
   display: grid;
+  align-self: flex-start;
   place-items: center;
   width: 40px;
   height: 40px;
   border-radius: var(--r-sm);
   color: var(--accent);
-  background: var(--accent-soft);
+  background: linear-gradient(180deg, #f1f5ff 0%, var(--accent-soft) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(42, 91, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 .s-local__icon .i {
   font-size: 20px;
@@ -54,6 +60,11 @@
   color: var(--ink-2);
 }
 
+/* The wide support card: one sentence per line */
+.s-local__card--support .s-local__text p {
+  max-width: 49ch;
+}
+
 /* Visual well */
 .s-local__well {
   display: grid;
@@ -66,9 +77,63 @@
   box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.035);
 }
 
-/* Offline: phone on a stage */
+/* Offline: phone on a stage, with a three part progress line under the text */
 .s-local__card--offline {
   min-height: 480px;
+}
+.s-local__card--offline .s-local__text {
+  display: flex;
+  flex-direction: column;
+}
+.s-local__steps {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 32px;
+}
+.s-local__steps li {
+  display: grid;
+  flex: 1 1 auto;
+  gap: 10px;
+  white-space: nowrap;
+}
+.s-local__step-bar {
+  height: 2px;
+  border-radius: 2px;
+  background: var(--line-2);
+  overflow: hidden;
+}
+.s-local__step-bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 450ms var(--ease-in-out);
+}
+.s-local__steps .is-active i {
+  transform: scaleX(1);
+  transition: transform var(--dur, 3000ms) linear;
+}
+.s-local__steps .is-done i {
+  transform: scaleX(1);
+  transition: none;
+}
+.s-local__step-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  font-weight: 520;
+  color: var(--ink-3);
+  transition: color 200ms ease;
+}
+.s-local__step-label .i {
+  font-size: 15px;
+}
+.s-local__steps .is-active .s-local__step-label,
+.s-local__steps .is-done .s-local__step-label {
+  color: var(--ink);
 }
 .s-local__stage {
   border-radius: var(--well-r);
@@ -82,7 +147,7 @@
   position: absolute;
   top: 44px;
   left: 50%;
-  width: 280px;
+  width: 288px;
   transform: translateX(-50%);
 }
 .s-local__phone .ui-phone__screen {
@@ -93,14 +158,14 @@
   stroke-width: 2;
 }
 .s-local__app {
-  padding: 4px 12px 0;
+  padding: 4px 10px 0;
 }
 .s-local__app-head {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 8px;
-  padding: 6px 4px 14px;
+  padding: 6px 6px 14px;
 }
 .s-local__app-head .ui-sub {
   margin-top: 1px;
@@ -124,7 +189,7 @@
 
 /* Connection banner: three states stacked in one cell */
 .s-local__net {
-  padding: 10px 12px 10px 10px;
+  padding: 10px;
   align-items: center;
 }
 .s-local__net-state {
@@ -139,6 +204,7 @@
   color: var(--ink-2);
 }
 .s-local__net-state b {
+  display: block;
   font-weight: 600;
   color: var(--ink);
 }
@@ -227,24 +293,24 @@
 
 /* Payments */
 .s-local__pay {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
-  max-width: 320px;
+  width: 100%;
 }
-.s-local__pay .chip,
-.s-local__platforms .chip {
-  height: 32px;
-  padding: 0 12px 0 10px;
+.s-local__pay .chip {
+  justify-content: flex-start;
+  gap: 8px;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: var(--r-xs);
   font-size: 13px;
   color: var(--ink);
   transition:
     transform 200ms var(--ease-out),
     box-shadow 200ms ease;
 }
-.s-local__pay .chip .i,
-.s-local__platforms .chip .i {
+.s-local__pay .chip .i {
   font-size: 16px;
   color: var(--ink-3);
 }
@@ -290,7 +356,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 48px;
+  height: 54px;
 }
 .s-local__list li + li {
   box-shadow: 0 -1px 0 var(--line);
@@ -308,6 +374,11 @@
   min-width: 0;
   font-size: 13px;
   font-weight: 540;
+  line-height: 1.3;
+}
+.s-local__list-text .ui-sub {
+  display: block;
+  font-weight: 400;
 }
 .s-local__tile-neutral {
   color: var(--ink-2);
@@ -320,27 +391,39 @@
 
 /* Platforms */
 .s-local__platforms {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
+  width: 100%;
+}
+.s-local__platforms li {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 16px 8px 14px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 540;
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+.s-local__platforms .i {
+  font-size: 22px;
+  color: var(--ink-2);
 }
 
 /* Support contacts */
 .s-local__well--contact {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  place-items: center stretch;
   gap: 8px;
-  margin-top: 0;
   padding: 16px;
 }
 .s-local__contact {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px 12px 12px;
+  gap: 14px;
+  padding: 14px 18px 14px 14px;
   border-radius: calc(var(--well-r) - 6px);
   background: var(--surface);
   box-shadow: var(--shadow-xs);
@@ -352,9 +435,9 @@
   transform: scale(0.97);
 }
 .s-local__contact .ui-tile {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
 }
 .s-local__contact .ui-tile .i {
   font-size: 20px;
@@ -370,7 +453,7 @@
   color: var(--ink-3);
 }
 .s-local__contact-value {
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   font-weight: 600;
   letter-spacing: -0.015em;
   white-space: nowrap;
@@ -393,16 +476,15 @@
 }
 
 /* Tablet: two columns, the wide cards keep their split */
-@media (max-width: 1023px) {
+@media (max-width: 1100px) {
   .s-local__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .s-local__card--support {
     grid-column: span 1;
-    display: flex;
   }
   .s-local__well--contact {
-    margin-top: auto;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -415,16 +497,23 @@
   .s-local__card--offline,
   .s-local__card--support {
     grid-column: auto;
-    display: flex;
   }
   .s-local__card--offline {
+    display: flex;
     min-height: 0;
+  }
+  .s-local__steps {
+    padding-top: 24px;
+  }
+  .s-local__well {
+    min-height: 128px;
+    padding: 16px;
   }
   .s-local__text {
     padding: 20px 20px 24px;
   }
   .s-local__stage {
-    min-height: 420px;
+    min-height: 372px;
   }
   .s-local__phone {
     top: 36px;

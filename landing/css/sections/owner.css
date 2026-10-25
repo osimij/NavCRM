@@ -7,7 +7,7 @@
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   grid-template-areas: "a phone b";
   align-items: center;
-  column-gap: clamp(40px, 4.6vw, 72px);
+  column-gap: clamp(40px, 4vw, 56px);
 }
 .s-owner__stage {
   grid-area: 1 / 1 / -1 / -1;
@@ -17,14 +17,14 @@
   grid-area: phone;
   position: relative;
   z-index: 1;
-  padding-block: 64px;
+  padding-block: 56px;
 }
 .s-owner__notes {
   position: relative;
   z-index: 1;
   display: grid;
   gap: 12px;
-  width: min(312px, 100% - 40px);
+  width: min(320px, 100% - 32px);
 }
 .s-owner__notes--a {
   grid-area: a;
@@ -35,39 +35,45 @@
   justify-self: start;
 }
 
-/* Feature notes */
+/* Feature notes: icon tile and title on one line, the sentence below */
 .s-owner__note {
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
-  column-gap: 14px;
-  padding: 16px 18px 18px 16px;
+  padding: 18px 20px 20px 18px;
   border-radius: var(--r-md);
   background: rgba(255, 255, 255, 0.8);
   -webkit-backdrop-filter: blur(18px) saturate(1.6);
   backdrop-filter: blur(18px) saturate(1.6);
-  box-shadow: var(--glass-edge), var(--shadow-md);
+  box-shadow:
+    var(--glass-edge),
+    0 0 0 1px rgba(11, 18, 32, 0.04),
+    0 2px 4px -1px rgba(11, 18, 32, 0.04),
+    0 10px 24px -12px rgba(11, 18, 32, 0.12);
+}
+.s-owner__note-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 .s-owner__icon {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--r-xs);
   color: var(--accent);
   background: var(--accent-soft);
+  flex: none;
 }
 .s-owner__icon .i {
-  font-size: 18px;
+  font-size: 17px;
 }
 .s-owner__note h3 {
-  margin-top: 8px;
   font-size: 15px;
   line-height: 20px;
   font-weight: 600;
   letter-spacing: -0.012em;
 }
 .s-owner__note p {
-  margin-top: 4px;
+  margin-top: 10px;
   font-size: 14px;
   line-height: 1.45;
   color: var(--ink-2);
@@ -77,9 +83,7 @@
 /* Phone: a little larger than the hero phone */
 .s-owner .ui-phone {
   --s: 1;
-  width: 320px;
-  height: 660px;
-  aspect-ratio: auto;
+  width: 340px;
   zoom: var(--s);
 }
 .s-owner .ui-phone__status .i {
@@ -108,7 +112,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  height: 30px;
+  height: 28px;
 }
 .s-owner__branch {
   display: inline-flex;
@@ -133,7 +137,6 @@
 .s-owner__seg {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-bottom: 2px;
 }
 .s-owner__seg .ui-seg__thumb {
   --w: calc((100% - 6px) / 3);
@@ -142,7 +145,10 @@
 
 /* Revenue: the one hero figure */
 .s-owner__revenue {
-  padding: 13px 14px 10px;
+  padding: 12px 14px 12px;
+}
+.s-owner__revenue .ui-label {
+  line-height: 16px;
 }
 .s-owner__delta {
   display: inline-flex;
@@ -189,9 +195,8 @@
   stroke: var(--line);
   stroke-width: 1;
 }
-.s-owner__spark-area {
-  fill: var(--accent);
-  fill-opacity: 0.1;
+.s-owner__spark stop {
+  stop-color: var(--accent);
 }
 .s-owner__spark-line {
   fill: none;
@@ -208,14 +213,6 @@
   transform-box: fill-box;
   transform-origin: center;
 }
-.s-owner__axis {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
-  font-size: 10px;
-  font-weight: 520;
-  color: var(--ink-3);
-}
 
 /* Stat tiles: one card split by hairlines */
 .s-owner__stats {
@@ -225,7 +222,8 @@
 }
 .s-owner__stat {
   display: grid;
-  padding: 10px 12px 11px;
+  align-content: start;
+  padding: 9px 12px;
 }
 .s-owner__stat:nth-child(1) {
   box-shadow: inset -1px -1px 0 var(--line);
@@ -237,6 +235,7 @@
   box-shadow: inset -1px 0 0 var(--line);
 }
 .s-owner__stat .ui-label {
+  line-height: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -249,9 +248,9 @@
   display: flex;
   align-items: baseline;
   gap: 3px;
-  margin-top: 4px;
+  margin-top: 3px;
   font-size: 19px;
-  line-height: 24px;
+  line-height: 22px;
   font-weight: 600;
   letter-spacing: -0.025em;
 }
@@ -260,22 +259,30 @@
 }
 .s-owner__value small {
   font-size: 11px;
+  line-height: 1;
   font-weight: 560;
   letter-spacing: 0;
   color: var(--ink-3);
 }
 .s-owner__stat .ui-sub {
   font-size: 11.5px;
+  line-height: 15px;
 }
 
 /* Staff load meters */
-.s-owner__load {
-  padding: 12px 14px 13px;
+.s-owner__load,
+.s-owner__sources {
+  padding: 11px 14px 12px;
+}
+.s-owner__load .ui-title,
+.s-owner__sources .ui-title {
+  font-size: 13px;
+  line-height: 18px;
 }
 .s-owner__meters {
   display: grid;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 7px;
+  margin-top: 9px;
 }
 .s-owner__meters li {
   display: grid;
@@ -300,14 +307,11 @@
 }
 
 /* Booking sources: stacked bar with 2px surface gaps, legend in ink */
-.s-owner__sources {
-  padding: 12px 14px 13px;
-}
 .s-owner__stack {
   display: flex;
   gap: 2px;
   height: 10px;
-  margin-top: 11px;
+  margin-top: 10px;
 }
 .s-owner__stack span {
   flex: var(--w) 1 0;
@@ -325,13 +329,14 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px 18px;
-  margin-top: 11px;
+  margin-top: 10px;
 }
 .s-owner__legend li {
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 12px;
+  line-height: 16px;
   color: var(--ink-2);
 }
 .s-owner__legend li::before {
@@ -376,12 +381,6 @@
   transform: scaleX(var(--v));
   transition: transform 700ms var(--ease-out) calc(380ms + var(--i, 0) * 60ms);
 }
-.s-owner__phone.is-armed.is-live li:nth-child(2) .ui-meter > span {
-  --i: 1;
-}
-.s-owner__phone.is-armed.is-live li:nth-child(3) .ui-meter > span {
-  --i: 2;
-}
 .s-owner__phone.is-armed.is-live .s-owner__spark-line {
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 900ms var(--ease-out);
@@ -409,32 +408,48 @@
   transition: clip-path 700ms var(--ease-in-out) 520ms;
 }
 
-/* Tablet: phone on the left of the stage, notes in one column beside it */
-@media (max-width: 1119px) {
+/* Tablet and phone: the stage holds just the phone, the notes follow below it */
+@media (max-width: 1199px) {
   .s-owner__frame {
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
-      "phone a"
-      "phone b";
-    column-gap: clamp(32px, 5vw, 56px);
-    row-gap: 12px;
+      "phone phone"
+      "a b";
+    column-gap: 40px;
+    row-gap: 0;
+    align-items: start;
+  }
+  .s-owner__stage {
+    grid-area: phone;
   }
   .s-owner__device {
-    padding: 56px 0 56px clamp(32px, 6vw, 64px);
+    justify-self: center;
+    padding-block: 56px;
   }
-  .s-owner__notes {
-    width: min(360px, 100% - clamp(32px, 6vw, 64px));
-  }
-  .s-owner__notes--a {
-    justify-self: start;
-    align-self: end;
-  }
+  /* Off the stage the notes become a quiet hairline list, like the rest of the page */
+  .s-owner__notes,
+  .s-owner__notes--a,
   .s-owner__notes--b {
-    align-self: start;
+    justify-self: stretch;
+    width: auto;
+    gap: 0;
+    margin-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .s-owner__note {
+    padding: 20px 0 22px;
+    border-radius: 0;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: inset 0 -1px 0 var(--line);
+  }
+  .s-owner__note p {
+    margin-top: 6px;
+    padding-left: 44px;
+    max-width: 52ch;
   }
 }
-
-/* Phone: the stage holds just the phone, notes follow in a single column */
 @media (max-width: 719px) {
   .s-owner__frame {
     grid-template-columns: minmax(0, 1fr);
@@ -442,26 +457,13 @@
       "phone"
       "a"
       "b";
-    row-gap: 12px;
-  }
-  .s-owner__stage {
-    grid-area: phone;
   }
   .s-owner__device {
-    justify-self: center;
-    padding: 40px 0;
+    padding-block: 40px;
   }
-  .s-owner__notes {
-    width: 100%;
-  }
-  .s-owner__notes--a {
-    margin-top: 16px;
-  }
-  .s-owner__note {
-    background: var(--surface);
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    box-shadow: var(--shadow-sm);
+  .s-owner__notes--b {
+    margin-top: 0;
+    border-top: 0;
   }
 }
 @media (max-width: 420px) {
@@ -469,12 +471,11 @@
     --s: 0.86;
   }
   .s-owner__device {
-    padding: 32px 0;
+    padding-block: 32px;
   }
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .s-owner__phone.is-armed.is-live * {
-    transition-duration: 0ms !important;
+@media (max-width: 374px) {
+  .s-owner .ui-phone {
+    --s: 0.8;
   }
 }

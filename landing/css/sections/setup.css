@@ -1,0 +1,518 @@
+/* Getting started: five steps on a track, each with a small piece of the product it produces.
+   Mobile first: a vertical track; from 640px the card sits beside the text; from 1200px the
+   steps run horizontally with the cards on one shared stage. */
+
+.s-setup__board {
+  --node: 28px;
+  position: relative;
+  padding: 24px 20px 32px;
+  border-radius: var(--r-xl);
+}
+
+/* The shared stage only exists in the horizontal layout */
+.s-setup__stage {
+  display: none;
+}
+
+.s-setup__steps {
+  position: relative;
+  display: grid;
+  row-gap: 40px;
+}
+.s-setup__step {
+  display: grid;
+  grid-template-columns: var(--node) minmax(0, 1fr);
+  grid-template-areas:
+    "node text"
+    ".    vis";
+  column-gap: 16px;
+  row-gap: 16px;
+}
+
+/* Node: numbered squircle sitting on the track */
+.s-setup__node {
+  grid-area: node;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--node);
+  height: var(--node);
+  border-radius: var(--r-xs);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  background: var(--ink);
+  box-shadow:
+    0 0 0 4px var(--surface),
+    0 2px 6px -1px rgba(11, 18, 32, 0.3);
+}
+
+/* Track line, positioned from the first node centre to the last by JS */
+.s-setup__line {
+  position: absolute;
+  z-index: 0;
+  display: none;
+  left: var(--lx, 0px);
+  top: var(--ly, 0px);
+  width: var(--lw, 2px);
+  height: var(--lh, 2px);
+  --track: rgba(11, 18, 32, 0.2);
+  pointer-events: none;
+}
+.s-setup__line[data-axis] {
+  display: block;
+}
+/* Solid through the first day (steps 1 to 4), dashed to the review a month later */
+.s-setup__line[data-axis="x"] {
+  background:
+    linear-gradient(var(--track), var(--track)) left / var(--s4, 75%) 100% no-repeat,
+    repeating-linear-gradient(90deg, var(--track) 0 4px, transparent 4px 9px) right / calc(100% - var(--s4, 75%)) 100% no-repeat;
+}
+.s-setup__line[data-axis="y"] {
+  background:
+    linear-gradient(var(--track), var(--track)) top / 100% var(--s4, 75%) no-repeat,
+    repeating-linear-gradient(180deg, var(--track) 0 4px, transparent 4px 9px) bottom / 100% calc(100% - var(--s4, 75%)) no-repeat;
+}
+
+/* Text */
+.s-setup__text {
+  grid-area: text;
+  padding-top: 2px;
+}
+.s-setup__text h3 {
+  font-size: 1.125rem;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.016em;
+}
+.s-setup__text p {
+  margin-top: 6px;
+  max-width: 40ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+/* Visual */
+.s-setup__vis {
+  grid-area: vis;
+  min-width: 0;
+}
+.s-setup__card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding: 12px;
+}
+.s-setup__card > :last-child {
+  margin-top: auto;
+}
+
+/* Card header: icon tile, title, subtitle, hairline below */
+.s-setup__ch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 12px;
+  box-shadow: 0 1px 0 var(--line);
+}
+.s-setup__tile {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+.s-setup__ct {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+.s-setup__ct .ui-title {
+  font-size: 13px;
+  line-height: 16px;
+}
+.s-setup__ct .ui-sub {
+  font-size: 11.5px;
+  line-height: 15px;
+}
+.s-setup__grow {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 1. Profile */
+.s-setup__pick {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 10px 0 8px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 580;
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1.5px var(--accent);
+}
+.s-setup__pick-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  color: #fff;
+  background: var(--accent);
+}
+.s-setup__pick-icon .i {
+  font-size: 14px;
+}
+.s-setup__radio {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--accent);
+}
+.s-setup__radio .i {
+  font-size: 10px;
+}
+.s-setup__group {
+  display: grid;
+  gap: 4px;
+}
+.s-setup__rows li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 22px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.s-setup__rows .ui-amount {
+  min-width: 64px;
+  color: var(--ink);
+}
+.s-setup__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.s-setup__faces {
+  display: flex;
+  padding-left: 4px;
+}
+.s-setup__faces .ui-avatar {
+  width: 22px;
+  height: 22px;
+  margin-left: -4px;
+  font-size: 10px;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+/* 2. Client import */
+.s-setup__import {
+  display: grid;
+  gap: 8px;
+}
+.s-setup__import-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 20px;
+}
+.s-setup__count {
+  font-size: 12px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.s-setup__count b {
+  font-weight: 620;
+  color: var(--ink);
+}
+.s-setup__state > * {
+  justify-self: end;
+}
+.s-setup__meter > span {
+  background: var(--good);
+}
+.s-setup__meter {
+  background: rgba(18, 147, 90, 0.14);
+}
+.s-setup__people {
+  display: grid;
+  gap: 4px;
+}
+.s-setup__people li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  font-size: 12px;
+  font-weight: 520;
+}
+.s-setup__admin .i {
+  font-size: 13px;
+  stroke-width: 1.8;
+}
+.s-setup__people .ui-sub {
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+/* 3. Training */
+.s-setup__seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  --w: calc(50% - 3px);
+  --x: 3px;
+}
+.s-setup__seg > span {
+  height: 26px;
+}
+
+/* 4. Booking link */
+.s-setup__channels {
+  display: grid;
+  gap: 4px;
+}
+.s-setup__channels li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  font-size: 12px;
+  font-weight: 520;
+}
+.s-setup__ch-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+}
+.s-setup__ch-icon .i {
+  font-size: 12px;
+}
+.s-setup__tick {
+  font-size: 13px;
+  color: var(--good);
+}
+.s-setup__qr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px;
+  border-radius: 10px;
+  background: #f3f5f9;
+}
+.s-setup__qr-code {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 6px;
+  background: #fff;
+  fill: var(--ink);
+  box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.06);
+}
+.s-setup__qr-title {
+  font-size: 12px;
+  font-weight: 580;
+  line-height: 16px;
+}
+
+/* 5. First month */
+.s-setup__kpi {
+  display: grid;
+  gap: 6px;
+}
+.s-setup__kpi-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+.s-setup__kpi-top .ui-sub {
+  font-size: 11.5px;
+  line-height: 15px;
+  padding-bottom: 3px;
+}
+.s-setup__kpi-v {
+  font-size: 22px;
+  line-height: 26px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.s-setup__spark {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.s-setup__spark-area {
+  fill: rgba(42, 91, 255, 0.1);
+}
+.s-setup__spark-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.s-setup__spark-dot {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 1.75;
+}
+
+/* ---------- 640px and up: card beside the text ---------- */
+@media (min-width: 640px) {
+  .s-setup__board {
+    padding: 32px 32px 36px;
+  }
+  .s-setup__step {
+    grid-template-columns: var(--node) minmax(0, 1fr) 264px;
+    grid-template-areas: "node text vis";
+    column-gap: 20px;
+  }
+  .s-setup__text {
+    padding-right: 12px;
+  }
+}
+
+/* ---------- 1200px and up: horizontal track ---------- */
+@media (min-width: 1200px) {
+  .s-setup__board {
+    --vis-h: 252px;
+    --gap: 24px;
+    padding: 32px 32px 40px;
+  }
+  .s-setup__stage {
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    height: calc(var(--vis-h) + 48px);
+    border-radius: calc(var(--r-xl) - 8px);
+  }
+  .s-setup__steps {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: var(--vis-h) auto auto;
+    column-gap: var(--gap);
+    row-gap: 0;
+  }
+  .s-setup__step {
+    grid-row: span 3;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: subgrid;
+    grid-template-areas:
+      "vis"
+      "node"
+      "text";
+    row-gap: 0;
+  }
+  .s-setup__node {
+    margin-top: 56px;
+  }
+  .s-setup__text {
+    margin-top: 20px;
+    padding: 0;
+  }
+  .s-setup__text p {
+    margin-top: 8px;
+  }
+}
+
+/* ---------- Entrance ----------
+   The line draws node to node (JS steps --cut, each segment eased), and each node, card and
+   text appears when the line reaches it (--d, set by JS). Without JS everything is static. */
+.s-setup__line[data-axis="x"] {
+  clip-path: inset(0 var(--cut, 0%) 0 0);
+}
+.s-setup__line[data-axis="y"] {
+  clip-path: inset(0 0 var(--cut, 0%) 0);
+}
+.s-setup__line {
+  transition: clip-path var(--seg, 300ms) var(--ease-in-out);
+}
+.s-setup__node {
+  transition:
+    opacity 300ms var(--ease-out) var(--d, 0ms),
+    transform 300ms var(--ease-out) var(--d, 0ms);
+}
+.s-setup__card {
+  transition:
+    opacity 500ms var(--ease-out) var(--d, 0ms),
+    transform 700ms var(--ease-out) var(--d, 0ms);
+}
+.s-setup__text {
+  transition:
+    opacity 500ms var(--ease-out) calc(var(--d, 0ms) + 60ms),
+    transform 700ms var(--ease-out) calc(var(--d, 0ms) + 60ms);
+}
+.s-setup__meter > span {
+  transition: transform 800ms var(--ease-out) calc(var(--d, 0ms) + 250ms);
+}
+.s-setup__spark-line {
+  transition: stroke-dashoffset 900ms var(--ease-out) calc(var(--d, 0ms) + 200ms);
+}
+.s-setup__spark-area,
+.s-setup__spark-dot {
+  transition: opacity 400ms ease calc(var(--d, 0ms) + 700ms);
+}
+.s-setup__tick,
+.s-setup__radio {
+  transition:
+    opacity 200ms ease calc(var(--d, 0ms) + 250ms + var(--i, 0) * 70ms),
+    transform 300ms var(--ease-out) calc(var(--d, 0ms) + 250ms + var(--i, 0) * 70ms);
+}
+
+.s-setup__board[data-anim="ready"] .s-setup__node {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.s-setup__board[data-anim="ready"] .s-setup__card {
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+}
+.s-setup__board[data-anim="ready"] .s-setup__text {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.s-setup__board[data-anim="ready"] .s-setup__meter > span {
+  transform: scaleX(0.04);
+}
+.s-setup__board[data-anim="ready"] .s-setup__spark-line {
+  stroke-dashoffset: 1;
+}
+.s-setup__board[data-anim="ready"] .s-setup__spark-area,
+.s-setup__board[data-anim="ready"] .s-setup__spark-dot {
+  opacity: 0;
+}
+.s-setup__board[data-anim="ready"] .s-setup__tick,
+.s-setup__board[data-anim="ready"] .s-setup__radio {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-setup__line,
+  .s-setup__node,
+  .s-setup__card,
+  .s-setup__text,
+  .s-setup__meter > span,
+  .s-setup__spark-line,
+  .s-setup__spark-area,
+  .s-setup__spark-dot,
+  .s-setup__tick,
+  .s-setup__radio {
+    transition: none;
+  }
+}

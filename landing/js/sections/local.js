@@ -3,13 +3,16 @@ import { sleep, loopWhileVisible, reducedMotion } from '../main.js';
 
 export function init(root) {
   const offline = root.querySelector('[data-offline]');
+  const steps = root.querySelector('[data-steps]');
   const langs = root.querySelector('[data-langs]');
-  if (offline) initOffline(offline);
+  if (offline) initOffline(offline, steps);
   if (langs) initLanguages(langs);
 }
 
 /* Online -> offline, three changes saved on the phone -> back online, each change synced. About 9s. */
-function initOffline(el) {
+const PHASE = { online: 1500, offline: 3600, synced: 3740 };
+
+function initOffline(el, stepsEl) {
   const states = [...el.querySelectorAll('[data-net]')];
   const wifiOn = el.querySelector('[data-wifi="on"]');
   const wifiOff = el.querySelector('[data-wifi="off"]');
@@ -28,17 +31,45 @@ function initOffline(el) {
     hide(done, !finished);
   };
 
+  // Progress line under the text: one part per phase, filled linearly while that phase plays.
+  const steps = stepsEl ? [...stepsEl.children] : [];
+  const phase = (name) => {
+    let past = true;
+    steps.forEach((li) => {
+      const here = li.dataset.step === name;
+      if (here) past = false;
+      li.classList.toggle('is-done', past && !!name);
+      li.classList.toggle('is-active', here);
+      if (here) li.style.setProperty('--dur', `${PHASE[name]}ms`);
+    });
+  };
+
+  let dirty = false;
   const toStart = () => {
+    dirty = false;
     net('online');
     wifi(true);
     syncIcon(false);
     rows.forEach((r) => r.classList.remove('is-in', 'is-synced'));
+    phase(null);
   };
   const toEnd = () => {
     net('synced');
     wifi(true);
     syncIcon(true);
     rows.forEach((r) => r.classList.add('is-in', 'is-synced'));
+    steps.forEach((li) => li.classList.add('is-done'));
+  };
+
+  // Fade back to the start: opacity only, nothing travels on the way out.
+  const rewind = async (signal) => {
+    el.classList.add('is-resetting');
+    toStart();
+    try {
+      await sleep(450, signal);
+    } finally {
+      el.classList.remove('is-resetting');
+    }
   };
 
   // The markup ships in the end state (no JS, reduced motion). With motion, start from the top.
@@ -47,11 +78,16 @@ function initOffline(el) {
   loopWhileVisible(
     el,
     async (signal) => {
-      await sleep(1500, signal);
+      // Coming back mid-scene (scrolled away, tab hidden): fade back to the start first.
+      if (dirty) await rewind(signal);
+      phase('online');
+      await sleep(PHASE.online, signal);
 
       // The connection drops
+      dirty = true;
       net('offline');
       wifi(false);
+      phase('offline');
       await sleep(550, signal);
 
       // Work carries on: each change is saved on the phone
@@ -64,6 +100,7 @@ function initOffline(el) {
       // Back online: changes sync one by one
       net('synced');
       wifi(true);
+      phase('synced');
       await sleep(450, signal);
       for (const row of rows) {
         row.classList.add('is-synced');
@@ -72,12 +109,7 @@ function initOffline(el) {
       await sleep(150, signal);
       syncIcon(true);
       await sleep(2600, signal);
-
-      // Fade back to the start: opacity only, nothing travels on the way out
-      el.classList.add('is-resetting');
-      toStart();
-      await sleep(450, signal);
-      el.classList.remove('is-resetting');
+      await rewind(signal);
     },
     { final: toEnd }
   );

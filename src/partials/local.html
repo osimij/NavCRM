@@ -12,6 +12,11 @@
           <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wifi-off" /></svg></span>
           <h3>Keeps working when the internet drops</h3>
           <p>On the mobile app, the schedule, clients, till and stock keep working offline for a full shift. Changes sync when the connection comes back, and any bookings that clashed in the meantime are shown to you to sort out.</p>
+          <ol class="s-local__steps" aria-hidden="true" data-steps>
+            <li data-step="online"><span class="s-local__step-bar"><i></i></span><span class="s-local__step-label"><svg class="i"><use href="assets/icons.svg#wifi" /></svg>Online</span></li>
+            <li data-step="offline"><span class="s-local__step-bar"><i></i></span><span class="s-local__step-label"><svg class="i"><use href="assets/icons.svg#wifi-off" /></svg>Offline</span></li>
+            <li data-step="synced"><span class="s-local__step-bar"><i></i></span><span class="s-local__step-label"><svg class="i"><use href="assets/icons.svg#sync" /></svg>Back online</span></li>
+          </ol>
         </div>
         <div class="s-local__stage stage">
           <div class="stage__art" aria-hidden="true"></div>
@@ -120,7 +125,7 @@
         <div class="s-local__well">
           <div class="s-local__langs ui" role="img" aria-label="The New booking button, shown in Tajik, Russian and English." data-langs>
             <div class="ui-seg s-local__seg" aria-hidden="true">
-              <span class="ui-seg__thumb"></span>
+              <div class="ui-seg__thumb"></div>
               <span data-lang="tg" class="is-active" lang="tg">Тоҷикӣ</span>
               <span data-lang="ru" lang="ru">Русский</span>
               <span data-lang="en">English</span>
@@ -152,7 +157,7 @@
             </li>
             <li>
               <span class="ui-tile s-local__tile-neutral" aria-hidden="true"><svg class="i"><use href="assets/icons.svg#chat" /></svg></span>
-              <span class="s-local__list-text">SMS, only when needed</span>
+              <span class="s-local__list-text">SMS<span class="ui-sub">Only when needed</span></span>
               <span class="ui-status ui-status--paid">Operator rate</span>
             </li>
           </ul>
@@ -190,9 +195,9 @@
         </div>
         <div class="s-local__well">
           <ul class="s-local__platforms ui" aria-label="Platforms">
-            <li class="chip"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#android" /></svg>Android</li>
-            <li class="chip"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#apple" /></svg>iOS</li>
-            <li class="chip"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#browser" /></svg>Browser</li>
+            <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#android" /></svg>Android</li>
+            <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#apple" /></svg>iOS</li>
+            <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#browser" /></svg>Browser</li>
           </ul>
         </div>
       </div>

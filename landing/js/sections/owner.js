@@ -1,8 +1,9 @@
 // Owner view: the dashboard plays once on first view (numbers count up, meters grow,
 // the sparkline draws, the source bar reveals), then stays still.
-import { onceVisible, reducedMotion, fmt } from '../main.js';
+import { onceVisible, reducedMotion, fmt, sleep } from '../main.js';
 
 const COUNT_MS = 900;
+const LEAD_MS = 280;
 
 // cubic-bezier(0.23, 1, 0.32, 1), the --ease-out token, solved for y at time x.
 function easeOut(x) {
@@ -43,9 +44,11 @@ export function init(root) {
   counters.forEach((c) => (c.el.textContent = format(0, c.decimals)));
 
   let started = false;
-  const play = () => {
+  const play = async () => {
     if (started) return;
     started = true;
+    // Give the phone's own scroll reveal a head start, so the numbers move once it is in view.
+    await sleep(LEAD_MS);
     counters.forEach((c) => (c.el.textContent = format(c.to, c.decimals)));
     lockWidths();
     counters.forEach((c) => (c.el.textContent = format(0, c.decimals)));
