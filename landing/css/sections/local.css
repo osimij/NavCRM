@@ -1,0 +1,443 @@
+/* Made here (#local): a bento of seven cards. Every card is the same system:
+   a text block (32px from the card edge) and a visual well inset 8px from the edge,
+   so the well's corners run parallel to the card's. */
+
+.s-local {
+  --well-inset: 8px;
+  --well-r: calc(var(--r-lg) - var(--well-inset));
+  --well-bg: #f3f6fa;
+}
+
+.s-local__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Card shell */
+.s-local__card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--well-inset);
+  min-width: 0;
+}
+.s-local__card--offline,
+.s-local__card--support {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--well-inset);
+}
+.s-local__text {
+  padding: 24px 24px 28px;
+}
+.s-local__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.s-local__icon .i {
+  font-size: 20px;
+}
+.s-local__text h3 {
+  margin-top: 20px;
+}
+.s-local__text p {
+  margin-top: 8px;
+  max-width: 42ch;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+/* Visual well */
+.s-local__well {
+  display: grid;
+  place-items: center;
+  margin-top: auto;
+  min-height: 152px;
+  padding: 20px;
+  border-radius: var(--well-r);
+  background: var(--well-bg);
+  box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.035);
+}
+
+/* Offline: phone on a stage */
+.s-local__card--offline {
+  min-height: 480px;
+}
+.s-local__stage {
+  border-radius: var(--well-r);
+  min-height: 100%;
+}
+.s-local__offline {
+  position: absolute;
+  inset: 0;
+}
+.s-local__phone {
+  position: absolute;
+  top: 44px;
+  left: 50%;
+  width: 280px;
+  transform: translateX(-50%);
+}
+.s-local__phone .ui-phone__screen {
+  background: var(--bg);
+}
+.s-local__sb .i {
+  font-size: 15px;
+  stroke-width: 2;
+}
+.s-local__app {
+  padding: 4px 12px 0;
+}
+.s-local__app-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 4px 14px;
+}
+.s-local__app-head .ui-sub {
+  margin-top: 1px;
+}
+.s-local__branch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px 0 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 560;
+  color: var(--ink-2);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+.s-local__branch .i {
+  font-size: 13px;
+}
+
+/* Connection banner: three states stacked in one cell */
+.s-local__net {
+  padding: 10px 12px 10px 10px;
+  align-items: center;
+}
+.s-local__net-state {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+}
+.s-local__net-state p {
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+.s-local__net-state b {
+  font-weight: 600;
+  color: var(--ink);
+}
+.s-local__net .ui-tile {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+}
+.s-local__net .ui-tile .i {
+  font-size: 16px;
+}
+.s-local__net .ui-tile .ui-swap {
+  place-items: center;
+}
+
+/* Changes saved on the phone: each arrives as its own row */
+.s-local__changes {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+.s-local__change {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 12px 0 8px;
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 300ms ease,
+    transform 450ms var(--ease-out);
+}
+.s-local__change.is-in {
+  opacity: 1;
+  transform: none;
+}
+.s-local__offline.is-resetting .s-local__change {
+  transition: opacity 400ms ease;
+  transform: none;
+}
+.s-local__change-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--ink-2);
+  background: #eef1f6;
+  flex: none;
+}
+.s-local__change-icon .i {
+  font-size: 15px;
+}
+.s-local__change-text {
+  flex: 1;
+  min-width: 0;
+  font-size: 12.5px;
+  font-weight: 520;
+  white-space: nowrap;
+}
+.s-local__change-state {
+  place-items: center;
+}
+.s-local__change-state .i {
+  font-size: 16px;
+}
+.s-local__change-state [data-state="saved"] {
+  color: var(--ink-3);
+}
+.s-local__change-state [data-state="synced"] {
+  color: var(--good);
+}
+.s-local__change:not(.is-synced) [data-state="synced"],
+.s-local__change.is-synced [data-state="saved"] {
+  opacity: 0;
+  filter: blur(4px);
+  transform: scale(0.95);
+}
+
+/* Payments */
+.s-local__pay {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 320px;
+}
+.s-local__pay .chip,
+.s-local__platforms .chip {
+  height: 32px;
+  padding: 0 12px 0 10px;
+  font-size: 13px;
+  color: var(--ink);
+  transition:
+    transform 200ms var(--ease-out),
+    box-shadow 200ms ease;
+}
+.s-local__pay .chip .i,
+.s-local__platforms .chip .i {
+  font-size: 16px;
+  color: var(--ink-3);
+}
+@media (hover: hover) and (pointer: fine) {
+  .s-local__pay .chip:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+/* Languages */
+.s-local__langs {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+}
+.s-local__seg {
+  background: rgba(11, 18, 32, 0.055);
+}
+.s-local__new {
+  width: 172px;
+  height: 36px;
+}
+.s-local__new-swap > span {
+  display: inline-flex;
+  align-items: center;
+  justify-self: center;
+  gap: 6px;
+}
+.s-local__new-swap > [data-hidden="true"] {
+  transform: translateY(6px);
+}
+.s-local__new-swap > .is-leaving[data-hidden="true"] {
+  transform: translateY(-6px);
+}
+
+/* Small lists (Telegram, Data) */
+.s-local__list {
+  width: 100%;
+  padding: 2px 12px 2px 10px;
+}
+.s-local__list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+}
+.s-local__list li + li {
+  box-shadow: 0 -1px 0 var(--line);
+}
+.s-local__list .ui-tile {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+}
+.s-local__list .ui-tile .i {
+  font-size: 16px;
+}
+.s-local__list-text {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 540;
+}
+.s-local__tile-neutral {
+  color: var(--ink-2);
+  background: #eef1f6;
+}
+.s-local__list-go {
+  font-size: 17px;
+  color: var(--ink-3);
+}
+
+/* Platforms */
+.s-local__platforms {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Support contacts */
+.s-local__well--contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 8px;
+  margin-top: 0;
+  padding: 16px;
+}
+.s-local__contact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px 12px 12px;
+  border-radius: calc(var(--well-r) - 6px);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+  transition:
+    transform 160ms var(--ease-out),
+    box-shadow 200ms ease;
+}
+.s-local__contact:active {
+  transform: scale(0.97);
+}
+.s-local__contact .ui-tile {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+}
+.s-local__contact .ui-tile .i {
+  font-size: 20px;
+}
+.s-local__contact-text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+.s-local__contact-label {
+  font-size: var(--fs-2xs);
+  font-weight: 520;
+  color: var(--ink-3);
+}
+.s-local__contact-value {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+.s-local__contact-go {
+  font-size: 18px;
+  color: var(--ink-3);
+  transition:
+    transform 200ms var(--ease-out),
+    color 200ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .s-local__contact:hover {
+    box-shadow: var(--shadow-sm);
+  }
+  .s-local__contact:hover .s-local__contact-go {
+    color: var(--ink);
+    transform: translate(2px, -2px);
+  }
+}
+
+/* Tablet: two columns, the wide cards keep their split */
+@media (max-width: 1023px) {
+  .s-local__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .s-local__card--support {
+    grid-column: span 1;
+    display: flex;
+  }
+  .s-local__well--contact {
+    margin-top: auto;
+  }
+}
+
+/* Phone: one column, offline first */
+@media (max-width: 699px) {
+  .s-local__grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .s-local__card--offline,
+  .s-local__card--support {
+    grid-column: auto;
+    display: flex;
+  }
+  .s-local__card--offline {
+    min-height: 0;
+  }
+  .s-local__text {
+    padding: 20px 20px 24px;
+  }
+  .s-local__stage {
+    min-height: 420px;
+  }
+  .s-local__phone {
+    top: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-local__change,
+  .s-local__new-swap > * {
+    transform: none !important;
+    transition: opacity 200ms ease;
+  }
+  .s-local__pay .chip {
+    transition: box-shadow 200ms ease;
+  }
+}
