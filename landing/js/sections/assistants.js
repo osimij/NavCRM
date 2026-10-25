@@ -1,23 +1,50 @@
-// Assistants: the Instagram Direct chat plays one exchange, holds, fades out and repeats.
+// Assistants: the Instagram Direct chat plays one exchange, the booking lands in NavCRM,
+// everything holds, fades out together and the loop repeats.
 import { sleep, loopWhileVisible } from '../main.js';
 
 export function init(root) {
+  const demo = root.querySelector('.s-assistants__demo');
   const chat = root.querySelector('[data-chat]');
-  if (!chat) return;
+  if (!demo || !chat) return;
+  const thread = chat.querySelector('.s-assistants__thread');
   const msgs = [...chat.querySelectorAll('[data-m]')];
+  const toast = demo.querySelector('[data-toast]');
 
-  const set = (msg, state) => {
-    if (state) msg.dataset.state = state;
-    else delete msg.dataset.state;
+  const set = (el, state) => {
+    if (state) el.dataset.state = state;
+    else delete el.dataset.state;
   };
+  // Commit a starting state before the next one, so the change transitions.
+  const step = (el, from, to) => {
+    set(el, from);
+    void el.offsetWidth;
+    set(el, to);
+  };
+
+  // Lock the thread to the height of the full exchange, so the window keeps its size
+  // while messages arrive. Re-measured when the width changes the wrapping.
+  let lastWidth = 0;
+  const measure = () => {
+    demo.classList.add('is-measure');
+    const h = thread.offsetHeight;
+    demo.classList.remove('is-measure');
+    thread.style.height = `${h}px`;
+  };
+  new ResizeObserver(([entry]) => {
+    const w = Math.round(entry.contentRect.width);
+    if (w === lastWidth) return;
+    lastWidth = w;
+    measure();
+  }).observe(thread);
+  document.fonts?.ready.then(measure);
 
   // Back to an empty thread without animating the way back.
   const reset = () => {
-    chat.classList.add('is-reset');
-    chat.classList.remove('is-out');
-    msgs.forEach((m) => set(m, null));
-    void chat.offsetWidth;
-    chat.classList.remove('is-reset');
+    demo.classList.add('is-reset');
+    demo.classList.remove('is-out');
+    [...msgs, toast].forEach((el) => set(el, null));
+    void demo.offsetWidth;
+    demo.classList.remove('is-reset');
   };
 
   const scene = async (signal) => {
@@ -25,15 +52,21 @@ export function init(root) {
     await sleep(700, signal);
     for (const msg of msgs) {
       if ('typing' in msg.dataset) {
-        set(msg, 'typing');
+        step(msg, 'pre-typing', 'typing');
         await sleep(200 + 900, signal);
+        step(msg, 'land', 'on');
+      } else {
+        step(msg, 'pre', 'on');
       }
-      set(msg, 'on');
-      await sleep(msg.nextElementSibling ? 1500 : 3800, signal);
+      await sleep(1500, signal);
     }
-    chat.classList.add('is-out');
+    set(toast, 'on');
+    await sleep(4000, signal);
+    demo.classList.add('is-out');
     await sleep(600, signal);
   };
 
-  loopWhileVisible(chat, scene, { final: () => msgs.forEach((m) => set(m, 'on')) });
+  loopWhileVisible(demo, scene, {
+    final: () => [...msgs, toast].forEach((el) => set(el, 'on')),
+  });
 }

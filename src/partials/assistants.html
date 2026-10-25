@@ -9,7 +9,7 @@
       <div class="s-assistants__stage stage reveal">
         <div class="stage__art" aria-hidden="true"></div>
 
-        <div class="s-assistants__demo ui" role="img" aria-label="An Instagram Direct chat with Gulnor Beauty. A client writes in Tajik: Hi, can I get a manicure tomorrow at 5? The assistant answers in Russian: Hi! Zarina is free tomorrow at 17:00. Shall I book you in? The client replies: Yes, please. The assistant answers: Done. We'll remind you a day and two hours before.">
+        <div class="s-assistants__demo ui" role="img" aria-label="An Instagram Direct chat with Gulnor Beauty. A client writes in Tajik: Hi, can I get a manicure tomorrow at 5? The assistant answers in Russian: Hi! Zarina is free tomorrow at 17:00. Shall I book you in? The client replies: Yes, please. The assistant answers: Done. We'll remind you a day and two hours before. A NavCRM notification then shows the new booking for a gel manicure tomorrow at 17:00 with Zarina, confirmed and booked by the assistant.">
           <div class="ui-window s-assistants__chat" aria-hidden="true" data-chat>
             <div class="s-assistants__head">
               <span class="s-assistants__brand">GB</span>
@@ -34,7 +34,7 @@
                   <span class="s-assistants__typing"><i></i><i></i><i></i></span>
                   <p class="s-assistants__bubble" lang="ru">Салом! Завтра в 17:00 свободна Зарина. Записать вас?</p>
                 </div>
-                <p class="s-assistants__tr">Hi! Zarina is free tomorrow at 17:00. Shall I book you in?</p>
+                <p class="s-assistants__tr">Hi! Zarina is free tomorrow at 17:00. <span class="s-assistants__keep">Shall I book you in?</span></p>
               </div>
 
               <div class="s-assistants__msg s-assistants__msg--out" data-m>
@@ -48,7 +48,7 @@
                   <span class="s-assistants__typing"><i></i><i></i><i></i></span>
                   <p class="s-assistants__bubble" lang="ru">Готово. Напомним за день и за два часа до визита.</p>
                 </div>
-                <p class="s-assistants__tr">Done. We'll remind you a day and two hours before.</p>
+                <p class="s-assistants__tr">Done. We'll <span class="s-assistants__keep">remind you</span> <span class="s-assistants__keep">a day and two hours before.</span></p>
               </div>
             </div>
 
@@ -57,6 +57,26 @@
               <span class="s-assistants__placeholder">Message</span>
               <svg class="i"><use href="assets/icons.svg#mic" /></svg>
               <svg class="i"><use href="assets/icons.svg#image" /></svg>
+            </div>
+          </div>
+
+          <div class="ui-card ui-card--glass s-assistants__toast" aria-hidden="true" data-toast>
+            <div class="s-assistants__toast-head">
+              <span class="ui-tile ui-tile--instagram"><svg class="i"><use href="assets/icons.svg#instagram" /></svg></span>
+              <div class="s-assistants__grow">
+                <div class="ui-title">New booking via Instagram</div>
+                <div class="s-assistants__by"><svg class="i"><use href="assets/icons.svg#sparkles" /></svg>Booked by the assistant</div>
+              </div>
+            </div>
+            <div class="s-assistants__toast-who">
+              <span class="ui-avatar ui-avatar--lg">NS</span>
+              <div class="s-assistants__grow">
+                <div class="s-assistants__toast-line">
+                  <span class="s-assistants__toast-name">Nigina S.</span>
+                  <span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Confirmed</span>
+                </div>
+                <div class="ui-sub">Gel manicure, tomorrow at 17:00 with Zarina</div>
+              </div>
             </div>
           </div>
         </div>

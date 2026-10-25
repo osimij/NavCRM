@@ -45,7 +45,7 @@
   color: #fff;
   background: var(--ink);
   box-shadow:
-    0 0 0 4px var(--surface),
+    0 0 0 4px var(--node-ring, var(--surface)),
     0 2px 6px -1px rgba(11, 18, 32, 0.3);
 }
 
@@ -95,10 +95,16 @@
   color: var(--ink-2);
 }
 
-/* Visual */
+.s-setup__nb {
+  white-space: nowrap;
+}
+
+/* Visual: in the vertical layouts each card sits on its own small stage */
 .s-setup__vis {
   grid-area: vis;
   min-width: 0;
+  padding: 16px;
+  border-radius: var(--r-lg);
 }
 .s-setup__card {
   display: flex;
@@ -106,6 +112,7 @@
   gap: 12px;
   height: 100%;
   padding: 12px;
+  box-shadow: var(--glass-edge), var(--shadow-md);
 }
 .s-setup__card > :last-child {
   margin-top: auto;
@@ -185,13 +192,13 @@
 }
 .s-setup__group {
   display: grid;
-  gap: 4px;
+  gap: 5px;
 }
 .s-setup__rows li {
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 22px;
+  height: 23px;
   font-size: 12px;
   color: var(--ink-2);
 }
@@ -219,23 +226,7 @@
 /* 2. Client import */
 .s-setup__import {
   display: grid;
-  gap: 8px;
-}
-.s-setup__import-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  height: 20px;
-}
-.s-setup__count {
-  font-size: 12px;
-  color: var(--ink-2);
-  white-space: nowrap;
-}
-.s-setup__count b {
-  font-weight: 620;
-  color: var(--ink);
+  gap: 12px;
 }
 .s-setup__state > * {
   justify-self: end;
@@ -250,6 +241,9 @@
   display: grid;
   gap: 4px;
 }
+.s-setup__import + .s-setup__people {
+  gap: 5px;
+}
 .s-setup__people li {
   display: flex;
   align-items: center;
@@ -257,6 +251,9 @@
   height: 28px;
   font-size: 12px;
   font-weight: 520;
+}
+.s-setup__import + .s-setup__people li {
+  height: 30px;
 }
 .s-setup__admin .i {
   font-size: 13px;
@@ -275,7 +272,7 @@
   --x: 3px;
 }
 .s-setup__seg > span {
-  height: 26px;
+  height: 28px;
 }
 
 /* 4. Booking link */
@@ -329,7 +326,13 @@
 /* 5. First month */
 .s-setup__kpi {
   display: grid;
-  gap: 6px;
+  gap: 8px;
+}
+.s-setup__kpi .s-setup__kpi-top {
+  align-items: last baseline;
+}
+.s-setup__kpi .s-setup__kpi-top .ui-sub {
+  padding-bottom: 0;
 }
 .s-setup__kpi-top {
   display: flex;
@@ -371,18 +374,42 @@
   stroke-width: 1.75;
 }
 
-/* ---------- 640px and up: card beside the text ---------- */
+/* Phones: no outer card, so the steps and their stages sit straight on the page */
+@media (max-width: 639.98px) {
+  .s-setup__board {
+    --node-ring: var(--bg);
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .s-setup__vis {
+    padding: 12px;
+  }
+}
+
+/* ---------- 640px and up: text beside a stage with the card centred on it ---------- */
 @media (min-width: 640px) {
   .s-setup__board {
-    padding: 32px 32px 36px;
+    padding: 32px;
+  }
+  .s-setup__steps {
+    row-gap: 32px;
   }
   .s-setup__step {
-    grid-template-columns: var(--node) minmax(0, 1fr) 264px;
+    grid-template-columns: var(--node) minmax(0, 0.85fr) minmax(0, 1.15fr);
     grid-template-areas: "node text vis";
     column-gap: 20px;
   }
   .s-setup__text {
     padding-right: 12px;
+  }
+  .s-setup__vis {
+    display: grid;
+    place-items: center;
+    padding: 24px;
+  }
+  .s-setup__card {
+    width: min(100%, 288px);
   }
 }
 
@@ -407,6 +434,29 @@
     grid-template-rows: var(--vis-h) auto auto;
     column-gap: var(--gap);
     row-gap: 0;
+  }
+  /* One shared stage holds all five cards, so the per-step stages step aside */
+  .s-setup__vis.stage {
+    display: block;
+    place-items: normal;
+    padding: 0;
+    overflow: visible;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .s-setup__vis.stage::before,
+  .s-setup__vis.stage::after,
+  .s-setup__vis > .stage__art {
+    display: none;
+  }
+  .s-setup__card {
+    width: auto;
+    box-shadow:
+      var(--glass-edge),
+      0 0 0 1px rgba(11, 18, 32, 0.05),
+      0 2px 4px -1px rgba(11, 18, 32, 0.05),
+      0 8px 20px -8px rgba(11, 18, 32, 0.16);
   }
   .s-setup__step {
     grid-row: span 3;

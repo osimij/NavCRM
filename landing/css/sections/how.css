@@ -62,7 +62,7 @@
     color: var(--ink);
   }
   .s-how__step:not([aria-selected="true"]):hover::before {
-    opacity: 0.5;
+    opacity: 0.4;
   }
   .s-how__step:not([aria-selected="true"]):hover .s-how__num {
     color: var(--ink-2);
@@ -882,7 +882,12 @@
 }
 .s-how__meter {
   margin-top: 7px;
-  max-width: 180px;
+}
+.s-how__amounts {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
 }
 .s-how__val {
   min-width: 76px;
@@ -1069,8 +1074,20 @@
     display: inline;
   }
   .s-how__sources {
-    flex-wrap: wrap;
-    max-width: 300px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+  }
+  .s-how__source {
+    justify-content: center;
+  }
+  .s-how__receipt,
+  .s-how__ledger {
+    width: 344px;
+  }
+  .s-how__amounts {
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 3px;
   }
 }
 

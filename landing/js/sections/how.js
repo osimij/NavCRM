@@ -222,6 +222,8 @@ export function init(root) {
       canvas.style.transform = `scale(${s})`;
       fit.style.height = `${canvas.offsetHeight * s}px`;
     }
+    // segmented thumbs are placed in px, so re-place them after a reflow
+    demos.forEach((d) => d.querySelectorAll('[data-b-seg]').forEach((seg) => setSeg(seg, Number(d.dataset.beat) >= Number(seg.dataset.bSeg) ? 2 : 0)));
   };
   new ResizeObserver(fitCanvas).observe(fit);
   new ResizeObserver(fitCanvas).observe(canvas);
