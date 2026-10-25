@@ -1,0 +1,461 @@
+/* NavCRM product UI kit, used by every demo on the page so they read as one product.
+   Scope: anything inside .ui. Sizes are in px on purpose: demos are illustrations of an app. */
+
+.ui {
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: -0.004em;
+  color: var(--ink);
+  font-optical-sizing: auto;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Containers */
+.ui-window {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.ui-card {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  padding: 14px;
+}
+.ui-card--glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.64));
+  -webkit-backdrop-filter: blur(20px) saturate(1.7);
+  backdrop-filter: blur(20px) saturate(1.7);
+  box-shadow: var(--glass-edge), var(--shadow-lg);
+}
+.ui-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ui-row--between {
+  justify-content: space-between;
+}
+.ui-stack {
+  display: grid;
+  gap: 8px;
+}
+.ui-divider {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+  margin: 10px 0;
+}
+
+/* Text */
+.ui-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+.ui-h {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.ui-sub {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.ui-label {
+  font-size: 11.5px;
+  font-weight: 520;
+  color: var(--ink-3);
+}
+.ui-amount {
+  font-weight: 600;
+  white-space: nowrap;
+  text-align: right;
+}
+.ui-muted {
+  color: var(--ink-3);
+}
+
+/* Avatars: initials on a soft tint per person */
+.ui-avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0;
+  color: #475467;
+  background: #eef1f6;
+  flex: none;
+  box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.04);
+}
+.ui-avatar--lg {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+}
+.ui-avatar[data-person="malika"] {
+  color: #a3264f;
+  background: #fde6ec;
+}
+.ui-avatar[data-person="farrukh"] {
+  color: #0d6b63;
+  background: #dcf3ef;
+}
+.ui-avatar[data-person="zarina"] {
+  color: #5536cf;
+  background: #ece8fe;
+}
+.ui-avatar[data-person="sitora"] {
+  color: #8f5400;
+  background: #fdefd6;
+}
+
+/* Status: icon + label, never colour alone */
+.ui-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 7px 0 5px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 560;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.ui-status .i {
+  font-size: 12px;
+  stroke-width: 1.9;
+}
+.ui-status--paid {
+  color: #475467;
+  background: #eef1f5;
+}
+.ui-status--confirmed {
+  color: var(--good);
+  background: var(--good-soft);
+}
+.ui-status--waiting {
+  color: var(--warn);
+  background: var(--warn-soft);
+}
+.ui-status--chair {
+  color: var(--accent-ink);
+  background: var(--accent-soft);
+}
+.ui-status--noshow {
+  color: var(--bad);
+  background: var(--bad-soft);
+}
+
+/* Buttons inside demos */
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 580;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  transition:
+    transform 160ms var(--ease-out),
+    background-color 200ms ease,
+    color 200ms ease;
+}
+.ui-btn .i {
+  font-size: 14px;
+}
+.ui-btn--primary {
+  color: #fff;
+  background: var(--accent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(28, 66, 212, 0.4);
+}
+.ui-btn--dark {
+  color: #fff;
+  background: var(--ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+.ui-btn--soft {
+  color: var(--ink);
+  background: #eef1f6;
+}
+.ui-btn--block {
+  width: 100%;
+  height: 38px;
+}
+.ui-btn.is-press {
+  transform: scale(0.95);
+}
+
+/* Option chips (times, services) */
+.ui-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 540;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+  transition:
+    background-color 200ms ease,
+    color 200ms ease,
+    box-shadow 200ms ease,
+    transform 160ms var(--ease-out);
+}
+.ui-option.is-selected {
+  color: #fff;
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent), 0 4px 10px -4px var(--accent-glow);
+}
+
+/* Segmented control with a sliding highlight (set --x and --w from JS or inline) */
+.ui-seg {
+  position: relative;
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 10px;
+  background: #eef1f6;
+  isolation: isolate;
+}
+.ui-seg__thumb {
+  position: absolute;
+  z-index: -1;
+  top: 3px;
+  bottom: 3px;
+  left: 0;
+  width: var(--w, 60px);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 1px 2px rgba(11, 18, 32, 0.1), 0 0 0 1px rgba(11, 18, 32, 0.04);
+  transform: translateX(var(--x, 3px));
+  transition:
+    transform 300ms var(--ease-in-out),
+    width 300ms var(--ease-in-out);
+}
+.ui-seg button,
+.ui-seg span {
+  position: relative;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 560;
+  color: var(--ink-3);
+  display: inline-grid;
+  place-items: center;
+  transition: color 200ms ease;
+}
+.ui-seg .is-active {
+  color: var(--ink);
+}
+
+/* Icon tiles */
+.ui-tile {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  flex: none;
+}
+.ui-tile .i {
+  font-size: 18px;
+}
+.ui-tile--instagram {
+  color: #fff;
+  background: radial-gradient(120% 120% at 20% 110%, #ffd776 0%, #f7814f 30%, #e1306c 58%, #8a3ab9 85%);
+}
+.ui-tile--telegram {
+  color: #fff;
+  background: linear-gradient(180deg, #37aee2, #1e96c8);
+}
+.ui-tile--good {
+  color: var(--good);
+  background: var(--good-soft);
+}
+.ui-tile--warn {
+  color: var(--warn);
+  background: var(--warn-soft);
+}
+.ui-tile--dark {
+  color: #fff;
+  background: var(--ink);
+}
+
+/* Chat bubbles */
+.ui-bubble {
+  max-width: 82%;
+  padding: 9px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.38;
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+.ui-bubble--in {
+  justify-self: start;
+  border-bottom-left-radius: 6px;
+}
+.ui-bubble--out {
+  justify-self: end;
+  color: #fff;
+  background: var(--accent);
+  border-bottom-right-radius: 6px;
+  box-shadow: none;
+}
+.ui-bubble__meta {
+  display: block;
+  margin-top: 3px;
+  font-size: 10.5px;
+  color: var(--ink-3);
+  text-align: right;
+}
+.ui-bubble--out .ui-bubble__meta {
+  color: rgba(255, 255, 255, 0.72);
+}
+.ui-chat-keys {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 6px;
+}
+.ui-chat-keys .ui-btn {
+  height: 34px;
+  color: #1e88c4;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-xs);
+}
+
+/* Meters */
+.ui-meter {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(42, 91, 255, 0.12);
+  overflow: hidden;
+}
+.ui-meter > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transform-origin: left center;
+  transform: scaleX(var(--v, 0.5));
+  transition: transform 700ms var(--ease-out);
+}
+
+/* Phone frame */
+.ui-phone {
+  position: relative;
+  width: 280px;
+  aspect-ratio: 9 / 19.2;
+  padding: 9px;
+  border-radius: 46px;
+  background: linear-gradient(160deg, #2a3242, #0b1220 40%, #1a2130);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    inset 0 0 0 3px #0b1220,
+    var(--shadow-lg);
+}
+.ui-phone__screen {
+  position: relative;
+  height: 100%;
+  border-radius: 37px;
+  background: var(--bg);
+  overflow: hidden;
+}
+.ui-phone__island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 88px;
+  height: 26px;
+  border-radius: 999px;
+  background: #05080f;
+  transform: translateX(-50%);
+  z-index: 3;
+}
+.ui-phone__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 46px;
+  padding: 14px 24px 0 28px;
+  font-size: 12px;
+  font-weight: 620;
+}
+
+/* Tap indicator for scripted demos: move with transform, press with .is-press */
+.tap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 50%;
+  background: rgba(11, 18, 32, 0.22);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7), 0 4px 12px rgba(11, 18, 32, 0.25);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(1);
+  transition:
+    transform 500ms var(--ease-in-out),
+    opacity 200ms ease;
+}
+.tap.is-on {
+  opacity: 1;
+}
+.tap.is-press {
+  transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(0.82);
+  transition-duration: 120ms;
+}
+
+/* Small state crossfade helper: two states stacked in one grid cell */
+.ui-swap {
+  display: grid;
+}
+.ui-swap > * {
+  grid-area: 1 / 1;
+  transition:
+    opacity 250ms ease,
+    filter 250ms ease,
+    transform 250ms var(--ease-out);
+}
+.ui-swap > [data-hidden="true"] {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(4px);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tap {
+    display: none;
+  }
+  .ui-swap > * {
+    transition: opacity 200ms ease;
+    transform: none !important;
+    filter: none !important;
+  }
+}
