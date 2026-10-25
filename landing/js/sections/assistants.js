@@ -21,14 +21,30 @@ export function init(root) {
     set(el, to);
   };
 
+  // Shrink each wrapped bubble to its longest line, the way a messenger draws it
+  // (CSS alone leaves a wrapped box at its full available width).
+  const bubbles = [...chat.querySelectorAll('.s-assistants__bubble')];
+  const range = document.createRange();
+  const tighten = (el) => {
+    el.style.width = '';
+    range.selectNodeContents(el);
+    let line = 0;
+    for (const r of range.getClientRects()) line = Math.max(line, r.width);
+    const cs = getComputedStyle(el);
+    el.style.width = `${Math.ceil(line + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight)) + 1}px`;
+  };
+
   // Lock the thread to the height of the full exchange, so the window keeps its size
   // while messages arrive. Re-measured when the width changes the wrapping.
   let lastWidth = 0;
   const measure = () => {
-    demo.classList.add('is-measure');
+    demo.classList.add('is-reset', 'is-measure');
+    bubbles.forEach(tighten);
     const h = thread.offsetHeight;
     demo.classList.remove('is-measure');
     thread.style.height = `${h}px`;
+    void demo.offsetWidth;
+    demo.classList.remove('is-reset');
   };
   new ResizeObserver(([entry]) => {
     const w = Math.round(entry.contentRect.width);

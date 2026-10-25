@@ -12,7 +12,7 @@
 .s-assistants__beta {
   position: relative;
   top: -0.32em;
-  margin-left: 0.32em;
+  margin-left: 0.08em;
   height: 30px;
   padding: 0 12px 0 10px;
   vertical-align: middle;
@@ -105,7 +105,7 @@
 .s-assistants__ig {
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: var(--r-2xs);
 }
 .s-assistants__ig .i {
   font-size: 16px;
@@ -368,6 +368,7 @@
   margin-top: 20px;
 }
 .s-assistants__card p {
+  max-width: 56ch;
   margin-top: 8px;
   font-size: 0.9375rem;
   line-height: 1.55;
@@ -447,6 +448,9 @@
 }
 .s-assistants__demo.is-measure .s-assistants__typing {
   display: none !important;
+}
+.s-assistants__demo.is-measure * {
+  transform: none !important;
 }
 
 /* Narrow stage: the notification drops under the chat */

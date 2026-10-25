@@ -39,74 +39,67 @@
                 <span>Month</span>
               </div>
 
-              <div class="ui-card s-owner__revenue">
+              <div class="ui-card s-owner__revenue" data-play>
                 <div class="ui-row ui-row--between">
                   <span class="ui-label">Revenue</span>
                   <span class="s-owner__delta"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#arrow-up-right" /></svg>+12% <span class="s-owner__delta-vs">vs last Tuesday</span></span>
                 </div>
                 <p class="s-owner__hero"><span class="s-owner__hero-num" data-count="6240">6,240</span><span class="s-owner__unit">TJS</span></p>
-                <svg class="s-owner__spark" viewBox="0 0 266 48" width="266" height="48" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="owner-spark-wash" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#2a5bff" stop-opacity="0.16" />
-                      <stop offset="1" stop-color="#2a5bff" stop-opacity="0.03" />
-                    </linearGradient>
-                  </defs>
-                  <path class="s-owner__spark-base" d="M0 47.5 H266" />
-                  <path class="s-owner__spark-area" fill="url(#owner-spark-wash)" d="M5 35.78 C15.67 31.55 26.33 26.41 37 23.1 C47.67 19.79 58.33 15.91 69 15.91 C79.67 15.91 90.33 22.3 101 24.81 C111.67 27.33 122.33 30.98 133 30.98 C143.67 30.98 154.33 22.07 165 19.33 C175.67 16.59 186.33 16.42 197 14.54 C207.67 12.65 218.33 8.03 229 8.03 C239.67 8.03 250.33 9.17 261 9.74 L261 47 L5 47 Z" />
-                  <path class="s-owner__spark-line" pathLength="1" d="M5 35.78 C15.67 31.55 26.33 26.41 37 23.1 C47.67 19.79 58.33 15.91 69 15.91 C79.67 15.91 90.33 22.3 101 24.81 C111.67 27.33 122.33 30.98 133 30.98 C143.67 30.98 154.33 22.07 165 19.33 C175.67 16.59 186.33 16.42 197 14.54 C207.67 12.65 218.33 8.03 229 8.03 C239.67 8.03 250.33 9.17 261 9.74" />
-                  <circle class="s-owner__spark-dot" cx="261" cy="9.74" r="4.5" />
+                <svg class="s-owner__spark" viewBox="0 0 258 40" width="258" height="40" aria-hidden="true">
+                  <path class="s-owner__spark-base" d="M0 39.5 H258" />
+                  <path class="s-owner__spark-area" d="M5 31 C15.34 27.34 25.66 22.9 36 20.03 C46.34 17.17 56.66 13.82 67 13.82 C77.34 13.82 87.66 19.34 98 21.51 C108.34 23.69 118.66 26.85 129 26.85 C139.34 26.85 149.66 19.14 160 16.77 C170.34 14.4 180.66 14.26 191 12.63 C201.34 11 211.66 7 222 7 C232.34 7 242.66 7.99 253 8.48 L253 39 L5 39 Z" />
+                  <path class="s-owner__spark-line" pathLength="1" d="M5 31 C15.34 27.34 25.66 22.9 36 20.03 C46.34 17.17 56.66 13.82 67 13.82 C77.34 13.82 87.66 19.34 98 21.51 C108.34 23.69 118.66 26.85 129 26.85 C139.34 26.85 149.66 19.14 160 16.77 C170.34 14.4 180.66 14.26 191 12.63 C201.34 11 211.66 7 222 7 C232.34 7 242.66 7.99 253 8.48" />
+                  <circle class="s-owner__spark-dot" cx="253" cy="8.48" r="4.5" />
                 </svg>
               </div>
 
-              <div class="ui-card s-owner__stats">
+              <div class="ui-card s-owner__stats" data-play>
                 <div class="s-owner__stat">
-                  <span class="ui-label">Visits<svg class="i" aria-hidden="true"><use href="assets/icons.svg#calendar-check" /></svg></span>
+                  <span class="ui-label">Visits</span>
                   <span class="s-owner__value"><span data-count="31">31</span></span>
                   <span class="ui-sub">of 34 booked</span>
                 </div>
-                <div class="s-owner__stat">
-                  <span class="ui-label">Cash in till<svg class="i" aria-hidden="true"><use href="assets/icons.svg#cash" /></svg></span>
+                <div class="s-owner__stat s-owner__stat--cash">
+                  <span class="ui-label">Cash in till</span>
                   <span class="s-owner__value"><span data-count="2180">2,180</span><small>TJS</small></span>
-                  <span class="ui-sub">Shift open</span>
                 </div>
                 <div class="s-owner__stat">
-                  <span class="ui-label">Debts<svg class="i" aria-hidden="true"><use href="assets/icons.svg#invoice" /></svg></span>
+                  <span class="ui-label">Debts</span>
                   <span class="s-owner__value"><span data-count="340">340</span><small>TJS</small></span>
                   <span class="ui-sub">2 clients</span>
                 </div>
                 <div class="s-owner__stat">
-                  <span class="ui-label">Reviews<svg class="i" aria-hidden="true"><use href="assets/icons.svg#star" /></svg></span>
-                  <span class="s-owner__value"><span data-count="4.8" data-decimals="1">4.8</span></span>
+                  <span class="ui-label">Reviews</span>
+                  <span class="s-owner__value">4.8</span>
                   <span class="ui-sub">4 new</span>
                 </div>
               </div>
 
-              <div class="ui-card s-owner__load">
+              <div class="ui-card s-owner__load" data-play>
                 <p class="ui-title">Staff load</p>
                 <ul class="s-owner__meters">
                   <li style="--i: 0">
                     <span class="ui-avatar" data-person="malika">M</span>
                     <span class="s-owner__name">Malika</span>
                     <span class="ui-meter"><span style="--v: 0.92"></span></span>
-                    <span class="s-owner__pct"><span data-count="92">92</span>%</span>
+                    <span class="s-owner__pct">92%</span>
                   </li>
                   <li style="--i: 1">
                     <span class="ui-avatar" data-person="farrukh">F</span>
                     <span class="s-owner__name">Farrukh</span>
                     <span class="ui-meter"><span style="--v: 0.74"></span></span>
-                    <span class="s-owner__pct"><span data-count="74">74</span>%</span>
+                    <span class="s-owner__pct">74%</span>
                   </li>
                   <li style="--i: 2">
                     <span class="ui-avatar" data-person="zarina">Z</span>
                     <span class="s-owner__name">Zarina</span>
                     <span class="ui-meter"><span style="--v: 0.61"></span></span>
-                    <span class="s-owner__pct"><span data-count="61">61</span>%</span>
+                    <span class="s-owner__pct">61%</span>
                   </li>
                 </ul>
               </div>
 
-              <div class="ui-card s-owner__sources">
+              <div class="ui-card s-owner__sources" data-play>
                 <p class="ui-title">Where bookings came from</p>
                 <div class="s-owner__stack">
                   <span style="--w: 44; --c: #2a78d6"></span>
@@ -127,39 +120,37 @@
         </div>
       </div>
 
-      <ul class="s-owner__notes s-owner__notes--a">
-        <li class="s-owner__note sq reveal" style="--delay: 160ms">
+      <!-- On desktop each note is pinned to the part of the dashboard it explains (see owner.css). -->
+      <ul class="s-owner__notes">
+        <li class="s-owner__note s-owner__note--reports reveal" style="--delay: 120ms">
           <div class="s-owner__note-head">
             <span class="s-owner__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#chart" /></svg></span>
             <h3>More than 20 reports</h3>
           </div>
           <p>Sales, returning clients, stock and payroll, whenever you want to look closer.</p>
         </li>
-        <li class="s-owner__note sq reveal" style="--delay: 220ms">
+        <li class="s-owner__note s-owner__note--branch reveal" style="--delay: 180ms">
           <div class="s-owner__note-head">
             <span class="s-owner__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#building" /></svg></span>
             <h3>Every branch in one place</h3>
           </div>
           <p>A shared client base and combined reports across branches.</p>
         </li>
-        <li class="s-owner__note sq reveal" style="--delay: 280ms">
+        <li class="s-owner__note s-owner__note--cash reveal" style="--delay: 120ms">
           <div class="s-owner__note-head">
             <span class="s-owner__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#cash" /></svg></span>
             <h3>Cash shifts that add up</h3>
           </div>
           <p>Open and close shifts, count the till and see any difference straight away.</p>
         </li>
-      </ul>
-
-      <ul class="s-owner__notes s-owner__notes--b">
-        <li class="s-owner__note sq reveal" style="--delay: 340ms">
+        <li class="s-owner__note s-owner__note--pay reveal" style="--delay: 120ms">
           <div class="s-owner__note-head">
             <span class="s-owner__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#coins" /></svg></span>
             <h3>Staff pay without the spreadsheet</h3>
           </div>
           <p>Salary, commissions, tips and bonuses are worked out for you. Staff see their own earnings, and you can export payroll to Excel.</p>
         </li>
-        <li class="s-owner__note sq reveal" style="--delay: 400ms">
+        <li class="s-owner__note s-owner__note--access reveal" style="--delay: 120ms">
           <div class="s-owner__note-head">
             <span class="s-owner__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#lock" /></svg></span>
             <h3>The right access for each person</h3>
