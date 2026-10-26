@@ -1,0 +1,170 @@
+<section class="s-hero" data-section="hero" id="hero" aria-labelledby="hero-title">
+  <div class="s-hero__frame">
+    <!-- The painted sky. The still is chosen per screen and laid out by js/sections/hero.js so the
+         cloud-sea horizon meets the top edge of the app window; capable desktops bake it live. -->
+    <div class="s-hero__art" aria-hidden="true">
+      <div class="s-hero__sky" data-sky>
+        <picture>
+          <source media="(max-width: 759.98px)" srcset="assets/art/hero-phone.webp 600w, assets/art/hero-phone@2x.webp 1200w" sizes="112vw" />
+          <img src="assets/art/hero-desktop.webp" srcset="assets/art/hero-desktop.webp 2236w, assets/art/hero-desktop@2x.webp 4472w" sizes="min(150vw, 2236px)" alt="" fetchpriority="high" decoding="async" />
+        </picture>
+      </div>
+      <div class="s-hero__grain"></div>
+    </div>
+
+    <div class="container s-hero__copy">
+      <h1 id="hero-title" class="s-hero__title"><span class="s-hero__line">One app for your bookings,</span> <span class="s-hero__line">clients and cash</span></h1>
+      <p class="lead s-hero__lead">NavCRM is made for salons, clinics, car services, studios and other service businesses in Tajikistan. Clients book online at any hour, reminders go out on Telegram, and every visit updates your till, stock and staff pay without anyone redoing the sums.</p>
+      <div class="s-hero__actions">
+        <a class="btn btn--dark btn--lg" href="#start">Get started<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
+        <a class="btn btn--glass btn--lg" href="#how">See how it works</a>
+      </div>
+      <ul class="s-hero__facts">
+        <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#coins" /></svg>1.5 TJS per completed visit</li>
+        <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wallet" /></svg>No monthly fee</li>
+        <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#sync" /></svg>Works offline</li>
+      </ul>
+    </div>
+
+    <div class="s-hero__stage" data-stage>
+      <!-- cloud shadows drifting over the sea and the glass; a pre-rendered texture moved by CSS -->
+      <div class="s-hero__drift" aria-hidden="true"></div>
+
+      <div
+        class="s-hero__comp ui"
+        data-comp
+        role="img"
+        aria-label="NavCRM during a working day at Gulnor Beauty, Rudaki 54: today's schedule for Malika, Farrukh and Zarina, a new booking from Instagram for Sitora Rahimova at 12:00, a client confirming a Telegram reminder, and the owner's phone showing 6,240 TJS taken today from 31 visits."
+      >
+        <div class="s-hero__win" data-win data-lens data-lens-bezel="26" data-lens-scale="60" data-lens-blur="18" aria-hidden="true">
+          <div class="s-hero__rail">
+            <svg class="s-hero__logo" viewBox="0 0 32 32">
+              <rect width="32" height="32" rx="9" fill="#2a5bff" />
+              <path d="M10.5 22V10.5l11 11V10" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="s-hero__tab is-on"><svg class="i"><use href="assets/icons.svg#calendar" /></svg></span>
+            <span class="s-hero__tab"><svg class="i"><use href="assets/icons.svg#users" /></svg></span>
+            <span class="s-hero__tab"><svg class="i"><use href="assets/icons.svg#receipt" /></svg></span>
+            <span class="s-hero__tab"><svg class="i"><use href="assets/icons.svg#package" /></svg></span>
+            <span class="s-hero__tab"><svg class="i"><use href="assets/icons.svg#chart" /></svg></span>
+            <span class="s-hero__tab s-hero__tab--end"><svg class="i"><use href="assets/icons.svg#settings" /></svg></span>
+          </div>
+
+          <div class="s-hero__main">
+            <div class="s-hero__head">
+              <div class="s-hero__when">
+                <p class="s-hero__date">Today, Tuesday 27 October</p>
+                <p class="s-hero__meta">Gulnor Beauty<span class="s-hero__dot"></span><span class="s-hero__count" data-count><span>10</span><span>11</span></span> bookings</p>
+              </div>
+              <div class="s-hero__tools">
+                <span class="s-hero__chip"><svg class="i"><use href="assets/icons.svg#store" /></svg>Rudaki 54<svg class="i s-hero__caret"><use href="assets/icons.svg#chevron-down" /></svg></span>
+                <span class="s-hero__arrow"><svg class="i s-hero__prev"><use href="assets/icons.svg#chevron-down" /></svg></span>
+                <span class="s-hero__arrow"><svg class="i s-hero__next"><use href="assets/icons.svg#chevron-down" /></svg></span>
+                <span class="ui-btn ui-btn--dark s-hero__new"><svg class="i"><use href="assets/icons.svg#plus" /></svg>New booking</span>
+              </div>
+            </div>
+
+            <div class="s-hero__staff">
+              <span></span>
+              <span class="s-hero__who"><span class="ui-avatar ui-avatar--lg" data-person="malika">M</span><span><b>Malika</b><small>Hair stylist</small></span></span>
+              <span class="s-hero__who"><span class="ui-avatar ui-avatar--lg" data-person="farrukh">F</span><span><b>Farrukh</b><small>Barber</small></span></span>
+              <span class="s-hero__who"><span class="ui-avatar ui-avatar--lg" data-person="zarina">Z</span><span><b>Zarina</b><small>Nails</small></span></span>
+            </div>
+
+            <div class="s-hero__sched">
+              <ol class="s-hero__hours">
+                <li>09:00</li><li>10:00</li><li>11:00</li><li>12:00</li><li>13:00</li><li>14:00</li><li>15:00</li><li>16:00</li><li>17:00</li>
+              </ol>
+              <div class="s-hero__col" data-person="malika">
+                <div class="s-hero__bk is-done" style="--s: 0; --d: 1"><p><b>Nigina S.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Paid</span></p><small>09:00 Haircut and styling</small></div>
+                <div class="s-hero__bk is-live" style="--s: 1.5; --d: 2"><p><b>Shahlo M.</b><span class="ui-status ui-status--chair"><svg class="i"><use href="assets/icons.svg#scissor" /></svg>In the chair</span></p><small>10:30 Coloring</small><small class="s-hero__price">450 TJS</small></div>
+                <div class="s-hero__bk is-new" data-slot style="--s: 3; --d: 1"><p><b>Sitora Rahimova</b><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Confirmed</span></p><small>12:00 Haircut and styling</small></div>
+                <div class="s-hero__bk" style="--s: 4; --d: 1.5"><p><b>Parvina A.</b><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Confirmed</span></p><small>13:00 Keratin</small></div>
+              </div>
+              <div class="s-hero__col" data-person="farrukh">
+                <div class="s-hero__bk is-done" style="--s: 0; --d: 0.75"><p><b>Rustam K.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Paid</span></p><small>09:00 Men's haircut</small></div>
+                <div class="s-hero__bk is-done is-missed" style="--s: 0.75; --d: 0.75"><p><b>Bahrom T.</b><span class="ui-status ui-status--noshow"><svg class="i"><use href="assets/icons.svg#cancel" /></svg>No-show</span></p><small>09:45 Men's haircut</small></div>
+                <div class="s-hero__bk is-live" data-umed style="--s: 1.5; --d: 0.75">
+                  <p><b>Umed N.</b><span class="ui-swap s-hero__umed"><span class="ui-status ui-status--paid" data-paid><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Paid</span><span class="ui-status ui-status--chair" data-chair data-hidden="true"><svg class="i"><use href="assets/icons.svg#scissor" /></svg>In the chair</span></span></p>
+                  <small>10:30 Men's haircut</small>
+                </div>
+                <div class="s-hero__bk" style="--s: 5; --d: 0.75"><p><b>Jamshed R.</b><span class="ui-status ui-status--waiting"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg>Waiting</span></p><small>14:00 Men's haircut</small></div>
+              </div>
+              <div class="s-hero__col" data-person="zarina">
+                <div class="s-hero__bk is-done" style="--s: 0; --d: 1.5"><p><b>Manizha D.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Paid</span></p><small>09:00 Gel manicure</small></div>
+                <div class="s-hero__bk" style="--s: 6.5; --d: 1.5"><p><b>Dilnoza K.</b><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Confirmed</span></p><small>15:30 Gel manicure</small></div>
+              </div>
+              <!-- the time now: the line runs under the bookings, its time sits in the gutter -->
+              <div class="s-hero__now" style="--t: 2.333"><span>11:20</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="s-hero__note" data-note aria-hidden="true">
+          <span class="s-hero__glyph"><svg class="i"><use href="assets/icons.svg#instagram" /></svg></span>
+          <div class="s-hero__note-body">
+            <p class="s-hero__note-top"><b>New booking via Instagram</b><span>just now</span></p>
+            <p class="s-hero__note-name">Sitora Rahimova</p>
+            <p class="s-hero__note-text">Haircut and styling, today at 12:00 with Malika</p>
+          </div>
+        </div>
+
+        <div class="s-hero__tg" data-tg aria-hidden="true">
+          <div class="s-hero__tg-head">
+            <span class="ui-tile ui-tile--telegram s-hero__tg-tile"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
+            <span><b>Gulnor Beauty</b><small>Telegram</small></span>
+          </div>
+          <p class="ui-bubble ui-bubble--in s-hero__tg-msg">Reminder: your gel manicure with Zarina is tomorrow at 10:00. Rudaki 54.</p>
+          <div class="ui-swap s-hero__tg-swap">
+            <p class="s-hero__tg-done" data-done><svg class="i i--bold"><use href="assets/icons.svg#check" /></svg>Confirmed. See you tomorrow.</p>
+            <div class="ui-chat-keys s-hero__tg-keys" data-keys data-hidden="true"><span class="ui-btn" data-confirm>Confirm</span><span class="ui-btn">Change time</span></div>
+          </div>
+        </div>
+
+        <div class="s-hero__phone ui-phone" data-phone aria-hidden="true">
+          <div class="ui-phone__screen">
+            <span class="ui-phone__island"></span>
+            <div class="ui-phone__status"><span>11:20</span><svg class="i"><use href="assets/icons.svg#wifi" /></svg></div>
+            <div class="s-hero__toast" data-toast>
+              <span class="s-hero__toast-tile"><svg class="i i--bold"><use href="assets/icons.svg#check" /></svg></span>
+              <span><b>Payment received</b><small>80 TJS, Alif QR</small></span>
+            </div>
+            <div class="s-hero__dash">
+              <p class="s-hero__dash-biz">Gulnor Beauty</p>
+              <p class="s-hero__dash-day">Today</p>
+              <div class="s-hero__dash-card">
+                <span class="ui-label">Revenue</span>
+                <p class="s-hero__rev"><span class="s-hero__odo" data-odo="6240" data-from="6160">6,240</span><small>TJS</small></p>
+                <p class="s-hero__visits"><span class="s-hero__odo" data-odo="31" data-from="30">31</span> visits</p>
+                <div class="s-hero__bars"><i style="--v: 0.34"></i><i style="--v: 0.62"></i><i style="--v: 0.8"></i><i style="--v: 0.56"></i><i style="--v: 0.7"></i><i style="--v: 0.92"></i><i style="--v: 0.48"></i><i class="is-now" style="--v: 0.3"></i></div>
+              </div>
+              <div class="s-hero__dash-row"><span class="ui-label">Cash in till</span><b>2,180 TJS</b></div>
+              <div class="s-hero__upnext">
+                <p class="ui-label">Next up</p>
+                <div class="ui-swap s-hero__upnext-row" data-next>
+                  <p data-before><b>13:00</b><span>Parvina A.<small>Keratin, Malika</small></span></p>
+                  <p data-after><b>12:00</b><span>Sitora Rahimova<small>Haircut and styling, Malika</small></span></p>
+                </div>
+                <div class="ui-swap s-hero__upnext-row" data-next>
+                  <p data-before><b>14:00</b><span>Jamshed R.<small>Men's haircut, Farrukh</small></span></p>
+                  <p data-after><b>13:00</b><span>Parvina A.<small>Keratin, Malika</small></span></p>
+                </div>
+              </div>
+            </div>
+            <div class="s-hero__tabbar">
+              <span class="is-on"><svg class="i"><use href="assets/icons.svg#dashboard" /></svg></span>
+              <span><svg class="i"><use href="assets/icons.svg#calendar" /></svg></span>
+              <span><svg class="i"><use href="assets/icons.svg#users" /></svg></span>
+              <span><svg class="i"><use href="assets/icons.svg#settings" /></svg></span>
+            </div>
+          </div>
+        </div>
+
+        <span class="tap" data-tap></span>
+      </div>
+
+      <!-- the cloud sea in front of the product during the entrance: the window rises out of it -->
+      <div class="s-hero__mist" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>

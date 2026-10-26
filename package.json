@@ -1,0 +1,13 @@
+{
+  "name": "navcrm-landing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "icons": "node scripts/build-icons.mjs",
+    "dev": "python3 -m http.server 4317 --directory landing",
+    "build": "node scripts/build-page.mjs"
+  },
+  "devDependencies": {
+    "@hugeicons/core-free-icons": "^4.3.5"
+  }
+}

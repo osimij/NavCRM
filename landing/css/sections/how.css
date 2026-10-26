@@ -1,0 +1,1239 @@
+/* How it works: five steps on the left, one stage on the right that follows a single booking. */
+
+.s-how {
+  /* Status inks a shade deeper than the kit's, for the small text that sits on soft status fills */
+  --how-good-ink: color-mix(in srgb, var(--good) 82%, var(--ink));
+  --how-warn-ink: color-mix(in srgb, var(--warn) 78%, var(--ink));
+  /* Rating stars: the page's one amber, shared with the owner dashboard's chart palette */
+  --how-star: #eda100;
+}
+
+.s-how__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 48px;
+  align-items: start;
+}
+
+/* Steps (tablist). The script sets min-height so the list keeps its height whichever step is open. */
+.s-how__steps {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+}
+.s-how__step {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  column-gap: 16px;
+  width: 100%;
+  padding: 18px 24px 18px 18px;
+  text-align: left;
+  border-radius: var(--r-lg);
+  color: var(--ink-2);
+  transition:
+    color 200ms ease,
+    transform 160ms var(--ease-out);
+}
+.s-how__step::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  corner-shape: inherit;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+.s-how__step:active {
+  transform: scale(0.97);
+}
+.s-how__step:focus-visible {
+  outline-offset: 2px;
+  border-radius: var(--r-lg);
+}
+.s-how__step[aria-selected="true"] {
+  color: var(--ink);
+}
+.s-how__step[aria-selected="true"]::before {
+  opacity: 1;
+}
+/* data-settling: set for a moment after a click, while the list reflows under a still pointer */
+@media (hover: hover) and (pointer: fine) {
+  .s-how__steps:not([data-settling]) .s-how__step:not([aria-selected="true"]):hover {
+    color: var(--ink);
+  }
+  .s-how__steps:not([data-settling]) .s-how__step:not([aria-selected="true"]):hover::before {
+    opacity: 0.4;
+  }
+  .s-how__steps:not([data-settling]) .s-how__step:not([aria-selected="true"]):hover .s-how__num {
+    color: var(--ink);
+  }
+}
+
+.s-how__num {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-xs);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink-2);
+  background: rgba(11, 18, 32, 0.055);
+  transition:
+    background-color 250ms ease,
+    color 250ms ease;
+}
+.s-how__step[aria-selected="true"] .s-how__num {
+  color: #fff;
+  background: var(--ink);
+}
+.s-how__title {
+  grid-column: 2;
+  font-size: 1.125rem;
+  line-height: 28px;
+  font-weight: 560;
+  letter-spacing: -0.018em;
+  text-wrap: balance;
+}
+.s-how__more {
+  grid-column: 2;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 250ms var(--ease-out),
+    opacity 200ms ease;
+}
+.s-how__step[aria-selected="true"] .s-how__more {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition:
+    grid-template-rows 250ms var(--ease-out),
+    opacity 300ms ease 60ms;
+}
+.s-how__more-in {
+  min-height: 0;
+  overflow: hidden;
+}
+.s-how__body {
+  display: block;
+  max-width: 46ch;
+  padding-top: 6px;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  letter-spacing: -0.004em;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.s-how__bar {
+  display: block;
+  height: 2px;
+  margin-top: 18px;
+  border-radius: var(--r-pill);
+  background: var(--line);
+  overflow: hidden;
+  transition: opacity 200ms ease;
+}
+.s-how__bar i {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.s-how__step[data-run="true"] .s-how__bar i {
+  animation: s-how-fill var(--how-step, 7000ms) linear forwards;
+}
+.s-how[data-paused="true"] .s-how__bar i {
+  animation-play-state: paused;
+}
+.s-how[data-auto="false"] .s-how__bar {
+  display: none;
+}
+@keyframes s-how-fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Stage */
+.s-how__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 28px 32px 44px;
+}
+.s-how__ghost {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  box-shadow: none;
+  pointer-events: none;
+  transition: opacity 900ms ease;
+}
+.s-how__ghost.is-gone {
+  opacity: 0;
+}
+.s-how__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.s-how__time {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 560;
+  letter-spacing: -0.006em;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  backdrop-filter: blur(16px) saturate(1.6);
+  box-shadow: var(--glass-edge), var(--shadow-sm);
+}
+.s-how__time-label {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  transition:
+    opacity 300ms ease,
+    filter 300ms ease,
+    transform 300ms var(--ease-out);
+}
+.s-how__time-label[data-hidden="true"] {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(4px);
+}
+.s-how__time .i {
+  font-size: 15px;
+  color: var(--ink-2);
+}
+
+/* The canvas is drawn at a fixed design width; the script scales it to fit the stage */
+.s-how__fit {
+  position: relative;
+  width: 100%;
+  margin-block: auto;
+}
+.s-how__canvas {
+  display: grid;
+  width: 100%;
+  container: s-how / inline-size;
+  transform-origin: 0 0;
+}
+
+/* Panels: stacked in one cell so the stage never changes height */
+.s-how__panel {
+  grid-area: 1 / 1;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  border-radius: var(--r-lg);
+  transition:
+    opacity 450ms var(--ease-out) 120ms,
+    transform 450ms var(--ease-out) 120ms,
+    filter 450ms var(--ease-out) 120ms;
+}
+.s-how__panel:focus-visible {
+  outline-offset: 6px;
+  border-radius: var(--r-lg);
+}
+.s-how__panel[data-state="out"] {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(-6px);
+  visibility: hidden;
+  transition:
+    opacity 200ms ease,
+    filter 200ms ease,
+    transform 200ms var(--ease-out),
+    visibility 0s linear 200ms;
+}
+.s-how__panel[data-state="idle"],
+.s-how__panel[data-state="pre"] {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: none;
+}
+.s-how__panel[data-state="idle"] {
+  visibility: hidden;
+}
+
+/* Shared demo pieces */
+.s-how__demo {
+  position: relative;
+  max-width: 100%;
+}
+.s-how .is-instant,
+.s-how .is-instant *,
+.s-how .is-instant *::before,
+.s-how .is-instant *::after {
+  transition: none !important;
+  animation: none !important;
+}
+.s-how__grow {
+  flex: 1;
+  min-width: 0;
+}
+.s-how__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+.s-how__brand.ui-avatar {
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: var(--ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+.s-how [data-t] {
+  transition-property: transform, background-color, color, box-shadow, opacity;
+  transition-duration: 160ms, 200ms, 200ms, 200ms, 200ms;
+  transition-timing-function: var(--ease-out), ease, ease, ease, ease;
+}
+.s-how [data-t].is-press {
+  transform: scale(0.96);
+}
+/* A done state: green bar in place of the buttons that led to it */
+.s-how__ok {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 34px;
+  border-radius: var(--r-xs);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--how-good-ink);
+  background: var(--good-soft);
+}
+.s-how__ok .i {
+  font-size: 15px;
+}
+.s-how__ok--lg {
+  height: 40px;
+  font-size: 13px;
+}
+.s-how__ok--lg .i {
+  font-size: 16px;
+}
+
+/* 1. Booking */
+.s-how__book-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+}
+.s-how__sources {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+.s-how__source.chip {
+  flex: none;
+  gap: 5px;
+  padding: 0 10px 0 8px;
+  font-size: 12px;
+  font-weight: 540;
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  backdrop-filter: blur(12px) saturate(1.5);
+  box-shadow: var(--glass-edge), var(--shadow-xs);
+  transition:
+    background-color 250ms ease,
+    color 250ms ease,
+    box-shadow 250ms ease;
+}
+.s-how__source .i {
+  font-size: 14px;
+}
+/* Selected source: the same accent as every other selection in this widget */
+.s-how__source.chip.is-on {
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 4px 10px -4px var(--accent-glow);
+}
+.s-how__book {
+  width: 344px;
+}
+.s-how__book-body {
+  padding: 16px;
+}
+.s-how__form {
+  display: grid;
+  gap: 16px;
+}
+.s-how__field {
+  display: grid;
+  gap: 8px;
+}
+.s-how__pick {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px 12px;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+.s-how__pick.is-on {
+  background: color-mix(in srgb, var(--accent-soft) 45%, var(--surface));
+  box-shadow: inset 0 0 0 1.5px var(--accent);
+}
+.s-how__radio {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex: none;
+  color: #fff;
+  box-shadow: inset 0 0 0 1.5px var(--ink-4);
+  transition:
+    background-color 200ms ease,
+    box-shadow 200ms ease;
+}
+.s-how__radio .i {
+  font-size: 11px;
+  opacity: 0;
+  transform: scale(0.95);
+  transition:
+    opacity 200ms ease,
+    transform 250ms var(--ease-out);
+}
+.s-how__pick.is-on .s-how__radio {
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1.5px var(--accent);
+}
+.s-how__pick.is-on .s-how__radio .i {
+  opacity: 1;
+  transform: none;
+}
+.s-how__svc .ui-amount {
+  font-size: 13px;
+  margin-right: 2px;
+}
+.s-how__people {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.s-how__person {
+  padding-left: 10px;
+}
+.s-how__name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.s-how__times {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.s-how__times .ui-option {
+  height: 34px;
+}
+/* The button appears once a time is picked */
+.s-how__cta {
+  margin-top: 2px;
+  opacity: 0;
+  transform: translateY(4px);
+}
+.s-how__cta.is-on {
+  opacity: 1;
+  transform: none;
+}
+.s-how__booked {
+  display: grid;
+  align-content: center;
+  gap: 16px;
+}
+.s-how__booked-top {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+.s-how__booked-mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: var(--good);
+  background: var(--good-soft);
+  box-shadow: 0 0 0 6px rgba(18, 147, 90, 0.06);
+}
+.s-how__booked-mark .i {
+  font-size: 22px;
+}
+.s-how__summary {
+  margin: 0;
+  padding: 4px 12px;
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.s-how__summary div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 36px;
+}
+.s-how__summary div + div {
+  box-shadow: inset 0 1px 0 var(--line);
+}
+.s-how__summary dt {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+.s-how__summary dd {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 560;
+  text-align: right;
+}
+.s-how .s-how__booked[data-hidden="true"] {
+  transform: scale(0.97);
+}
+
+/* 2. Reminder */
+.s-how__pair {
+  display: flex;
+  align-items: flex-start;
+}
+.s-how__tg {
+  width: 340px;
+  flex: none;
+}
+.s-how__tg-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-2xs);
+}
+.s-how__tg-mark .i {
+  font-size: 15px;
+}
+.s-how__chat {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 14px 12px 16px;
+  background: var(--bg-sunk);
+}
+/* A message and its buttons share one width, as in Telegram */
+.s-how__msg {
+  display: grid;
+  gap: 6px;
+  width: fit-content;
+  max-width: 88%;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 350ms ease,
+    transform 350ms var(--ease-out);
+}
+.s-how__msg.is-on {
+  opacity: 1;
+  transform: none;
+}
+.s-how__msg .ui-bubble {
+  max-width: none;
+  justify-self: stretch;
+  text-wrap: pretty;
+}
+.s-how__keys {
+  min-height: 34px;
+}
+
+.s-how__sched {
+  position: relative;
+  z-index: 1;
+  width: 236px;
+  flex: none;
+  margin: 72px 0 0 -28px;
+  padding: 14px 14px 0;
+}
+.s-how__sched-head {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 12px;
+}
+.s-how__sched-head .ui-title {
+  font-size: 13px;
+}
+.s-how__who {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 560;
+}
+.s-how__rail {
+  position: relative;
+  display: grid;
+  grid-auto-rows: 38px;
+  -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent);
+  mask-image: linear-gradient(180deg, #000 72%, transparent);
+}
+.s-how__slot {
+  position: relative;
+  box-shadow: inset 0 1px 0 var(--line);
+}
+.s-how__slot span {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  font-size: 10.5px;
+  font-weight: 520;
+  color: var(--ink-2);
+}
+.s-how__block {
+  position: absolute;
+  left: 40px;
+  right: 0;
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 1px;
+  padding: 7px 10px 8px 12px;
+  border-radius: var(--r-xs);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+.s-how__block::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+}
+.s-how__block--main {
+  top: 40px;
+  height: 72px;
+}
+.s-how__block--main .ui-swap {
+  margin-top: 4px;
+}
+.s-how__block--main::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1.5px var(--good);
+  opacity: 0;
+}
+.s-how__block--main.is-on::after {
+  animation: s-how-ring 1200ms ease forwards;
+}
+.s-how__block--next {
+  top: 116px;
+  height: 80px;
+}
+.s-how__block--next::before {
+  background: var(--ink-4);
+}
+.s-how__block-name {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.008em;
+}
+.s-how__block-svc {
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.s-how__block-time {
+  display: none;
+}
+.s-how__block .ui-swap > * {
+  justify-self: start;
+}
+@keyframes s-how-ring {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 3. Receipt */
+.s-how__receipt {
+  width: 368px;
+}
+.s-how__lines {
+  padding: 4px 16px 0;
+}
+.s-how__line,
+.s-how__total {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 300ms ease,
+    transform 400ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+.s-how__line {
+  min-height: 48px;
+  padding: 8px 0;
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+.s-how__line.is-on,
+.s-how__total.is-on {
+  opacity: 1;
+  transform: none;
+}
+.s-how__line-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 540;
+}
+.s-how__line .ui-amount {
+  font-size: 13px;
+}
+.s-how__line--bonus .s-how__line-name,
+.s-how__line--bonus .ui-amount {
+  color: var(--good);
+}
+.s-how__line--bonus .i {
+  font-size: 15px;
+}
+.s-how__total {
+  justify-content: space-between;
+  padding: 12px 0 2px;
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.016em;
+}
+.s-how__pay {
+  padding: 14px 16px 0;
+}
+.s-how__seg {
+  display: flex;
+  width: 100%;
+}
+.s-how__seg > span {
+  flex: 1 1 0;
+  padding: 0 3px;
+  white-space: nowrap;
+}
+/* The highlight keeps one width (the picked item's) and only moves: translate, plus a slight scaleX
+   when the items it travels between differ in width */
+.s-how__seg .ui-seg__thumb {
+  transform: translateX(var(--x, 3px)) scaleX(var(--sx, 1));
+  transform-origin: 0 50%;
+  transition: transform 300ms var(--ease-in-out);
+}
+.s-how__method {
+  margin-top: 10px;
+}
+.s-how__method-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.s-how__method-row .ui-tile {
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+}
+.s-how__qr {
+  width: 60px;
+  height: 60px;
+  flex: none;
+  color: var(--ink);
+  border-radius: var(--r-2xs);
+  box-shadow: var(--shadow-xs);
+  transition: transform 300ms var(--ease-out);
+}
+.s-how__method-row[data-hidden="true"] .s-how__qr {
+  transform: scale(0.95);
+}
+.s-how__take {
+  padding: 14px 16px 16px;
+}
+.s-how__take .ui-btn--block {
+  height: 40px;
+}
+.s-how .s-how__ok--lg[data-hidden="true"] {
+  transform: scale(0.95);
+}
+
+/* 4. Behind the scenes */
+.s-how__ledger {
+  width: 392px;
+}
+.s-how__ledger-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 16px;
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+.s-how__group {
+  position: relative;
+  isolation: isolate;
+  padding: 12px 16px 10px;
+}
+.s-how__group + .s-how__group {
+  box-shadow: inset 0 1px 0 var(--line);
+}
+.s-how__group-label {
+  margin-bottom: 4px;
+}
+.s-how__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 8px 0;
+}
+.s-how__row::before {
+  content: "";
+  position: absolute;
+  inset: 2px -8px;
+  border-radius: var(--r-xs);
+  background: var(--accent-soft);
+  opacity: 0;
+  z-index: -1;
+}
+.s-how__row.is-on::before {
+  animation: s-how-flash 1400ms ease forwards;
+}
+@keyframes s-how-flash {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.s-how__row-name {
+  font-size: 13px;
+  font-weight: 560;
+  letter-spacing: -0.008em;
+}
+.s-how__meter {
+  margin-top: 7px;
+}
+/* Money column: change chip, then the value in a fixed cell, so every row lines up */
+.s-how__amounts {
+  display: grid;
+  grid-template-columns: auto 76px;
+  align-items: center;
+  justify-items: end;
+  column-gap: 10px;
+  flex: none;
+}
+.s-how__val {
+  min-width: 76px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+.s-how__roll {
+  display: inline-flex;
+  vertical-align: top;
+  height: 1.3em;
+  line-height: 1.3em;
+  overflow: hidden;
+}
+.s-how__roll .d {
+  display: inline-block;
+  width: var(--dw, 0.62em);
+  height: 1.3em;
+  overflow: hidden;
+  text-align: center;
+}
+.s-how__roll .c {
+  display: inline-block;
+}
+.s-how__roll .strip {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(calc(var(--n, 0) * -10%));
+  transition: transform 500ms var(--ease-out);
+}
+.s-how__roll .strip span {
+  display: block;
+  height: 1.3em;
+}
+.s-how__delta.chip {
+  height: 22px;
+  padding: 0 8px;
+  font-size: 11.5px;
+  font-weight: 620;
+  color: var(--how-good-ink);
+  opacity: 0;
+  transform: scale(0.95);
+  transition:
+    opacity 250ms ease,
+    transform 300ms var(--ease-out);
+}
+.s-how__delta.chip.is-on {
+  opacity: 1;
+  transform: none;
+}
+.s-how__alert {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  margin: 4px 0 6px;
+  padding: 0 10px;
+  border-radius: var(--r-xs);
+  font-size: 12.5px;
+  font-weight: 560;
+  color: var(--how-warn-ink);
+  background: var(--warn-soft);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition:
+    opacity 300ms ease,
+    transform 400ms var(--ease-out);
+}
+.s-how__alert.is-on {
+  opacity: 1;
+  transform: none;
+}
+.s-how__alert .i {
+  font-size: 16px;
+  color: var(--warn);
+}
+
+/* 5. Come back */
+.s-how__tg--back .s-how__chat {
+  gap: 14px;
+}
+.s-how__star.ui-btn {
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  color: var(--ink-4);
+}
+.s-how__star .i {
+  grid-area: 1 / 1;
+  font-size: 16px;
+}
+.s-how__star-fill {
+  color: var(--how-star);
+  fill: currentColor;
+  opacity: 0;
+  transform: scale(0.9);
+  transition:
+    opacity 200ms ease,
+    transform 250ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+.s-how__star.is-on .s-how__star-fill {
+  opacity: 1;
+  transform: none;
+}
+.s-how__divider {
+  justify-self: center;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+.s-how__divider.is-on {
+  opacity: 1;
+}
+.s-how__divider span {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  font-weight: 560;
+  color: var(--ink-2);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-xs);
+}
+.s-how__rebook {
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 300ms ease,
+    transform 300ms var(--ease-out);
+}
+.s-how__rebook.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+/* Continuous corners on everything that takes a radius token */
+@supports (corner-shape: superellipse(1.6)) {
+  .s-how__pick,
+  .s-how__summary,
+  .s-how__tg-mark,
+  .s-how__ok,
+  .s-how__block,
+  .s-how__method-row,
+  .s-how__qr,
+  .s-how__row::before,
+  .s-how__alert {
+    corner-shape: superellipse(1.6);
+  }
+}
+
+/* Narrow canvas (tablet and phone columns): one 328px column, tighter rhythm, stacked pairs */
+@container s-how (max-width: 559px) {
+  .s-how__book,
+  .s-how__tg,
+  .s-how__sched,
+  .s-how__receipt,
+  .s-how__ledger {
+    width: 328px;
+  }
+  .s-how__head {
+    padding: 12px 14px;
+  }
+
+  /* 1. Sources become one row that runs off the edge, as a scrolling chip row does */
+  .s-how__book-wrap {
+    gap: 12px;
+  }
+  .s-how__sources {
+    justify-content: flex-start;
+    width: 328px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent);
+    mask-image: linear-gradient(90deg, #000 80%, transparent);
+  }
+  .s-how__book-body {
+    padding: 14px;
+  }
+  .s-how__form {
+    gap: 12px;
+  }
+  .s-how__field {
+    gap: 6px;
+  }
+  .s-how__pick {
+    gap: 8px;
+    min-height: 48px;
+    padding: 6px 10px;
+  }
+  .s-how__times .ui-option {
+    height: 32px;
+  }
+
+  /* 2. Chat above the schedule */
+  .s-how__pair {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .s-how__sched {
+    margin: 0;
+    padding-bottom: 14px;
+  }
+  .s-how__sched-head {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+  .s-how__rail {
+    display: block;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .s-how__slot,
+  .s-how__block--next {
+    display: none;
+  }
+  .s-how__block--main {
+    position: relative;
+    top: auto;
+    left: auto;
+    height: auto;
+  }
+  .s-how__block-time {
+    display: inline;
+  }
+
+  /* 3. Receipt */
+  .s-how__lines {
+    padding-inline: 14px;
+  }
+  .s-how__line {
+    min-height: 0;
+    padding: 4px 0;
+  }
+  .s-how__pay {
+    padding: 12px 14px 0;
+  }
+  .s-how__seg > span {
+    font-size: 11.5px;
+  }
+  .s-how__method {
+    margin-top: 8px;
+  }
+  .s-how__method-row {
+    padding: 8px;
+  }
+  .s-how__qr {
+    width: 48px;
+    height: 48px;
+  }
+  .s-how__method-row .ui-tile {
+    margin: 4px;
+  }
+  .s-how__take {
+    padding: 12px 14px 14px;
+  }
+  .s-how__take .ui-btn--block,
+  .s-how__ok--lg {
+    height: 38px;
+  }
+
+  /* 4. Value above its change chip */
+  .s-how__group {
+    padding-inline: 14px;
+  }
+  .s-how__amounts {
+    grid-template-columns: auto;
+    row-gap: 3px;
+  }
+  .s-how__amounts .s-how__val {
+    order: -1;
+  }
+  .s-how__amounts .s-how__val:empty {
+    display: none;
+  }
+}
+
+/* Layout: one column below 960px, stage first */
+@media (max-width: 960px) {
+  .s-how__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .s-how__stage {
+    order: -1;
+    padding: 20px 20px 28px;
+    gap: 20px;
+    border-radius: var(--r-xl);
+  }
+  .s-how__step {
+    padding: 14px 18px 14px 14px;
+  }
+  .s-how__title {
+    font-size: 1.0625rem;
+  }
+  .s-how__body {
+    max-width: 62ch;
+  }
+}
+/* Phones: a shorter stage and a compact list, so a demo and its text fit on one screen */
+@media (max-width: 560px) {
+  .s-how__grid {
+    gap: 12px;
+  }
+  .s-how__stage {
+    padding: 12px 12px 16px;
+    gap: 12px;
+  }
+  .s-how__time {
+    height: 30px;
+    padding: 0 12px;
+    font-size: 12.5px;
+  }
+  .s-how__time .i {
+    font-size: 14px;
+  }
+  .s-how__steps {
+    gap: 2px;
+  }
+  .s-how__step {
+    grid-template-columns: 24px minmax(0, 1fr);
+    column-gap: 12px;
+    padding: 8px 12px 8px 8px;
+    border-radius: var(--r-md);
+  }
+  .s-how__step:focus-visible {
+    border-radius: var(--r-md);
+  }
+  .s-how__num {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: var(--r-2xs);
+  }
+  .s-how__title {
+    font-size: 1rem;
+    line-height: 24px;
+  }
+  .s-how__body {
+    padding-top: 4px;
+    font-size: 0.875rem;
+  }
+  .s-how__bar {
+    margin: 12px 0 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-how__panel,
+  .s-how__panel[data-state="out"],
+  .s-how__panel[data-state="pre"],
+  .s-how__panel[data-state="idle"] {
+    transform: none;
+    filter: none;
+  }
+  .s-how__time-label[data-hidden="true"] {
+    transform: none;
+    filter: none;
+  }
+  .s-how__step:active {
+    transform: none;
+  }
+  /* Nothing is changing in a final state, so no highlight flashes */
+  .s-how__row.is-on::before,
+  .s-how__block--main.is-on::after {
+    animation: none;
+  }
+}

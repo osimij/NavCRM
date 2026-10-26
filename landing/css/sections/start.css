@@ -1,0 +1,82 @@
+/* Final call: the bookend to the hero. The same world late in the day, with the copy and the two
+   ways to reach a person set over the warm evening sky. */
+
+.s-start {
+  padding-block: clamp(8px, 2vw, 24px) clamp(72px, 9vw, 128px);
+}
+
+.s-start__stage {
+  display: grid;
+  place-items: center;
+  min-height: clamp(540px, 46vw, 640px);
+  padding: clamp(56px, 7vw, 96px) var(--gutter);
+  text-align: center;
+}
+/* The evening plate (the hero's world under a low, warm sun); a still, never a live render. */
+.s-start__stage .stage__art {
+  background-color: #dfe6f3;
+  background-image: image-set(url("../../assets/art/stage-start.webp") 1x, url("../../assets/art/stage-start@2x.webp") 2x);
+  background-size: cover;
+  background-position: 50% 62%;
+}
+/* a soft lift of the light behind the copy, so the lines never sit on the bright cloud edge */
+.s-start__stage .stage__art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(52% 46% at 50% 46%, rgba(255, 248, 240, 0.4), rgba(255, 248, 240, 0) 100%);
+}
+
+.s-start__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 660px;
+}
+.s-start__copy h2 {
+  max-width: 14ch;
+  color: #0a1324;
+}
+.s-start__copy .lead {
+  max-width: 46ch;
+  text-wrap: balance;
+  margin-top: 20px;
+  color: #34415a;
+}
+.s-start__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+.s-start__note {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: #3a465b;
+}
+.s-start__note .i {
+  font-size: 18px;
+  color: var(--accent-ink);
+}
+
+@media (max-width: 759.98px) {
+  .s-start__stage {
+    min-height: 0;
+    padding: 56px 20px 64px;
+    border-radius: var(--r-xl);
+  }
+  .s-start__stage .stage__art {
+    background-position: 74% 70%;
+  }
+  .s-start__actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 360px;
+  }
+}

@@ -1,0 +1,513 @@
+/* Getting started: five steps on a track.
+   Below 1200px: a compact vertical track (numbered node, icon tile, title, body) sitting on the page.
+   From 1200px: the steps run horizontally, each with a small piece of the product it produces,
+   all five cards on one shared stage. */
+
+.s-setup__board {
+  --node: 28px;
+  position: relative;
+}
+
+/* The shared stage and the cards only exist in the horizontal layout */
+.s-setup__stage,
+.s-setup__vis {
+  display: none;
+}
+
+.s-setup__steps {
+  position: relative;
+  display: grid;
+  row-gap: 32px;
+}
+.s-setup__step {
+  display: grid;
+  grid-template-columns: var(--node) minmax(0, 1fr);
+  grid-template-areas: "node text";
+  column-gap: 16px;
+  align-items: start;
+}
+
+/* Node: numbered squircle sitting on the track */
+.s-setup__node {
+  grid-area: node;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--node);
+  height: var(--node);
+  margin-top: 4px;
+  border-radius: var(--r-xs);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  background: var(--ink);
+  box-shadow:
+    0 0 0 4px var(--node-ring, var(--bg)),
+    0 2px 6px -1px rgba(11, 18, 32, 0.3);
+}
+
+/* Track line, placed from the first node centre to the last by JS */
+.s-setup__line {
+  --track: rgba(11, 18, 32, 0.2);
+  position: absolute;
+  z-index: 0;
+  display: none;
+  left: var(--lx, 0px);
+  top: var(--ly, 0px);
+  width: var(--lw, 2px);
+  height: var(--lh, 2px);
+  pointer-events: none;
+}
+.s-setup__line[data-axis] {
+  display: block;
+}
+/* Solid through the first day (steps 1 to 4), dashed to the review a month later */
+.s-setup__line[data-axis="x"] {
+  background:
+    linear-gradient(var(--track), var(--track)) left / var(--s4, 75%) 100% no-repeat,
+    repeating-linear-gradient(90deg, var(--track) 0 4px, transparent 4px 9px) right / calc(100% - var(--s4, 75%)) 100% no-repeat;
+}
+.s-setup__line[data-axis="y"] {
+  background:
+    linear-gradient(var(--track), var(--track)) top / 100% var(--s4, 75%) no-repeat,
+    repeating-linear-gradient(180deg, var(--track) 0 4px, transparent 4px 9px) bottom / 100% calc(100% - var(--s4, 75%)) no-repeat;
+}
+
+/* Text: icon tile and title on one row, body below */
+.s-setup__text {
+  grid-area: text;
+  min-width: 0;
+}
+.s-setup__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.s-setup__icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: var(--r-sm);
+  color: var(--accent);
+  background: linear-gradient(180deg, #f1f5ff 0%, var(--accent-soft) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(42, 91, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.s-setup__icon .i {
+  font-size: 18px;
+}
+.s-setup__text h3 {
+  font-size: 1.125rem;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.016em;
+}
+.s-setup__text p {
+  margin-top: 8px;
+  max-width: 46ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.s-setup__nb {
+  white-space: nowrap;
+}
+
+/* Below 1200px there is no card around the steps: they sit straight on the page */
+@media (max-width: 1199.98px) {
+  .s-setup__board.card {
+    background: none;
+    box-shadow: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .s-setup__steps {
+    row-gap: 36px;
+  }
+  .s-setup__step {
+    column-gap: 20px;
+  }
+  .s-setup__text p {
+    max-width: 56ch;
+  }
+}
+
+/* 960px to 1199px: heading on the left, the track beside it, so the width is used and the
+   section stays about one screen tall */
+@media (min-width: 960px) and (max-width: 1199.98px) {
+  .s-setup .container {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    column-gap: 64px;
+    align-items: start;
+  }
+  .s-setup .section-head {
+    position: sticky;
+    top: calc(var(--nav-h) + 32px);
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    margin-bottom: 0;
+  }
+  .s-setup__board {
+    padding-top: 8px;
+  }
+}
+
+/* ---------- 1200px and up: horizontal track with a card per step ---------- */
+@media (min-width: 1200px) {
+  .s-setup__board {
+    --node-ring: var(--surface);
+    /* Rows: cards, nodes, titles, bodies. The steps share them through subgrid, so every
+       card is the same height and every title and body starts on the same line. */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto;
+    padding: 32px 32px 40px;
+    border-radius: var(--r-xl);
+  }
+  /* One stage behind the card row, sized by that row (an absolutely placed grid child) */
+  .s-setup__stage {
+    display: block;
+    position: absolute;
+    grid-row: 1 / 2; /* both lines: an absolutely placed item's auto end would be the padding edge */
+    grid-column: 1 / 2;
+    inset: -24px;
+    border-radius: calc(var(--r-xl) - 8px);
+  }
+  .s-setup__steps {
+    grid-row: 1 / span 4;
+    grid-column: 1;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-rows: subgrid;
+    column-gap: 24px;
+    row-gap: 0;
+  }
+  .s-setup__step {
+    grid-row: span 4;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: subgrid;
+    grid-template-areas:
+      "vis"
+      "node"
+      "text"
+      "text";
+    column-gap: 0;
+  }
+  .s-setup__vis {
+    display: block;
+    grid-area: vis;
+    align-self: stretch;
+    min-width: 0;
+  }
+  .s-setup__node {
+    margin-top: 56px;
+  }
+  .s-setup__text {
+    display: grid;
+    grid-template-rows: subgrid;
+    align-content: start;
+  }
+  /* Titles hang from the top of their shared row; bodies all start on one line below it */
+  .s-setup__head {
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+  /* The card header carries the icon here */
+  .s-setup__icon {
+    display: none;
+  }
+  .s-setup__text p {
+    max-width: none;
+  }
+}
+
+/* ---------- The cards (horizontal layout only), built from the product UI kit ---------- */
+.s-setup__card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding: 12px;
+  box-shadow:
+    var(--glass-edge),
+    0 0 0 1px rgba(11, 18, 32, 0.05),
+    0 2px 4px -1px rgba(11, 18, 32, 0.05),
+    0 8px 20px -8px rgba(11, 18, 32, 0.16);
+}
+.s-setup__card > :last-child {
+  margin-top: auto;
+}
+
+/* Card header: icon tile, title, subtitle, hairline below */
+.s-setup__ch {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  box-shadow: 0 1px 0 var(--line);
+}
+.s-setup__ct {
+  display: grid;
+  min-width: 0;
+}
+.s-setup__ct .ui-title {
+  line-height: 20px;
+}
+.s-setup__ct .ui-sub {
+  line-height: 16px;
+}
+.s-setup__grow {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Inner grids never grow past the card when text gets bigger (browser minimum font size) */
+.s-setup__group,
+.s-setup__import,
+.s-setup__people,
+.s-setup__channels,
+.s-setup__kpi {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* Rows of label and right-aligned amount */
+.s-setup__rows li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.s-setup__rows .ui-amount {
+  min-width: 64px;
+  color: var(--ink);
+}
+
+/* 1. Profile */
+.s-setup__pick {
+  display: flex;
+  justify-content: flex-start;
+}
+.s-setup__pick .i {
+  font-size: 15px;
+}
+.s-setup__pick .s-setup__tick {
+  font-size: 13px;
+}
+.s-setup__group {
+  display: grid;
+  gap: 4px;
+}
+.s-setup__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.s-setup__faces {
+  display: flex;
+  padding-left: 6px;
+}
+.s-setup__faces .ui-avatar {
+  margin-left: -6px;
+  box-shadow: 0 0 0 2px var(--surface);
+}
+
+/* 2. Client import */
+.s-setup__import {
+  display: grid;
+  gap: 12px;
+}
+.s-setup__state > * {
+  justify-self: end;
+}
+.s-setup__people {
+  display: grid;
+  gap: 4px;
+}
+.s-setup__people li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  font-size: 12px;
+  font-weight: 520;
+}
+.s-setup__people .ui-sub {
+  white-space: nowrap;
+}
+.s-setup__admin .i {
+  font-size: 13px;
+  stroke-width: 1.8;
+}
+
+/* 3. Training */
+.s-setup__seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  --w: calc(50% - 3px);
+  --x: 3px;
+}
+
+/* 4. Booking link */
+.s-setup__channels {
+  display: grid;
+  gap: 4px;
+}
+.s-setup__channels li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 24px;
+  font-size: 12px;
+  font-weight: 520;
+}
+.s-setup__ch-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+}
+.s-setup__ch-icon .i {
+  font-size: 12px;
+}
+.s-setup__ch-icon--plain {
+  color: var(--ink-2);
+  background: #eef1f6;
+}
+.s-setup__channels .s-setup__tick {
+  font-size: 13px;
+  color: var(--good);
+}
+.s-setup__qr {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 10px;
+  background: #f3f5f9;
+}
+.s-setup__qr-code {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background: #fff;
+  fill: var(--ink);
+  box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.06);
+}
+
+/* 2 and 5. Headline figure */
+.s-setup__kpi {
+  display: grid;
+  gap: 8px;
+}
+.s-setup__kpi-top {
+  display: flex;
+  align-items: last baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.s-setup__kpi-v {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+/* 5. Bookings per day through September: one bar a day, Sundays quieter */
+.s-setup__bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 40px;
+  box-shadow: 0 1px 0 var(--line);
+  clip-path: inset(0 0 -2px 0);
+}
+.s-setup__bars > span {
+  flex: 1;
+  height: calc(var(--v) * 100% / 42);
+  border-radius: 2px 2px 0 0;
+  background: color-mix(in srgb, var(--accent) 72%, #fff);
+}
+
+/* ---------- Entrance ----------
+   Horizontal: the line draws in one eased stroke and each step appears as the line reaches its
+   node (--d is that moment, set by JS). Vertical: the line follows the scroll and each step
+   appears as the reader reaches it (--d is 0). Without JS, or with reduced motion, all is static. */
+.s-setup__line[data-axis="x"] {
+  clip-path: inset(0 var(--cut, 0%) 0 0);
+  transition: clip-path 1200ms var(--ease-in-out);
+}
+.s-setup__line[data-axis="y"] {
+  clip-path: inset(0 0 var(--cut, 0%) 0);
+  transition: clip-path 400ms var(--ease-out);
+}
+.s-setup__node {
+  transition:
+    opacity 300ms var(--ease-out) var(--d, 0ms),
+    transform 300ms var(--ease-out) var(--d, 0ms);
+}
+.s-setup__card {
+  transition:
+    opacity 500ms var(--ease-out) var(--d, 0ms),
+    transform 700ms var(--ease-out) var(--d, 0ms);
+}
+.s-setup__text {
+  transition:
+    opacity 500ms var(--ease-out) calc(var(--d, 0ms) + 60ms),
+    transform 700ms var(--ease-out) calc(var(--d, 0ms) + 60ms);
+}
+.s-setup__meter > span {
+  transition: transform 800ms var(--ease-out) calc(var(--d, 0ms) + 250ms);
+}
+.s-setup__bars {
+  transition: clip-path 900ms var(--ease-in-out) calc(var(--d, 0ms) + 200ms);
+}
+.s-setup__tick {
+  transition:
+    opacity 200ms ease calc(var(--d, 0ms) + 250ms + var(--i, 0) * 70ms),
+    transform 300ms var(--ease-out) calc(var(--d, 0ms) + 250ms + var(--i, 0) * 70ms);
+}
+
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__node {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__card {
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+}
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__text {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__meter > span {
+  transform: scaleX(0.04);
+}
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__bars {
+  clip-path: inset(0 100% -2px 0);
+}
+.s-setup__board[data-anim] .s-setup__step:not([data-in]) .s-setup__tick {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-setup__line[data-axis],
+  .s-setup__node,
+  .s-setup__card,
+  .s-setup__text,
+  .s-setup__meter > span,
+  .s-setup__bars,
+  .s-setup__tick {
+    transition: none;
+  }
+}

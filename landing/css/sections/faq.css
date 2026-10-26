@@ -1,0 +1,114 @@
+.s-faq__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 48px 80px;
+  align-items: start;
+}
+.s-faq__intro {
+  position: sticky;
+  top: calc(var(--nav-h) + 40px);
+  display: grid;
+  gap: 20px;
+}
+.s-faq__intro h2 {
+  max-width: 11ch;
+}
+.s-faq__intro .lead {
+  max-width: 34ch;
+}
+.s-faq__link {
+  color: var(--ink);
+  font-weight: 520;
+  text-decoration: underline;
+  text-decoration-color: rgba(11, 18, 32, 0.22);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 200ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .s-faq__link:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+.s-faq__list {
+  border-top: 1px solid var(--line);
+}
+.s-faq__item {
+  border-bottom: 1px solid var(--line);
+}
+.s-faq__item h3 {
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  font-weight: inherit;
+}
+.s-faq__item button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  padding: 22px 0;
+  text-align: left;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  font-weight: 540;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  border-radius: 8px;
+}
+.s-faq__item button .i {
+  font-size: 20px;
+  color: var(--ink-3);
+  transition:
+    transform 200ms var(--ease-out),
+    color 200ms ease;
+}
+.s-faq__item button[aria-expanded="true"] .i {
+  transform: rotate(45deg);
+  color: var(--ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .s-faq__item button:hover .i {
+    color: var(--ink);
+  }
+}
+
+.s-faq__a {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 250ms var(--ease-out),
+    opacity 200ms ease;
+}
+.s-faq__a > div {
+  overflow: hidden;
+}
+.s-faq__a p {
+  max-width: 60ch;
+  padding: 0 44px 24px 0;
+  color: var(--ink-2);
+}
+.s-faq__item[data-open="true"] .s-faq__a {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+@media (max-width: 860px) {
+  .s-faq__grid {
+    grid-template-columns: 1fr;
+  }
+  .s-faq__intro {
+    position: static;
+  }
+  .s-faq__a p {
+    padding-right: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .s-faq__a {
+    transition: opacity 200ms ease;
+  }
+}

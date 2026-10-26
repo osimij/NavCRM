@@ -1,0 +1,651 @@
+/* Owner view: the owner's phone dashboard on a stage. On desktop the five feature notes are
+   callouts pinned to the part of the dashboard they explain; below that they are a hairline list. */
+
+/* Scale: the phone is drawn at 340 x 725 and zoomed to fit both the column width (--sw) and
+   the viewport height (--sh), so the whole dashboard can be seen at once under the nav. */
+.s-owner__frame {
+  --phone-w: 340px;
+  --phone-h: calc(var(--phone-w) * 19.2 / 9);
+  --sw: 1;
+  --sh: 1;
+  --s: min(var(--sw), var(--sh));
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "stage"
+    "notes";
+}
+@media (max-height: 860px) {
+  .s-owner__frame {
+    --sh: 0.9;
+  }
+}
+@media (max-height: 788px) {
+  .s-owner__frame {
+    --sh: 0.86;
+  }
+}
+@media (max-height: 759px) {
+  .s-owner__frame {
+    --sh: 0.8;
+  }
+}
+@media (max-height: 715px) {
+  .s-owner__frame {
+    --sh: 0.76;
+  }
+}
+@media (max-width: 899px) {
+  .s-owner__frame {
+    --sw: 0.9;
+  }
+}
+@media (max-width: 420px) {
+  .s-owner__frame {
+    --sw: 0.86;
+  }
+}
+@media (max-width: 374px) {
+  .s-owner__frame {
+    --sw: 0.8;
+  }
+}
+
+.s-owner__stage {
+  grid-area: stage;
+  align-self: stretch;
+}
+.s-owner__device {
+  grid-area: stage;
+  justify-self: center;
+  position: relative;
+  z-index: 1;
+  box-sizing: content-box;
+  width: calc(var(--phone-w) * var(--s));
+  height: calc(var(--phone-h) * var(--s));
+  padding-block: 32px;
+}
+.s-owner .ui-phone {
+  width: var(--phone-w);
+  zoom: var(--s);
+}
+/* Browsers without zoom get the same box from a transform */
+@supports not (zoom: 1) {
+  .s-owner .ui-phone {
+    transform: scale(var(--s));
+    transform-origin: 0 0;
+  }
+}
+.s-owner .ui-phone__status .i {
+  font-size: 15px;
+  stroke-width: 2;
+}
+.s-owner__home {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  width: 112px;
+  height: 4px;
+  margin-left: -56px;
+  border-radius: 999px;
+  background: var(--ink);
+}
+
+/* App: a 4px grid throughout. Small text uses a deeper grey than the page ink-3 for contrast. */
+.s-owner__app {
+  --ink-3: #667085;
+  display: grid;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+/* App header */
+.s-owner__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 28px;
+}
+.s-owner__branch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 560;
+  color: var(--ink-2);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+.s-owner__branch .i {
+  font-size: 14px;
+  color: var(--ink-3);
+}
+.s-owner__branch .s-owner__caret {
+  font-size: 12px;
+}
+.s-owner__seg {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.s-owner__seg .ui-seg__thumb {
+  --w: calc((100% - 6px) / 3);
+  --x: 3px;
+}
+
+/* Revenue: the one hero figure */
+.s-owner__revenue {
+  padding: 12px 16px;
+}
+.s-owner__revenue .ui-label {
+  line-height: 16px;
+}
+.s-owner__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 11.5px;
+  line-height: 16px;
+  font-weight: 620;
+  color: var(--good);
+}
+.s-owner__delta .i {
+  font-size: 13px;
+}
+.s-owner__delta-vs {
+  margin-left: 4px;
+  font-weight: 480;
+  color: var(--ink-3);
+}
+.s-owner__hero {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 8px;
+}
+.s-owner__hero-num {
+  font-size: 40px;
+  line-height: 40px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+.s-owner__unit {
+  font-size: 15px;
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  color: var(--ink-3);
+}
+.s-owner__spark {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 8px;
+  overflow: visible;
+}
+.s-owner__spark-base {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.s-owner__spark-area {
+  fill: var(--accent);
+  fill-opacity: 0.1;
+}
+.s-owner__spark-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.s-owner__spark-dot {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 4;
+  paint-order: stroke;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Counters keep their final width (set from JS as data-final), so units never shift while they count */
+.s-owner [data-count] {
+  display: inline-flex;
+  flex-direction: column;
+}
+.s-owner [data-count]::after {
+  content: attr(data-final);
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* Stat tiles: one card split by hairlines */
+.s-owner__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0;
+}
+.s-owner__stat {
+  display: grid;
+  align-content: start;
+  padding: 8px 16px;
+}
+.s-owner__stat:nth-child(1) {
+  box-shadow: inset -1px -1px 0 var(--line);
+}
+.s-owner__stat:nth-child(2) {
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+.s-owner__stat:nth-child(3) {
+  box-shadow: inset -1px 0 0 var(--line);
+}
+.s-owner__stat .ui-label {
+  line-height: 16px;
+}
+.s-owner__value {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+.s-owner__value small {
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 560;
+  letter-spacing: 0;
+  color: var(--ink-3);
+}
+.s-owner__stat .ui-sub {
+  line-height: 16px;
+}
+
+/* Staff load meters */
+.s-owner__load,
+.s-owner__sources {
+  padding: 12px 16px;
+}
+.s-owner__load .ui-title,
+.s-owner__sources .ui-title {
+  font-size: 13px;
+  line-height: 16px;
+}
+.s-owner__meters {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.s-owner__meters li {
+  display: grid;
+  grid-template-columns: 24px 52px minmax(0, 1fr) 32px;
+  align-items: center;
+  column-gap: 8px;
+}
+.s-owner__name {
+  font-size: 12.5px;
+  font-weight: 520;
+}
+.s-owner__pct {
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+/* The fill is clipped rather than scaled, so its rounded end stays crisp while it grows */
+.s-owner .ui-meter > span {
+  transform: none;
+  clip-path: inset(0 calc((1 - var(--v)) * 100%) 0 0 round 999px);
+}
+
+/* Booking sources: stacked bar with 2px surface gaps, legend in ink. The track only shows
+   while the bar waits to play, and is wiped away in step with the bar. */
+.s-owner__track {
+  position: relative;
+  margin-top: 12px;
+}
+.s-owner__track::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  background: #eef1f6;
+  clip-path: inset(0 0 0 100%);
+}
+.s-owner__stack {
+  display: flex;
+  gap: 2px;
+  height: 8px;
+}
+.s-owner__stack span {
+  flex: var(--w) 1 0;
+  min-width: 0;
+  border-radius: 2px;
+  background: var(--c);
+}
+.s-owner__stack span:first-child {
+  border-radius: 4px 2px 2px 4px;
+}
+.s-owner__stack span:last-child {
+  border-radius: 2px 4px 4px 2px;
+}
+.s-owner__legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 16px;
+  margin-top: 12px;
+}
+.s-owner__legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ink-2);
+}
+.s-owner__legend li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--c);
+  flex: none;
+}
+.s-owner__legend b {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* First view: JS arms the dashboard, and each card plays once as it comes into view.
+   Until then a card shows its labels only, like data still loading. Without JS it is simply final. */
+.s-owner__phone.is-armed .s-owner__hero,
+.s-owner__phone.is-armed .s-owner__value:has([data-count]) {
+  opacity: 0;
+}
+.s-owner__phone.is-armed .s-owner__delta {
+  opacity: 0;
+  transform: translateY(4px);
+}
+.s-owner__phone.is-armed .s-owner__spark-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.s-owner__phone.is-armed .s-owner__spark-area {
+  clip-path: inset(0 100% 0 0);
+}
+.s-owner__phone.is-armed .s-owner__spark-dot {
+  opacity: 0;
+  transform: scale(0.95);
+}
+.s-owner__phone.is-armed .ui-meter > span {
+  clip-path: inset(0 100% 0 0 round 999px);
+}
+.s-owner__phone.is-armed .s-owner__stack {
+  clip-path: inset(0 100% 0 0);
+}
+.s-owner__phone.is-armed .s-owner__track::before {
+  clip-path: inset(0);
+}
+
+.s-owner__phone.is-armed .is-live .s-owner__hero,
+.s-owner__phone.is-armed .is-live .s-owner__value:has([data-count]) {
+  opacity: 1;
+  transition: opacity 200ms ease;
+}
+.s-owner__phone.is-armed .is-live .s-owner__spark-line {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 900ms var(--ease-out);
+}
+.s-owner__phone.is-armed .is-live .s-owner__spark-area {
+  clip-path: inset(0);
+  transition: clip-path 900ms var(--ease-out);
+}
+.s-owner__phone.is-armed .is-live .s-owner__spark-dot {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 300ms ease 700ms,
+    transform 400ms var(--ease-out) 700ms;
+}
+.s-owner__phone.is-armed .is-live .s-owner__delta {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 400ms ease 600ms,
+    transform 500ms var(--ease-out) 600ms;
+}
+.s-owner__phone.is-armed .is-live .ui-meter > span {
+  clip-path: inset(0 calc((1 - var(--v)) * 100%) 0 0 round 999px);
+  transition: clip-path 700ms var(--ease-out) calc(80ms + var(--i, 0) * 60ms);
+}
+.s-owner__phone.is-armed .is-live .s-owner__stack {
+  clip-path: inset(0);
+  transition: clip-path 700ms var(--ease-in-out) 80ms;
+}
+.s-owner__phone.is-armed .is-live .s-owner__track::before {
+  clip-path: inset(0 0 0 100%);
+  transition: clip-path 700ms var(--ease-in-out) 80ms;
+}
+
+/* Feature notes. Phone and tablet: a quiet hairline list. The text always starts at the icon's edge. */
+.s-owner__notes {
+  grid-area: notes;
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+}
+.s-owner__note {
+  padding: 20px 0;
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+.s-owner__note-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.s-owner__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  color: var(--accent);
+  background: linear-gradient(180deg, #ffffff 0%, var(--accent-soft) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(42, 91, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(11, 18, 32, 0.06);
+  flex: none;
+}
+.s-owner__icon .i {
+  font-size: 20px;
+}
+.s-owner__note h3 {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+}
+.s-owner__note p {
+  max-width: 48ch;
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  letter-spacing: -0.003em;
+  text-wrap: balance;
+}
+
+/* Tablet: the phone stage on the left, the list beside it */
+@media (min-width: 720px) {
+  .s-owner__frame {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "stage notes";
+    align-items: center;
+    column-gap: clamp(32px, 5vw, 56px);
+  }
+  .s-owner__device {
+    padding: 40px clamp(32px, 4vw, 48px);
+  }
+  .s-owner__notes {
+    margin-top: 0;
+  }
+}
+
+/* Desktop: callouts. Each note sits beside the phone level with the middle of what it describes,
+   with a hairline running into the screen and a dot beside that element. --y is that middle in
+   phone pixels, measured from the top of the 340 x 725 frame. Notes take the room beside the phone. */
+@media (min-width: 1024px) {
+  .s-owner__frame {
+    --gap: clamp(48px, 5vw, 72px);
+    --note-w: clamp(216px, (100cqi - var(--phone-w) * var(--s)) / 2 - var(--gap) - 40px, 304px);
+    container-type: inline-size;
+    --pin: calc(17px * var(--s)); /* dot: centre of the 16px gutter inside the 9px bezel */
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "stage";
+  }
+  .s-owner__device {
+    padding: 40px 0;
+  }
+  .s-owner__notes {
+    grid-area: stage;
+    justify-self: center;
+    align-self: center;
+    position: relative;
+    z-index: 2;
+    width: calc(var(--phone-w) * var(--s));
+    height: calc(var(--phone-h) * var(--s));
+    border: 0;
+    pointer-events: none;
+  }
+  .s-owner__note {
+    position: absolute;
+    top: calc(var(--y) * var(--s) * 1px - 20px);
+    width: var(--note-w);
+    padding: 0;
+    box-shadow: none;
+  }
+  .s-owner__note--access {
+    --y: 69;
+  }
+  .s-owner__note--reports {
+    --y: 625;
+  }
+  .s-owner__note--branch {
+    --y: 69;
+  }
+  .s-owner__note--cash {
+    --y: 311;
+  }
+  .s-owner__note--pay {
+    --y: 495;
+  }
+  .s-owner__note--access,
+  .s-owner__note--reports {
+    right: calc(100% + var(--gap));
+    text-align: right;
+  }
+  .s-owner__note--access .s-owner__note-head,
+  .s-owner__note--reports .s-owner__note-head {
+    flex-direction: row-reverse;
+  }
+  .s-owner__note--branch,
+  .s-owner__note--cash,
+  .s-owner__note--pay {
+    left: calc(100% + var(--gap));
+  }
+  .s-owner__note h3 {
+    font-size: 15px;
+  }
+  .s-owner__note p {
+    max-width: none;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  /* Connector and dot */
+  .s-owner__note::before,
+  .s-owner__note::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    pointer-events: none;
+  }
+  .s-owner__note::before {
+    width: calc(var(--gap) - 8px + var(--pin));
+    height: 1px;
+    background: rgba(11, 18, 32, 0.2);
+  }
+  .s-owner__note::after {
+    width: 7px;
+    height: 7px;
+    margin-top: -3px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow:
+      0 0 0 2px var(--surface),
+      0 1px 4px 2px rgba(42, 91, 255, 0.2);
+  }
+  .s-owner__note--access::before,
+  .s-owner__note--reports::before {
+    left: calc(100% + 8px);
+    transform-origin: right center;
+  }
+  .s-owner__note--access::after,
+  .s-owner__note--reports::after {
+    left: calc(100% + var(--gap) + var(--pin) - 3.5px);
+  }
+  .s-owner__note--branch::before,
+  .s-owner__note--cash::before,
+  .s-owner__note--pay::before {
+    right: calc(100% + 8px);
+    transform-origin: left center;
+  }
+  .s-owner__note--branch::after,
+  .s-owner__note--cash::after,
+  .s-owner__note--pay::after {
+    right: calc(100% + var(--gap) + var(--pin) - 3.5px);
+  }
+
+  /* Entrance: the dot appears on the phone, the line runs out to the note, then the note fades in.
+     The note itself never moves, so the line always meets the dashboard where it should. */
+  .js .s-owner__note.reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .js .s-owner__note::after {
+    opacity: 0;
+    transition: opacity 300ms ease calc(var(--delay, 0ms) + 400ms);
+  }
+  .js .s-owner__note::before {
+    transform: scaleX(0);
+    transition: transform 600ms var(--ease-out) calc(var(--delay, 0ms) + 480ms);
+  }
+  .js .s-owner__note > * {
+    opacity: 0;
+    transition: opacity 500ms ease calc(var(--delay, 0ms) + 700ms);
+  }
+  .js .s-owner__note.is-in::after,
+  .js .s-owner__note.is-in > * {
+    opacity: 1;
+  }
+  .js .s-owner__note.is-in::before {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .s-owner__note::before {
+    transform: none;
+    opacity: 0;
+    transition: opacity 400ms ease;
+  }
+  .js .s-owner__note.is-in::before {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,4 @@
+.DS_Store
+node_modules/
+# temporary art-direction prototypes
+landing/lab/
