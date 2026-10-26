@@ -273,8 +273,8 @@ vec3 shadeCloud(vec3 p, vec2 w){
   // four planes with short transitions, stated rather than blended: shadow, a warm half-tone
   // where a turret turns away, light, and full light where it faces the sun
   float lit = smoothstep(-0.02, 0.04, L);
-  float top = smoothstep(0.14, 0.3, L);
-  float full = smoothstep(0.38, 0.56, L);
+  float top = smoothstep(0.16, 0.25, L);
+  float full = smoothstep(0.4, 0.5, L);
   gLit = lit;
 
   // shadow: a cool, slightly grey blue, lifted where it faces the sky, warmed from below by

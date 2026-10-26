@@ -13,7 +13,7 @@ export const frame = (width, top, bottom) => ({ aspect: width / (top - bottom), 
 // many billows it sprouts (0: the design is final); dz sets it back in depth. Units: k = 1.
 export const TOWER = [
   // foot, in the sea
-  [-1.2, 0.1, 0.65], [-0.2, 0.25, 0.9], [0.95, 0.15, 0.75],
+  [-1.2, 0.1, 0.65], [-0.2, 0.25, 0.9], [0.95, 0.15, 0.75, 0, 0, 0.35],
   // body: turrets stacked with alternating offsets
   [-0.35, 1.25, 1.0], [0.6, 1.05, 0.78], [-0.55, 2.15, 0.85], [0.45, 2.2, 0.8], [-0.25, 2.95, 0.88],
   // crown, wider than the neck: three big billows and two on top

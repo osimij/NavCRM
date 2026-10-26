@@ -10,8 +10,9 @@ const PHONE = matchMedia('(max-width: 759.98px)');
 const TABLET = matchMedia('(max-width: 1099.98px)');
 const params = new URLSearchParams(location.search);
 const OUTLINE = { desktop: towerOutline(...FRAMES.desktop.tower), phone: towerOutline(...FRAMES.phone.tower) };
-// the stills' resolution in CSS pixels per world unit (1x: the 1x still; 2x screens get the 2x still)
-const STILL_U = { desktop: 2236 / FRAMES.desktop.width, phone: 600 / FRAMES.phone.width };
+// the 1x stills' widths (the 2x stills are twice that), and so their pixels per world unit
+const STILL_PX = { desktop: 2236, phone: 600 };
+const STILL_U = { desktop: STILL_PX.desktop / FRAMES.desktop.width, phone: STILL_PX.phone / FRAMES.phone.width };
 
 export function init(root) {
   const frame = root.querySelector('.s-hero__frame');
@@ -83,7 +84,7 @@ export function init(root) {
     sky.style.setProperty('--sky-top', `${top.toFixed(1)}px`);
     // around the painting's box: the zenith above it, the sky's own gradient to the horizon,
     // and the page below the sea
-    const z = Math.max(0, top + h * 0.06);
+    const z = Math.max(0, top + h * (place.mode === 'gap' ? 0.12 : 0.06));
     art.style.setProperty('--art-bg', `linear-gradient(180deg, #6b9ee3 ${z.toFixed(0)}px, #a9c9f1 ${(yh - 0.42 * (yh - z)).toFixed(0)}px, #e9f0f8 ${(yh - 14).toFixed(0)}px, #f7f4ef ${(yh + 24).toFixed(0)}px, #f6f8fb ${(yh + 5.5 * u).toFixed(0)}px)`);
     box = { name, comp: F, W, H, w, h, top, left, yh, u };
     root.dataset.artMode = place.mode;
@@ -121,9 +122,9 @@ export function init(root) {
     add(lines(title), 52);
     add(lines(lead), 48);
     add([actions.getBoundingClientRect(), facts.getBoundingClientRect()], 40);
-    const minTop = 78; // below the nav
+    const minTop = 92; // below the nav, with air
     const narrow = TABLET.matches;
-    const margin = narrow ? 0 : 36;
+    const margin = narrow ? 12 : 36;
     const crop = narrow ? 0.22 * (O.right - O.left) : 0;
     const half = F.width / 2;
 
@@ -134,7 +135,8 @@ export function init(root) {
           if (y < 0.2) continue; // at the horizon the tower stands behind the product
           const sy = yh - y * u;
           for (const b of bands) if (sy >= b.t - 12 && sy <= b.b + 12) lo = Math.max(lo, b.r + b.gap - xl * u);
-          hi = Math.min(hi, W - margin + crop * u - xr * u);
+          // the crown always stays whole; on tablets the shaded side of the body may run off the edge
+          hi = Math.min(hi, W - margin + (y < 2.8 ? crop * u : 0) - xr * u);
         }
         if (cover) { lo = Math.max(lo, W - half * u); hi = Math.min(hi, half * u); }
         if (lo <= hi) return { u, X0: lo + (hi - lo) * 0.3 };
@@ -189,8 +191,10 @@ export function init(root) {
     const L = box;
     if (!L) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // device pixels the box needs against the pixels of the still the browser chose
+    // (naturalWidth is density-corrected under srcset, so read the candidate instead)
     const need = L.w * dpr;
-    const have = still.complete && still.naturalWidth ? still.naturalWidth : 0;
+    const have = still.complete && still.naturalWidth ? STILL_PX[L.name] * (/@2x\./.test(still.currentSrc) ? 2 : 1) : 0;
     if (!force && have && need <= have * 1.06) return;
 
     const mod = await import('../art/sky.js');

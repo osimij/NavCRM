@@ -46,9 +46,9 @@
   width: var(--sky-w, 150%);
   height: var(--sky-h, auto);
   transform: translate3d(var(--sky-x, -50%), var(--sky-shift, 0px), 0);
-  -webkit-mask: linear-gradient(90deg, transparent, #000 2.5%), linear-gradient(180deg, transparent, #000 5%);
+  -webkit-mask: linear-gradient(90deg, transparent, #000 2.5%), linear-gradient(180deg, transparent, #000 var(--sky-fade, 5%));
   -webkit-mask-composite: source-in;
-  mask: linear-gradient(90deg, transparent, #000 2.5%), linear-gradient(180deg, transparent, #000 5%);
+  mask: linear-gradient(90deg, transparent, #000 2.5%), linear-gradient(180deg, transparent, #000 var(--sky-fade, 5%));
   mask-composite: intersect;
   /* a tiny, blurred copy of the painting (inlined below) holds the place until the still decodes */
   background-repeat: no-repeat;
@@ -80,8 +80,8 @@
   }
 }
 /* lqip:start (written by scripts/bake-art.mjs: a tiny blurred copy of each still) */
-/* hero-desktop */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRkoCAABXRUJQVlA4WAoAAAAgAAAAGwAAEQAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggXAAAABADAJ0BKhwAEgA+nT6ZSCWjIqEwCACwE4ljALToKzzXgAD+8YmL7/tgNv/0MiYIXCy7JOD7ErRi2iXqwa3F9n/i3UjwrHK1g+GhFv/54b4ge1iBSB4X4iRjYQAA"); }
-@media (max-width: 759.98px) { /* hero-phone */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRtYCAABXRUJQVlA4WAoAAAAgAAAAGwAAagAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDgg6AAAAFAHAJ0BKhwAawA+nUSbSiWjoiGrfMjgsBOJZQDBVBm8I1+FRfQ2VEoEu6g9HZ4kxcd/k9LcTVhg6WWFsW1Rta0Z7AAA/u7MYFeBZl615+w8rcYTH6AgevHn+fX2j+KQ5y/DouB30bNWulDQPGf39MxYCQbOeH1+M+sIN8RsWaPZZF3W7g1EMcvBpOFha0N0tNtejNqHukcgBpRPOjNegGVPty5cAaCn+HoATLba8frVODG4BJ/AB/w+KslEdNpcXJPAqImoobQpMnSkfF03eJHOTMOLR4IVcPp/TOeQ0FAhlI7U/2TGgAA="); } }
+/* hero-desktop */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRkoCAABXRUJQVlA4WAoAAAAgAAAAGwAAEQAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggXAAAAFADAJ0BKhwAEgA+nT6ZSCWjIqEwCACwE4ljALDsKUP9zG0AAP7xiYvv+2A2//QyJghcLLsk4PsStGLZzX+dlGfMzqimJ+RSNAurcdnOnpYE/WDYanF1vMaYIsAA"); }
+@media (max-width: 759.98px) { /* hero-phone */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRu4CAABXRUJQVlA4WAoAAAAgAAAAGwAAagAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggAAEAALAHAJ0BKhwAawA+nUKbSSWjoqqrfMqpUBOJZQDK8Bqut27zLYL55OZ7pyCiM+vO2mFXNT+lb19lCb4icaGJLDA64shhpnQA/u7MYFeBZl8jsIWlq+wwidXQvew/5hCGbZakR8E8+ANuk/4FmSmLdXUHq35qmF7aXdZcj7X6OpyRiY/mUUr250WlZeZaHgJixS2GWswRCOn3aig0NXVZPqS253IOTtZRwPAHUpTAl5t+ZWG3d/AQm6NAz4jdb6ngXcA7mD9dH5A8+yvzXSVGt37diWR7tOsQyGKZu56MgOli7iVJoZ2ABKBnSZZQdcyHQ18miEXh1cIomYw/FGAAAAA="); } }
 /* lqip:end */
 /* the live render covers only the part of the box inside the frame (placed by hero.js) */
 .s-hero__live {
@@ -100,6 +100,18 @@
   opacity: 0.18;
   mix-blend-mode: soft-light;
   background-size: 160px 160px;
+}
+
+/* Where the painting's top edge sits inside the frame (portrait tablets), the copy is over the
+   deep blue of the zenith: a soft lift of the light behind it keeps the lead and facts readable. */
+.s-hero[data-art-mode="gap"] .s-hero__sky {
+  --sky-fade: 18%;
+}
+.s-hero[data-art-mode="gap"] .s-hero__art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(70% 34% at 50% 22%, rgba(244, 248, 253, 0.62), rgba(244, 248, 253, 0.3) 55%, rgba(244, 248, 253, 0) 100%);
 }
 
 /* ---------- copy ---------- */
@@ -122,7 +134,7 @@
 .s-hero__lead {
   /* a reading measure of about 62 characters, which also ends the lines before the cloud */
   max-width: 31em;
-  margin-top: clamp(18px, 1.5vw, 22px);
+  margin-top: clamp(20px, 1.6vw, 24px);
   color: #34415a;
 }
 @media (min-width: 1280px) {
@@ -1157,7 +1169,7 @@
     font-size: clamp(2.25rem, 0.9rem + 2.9vw, 3.375rem);
   }
   .s-hero__lead {
-    margin-top: 18px;
+    margin-top: 22px;
     font-size: 1.0625rem;
   }
   .s-hero__actions {
@@ -1322,7 +1334,7 @@
     font-size: 2.25rem;
   }
   .s-hero__lead {
-    margin-top: 12px;
+    margin-top: 16px;
     font-size: 0.96875rem;
     line-height: 1.48;
   }
