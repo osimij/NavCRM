@@ -75,11 +75,13 @@
     <!-- The painted sky. The still is chosen per screen and laid out by js/sections/hero.js so the
          cloud-sea horizon meets the top edge of the app window; capable desktops bake it live. -->
     <div class="s-hero__art" aria-hidden="true">
-      <picture class="s-hero__sky" data-sky>
-        <source media="(max-width: 759.98px)" srcset="assets/art/hero-phone.webp 520w, assets/art/hero-phone@2x.webp 1040w" sizes="112vw" />
-        <source media="(max-width: 1099.98px)" srcset="assets/art/hero-tablet.webp 1100w, assets/art/hero-tablet@2x.webp 2200w" sizes="118vw" />
-        <img src="assets/art/hero-desktop.webp" srcset="assets/art/hero-desktop.webp 1680w, assets/art/hero-desktop@2x.webp 3360w" sizes="112vw" alt="" fetchpriority="high" decoding="async" />
-      </picture>
+      <div class="s-hero__sky" data-sky>
+        <picture>
+          <source media="(max-width: 759.98px)" srcset="assets/art/hero-phone.webp 520w, assets/art/hero-phone@2x.webp 1040w" sizes="112vw" />
+          <source media="(max-width: 1099.98px)" srcset="assets/art/hero-tablet.webp 1100w, assets/art/hero-tablet@2x.webp 2200w" sizes="118vw" />
+          <img src="assets/art/hero-desktop.webp" srcset="assets/art/hero-desktop.webp 1680w, assets/art/hero-desktop@2x.webp 3360w" sizes="112vw" alt="" fetchpriority="high" decoding="async" />
+        </picture>
+      </div>
       <div class="s-hero__grain"></div>
     </div>
 

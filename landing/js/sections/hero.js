@@ -13,7 +13,7 @@ export function init(root) {
   const stage = root.querySelector('[data-stage]');
   const comp = root.querySelector('[data-comp]');
   const sky = root.querySelector('[data-sky]');
-  const still = sky.querySelector('img');
+  const still = sky.querySelector('picture img');
 
   grain(root.querySelector('.s-hero__grain'));
   odometers(comp);
@@ -156,6 +156,7 @@ export function init(root) {
 
   const setOdo = (to) => comp.querySelectorAll('[data-odo]').forEach((el) => el._odo?.(to ? el.dataset.odo : el.dataset.from));
   const startState = () => {
+    delete comp.dataset.reset;
     comp.dataset.note = 'off';
     comp.dataset.slot = 'off';
     comp.dataset.umed = 'chair';
@@ -224,7 +225,11 @@ export function init(root) {
     delete comp.dataset.toast;
     setOdo(true);
     await sleep(4300, signal);
+    // everything that changed fades back to the start, then the day plays again
     comp.dataset.reset = '';
+    startState();
+    comp.dataset.reset = '';
+    await sleep(500, signal);
   }
 
   if (!reducedMotion.matches) startState();

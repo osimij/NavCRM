@@ -92,6 +92,9 @@ vec3 skyCol(vec2 w){
   // a low band of warmth along the horizon, stronger toward the sun
   float band = exp(-max(w.y, 0.0) * 1.1) * (0.55 + 0.45 * smoothstep(8.0, -8.0, w.x - uGlow.x * 0.3));
   c = mix(c, toLin(P_skyBand), band * uGlow.w);
+  // broad, faint horizontal strokes, strongest high in the sky
+  float stroke = tn(w * vec2(0.07, 0.42) + vec2(3.1, 0.0)) * 0.6 + tn(w * vec2(0.16, 0.9) + vec2(7.7, 2.0)) * 0.4;
+  c *= 1.0 + stroke * 0.022 * smoothstep(0.5, 4.0, w.y);
   return c;
 }
 
@@ -117,17 +120,20 @@ void gather(vec2 fc, vec2 w){
   if (np > 0) gAttr = texelFetch(uLobes, ivec2(lp[0], 1), 0);
 }
 
-float billow(vec3 p){
+float billow(vec3 p, float fine){
   vec3 q = p * 0.55;
-  return dome(q) * 0.6 + dome(q * 2.2 + vec3(0.37, 0.11, 0.73)) * 0.4;
+  float b = dome(q) * 0.6 + dome(q * 2.2 + vec3(0.37, 0.11, 0.73)) * 0.4;
+  // the crown gets a finer octave: crisp cauliflower along the sunlit silhouette
+  return b + (dome(q * 4.9 + vec3(0.71, 0.29, 0.53)) - 0.55) * 0.3 * fine;
 }
 float sdP(vec3 p){
   float d = 1e4;
   for (int k = 0; k < 64; k++){ if (k >= np) break; vec4 s = lobe(lp[k]); d = smin(d, length(p - s.xyz) - s.w, 0.1); }
   d = smax(d, gAttr.y - p.y, 0.22);
   // billows are small and busy in the crown, broad and quiet in the body
-  float amp = gAttr.z * mix(0.55, 1.25, smoothstep(gAttr.w - 1.2, gAttr.w + 0.6, p.y));
-  if (d < 0.2) d -= (billow(p) - 0.5) * amp * smoothstep(gAttr.y, gAttr.y + 0.7, p.y);
+  float cr = smoothstep(gAttr.w - 1.2, gAttr.w + 0.6, p.y);
+  float amp = gAttr.z * mix(0.55, 1.3, cr);
+  if (d < 0.2) d -= (billow(p, cr) - 0.5) * amp * smoothstep(gAttr.y, gAttr.y + 0.7, p.y);
   return d;
 }
 float sdBig(vec3 p){
@@ -195,10 +201,17 @@ vec3 shadeCloud(vec3 p, vec2 w){
   // a shadow cast across a face that turns to the sun is filled by light bounced inside the cloud
   shC = mix(shC, P_clShUp * 1.03, smoothstep(0.0, 0.45, ndl) * 0.55);
   vec3 col = mix(shC, P_clHalf, lit);
-  col = mix(col, mix(P_clLit, P_clLit2, smoothstep(0.3, 0.55, L)), top);
-  // in shadow, billows are described by their thin, light-filled edges
+  // on the light side each billow gets a light cap and a warm half-tone underside
+  float Ld = dot(nd, uSun) - (1.0 - ao) * 0.5;
+  vec3 litC = mix(P_clLit, P_clLit2, smoothstep(0.3, 0.55, L));
+  // the light side is brightest in the crown and settles, a touch warmer, toward the base
+  litC = mix(litC * vec3(0.972, 0.952, 0.935), litC, smoothstep(gAttr.y, gAttr.w + 1.4, p.y));
+  vec3 capC = mix(mix(P_clHalf, litC, 0.38), litC, smoothstep(0.07, 0.28, Ld));
+  col = mix(col, capC, top);
+  // in shadow, billows are described by their thin, light-filled edges and darker creases
   float sil = pow(clamp(1.0 - abs(nd.z), 0.0, 1.0), 3.0);
-  col = mix(col, P_clRim, sil * (1.0 - lit) * 0.5);
+  col = mix(col, P_clRim, sil * (1.0 - lit) * 0.62);
+  col *= mix(vec3(0.88, 0.91, 0.97), vec3(1.0), mix(ao, 1.0, lit));
   gEdge = sil * sil * (1.0 - lit);
   vec3 c = toLin(col);
   float low = 1.0 - smoothstep(-0.6, 3.2, p.y);
@@ -640,14 +653,14 @@ function noisePlane(N = 512, P = 32, seed = 3) {
 export const LIGHTS = {
   // Late-October morning: low sun from the upper left, warm light, clear blue shadows.
   morning: {
-    sun: [-0.7, 0.6, -0.15],
+    sun: [-0.62, 0.62, -0.42],
     seaSun: [-0.78, 0.42, 0.12],
     glow: [-12.5, 3.0, 0.62, 0.42],
     mood: [0, 0, 0, 0],
     pal: {
       skyZen: [0.42, 0.62, 0.89], skyMid: [0.68, 0.81, 0.955], skyHor: [0.935, 0.955, 0.975],
       skyGlow: [1.0, 0.965, 0.915], skyBand: [1.0, 0.955, 0.9],
-      clLit: [0.975, 0.95, 0.925], clLit2: [1.0, 0.985, 0.958], clHalf: [0.9, 0.87, 0.875],
+      clLit: [0.98, 0.962, 0.94], clLit2: [1.0, 0.99, 0.968], clHalf: [0.9, 0.87, 0.875],
       clShUp: [0.77, 0.83, 0.94], clShDn: [0.6, 0.675, 0.83], clRefl: [0.83, 0.815, 0.83], clRim: [0.86, 0.9, 0.97],
       seaLit: [0.975, 0.955, 0.93], seaLit2: [1.0, 0.99, 0.97], seaShLo: [0.68, 0.735, 0.86], seaShHi: [0.8, 0.845, 0.94],
       rockLit: [0.74, 0.70, 0.69], rockSh: [0.42, 0.51, 0.69],
@@ -664,6 +677,29 @@ export const LIGHTS = {
 // Peaks are [screen x, screen height, distance, screen radius, aretes, phase, gully depth, wobble].
 const frame = (width, top, bottom) => ({ aspect: width / (top - bottom), hz: -bottom / (top - bottom), span: top - bottom });
 
+// The same tower and massif appear in every framing, scaled and placed: one world.
+// The tower: a broad base, a body that narrows gently and a cluster of crown heads.
+const TOWER = [[4.55, 0.35, 0.75], [5.45, 0.25, 0.95], [6.45, 0.3, 0.95], [7.25, 0.45, 0.75],
+  [4.65, 1.3, 0.7], [5.5, 1.4, 0.9], [6.4, 1.35, 0.85], [7.0, 1.5, 0.55],
+  [4.8, 2.3, 0.62], [5.6, 2.4, 0.85], [6.4, 2.35, 0.72],
+  [5.0, 3.2, 0.55], [5.8, 3.3, 0.85], [6.5, 3.2, 0.5],
+  [5.45, 4.1, 0.55], [6.05, 4.15, 0.5], [5.75, 4.55, 0.4]];
+const TOWER_X = 5.85;
+/** The tower centred at x, scaled by k (k = 1 in the desktop frame). */
+export const tower = (x, k = 1) => ({
+  z: 14, haze: 0.0, base: -0.6, jitter: 0.45 * k, billow: 0.095 * k, crown: 2.9 * k,
+  lobes: TOWER.map(([lx, ly, r]) => [x + (lx - TOWER_X) * k, ly * k, r * k]),
+});
+// The massif: one designed peak, a shoulder behind it and a low spur toward the sea.
+const MASSIF = [[0, 1.75, 60, 2.1, 4, 0.6, 0.55, 1], [-1.8, 1.15, 64, 1.9, 5, 1.1, 0.6, 1], [1.9, 0.55, 70, 1.5, 4, 2.0, 0.5, 1]];
+/** The massif with its main summit at x, scaled by k. */
+export const massif = (x, k = 1) => MASSIF.map(([sx, sh, d, sr, ...rest]) => [x + sx * k, sh * k, d, sr * k, ...rest]);
+// Distant cumulus resting on the far sea, for depth.
+export const farCloud = (x, k = 1, haze = 0.32) => ({
+  z: 24, haze, base: -0.3, jitter: 0.6 * k, billow: 0.06 * k,
+  lobes: [[0, 0.6, 0.9], [0.95, 0.45, 0.8], [0.45, 1.35, 0.7], [-0.4, 1.5, 0.62]].map(([lx, ly, r]) => [x + lx * k, ly * k, r * k]),
+});
+
 const desktop = {
   ...frame(15, 7.4, -9.5),
   light: 'morning',
@@ -671,28 +707,20 @@ const desktop = {
   fade: -8.4,
   sea: [-2.2, 1.5, 0.12],
   paint: 0.0034,
-  clouds: [
-    { // a lower group resting behind the left range
-      z: 24, haze: 0.3, base: -0.3, jitter: 0.6, billow: 0.06,
-      lobes: [[-7.9, 0.6, 0.9], [-6.95, 0.45, 0.8], [-7.45, 1.35, 0.7], [-8.3, 1.5, 0.62]],
-    },
-    { // a far cumulus beyond the tower, for depth
-      z: 30, haze: 0.42, base: -0.2, jitter: 0.5, billow: 0.05,
-      lobes: [[7.6, 0.4, 0.7], [8.4, 0.35, 0.6], [7.95, 1.05, 0.5]],
-    },
-    { // the tower: the focal point of the frame. A broad body, a small sunlit turret and one
-      // dominant crown head with its shoulders; small billows only along the edges
-      z: 14, haze: 0.0, base: -0.6, jitter: 0.45, billow: 0.095, crown: 2.9,
-      lobes: [[4.6, 0.4, 0.8], [5.45, 0.25, 1.0], [6.45, 0.3, 1.0], [7.35, 0.5, 0.82],
-        [4.85, 1.3, 0.72], [5.7, 1.45, 0.95], [6.6, 1.4, 0.8],
-        [4.3, 2.0, 0.42], [4.42, 2.45, 0.32],
-        [5.15, 2.45, 0.66], [6.25, 2.5, 0.75],
-        [5.75, 3.35, 1.0], [5.05, 3.25, 0.55], [6.55, 3.15, 0.6], [5.5, 4.2, 0.55], [6.05, 4.25, 0.5]],
-    },
-  ],
-  peaks: [
-    [-5.9, 1.75, 60, 2.1, 4, 0.6, 0.55, 1], [-7.7, 1.15, 64, 1.9, 5, 1.1, 0.6, 1], [-4.0, 0.55, 70, 1.5, 4, 2.0, 0.5, 1],
-  ],
+  clouds: [farCloud(-7.9, 1, 0.3), farCloud(7.7, 0.7, 0.42), tower(5.85)],
+  peaks: massif(-5.9),
+};
+
+// Tablets and narrow windows: the tower closer to the copy, the massif cropped at the left.
+const tablet = {
+  ...frame(11, 8.4, -10.0),
+  light: 'morning',
+  snow: 5.6,
+  fade: -8.9,
+  sea: [-2.2, 1.5, 0.12],
+  paint: 0.0032,
+  clouds: [farCloud(-5.9, 0.85, 0.3), tower(4.05, 0.86)],
+  peaks: massif(-4.3, 0.9),
 };
 
 // Phones: a tall frame. The tower stands on the right behind the end of the copy, its lit side
@@ -704,42 +732,8 @@ const phone = {
   fade: -12.6,
   sea: [-2.2, 1.5, 0.12],
   paint: 0.0026,
-  clouds: [
-    { z: 24, haze: 0.32, base: -0.3, jitter: 0.5, billow: 0.05,
-      lobes: [[-3.8, 0.45, 0.6], [-3.1, 0.35, 0.5], [-3.5, 1.0, 0.45]] },
-    { z: 14, haze: 0.0, base: -0.6, jitter: 0.45, billow: 0.085, crown: 2.6,
-      lobes: [[1.6, 0.45, 0.8], [2.55, 0.3, 1.0], [3.55, 0.4, 1.0], [4.4, 0.55, 0.9],
-        [1.85, 1.35, 0.75], [2.75, 1.6, 0.95], [3.7, 1.6, 0.85],
-        [1.15, 1.95, 0.42], [1.27, 2.45, 0.33],
-        [2.1, 2.5, 0.65], [2.9, 2.75, 0.8], [3.65, 2.6, 0.6],
-        [2.25, 3.4, 0.55], [2.95, 3.6, 0.62], [3.5, 3.35, 0.42], [2.55, 4.15, 0.4], [3.1, 4.25, 0.36]] },
-  ],
-  peaks: [
-    [-2.3, 1.3, 60, 1.6, 4, 0.6, 0.55, 1], [-3.7, 0.85, 64, 1.4, 5, 1.1, 0.6, 1], [-0.9, 0.42, 70, 1.1, 4, 2.0, 0.5, 1],
-  ],
-};
-
-// Tablets and narrow windows: between the two, the tower closer in, the massif cropped.
-const tablet = {
-  ...frame(11, 8.4, -10.0),
-  light: 'morning',
-  snow: 5.6,
-  fade: -8.9,
-  sea: [-2.2, 1.5, 0.12],
-  paint: 0.0036,
-  clouds: [
-    { z: 24, haze: 0.3, base: -0.3, jitter: 0.6, billow: 0.06,
-      lobes: [[-5.9, 0.6, 0.8], [-5.1, 0.45, 0.7], [-5.5, 1.3, 0.62]] },
-    { z: 14, haze: 0.0, base: -0.6, jitter: 0.55, billow: 0.095, crown: 3.0,
-      lobes: [[2.9, 0.5, 0.95], [4.0, 0.3, 1.2], [5.2, 0.4, 1.2], [6.3, 0.6, 1.05],
-        [3.2, 1.55, 0.88], [4.25, 1.8, 1.12], [5.35, 1.8, 0.98],
-        [2.45, 2.2, 0.48], [2.6, 2.75, 0.38],
-        [3.55, 2.8, 0.76], [4.45, 3.1, 0.94], [5.3, 2.9, 0.7],
-        [3.75, 3.85, 0.64], [4.55, 4.1, 0.72], [5.2, 3.8, 0.5], [4.1, 4.75, 0.47], [4.75, 4.85, 0.42]] },
-  ],
-  peaks: [
-    [-4.2, 1.6, 60, 1.9, 4, 0.6, 0.55, 1], [-5.8, 1.05, 64, 1.7, 5, 1.1, 0.6, 1], [-2.5, 0.5, 70, 1.3, 4, 2.0, 0.5, 1],
-  ],
+  clouds: [farCloud(-3.7, 0.55, 0.32), tower(2.4, 0.64)],
+  peaks: massif(-2.1, 0.78),
 };
 
 export const COMPOSITIONS = { desktop, tablet, phone };
