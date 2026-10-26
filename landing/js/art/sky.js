@@ -390,6 +390,7 @@ vec3 seaShade(vec3 p, float t, vec2 w){
   float near = 1.0 - smoothstep(5.0, 24.0, t);
   col = mix(col, mix(litC, P_seaShHi, 0.25), near * 0.55);
   vec3 c = toLin(col);
+  c *= 1.0 + uMood.w;
   float hz = 1.0 - exp(-t * 0.026);
   hz = max(hz, smoothstep(40.0, 100.0, t));
   return mix(c, seaHaze(w), clamp(hz, 0.0, 1.0));
@@ -501,6 +502,10 @@ uniform vec2 uPad;
 uniform float uRadius;
 uniform float uHard;
 uniform float uMix;
+uniform vec2 uOrigin;   // this canvas inside the composition, in pixels from the bottom-left
+uniform vec2 uFull;
+uniform vec3 uFrame;    // aspect, horizon, span
+uniform float uStars;
 out vec4 o;
 
 float hash12(vec2 p){
@@ -576,6 +581,20 @@ void main(){
   }
   vec3 painted = acc.w > 0.0 ? acc.rgb / acc.w : src.rgb;
   vec3 col = mix(src.rgb, painted, uMix);
+  // stars, after the paint so the brush cannot wipe them out; only in open sky
+  if (uStars > 0.0) {
+    vec2 fp = gl_FragCoord.xy + uOrigin;
+    float wy = (fp.y / uFull.y - uFrame.y) * uFrame.z;
+    float cell = uFull.y * 0.011;
+    vec2 g = fp / cell, id = floor(g), f = fract(g);
+    float h = hash12(id + 11.0);
+    if (h > 0.93) {
+      vec2 at = vec2(hash12(id + vec2(5.0, 1.0)), hash12(id + vec2(1.0, 9.0))) * 0.7 + 0.15;
+      float r = length((f - at) * cell) / max(0.6, uFull.y * 0.00055);
+      float lum = exp(-r * r * 1.4) * mix(0.25, 1.0, (h - 0.93) / 0.07);
+      col += vec3(0.93, 0.96, 1.0) * lum * uStars * (1.0 - src.a) * smoothstep(0.8, 4.5, wy);
+    }
+  }
   col += (hash12(gl_FragCoord.xy) - 0.5) / 255.0;
   o = vec4(col, 1.0);
 }`;
@@ -671,6 +690,24 @@ export const LIGHTS = {
       haze: [0.975, 0.975, 0.97], bg: [246 / 255, 248 / 255, 251 / 255], halo: [0.97, 0.965, 0.95],
     },
   },
+  // A starting point for night plates: a high moon from the upper left, a deep blue sky with a
+  // few stars, clouds and snow lit cool. Tune per plate; keep it light enough for white glass.
+  night: {
+    sun: [-0.5, 0.75, -0.4],
+    seaSun: [-0.7, 0.55, 0.1],
+    glow: [-9.0, 1.5, 0.3, 0.55],
+    mood: [0.85, 0.05, 0.05, 0],
+    pal: {
+      skyZen: [0.13, 0.2, 0.4], skyMid: [0.24, 0.33, 0.56], skyHor: [0.5, 0.57, 0.74],
+      skyGlow: [0.56, 0.62, 0.8], skyBand: [0.62, 0.64, 0.78],
+      clLit: [0.76, 0.8, 0.91], clLit2: [0.84, 0.87, 0.95], clHalf: [0.6, 0.63, 0.78],
+      clShUp: [0.42, 0.5, 0.7], clShDn: [0.3, 0.36, 0.55], clRefl: [0.48, 0.52, 0.68], clRim: [0.62, 0.69, 0.86],
+      seaLit: [0.66, 0.71, 0.85], seaLit2: [0.74, 0.79, 0.91], seaShLo: [0.36, 0.43, 0.62], seaShHi: [0.5, 0.57, 0.76],
+      rockLit: [0.45, 0.5, 0.63], rockSh: [0.24, 0.3, 0.46],
+      snowLit: [0.8, 0.85, 0.95], snowSh: [0.45, 0.53, 0.72], snowShUp: [0.55, 0.63, 0.83],
+      haze: [0.58, 0.64, 0.79], bg: [246 / 255, 248 / 255, 251 / 255], halo: [0.6, 0.66, 0.83],
+    },
+  },
 };
 
 /* ====================================================================== compositions */
@@ -678,7 +715,8 @@ export const LIGHTS = {
 // World units: composition height = span, horizon at y = 0, x centred.
 // Cloud lobes are [x, y, r] on the screen plane at the cloud's depth z.
 // Peaks are [screen x, screen height, distance, screen radius, aretes, phase, gully depth, wobble].
-const frame = (width, top, bottom) => ({ aspect: width / (top - bottom), hz: -bottom / (top - bottom), span: top - bottom });
+/** A frame `width` world units wide, from `top` above the horizon to `bottom` below it. */
+export const frame = (width, top, bottom) => ({ aspect: width / (top - bottom), hz: -bottom / (top - bottom), span: top - bottom });
 
 // The same tower and massif appear in every framing, scaled and placed: one world.
 // The tower: a broad base, a body that narrows gently and a cluster of crown heads.
@@ -736,7 +774,7 @@ const phone = {
   sea: [-2.2, 1.5, 0.12],
   paint: 0.0026,
   clouds: [farCloud(-3.7, 0.55, 0.32), tower(2.45, 0.57)],
-  peaks: massif(-2.1, 0.78),
+  peaks: massif(-2.25, 0.62),
 };
 
 export const COMPOSITIONS = { desktop, tablet, phone };
@@ -978,6 +1016,8 @@ export function bakeSky(canvas, comp, opts = {}) {
         gl.uniform1i(q.u('uSrc'), T.scene.unit); gl.uniform1i(q.u('uTfm'), T.tfmA.unit);
         gl.uniform2f(q.u('uPad'), pad, pad); gl.uniform1f(q.u('uRadius'), radius);
         gl.uniform1f(q.u('uHard'), comp.hard ?? 8); gl.uniform1f(q.u('uMix'), comp.paintMix ?? 1);
+        gl.uniform2f(q.u('uOrigin'), origin[0], origin[1]); gl.uniform2f(q.u('uFull'), fullW, fullH);
+        gl.uniform3f(q.u('uFrame'), comp.aspect, comp.hz, comp.span); gl.uniform1f(q.u('uStars'), (light.mood || [0])[0]);
       },
     },
   ];

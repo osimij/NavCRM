@@ -556,7 +556,7 @@
 /* ---------- notification ---------- */
 .s-hero__note {
   right: 89px;
-  top: 146px;
+  top: 130px;
   z-index: 4;
   width: 336px;
   display: flex;
@@ -594,6 +594,10 @@
   font-weight: 560;
   color: var(--ink-2);
 }
+.s-hero__note-top b,
+.s-hero__note-top span {
+  white-space: nowrap;
+}
 .s-hero__note-name {
   margin-top: 3px;
   font-size: 15px;
@@ -610,7 +614,7 @@
 /* ---------- Telegram reminder ---------- */
 .s-hero__tg {
   right: 137px;
-  top: 470px;
+  top: 452px;
   z-index: 4;
   width: 288px;
   padding: 12px;
@@ -830,6 +834,36 @@
   font-size: 15px;
 }
 
+/* the app's tab bar along the bottom of the screen */
+.s-hero__tabbar {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 12px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 44px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow-xs);
+  color: var(--ink-3);
+}
+.s-hero__tabbar span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+}
+.s-hero__tabbar .i {
+  font-size: 17px;
+}
+.s-hero__tabbar .is-on {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
 /* digits that roll in fixed-width cells */
 .s-hero__odo {
   display: inline-flex;
@@ -1037,19 +1071,26 @@
     --ch: 640;
   }
   .s-hero__win {
-    left: 150px;
-    width: 870px;
+    left: 130px;
+    width: 840px;
+  }
+  .s-hero__phone {
+    width: 190px;
+    border-radius: 34px;
+  }
+  .s-hero__phone .ui-phone__screen {
+    border-radius: 28px;
   }
   .s-hero__tg {
     display: none;
   }
   .s-hero__note {
-    right: 0;
-    top: 150px;
-    width: 268px;
+    right: 8px;
+    top: 130px;
+    width: 300px;
   }
   .s-hero__comp::before {
-    left: 190px;
+    left: 170px;
   }
 }
 
