@@ -38,7 +38,7 @@ precision highp usampler2D;
 
 uniform sampler3D uNoise;     // r: gradient noise, g: Worley F1
 uniform sampler2D uNoise2;    // r: tileable 2D gradient noise, period 32
-uniform sampler2D uLobes;     // row 0: x y z r, row 1: haze base billow crown
+uniform sampler2D uLobes;     // row 0: x y z r, row 1: haze base billow crown, row 2: halo
 uniform usampler2D uCells;    // per tile: index list offset, count
 uniform usampler2D uIdx;      // lobe indices
 uniform vec2 uGrid;
@@ -101,13 +101,14 @@ vec3 skyCol(vec2 w){
 /* ---------- clouds ---------- */
 vec3 seaHaze(vec2 w);
 int lp[64]; int np;
+int lm[32]; int nm;          // the designed masses and medium lumps under this pixel (no small billows)
 float zN, zF; vec4 gAttr;
 
 vec4 lobe(int i){ return texelFetch(uLobes, ivec2(i, 0), 0); }
 int idxAt(uint k){ return int(texelFetch(uIdx, ivec2(int(k & 2047u), int(k >> 11u)), 0).r); }
 
 void gather(vec2 fc, vec2 w){
-  np = 0; zN = 1e4; zF = -1e4;
+  np = 0; nm = 0; zN = 1e4; zF = -1e4;
   ivec2 cc = ivec2(clamp(floor(fc / uFull * uGrid), vec2(0.0), uGrid - 1.0));
   uvec4 cell = texelFetch(uCells, cc, 0);
   for (uint k = 0u; k < 160u; k++){
@@ -115,7 +116,10 @@ void gather(vec2 fc, vec2 w){
     int id = idxAt(cell.x + k);
     vec4 s = lobe(id);
     vec2 d = s.xy - w; float m = s.w + 0.3;
-    if (dot(d, d) < m * m && np < 64){ lp[np] = id; np++; zN = min(zN, s.z - s.w); zF = max(zF, s.z + s.w); }
+    if (dot(d, d) < m * m && np < 64){
+      lp[np] = id; np++; zN = min(zN, s.z - s.w); zF = max(zF, s.z + s.w);
+      if (nm < 32 && texelFetch(uLobes, ivec2(id, 2), 0).y < 1.5){ lm[nm] = id; nm++; }
+    }
   }
   if (np > 0) gAttr = texelFetch(uLobes, ivec2(lp[0], 1), 0);
 }
@@ -132,9 +136,19 @@ float sdP(vec3 p){
   d = smax(d, gAttr.y - p.y, 0.22);
   // billows are small and busy in the crown, broad and quiet in the body
   float cr = smoothstep(gAttr.w - 1.2, gAttr.w + 0.6, p.y);
-  float amp = gAttr.z * mix(0.55, 1.3, cr);
+  float amp = gAttr.z * mix(0.3, 1.25, cr);
   if (d < 0.2) d -= (billow(p, cr) - 0.5) * amp * smoothstep(gAttr.y, gAttr.y + 0.7, p.y);
   return d;
+}
+// the medium form: masses and lumps, smooth, without the small billows. Light planes follow it.
+float sdMid(vec3 p){
+  float d = 1e4;
+  for (int k = 0; k < 32; k++){ if (k >= nm) break; vec4 s = lobe(lm[k]); d = smin(d, length(p - s.xyz) - s.w, 0.16); }
+  return smax(d, gAttr.y - p.y, 0.3);
+}
+vec3 nrmMid(vec3 p){
+  const float e = 0.03; const vec2 k = vec2(1.0, -1.0);
+  return normalize(k.xyy * sdMid(p + k.xyy * e) + k.yyx * sdMid(p + k.yyx * e) + k.yxy * sdMid(p + k.yxy * e) + k.xxx * sdMid(p + k.xxx * e));
 }
 float sdBig(vec3 p){
   float d = 1e4;
@@ -143,7 +157,7 @@ float sdBig(vec3 p){
     vec4 s = uBig[k];
     float dk = length(p - s.xyz) - s.w;
     dk = smax(dk, uBigBase[k] - p.y, 0.4);
-    d = smin(d, dk, 0.7);
+    d = smin(d, dk, 0.35);
   }
   return d;
 }
@@ -174,55 +188,57 @@ float aoP(vec3 p, vec3 n){
   return clamp(1.0 - 3.2 * o, 0.0, 1.0);
 }
 
-float gLit, gEdge, gMinD;
+float gLit, gEdge, gMinD, gHalo, gLow;
 
-// Painted value planes: light, a narrow warm half-tone, cool shadow, reflected light.
-// The big form carries the light; billows only speak at silhouettes and the terminator.
+// Painted value planes: light, a warm half-tone band where each mass turns from the sun, cool
+// shadow, and reflected light from the sunlit sea on the undersides. The big designed form
+// carries the light across the face, so the lit side reads as a few large planes; the small
+// billows only speak at the silhouette and in the crown, where the sun rakes across them.
 vec3 shadeCloud(vec3 p, vec2 w){
   vec3 nd = nrmP(p);
   vec3 ns = nrmBig(p);
-  float edge = 1.0 - abs(ns.z);
-  float wd = clamp(0.42 + 0.3 * edge, 0.0, 0.85);
-  vec3 n = normalize(mix(ns, nd, wd));
+  vec3 nmid = nrmMid(p);
+  float edge = 1.0 - abs(nmid.z);
+  float cr = smoothstep(gAttr.w - 0.9, gAttr.w + 0.7, p.y);
+  float wd = 0.08 + 0.5 * smoothstep(0.55, 0.95, edge) * mix(0.35, 1.0, cr) + 0.3 * cr;
+  vec3 n = normalize(mix(nmid, nd, clamp(wd, 0.0, 0.8)));
   float ndl = dot(n, uSun);
   float sb = sdBig(p);
   float sh = shadowBig(p + ns * (max(0.0, -sb) + 0.06));
   float ao = aoP(p, nd);
-  // light reaches the base through the whole mass: the lower body sits in half-tone
-  float hgt = smoothstep(gAttr.y + 0.2, gAttr.w + 1.2, p.y);
-  float L = ndl * mix(0.3, 1.0, sh) - (1.0 - hgt) * 0.16 - (1.0 - ao) * 0.35;
-  // value planes with short transitions, stated rather than blended
-  float lit = smoothstep(0.0, 0.1, L) * smoothstep(0.15, 0.6, sh);
-  float top = smoothstep(0.14, 0.26, L) * sh;
+  // light reaches the base through the whole mass: the lower body settles into half-tone
+  float hgt = smoothstep(gAttr.y + 0.2, gAttr.w + 1.0, p.y);
+  float L = ndl * mix(0.25, 1.0, sh) - (1.0 - hgt) * 0.1 - (1.0 - ao) * mix(0.1, 0.3, cr);
+  // three planes with short transitions, stated rather than blended
+  float lit = smoothstep(-0.02, 0.05, L) * smoothstep(0.15, 0.6, sh);
+  float top = smoothstep(0.24, 0.34, L) * smoothstep(0.3, 0.8, sh);
   gLit = lit;
 
   vec3 shC = mix(P_clShDn, P_clShUp, smoothstep(-0.45, 0.75, n.y));
-  shC = mix(shC, P_clRefl, smoothstep(-0.2, -0.85, ns.y) * 0.65);
-  // a shadow cast across a face that turns to the sun is filled by light bounced inside the cloud
-  shC = mix(shC, P_clShUp * 1.03, smoothstep(0.0, 0.45, ndl) * 0.55);
+  // warm light bounced up from the sunlit sea fills the undersides
+  shC = mix(shC, P_clRefl, smoothstep(-0.15, -0.8, ns.y) * 0.6);
+  // a shadow cast across a face that turns to the sun is filled by light scattered in the cloud
+  shC = mix(shC, P_clShUp, smoothstep(0.0, 0.45, ndl) * 0.5);
   vec3 col = mix(shC, P_clHalf, lit);
-  // on the light side each billow gets a light cap and a warm half-tone underside
-  float Ld = dot(nd, uSun) - (1.0 - ao) * 0.5;
-  vec3 litC = mix(P_clLit, P_clLit2, smoothstep(0.3, 0.55, L));
+  vec3 litC = mix(P_clLit, P_clLit2, smoothstep(0.35, 0.6, L) * (0.4 + 0.6 * hgt));
   // the light side is brightest in the crown and settles, a touch warmer, toward the base
-  litC = mix(litC * vec3(0.972, 0.952, 0.935), litC, smoothstep(gAttr.y, gAttr.w + 1.4, p.y));
-  vec3 capC = mix(mix(P_clHalf, litC, 0.5), litC, smoothstep(0.07, 0.28, Ld));
-  col = mix(col, capC, top);
-  // in shadow, billows are described by their thin, light-filled edges and darker creases
+  litC = mix(litC * vec3(0.975, 0.958, 0.935), litC, smoothstep(gAttr.y + 0.3, gAttr.w + 1.0, p.y));
+  col = mix(col, litC, top);
+  // in shadow, billows are described by thin, light-filled edges
   float sil = pow(clamp(1.0 - abs(nd.z), 0.0, 1.0), 3.0);
-  col = mix(col, P_clRim, sil * (1.0 - lit) * 0.62);
-  col *= mix(vec3(0.88, 0.91, 0.97), vec3(1.0), mix(ao, 1.0, lit));
+  col = mix(col, P_clRim, sil * (1.0 - lit) * 0.55);
+  col *= mix(vec3(0.92, 0.94, 0.98), vec3(1.0), mix(ao, 1.0, lit * 0.8 + 0.2));
   gEdge = sil * sil * (1.0 - lit);
   vec3 c = toLin(col);
   float low = 1.0 - smoothstep(-0.6, 3.2, p.y);
-  c = mix(c, skyCol(w), clamp(gAttr.x + low * 0.18 + uMood.y, 0.0, 0.92));
+  c = mix(c, skyCol(w), clamp(gAttr.x + low * 0.14 + uMood.y, 0.0, 0.92));
   // the foot of the cloud stands in the bright haze over the sea
-  float foot = 1.0 - smoothstep(0.0, 1.5, w.y);
-  return mix(c, seaHaze(w), foot * foot * 0.9);
+  float foot = 1.0 - smoothstep(0.0, 1.1, w.y);
+  return mix(c, seaHaze(w), foot * foot * 0.92);
 }
 
 vec4 cloudLayer(vec2 fc, vec2 w, float pix){
-  gMinD = 1e4;
+  gMinD = 1e4; gHalo = 0.0;
   gather(fc, w);
   if (np == 0) return vec4(0.0);
   if (w.y < gAttr.y - 0.3) return vec4(0.0);
@@ -238,10 +254,18 @@ vec4 cloudLayer(vec2 fc, vec2 w, float pix){
     if (z > zEnd) break;
   }
   gMinD = hit ? 0.0 : minD;
-  if (!hit && minD > 0.12) return vec4(0.0);
+  // lit air around the sunward side of the cloud: a soft halo, so it never reads as cut out
+  vec4 a2 = texelFetch(uLobes, ivec2(lp[0], 2), 0);
+  if (!hit && minD < 0.45){
+    vec3 nb = nrmBig(pMin);
+    float toSun = dot(normalize(nb.xy + 1e-4), normalize(uSun.xy));
+    gHalo = exp(-minD / 0.13) * (0.05 + 0.2 * smoothstep(-0.2, 0.8, toSun)) * a2.x;
+  }
+  if (!hit && minD > 0.16) return vec4(0.0);
   vec3 c = shadeCloud(hit ? p : pMin, w);
-  // found edges where the light is, lost edges in shadow
-  float soft = mix(pix * 1.1, pix * 2.5 + 0.03, 1.0 - gLit);
+  // found edges where the light is, lost edges in shadow and in the lower body
+  float lowB = 1.0 - smoothstep(gAttr.y + 0.6, gAttr.w - 0.4, pMin.y);
+  float soft = mix(pix * 1.1, pix * 2.6 + 0.035, 1.0 - gLit) + lowB * (0.05 + pix * 2.0);
   float cov = hit ? 1.0 : 1.0 - smoothstep(0.0, soft, minD);
   c = mix(c, skyCol(w), gEdge * 0.28);
   cov *= smoothstep(-0.05, 0.6, w.y);
@@ -442,7 +466,7 @@ void main(){
   if (land.a < 1.0){
     vec4 c = cloudLayer(fc, w, pix);
     // air close to a cloud is lit by it: a faint halo softens the cut-out
-    col = mix(col, toLin(P_halo), exp(-gMinD / 0.07) * 0.12 * (1.0 - c.a));
+    col = mix(col, toLin(P_halo), max(gHalo, exp(-gMinD / 0.07) * 0.08) * (1.0 - c.a));
     col = col * (1.0 - c.a) + c.rgb;
     paint = c.a;
   }
@@ -675,19 +699,19 @@ function noisePlane(N = 512, P = 32, seed = 3) {
 export const LIGHTS = {
   // Late-October morning: low sun from the upper left, warm light, clear blue shadows.
   morning: {
-    sun: [-0.62, 0.62, -0.42],
+    sun: [-0.7, 0.58, -0.2],
     seaSun: [-0.78, 0.42, 0.12],
     glow: [-12.5, 3.0, 0.62, 0.42],
     mood: [0, 0, 0, 0],
     pal: {
       skyZen: [0.42, 0.62, 0.89], skyMid: [0.68, 0.81, 0.955], skyHor: [0.935, 0.955, 0.975],
       skyGlow: [1.0, 0.965, 0.915], skyBand: [1.0, 0.955, 0.9],
-      clLit: [0.98, 0.962, 0.94], clLit2: [1.0, 0.99, 0.968], clHalf: [0.9, 0.87, 0.875],
-      clShUp: [0.77, 0.83, 0.94], clShDn: [0.6, 0.675, 0.83], clRefl: [0.83, 0.815, 0.83], clRim: [0.86, 0.9, 0.97],
-      seaLit: [0.975, 0.955, 0.93], seaLit2: [1.0, 0.99, 0.97], seaShLo: [0.68, 0.735, 0.86], seaShHi: [0.8, 0.845, 0.94],
-      rockLit: [0.74, 0.70, 0.69], rockSh: [0.42, 0.51, 0.69],
+      clLit: [0.98, 0.962, 0.935], clLit2: [1.0, 0.99, 0.968], clHalf: [0.93, 0.893, 0.855],
+      clShUp: [0.76, 0.84, 0.95], clShDn: [0.63, 0.72, 0.86], clRefl: [0.86, 0.85, 0.835], clRim: [0.86, 0.91, 0.98],
+      seaLit: [0.975, 0.952, 0.92], seaLit2: [1.0, 0.988, 0.965], seaShLo: [0.64, 0.74, 0.88], seaShHi: [0.78, 0.85, 0.95],
+      rockLit: [0.84, 0.82, 0.8], rockSh: [0.56, 0.66, 0.83],
       snowLit: [1.0, 0.965, 0.915], snowSh: [0.66, 0.75, 0.91], snowShUp: [0.78, 0.85, 0.97],
-      haze: [0.975, 0.975, 0.97], bg: [246 / 255, 248 / 255, 251 / 255], halo: [0.97, 0.965, 0.95],
+      haze: [0.985, 0.97, 0.94], bg: [246 / 255, 248 / 255, 251 / 255], halo: [0.985, 0.97, 0.94],
     },
   },
   // A starting point for night plates: a high moon from the upper left, a deep blue sky with a
@@ -719,17 +743,24 @@ export const LIGHTS = {
 export const frame = (width, top, bottom) => ({ aspect: width / (top - bottom), hz: -bottom / (top - bottom), span: top - bottom });
 
 // The same tower and massif appear in every framing, scaled and placed: one world.
-// The tower: a broad base, a body that narrows gently and a cluster of crown heads.
-const TOWER = [[4.55, 0.35, 0.75], [5.45, 0.25, 0.95], [6.45, 0.3, 0.95], [7.25, 0.45, 0.75],
-  [4.65, 1.3, 0.7], [5.5, 1.4, 0.9], [6.4, 1.35, 0.85], [7.0, 1.5, 0.55],
-  [4.8, 2.3, 0.62], [5.6, 2.4, 0.85], [6.4, 2.35, 0.72],
-  [5.0, 3.2, 0.55], [5.8, 3.3, 0.85], [6.5, 3.2, 0.5],
-  [5.45, 4.1, 0.55], [6.05, 4.15, 0.5], [5.75, 4.55, 0.4]];
-const TOWER_X = 5.85;
+// The tower is designed as a painter would block it in: a broad, flat-bottomed base, one big
+// body, a narrower upper body and a single dominant crown head with a smaller head on the sun
+// side. Each lobe is [x, y, r, grow]: grow (0 to 1) is how much small cauliflower billowing it
+// sprouts, so the busy detail lives only on the sunlit upper silhouette and the body stays broad.
+const TOWER = [
+  // base: flat-bottomed and wide
+  [-1.55, 0.2, 0.62, 0, 0.3], [-0.75, 0.24, 0.85, 0, 0.3], [0.3, 0.26, 0.92, 0, 0.3], [1.3, 0.2, 0.78, 0, 0.3], [2.0, 0.1, 0.48, 0, 0],
+  // body: one big dome and a lower shoulder in shade
+  [-0.38, 1.38, 1.12, 0.12, 1], [0.72, 1.0, 0.62, 0, 0.5],
+  // upper body, a little to the right: the tower leans with the wind
+  [0.18, 2.48, 0.84, 0.35, 0.8],
+  // crown: one dominant head, a smaller head on the sun side, a low head in shade
+  [-0.12, 3.36, 0.62, 1, 0], [-0.84, 3.0, 0.42, 1, 0], [0.58, 3.12, 0.38, 0.4, 0],
+];
 /** The tower centred at x, scaled by k (k = 1 in the desktop frame). */
 export const tower = (x, k = 1) => ({
-  z: 14, haze: 0.0, base: -0.6, jitter: 0.45 * k, billow: 0.095 * k, crown: 2.9 * k,
-  lobes: TOWER.map(([lx, ly, r]) => [x + (lx - TOWER_X) * k, ly * k, r * k]),
+  z: 14, haze: 0.0, base: -0.55, jitter: 0.3 * k, billow: 0.09 * k, crown: 2.55 * k, halo: 1,
+  lobes: TOWER.map(([lx, ly, r, g, m]) => [x + lx * k, ly * k, r * k, g, m]),
 });
 // The massif: one designed peak, a shoulder behind it and a low spur toward the sea.
 const MASSIF = [[0, 1.75, 60, 2.1, 4, 0.6, 0.55, 1], [-1.8, 1.15, 64, 1.9, 5, 1.1, 0.6, 1], [1.9, 0.55, 70, 1.5, 4, 2.0, 0.5, 1]];
@@ -737,8 +768,8 @@ const MASSIF = [[0, 1.75, 60, 2.1, 4, 0.6, 0.55, 1], [-1.8, 1.15, 64, 1.9, 5, 1.
 export const massif = (x, k = 1) => MASSIF.map(([sx, sh, d, sr, ...rest]) => [x + sx * k, sh * k, d, sr * k, ...rest]);
 // Distant cumulus resting on the far sea, for depth.
 export const farCloud = (x, k = 1, haze = 0.32) => ({
-  z: 24, haze, base: -0.3, jitter: 0.6 * k, billow: 0.06 * k,
-  lobes: [[0, 0.6, 0.9], [0.95, 0.45, 0.8], [0.45, 1.35, 0.7], [-0.4, 1.5, 0.62]].map(([lx, ly, r]) => [x + lx * k, ly * k, r * k]),
+  z: 24, haze, base: -0.3, jitter: 0.5 * k, billow: 0.06 * k, crown: 0.9 * k,
+  lobes: [[0, 0.5, 0.9, 0.3], [0.95, 0.4, 0.75, 0.2], [0.4, 1.3, 0.68, 0.8], [-0.45, 1.25, 0.55, 0.8]].map(([lx, ly, r, g]) => [x + lx * k, ly * k, r * k, g]),
 });
 
 const desktop = {
@@ -748,7 +779,7 @@ const desktop = {
   fade: -8.4,
   sea: [-2.2, 1.5, 0.12],
   paint: 0.0034,
-  clouds: [farCloud(-7.9, 1, 0.3), farCloud(7.7, 0.7, 0.42), tower(5.85)],
+  clouds: [farCloud(-7.9, 1, 0.3), farCloud(7.7, 0.7, 0.42), tower(4.4)],
   peaks: massif(-5.9),
 };
 
@@ -782,21 +813,22 @@ export const COMPOSITIONS = { desktop, tablet, phone };
 /* ====================================================================== cumulus growth */
 
 function growCloud(c, rnd, sun) {
-  const L0 = c.lobes.map(([x, y, r]) => [x, y, c.z + (rnd() * 2 - 1) * c.jitter, r]);
+  // a lobe is [x, y, r, g, m]: g is how much small billowing it sprouts, m how many medium lumps
+  const L0 = c.lobes.map(([x, y, r, g = 1, m = 0]) => Object.assign([x, y, c.z + (rnd() * 2 - 1) * c.jitter, r], { g, m, lvl: 0 }));
   const all = L0.slice();
   const buried = (q, list) => list.some((o) => o !== q && Math.hypot(q[0] - o[0], q[1] - o[1], q[2] - o[2]) + q[3] * 0.55 < o[3]);
-  const spawn = (parents, count, rmin, rmax, sunBias, lvl) => {
+  const spawn = (parents, count, rmin, rmax, sunBias, lift, amount, lvl, flat = 1) => {
     const out = [];
     for (const P of parents) {
-      for (let j = 0; j < count; j++) {
-        let dx = rnd() * 2 - 1, dy = rnd() * 1.6 - 0.45, dz = -(rnd() * (lvl ? 0.6 : 1.1) + 0.05);
-        if (lvl) dy += 0.35;
+      const n = Math.round(count * amount(P));
+      for (let j = 0; j < n; j++) {
+        let dx = rnd() * 2 - 1, dy = rnd() * 1.6 - 0.45 + lift, dz = -(rnd() * (lift ? 0.6 : 1.1) + 0.05) * flat;
         dx += sun[0] * sunBias; dy += sun[1] * sunBias;
         const l = Math.hypot(dx, dy, dz); dx /= l; dy /= l; dz /= l;
         if (dy < -0.3) continue;
         const r = P[3] * (rmin + rnd() * (rmax - rmin));
         const d = P[3] - r * (0.35 + rnd() * 0.3);
-        const q = [P[0] + dx * d, P[1] + dy * d, P[2] + dz * d, r];
+        const q = Object.assign([P[0] + dx * d, P[1] + dy * d, P[2] + dz * d, r], { g: P.g, m: 0, lvl });
         if (q[1] - r * 0.5 < c.base) continue;
         if (buried(q, all) || buried(q, out)) continue;
         out.push(q);
@@ -805,8 +837,10 @@ function growCloud(c, rnd, sun) {
     all.push(...out);
     return out;
   };
-  const L1 = spawn(L0, 20, 0.24, 0.42, 0.35, 0);
-  spawn(L1, 14, 0.28, 0.48, 0.7, 1);
+  // medium lumps break the big masses' outlines; small billows crowd the sunlit crown
+  const M = spawn(L0, 12, 0.36, 0.52, 0.3, 0.25, (P) => P.m, 1, 0.45);
+  const S = spawn([...L0, ...M], 20, 0.24, 0.42, 0.35, 0, (P) => P.g, 2);
+  spawn(S, 14, 0.28, 0.48, 0.7, 0.35, (P) => P.g, 2);
   return all;
 }
 
@@ -815,12 +849,13 @@ const norm3 = (v) => { const l = Math.hypot(...v); return v.map((x) => x / l); }
 function packComposition(comp, light, fullW, fullH) {
   const rnd = mulberry32(11);
   const sun = norm3(light.sun);
-  const lobes = [], attrs = [], big = [], bigBase = [];
+  const lobes = [], attrs = [], attrs2 = [], big = [], bigBase = [];
   for (const c of comp.clouds) {
     const grown = growCloud(c, rnd, sun);
     for (const l of grown) {
       lobes.push(...l);
       attrs.push(c.haze, c.base, c.billow ?? 0.05, c.crown ?? c.base + 1.5);
+      attrs2.push(c.halo ?? 0.6, l.lvl ?? 0, 0, 0);
     }
     for (const l of grown.slice(0, c.lobes.length)) { big.push(...l); bigBase.push(c.base); }
   }
@@ -848,7 +883,7 @@ function packComposition(comp, light, fullW, fullH) {
     peaks.push((sx * dist) / FOC, dist, CAMH + (sh * dist) / FOC, (sr * dist) / FOC);
     peakB.push(k, ph, gd, wb);
   }
-  return { lobes, attrs, n, big, bigBase, nb: bigBase.length, cells, GX, GY, idx, peaks, peakB, np: comp.peaks.length, sun };
+  return { lobes, attrs, attrs2, n, big, bigBase, nb: bigBase.length, cells, GX, GY, idx, peaks, peakB, np: comp.peaks.length, sun };
 }
 
 /* ====================================================================== capability */
@@ -962,9 +997,9 @@ export function bakeSky(canvas, comp, opts = {}) {
   texture(1, gl.TEXTURE_2D, () => gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, N2, N2, 0, gl.RED, gl.FLOAT, noisePlane(N2)), gl.LINEAR, gl.REPEAT);
   const pk = packComposition(comp, light, fullW, fullH);
   texture(2, gl.TEXTURE_2D, () => {
-    const data = new Float32Array(pk.n * 8);
-    data.set(pk.lobes, 0); data.set(pk.attrs, pk.n * 4);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, pk.n, 2, 0, gl.RGBA, gl.FLOAT, data);
+    const data = new Float32Array(pk.n * 12);
+    data.set(pk.lobes, 0); data.set(pk.attrs, pk.n * 4); data.set(pk.attrs2, pk.n * 8);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, pk.n, 3, 0, gl.RGBA, gl.FLOAT, data);
   }, gl.NEAREST, gl.CLAMP_TO_EDGE);
   texture(3, gl.TEXTURE_2D, () => gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32UI, pk.GX, pk.GY, 0, gl.RGBA_INTEGER, gl.UNSIGNED_INT, pk.cells), gl.NEAREST, gl.CLAMP_TO_EDGE);
   texture(4, gl.TEXTURE_2D, () => {
