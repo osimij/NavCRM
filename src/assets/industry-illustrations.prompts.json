@@ -1,0 +1,17 @@
+{
+  "tool": "Built-in image_gen.imagegen",
+  "assets": [
+    {
+      "name": "clean-room",
+      "source": "src/assets/clean-room.png",
+      "web": "landing/assets/illustrations/clean-room.webp",
+      "prompt": "Use case: illustration-story. Asset type: small 4:3 landscape thumbnail illustrating a completed apartment cleaning job inside a CRM demo. Create a beautiful, professionally art-directed illustration of an immaculate airy apartment corner, seen in a gentle three-quarter perspective: warm light oak floor, soft ivory walls, a large simple window on the right letting in diffuse morning sunlight, a single elegant green houseplant in a muted terracotta pot on the left, and a small edge of a clean cream sofa. Medium: refined soft 3D editorial illustration with a slightly hand-painted finish, subtle tactile material textures, softly rounded believable forms and beautiful ambient light; the polish and calm depth of a premium product illustration, not a stock flat vector icon. Clear simple composition, large readable shapes, warm neutral palette with a little pale blue sky through the window. The scene must remain clear when reduced to 72 by 56 pixels. Show a convincingly tidy freshly cleaned room, no people, no cleaning equipment, no tiny clutter, no decorative frame, no text, no letters, no logos, no watermark. Fill the entire landscape image with the room."
+    },
+    {
+      "name": "wedding-dress",
+      "source": "src/assets/wedding-dress.png",
+      "web": "landing/assets/illustrations/wedding-dress.webp",
+      "prompt": "Use case: illustration-story. Asset type: small vertical 4:5 thumbnail of a wedding dress inside a CRM rental availability card. Create one elegant ivory wedding dress hanging from a very thin simple brass hanger, shown full length, centered with generous breathing room around the entire silhouette including its hem and hanger. The dress has a fitted softly structured sweetheart bodice, delicate slim straps, a graceful A-line skirt made of soft flowing tulle, subtle folds and refined natural fabric detail. Medium: refined soft 3D editorial illustration with a slightly hand-painted finish, subtle tactile material textures, softly rounded believable forms and beautiful diffuse studio light. Use the same calm visual language as premium product illustrations, not a flat vector icon. The dress is the only subject against a plain pale cool periwinkle-grey background that gives enough contrast to read the ivory silhouette at only 44 by 54 pixels. Quiet elegant three-quarter depth, natural ivory fabric shading, very restrained ambient contact shadow. Keep all of the dress visible. No person, no mannequin, no face, no flowers, no wedding accessories, no ornate background, no frame, no text, no labels, no logos and no watermark."
+    }
+  ]
+}

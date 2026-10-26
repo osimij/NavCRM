@@ -81,7 +81,7 @@
   height: 28px;
   border-radius: var(--r-xs);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   line-height: 1;
   color: var(--ink-2);
   background: rgba(11, 18, 32, 0.055);
@@ -97,7 +97,7 @@
   grid-column: 2;
   font-size: 1.125rem;
   line-height: 28px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.018em;
   text-wrap: balance;
 }
@@ -198,7 +198,7 @@
   padding: 0 14px;
   border-radius: var(--r-pill);
   font-size: 13px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.006em;
   color: var(--ink);
   background: rgba(255, 255, 255, 0.7);
@@ -324,7 +324,7 @@
   height: 34px;
   border-radius: var(--r-xs);
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   color: var(--how-good-ink);
   background: var(--good-soft);
 }
@@ -355,7 +355,7 @@
   gap: 5px;
   padding: 0 10px 0 8px;
   font-size: 12px;
-  font-weight: 540;
+  font-weight: var(--type-weight, 400);
   background: var(--glass-bg-strong);
   -webkit-backdrop-filter: blur(12px) saturate(1.5);
   backdrop-filter: blur(12px) saturate(1.5);
@@ -445,7 +445,7 @@
 }
 .s-how__name {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.01em;
 }
 .s-how__times {
@@ -513,7 +513,7 @@
 .s-how__summary dd {
   margin: 0;
   font-size: 12.5px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   text-align: right;
 }
 .s-how .s-how__booked[data-hidden="true"] {
@@ -590,7 +590,7 @@
   align-items: center;
   gap: 8px;
   font-size: 12.5px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
 }
 .s-how__rail {
   position: relative;
@@ -608,7 +608,7 @@
   top: 3px;
   left: 0;
   font-size: 10.5px;
-  font-weight: 520;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-2);
 }
 .s-how__block {
@@ -661,7 +661,7 @@
 }
 .s-how__block-name {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.008em;
 }
 .s-how__block-svc {
@@ -720,7 +720,7 @@
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  font-weight: 540;
+  font-weight: var(--type-weight, 400);
 }
 .s-how__line .ui-amount {
   font-size: 13px;
@@ -736,7 +736,7 @@
   justify-content: space-between;
   padding: 12px 0 2px;
   font-size: 15px;
-  font-weight: 650;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.016em;
 }
 .s-how__pay {
@@ -853,7 +853,7 @@
 }
 .s-how__row-name {
   font-size: 13px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.008em;
 }
 .s-how__meter {
@@ -871,7 +871,7 @@
 .s-how__val {
   min-width: 76px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   text-align: right;
   white-space: nowrap;
 }
@@ -906,7 +906,7 @@
   height: 22px;
   padding: 0 8px;
   font-size: 11.5px;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
   color: var(--how-good-ink);
   opacity: 0;
   transform: scale(0.95);
@@ -927,7 +927,7 @@
   padding: 0 10px;
   border-radius: var(--r-xs);
   font-size: 12.5px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   color: var(--how-warn-ink);
   background: var(--warn-soft);
   opacity: 0;
@@ -988,7 +988,7 @@
   padding: 0 10px;
   border-radius: var(--r-pill);
   font-size: 11px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-2);
   background: rgba(255, 255, 255, 0.85);
   box-shadow: var(--shadow-xs);

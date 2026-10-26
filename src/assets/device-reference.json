@@ -1,0 +1,32 @@
+{
+  "device": "iPhone 17 Pro Max",
+  "sources": {
+    "hardware": "https://support.apple.com/en-la/125091",
+    "display": "https://developer.apple.com/design/human-interface-guidelines/layout",
+    "visualStyle": "https://www.figma.com/design/h09W3uVGaKrEM7Nl6ayj8H?node-id=694-6181"
+  },
+  "bodyMm": {
+    "width": 78,
+    "height": 163.4,
+    "depth": 8.75
+  },
+  "displayPt": {
+    "width": 440,
+    "height": 956
+  },
+  "displayPx": {
+    "width": 1320,
+    "height": 2868,
+    "ppi": 460
+  },
+  "implementation": {
+    "shell": "Screen fills the phone div. A separate outer ring uses black at 12.5% opacity and consumes no screen area.",
+    "islandAndStatusBar": "Dimensions scaled from the supplied Figma frame, not manufacturer engineering measurements.",
+    "corners": "Visual approximation based on the supplied Figma frame.",
+    "statusAssets": "User-supplied StatusBar.png (3064 x 432), used unchanged at full screen width with proportional height in all three phones.",
+    "offline": "The offline banner, saved changes and synchronisation animation are preserved."
+  },
+  "assets": {
+    "statusBar": "landing/assets/device/status-bar.png"
+  }
+}

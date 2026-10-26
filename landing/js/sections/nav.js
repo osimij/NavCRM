@@ -17,7 +17,7 @@ export function init(root) {
     // next frame so @starting-style / the closed state can transition in
     requestAnimationFrame(() => (menu.dataset.open = 'true'));
     toggle.setAttribute('aria-expanded', 'true');
-    toggle.setAttribute('aria-label', 'Close menu');
+    toggle.setAttribute('aria-label', 'Закрыть меню');
     menu.querySelector('a')?.focus({ preventScroll: true });
     document.addEventListener('pointerdown', onOutside);
     document.addEventListener('keydown', onKey);
@@ -27,7 +27,7 @@ export function init(root) {
     if (menu.hidden) return;
     menu.dataset.open = 'false';
     toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Open menu');
+    toggle.setAttribute('aria-label', 'Открыть меню');
     closeTimer = setTimeout(() => (menu.hidden = true), 160);
     if (restoreFocus) toggle.focus({ preventScroll: true });
     document.removeEventListener('pointerdown', onOutside);

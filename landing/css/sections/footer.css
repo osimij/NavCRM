@@ -13,7 +13,7 @@
   align-items: center;
   gap: 10px;
   font-size: 1.0625rem;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.02em;
   border-radius: 10px;
 }
@@ -36,7 +36,7 @@
 .s-footer__cols h2 {
   font-size: var(--fs-sm);
   line-height: 1.4;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.005em;
   color: var(--ink);
   margin-bottom: 12px;

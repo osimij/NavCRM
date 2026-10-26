@@ -21,8 +21,9 @@ export function init(root) {
   const sky = root.querySelector('[data-sky]');
   const art = root.querySelector('.s-hero__art');
   const still = sky.querySelector('picture img');
+  const imageArt = root.dataset.art === 'image';
 
-  grain(root.querySelector('.s-hero__grain'));
+  if (!imageArt) grain(root.querySelector('.s-hero__grain'));
   odometers(comp);
 
   // the still fades in over the blurred placeholder once it has decoded
@@ -36,7 +37,6 @@ export function init(root) {
   const title = root.querySelector('.s-hero__title');
   const lead = root.querySelector('.s-hero__lead');
   const actions = root.querySelector('.s-hero__actions');
-  const facts = root.querySelector('.s-hero__facts');
 
   /* ---------- layout ---------- */
   let box = null;
@@ -55,6 +55,12 @@ export function init(root) {
     const s = Math.min(1, (W - gutter * 2) / cw);
     stage.style.setProperty('--s', s.toFixed(4));
     stage.style.removeProperty('--art-gap');
+
+    if (imageArt) {
+      stage.style.removeProperty('--phone-art');
+      root.dataset.artMode = 'image';
+      return null;
+    }
 
     // phones: the painting gets the rest of the first screen, so the horizon (and the product)
     // sits near its bottom edge; the viewport height is read once per width so the address bar
@@ -111,7 +117,7 @@ export function init(root) {
 
   // Desktops and tablets: the largest tower that fits beside the copy. The tower's lit edge
   // keeps clear air from every line of copy it rises beside (52px from the title, 48px from the
-  // lead, 40px from the buttons and facts), its crown stays below the nav and inside the frame
+  // lead, 40px from the buttons), its crown stays below the nav and inside the frame
   // (on tablets its shaded side may run off the edge), and the painting still covers the frame.
   // Where no such tower fits (portrait tablets), the product moves down and the tower stands
   // in the gap between the copy and the product.
@@ -123,7 +129,7 @@ export function init(root) {
     const lines = (el) => { const range = document.createRange(); range.selectNodeContents(el); return [...range.getClientRects()]; };
     add(lines(title), 52);
     add(lines(lead), 48);
-    add([actions.getBoundingClientRect(), facts.getBoundingClientRect()], 40);
+    add([actions.getBoundingClientRect()], 40);
     const minTop = 86; // below the nav, with air
     const narrow = TABLET.matches;
     const margin = narrow ? 12 : 36;
@@ -157,8 +163,8 @@ export function init(root) {
     const gap = Math.round(Math.max(200, Math.min(0.3 * vh, 340)));
     stage.style.setProperty('--art-gap', `${gap}px`);
     yh = stage.offsetTop;
-    const factsBottom = facts.getBoundingClientRect().bottom - fr.top;
-    const u = Math.min((yh - factsBottom - 26) / O.top, STILL_U.desktop * 1.06);
+    const copyBottom = copy.getBoundingClientRect().bottom - fr.top;
+    const u = Math.min((yh - copyBottom - 26) / O.top, STILL_U.desktop * 1.06);
     let X0 = W * 0.76 - ((O.left + O.right) / 2) * u;
     X0 = Math.min(Math.max(X0, W - half * u), half * u);
     return { u, X0, mode: 'gap' };
@@ -178,7 +184,7 @@ export function init(root) {
   // The still is the product. A capable desktop GPU re-renders the same frame at the exact
   // device resolution when the still would otherwise be upscaled (or with ?live).
   const force = params.has('live');
-  const allowLive = !params.has('still') && !reducedData();
+  const allowLive = !imageArt && !params.has('still') && !reducedData();
 
   function scheduleBake() {
     if (!allowLive || failed) return;

@@ -1,4 +1,4 @@
-/* Made here (#local): a bento of seven cards. Each card is a text block over a visual well.
+/* Made here (#local): a bento of seven cards. Each card places a plain icon above its visual and the copy at the bottom.
    The well sits 8px inside the card with a radius 8px smaller, and both are squircles
    (.card, .sq), so the band between them stays even all the way round the corner. */
 
@@ -8,8 +8,8 @@
   --gap: 16px;
 }
 
-/* Grid: each card spans two rows (text, well) and takes them as a subgrid,
-   so headings and wells line up across a row and wells in a row share one height. */
+/* Three shared rows: icon, demo, and copy. Wide cards keep the demo beside
+   a full-height text column, with its icon at the top and copy at the bottom. */
 .s-local__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -17,8 +17,8 @@
 }
 .s-local__card {
   display: grid;
-  grid-row: span 2;
-  grid-template-rows: auto 1fr;
+  grid-row: span 3;
+  grid-template-rows: auto 1fr auto;
   grid-template-rows: subgrid;
   row-gap: 0;
   padding: var(--well-inset);
@@ -44,28 +44,29 @@
   }
 }
 
-/* Text */
+/* Text: plain icon at the top, one copy group at the bottom. */
 .s-local__text {
-  padding: 24px 24px 28px;
+  display: contents;
 }
 .s-local__icon {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--r-sm);
+  grid-row: 1;
+  display: flex;
+  align-items: flex-start;
+  width: 26px;
+  height: 26px;
+  margin: 16px;
   color: var(--accent);
-  background: var(--accent-soft);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent-soft) 45%, var(--surface)) 0%, var(--accent-soft) 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(42, 91, 255, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 .s-local__icon .i {
-  font-size: 20px;
+  font-size: 26px;
+}
+.s-local__copy {
+  grid-row: 3;
+  align-self: end;
+  padding: 16px;
 }
 .s-local__text h3 {
-  margin-top: 20px;
+  margin: 0;
 }
 .s-local__text p {
   margin-top: 8px;
@@ -77,10 +78,11 @@
 
 /* Visual well */
 .s-local__well {
+  grid-row: 2;
   display: grid;
   place-items: center;
   min-height: 152px;
-  padding: 16px;
+  padding: 12px;
   border-radius: var(--well-r);
   background: var(--bg-sunk);
   box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.03);
@@ -89,14 +91,65 @@
   width: 100%;
 }
 
-/* Wide cards: text on the left, the visual on the right. The visual is exactly one grid
-   column minus the inset, so its edges line up with the wells of the cards above and below. */
-.s-local__card--offline,
-.s-local__card--support {
-  grid-column: span 2;
-  grid-template-columns: minmax(0, 1fr) calc((100% - 2 * var(--well-inset) - var(--gap)) / 2);
-  grid-template-rows: auto;
-  column-gap: var(--well-inset);
+/* Wide cards place the demo beside the icon and bottom-aligned copy. */
+@media (min-width: 700px) {
+  .s-local__card--offline {
+    grid-column: span 2;
+    grid-template-columns: minmax(0, 1fr) calc((100% - 2 * var(--well-inset) - var(--gap)) / 2);
+    grid-template-rows: subgrid;
+    column-gap: var(--well-inset);
+  }
+  .s-local__card--offline .s-local__text {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 16px;
+  }
+  .s-local__card--offline .s-local__icon {
+    margin: 0;
+    flex: none;
+  }
+  .s-local__card--offline .s-local__copy {
+    align-self: stretch;
+    padding: 0;
+  }
+  .s-local__card--offline > :is(.s-local__stage, .s-local__well) {
+    grid-column: 2;
+    grid-row: 1 / -1;
+  }
+}
+
+@media (min-width: 1101px) {
+  .s-local__card--support {
+    grid-column: span 2;
+    grid-template-columns: minmax(0, 1fr) calc((100% - 2 * var(--well-inset) - var(--gap)) / 2);
+    grid-template-rows: subgrid;
+    column-gap: var(--well-inset);
+  }
+  .s-local__card--support .s-local__text {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 16px;
+  }
+  .s-local__card--support .s-local__icon {
+    margin: 0;
+    flex: none;
+  }
+  .s-local__card--support .s-local__copy {
+    align-self: stretch;
+    padding: 0;
+  }
+  .s-local__card--support > :is(.s-local__stage, .s-local__well) {
+    grid-column: 2;
+    grid-row: 1 / -1;
+  }
 }
 
 /* ---------- Offline: today's schedule on a phone that loses its connection ---------- */
@@ -131,10 +184,6 @@
   width: min(300px, calc(100% - 16px));
   transform: translateX(-50%);
 }
-.s-local__sb .i {
-  font-size: 15px;
-  stroke-width: 2;
-}
 .s-local__app {
   padding: 4px 12px 0;
 }
@@ -153,7 +202,7 @@
   padding: 0 8px 0 8px;
   border-radius: var(--r-pill);
   font-size: 11px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-2);
   background: var(--surface);
   box-shadow: var(--shadow-xs);
@@ -264,7 +313,7 @@
   flex: 1;
   min-width: 0;
   font-size: 12px;
-  font-weight: 540;
+  font-weight: var(--type-weight, 400);
   white-space: nowrap;
 }
 .s-local__tick {
@@ -317,7 +366,7 @@
 }
 .s-local__time {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-2);
 }
 .s-local__who {
@@ -326,7 +375,7 @@
 }
 .s-local__name {
   font-size: 13px;
-  font-weight: 580;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.008em;
   white-space: nowrap;
   overflow: hidden;
@@ -526,7 +575,7 @@
   justify-items: center;
   gap: 8px;
   padding: 16px 8px 12px;
-  font-weight: 540;
+  font-weight: var(--type-weight, 400);
 }
 .s-local__platforms .i {
   font-size: 18px;
@@ -540,10 +589,13 @@
   gap: 8px;
 }
 .s-local__contact {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px 12px 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "tile go" "text text";
+  align-content: space-between;
+  gap: 24px;
+  min-height: 136px;
+  padding: 16px;
   border-radius: var(--r-sm);
   background: var(--surface);
   box-shadow: var(--shadow-xs);
@@ -555,30 +607,38 @@
   transform: scale(0.97);
 }
 .s-local__contact-tile {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--r-xs);
+  grid-area: tile;
+  justify-content: start;
+  width: 26px;
+  height: 26px;
+  border-radius: 0;
+  color: var(--accent);
+  background: none;
+  box-shadow: none;
 }
 .s-local__contact-tile .i {
-  font-size: 20px;
+  font-size: 26px;
 }
 .s-local__contact-text {
+  grid-area: text;
   display: grid;
   flex: 1;
   min-width: 0;
 }
 .s-local__contact-label {
   font-size: var(--fs-2xs);
-  font-weight: 520;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-2);
 }
 .s-local__contact-value {
   font-size: 1.0625rem;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.015em;
   white-space: nowrap;
 }
 .s-local__contact-go {
+  grid-area: go;
+  align-self: start;
   font-size: 18px;
   color: var(--ink-3);
   transition:
@@ -637,16 +697,10 @@
   .s-local__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .s-local__card--support {
-    grid-column: span 1;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto 1fr;
-    grid-template-rows: subgrid;
-  }
   .s-local__stage {
     min-height: 460px;
   }
-  /* Rows are now: Offline / Payments, Languages / Telegram, Data / Phone, Support */
+  /* Offline spans both columns, followed by pairs of compact cards. */
   .s-local__grid > :nth-child(n) {
     --delay: 0ms;
   }
@@ -665,14 +719,11 @@
   .s-local__grid {
     grid-template-columns: minmax(0, 1fr);
   }
-  .s-local__card--offline {
-    grid-column: auto;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto;
-    row-gap: 0;
+  .s-local__icon {
+    margin: 12px;
   }
-  .s-local__text {
-    padding: 20px 20px 24px;
+  .s-local__copy {
+    padding: 12px;
   }
   .s-local__well {
     min-height: 128px;

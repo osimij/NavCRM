@@ -16,8 +16,6 @@ export function init(root) {
 */
 function initOffline(el) {
   const rows = el.querySelectorAll('[data-row]').length;
-  const wifiOn = el.querySelector('[data-wifi="on"]');
-  const wifiOff = el.querySelector('[data-wifi="off"]');
   const netOffline = el.querySelector('[data-net="offline"]');
   const netSynced = el.querySelector('[data-net="synced"]');
   const spin = el.querySelector('[data-sync="spin"]');
@@ -34,8 +32,6 @@ function initOffline(el) {
     el.dataset.phase = phase;
     el.dataset.rows = String(count);
     const offline = phase === 'offline';
-    hide(wifiOn, offline);
-    hide(wifiOff, !offline);
     // While online the banner is hidden; its content keeps whatever it last said.
     if (phase !== 'online') banner(!offline, phase === 'syncing');
   };
@@ -88,13 +84,14 @@ function initOffline(el) {
   );
 }
 
-/* The "New booking" button in Tajik, Russian and English. Cycles every 2.4s until someone picks one. */
+/* A product-language example. Russian is the initial language; switches are explicit. */
 function initLanguages(el) {
   const seg = el.querySelector('.ui-seg');
   const tabs = [...seg.querySelectorAll('button[data-lang]')];
   const labels = [...el.querySelectorAll('.s-local__new-swap > [data-lang]')];
   const order = tabs.map((t) => t.dataset.lang);
-  let current = order[0];
+  let current = tabs.find((tab) => tab.getAttribute('aria-pressed') === 'true').dataset.lang;
+  seg.style.setProperty('--i', order.indexOf(current));
 
   const show = (lang) => {
     if (lang === current) return;
@@ -114,21 +111,5 @@ function initLanguages(el) {
     });
   };
 
-  const stop = loopWhileVisible(
-    el,
-    async (signal) => {
-      await sleep(2400, signal);
-      show(order[(order.indexOf(current) + 1) % order.length]);
-    },
-    { final: () => show(order[0]) }
-  );
-
-  // Picking a language (or tabbing in to pick one) ends the cycle for good.
-  seg.addEventListener('focusin', stop, { once: true });
-  tabs.forEach((t) =>
-    t.addEventListener('click', () => {
-      stop();
-      show(t.dataset.lang);
-    })
-  );
+  tabs.forEach((tab) => tab.addEventListener('click', () => show(tab.dataset.lang)));
 }

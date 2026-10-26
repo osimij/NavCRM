@@ -20,10 +20,10 @@ function buildRoll(el) {
   el.textContent = '';
   el.rollCells = [];
   for (const ch of text) {
-    if (ch === ',') {
+    if (/\s/.test(ch)) {
       const c = document.createElement('span');
       c.className = 'c';
-      c.textContent = ',';
+      c.textContent = ch;
       el.append(c);
       continue;
     }

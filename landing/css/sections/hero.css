@@ -117,6 +117,31 @@
   background: radial-gradient(70% 34% at 50% 22%, rgba(244, 248, 253, 0.62), rgba(244, 248, 253, 0.3) 55%, rgba(244, 248, 253, 0) 100%);
 }
 
+/* Supplied image preview: cover the panel without the painted sky's placement or effects. */
+.s-hero[data-art="image"] .s-hero__art {
+  background: #dbeefa;
+}
+.s-hero[data-art="image"] .s-hero__sky {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  -webkit-mask: none;
+  mask: none;
+  background: none;
+}
+.s-hero[data-art="image"] .s-hero__sky img {
+  object-fit: cover;
+  object-position: center;
+}
+.s-hero[data-art="image"] .s-hero__stage {
+  margin-top: clamp(28px, 2.6vw, 38px);
+}
+.s-hero[data-art="image"] :is(.s-hero__grain, .s-hero__drift, .s-hero__mist, .s-hero__live),
+.s-hero[data-art="image"] .s-hero__art::after {
+  display: none;
+}
+
 /* ---------- copy ---------- */
 .s-hero__copy {
   position: relative;
@@ -126,7 +151,7 @@
   text-align: center;
 }
 .s-hero__title {
-  font-size: clamp(2.5rem, 1.2rem + 3.2vw, 4.25rem);
+  font-size: clamp(2.125rem, 1rem + 2.6vw, 3.5rem);
   line-height: 1;
   letter-spacing: -0.03em;
   color: #0a1324;
@@ -152,37 +177,6 @@
   gap: 12px;
   margin-top: clamp(20px, 2vw, 28px);
 }
-.s-hero__facts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 8px 0;
-  margin-top: 18px;
-  font-size: var(--fs-sm);
-  font-weight: 500;
-  letter-spacing: -0.004em;
-  color: #3a465b;
-}
-.s-hero__facts li {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-}
-.s-hero__facts li + li::before {
-  content: "";
-  width: 3px;
-  height: 3px;
-  margin: 0 6px 0 14px;
-  border-radius: 50%;
-  background: rgba(58, 70, 91, 0.45);
-}
-.s-hero__facts .i {
-  font-size: 18px;
-  color: var(--accent-ink);
-}
-
 /* ---------- product stage ---------- */
 /* The composition is designed at a fixed size and scaled to fit (--s from hero.js). */
 .s-hero__stage {
@@ -295,7 +289,8 @@
   width: 30px;
   height: 30px;
   margin: 4px 0 12px;
-  filter: drop-shadow(0 2px 4px rgba(28, 66, 212, 0.3));
+  filter: none;
+  box-shadow: none;
 }
 .s-hero__tab {
   display: grid;
@@ -334,7 +329,7 @@
 }
 .s-hero__date {
   font-size: 17px;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.022em;
   line-height: 1.2;
   white-space: nowrap;
@@ -381,7 +376,7 @@
   height: 32px;
   border-radius: 10px;
   font-size: 12.5px;
-  font-weight: 540;
+  font-weight: var(--type-weight, 400);
   color: var(--ink);
   background: #fff;
   box-shadow: inset 0 0 0 1px var(--line-2), 0 1px 1px rgba(11, 18, 32, 0.04);
@@ -437,7 +432,7 @@
 .s-hero__who b {
   display: block;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
 }
 .s-hero__who small {
   display: block;
@@ -456,7 +451,7 @@
   top: calc(10px + var(--hour) * var(--i));
   height: 0;
   font-size: 11px;
-  font-weight: 520;
+  font-weight: var(--type-weight, 400);
   line-height: 0;
   color: var(--ink-3);
 }
@@ -514,6 +509,11 @@
   background: var(--tint);
   opacity: 0.85;
 }
+/* Let the short booking fit both text rows with the same padding above and below. */
+.s-hero__bk--fit {
+  height: auto;
+  padding-bottom: 5px;
+}
 .s-hero__bk p {
   display: flex;
   align-items: center;
@@ -523,7 +523,7 @@
 }
 .s-hero__bk b {
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
@@ -539,7 +539,7 @@
 .s-hero__price {
   margin-top: auto;
   color: var(--ink-2) !important;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
 }
 .s-hero__bk.is-done {
   background: #f8f9fb;
@@ -553,8 +553,8 @@
   text-decoration-color: rgba(11, 18, 32, 0.3);
 }
 .s-hero__bk.is-live {
-  background: linear-gradient(180deg, #f5f8ff, #eef3ff);
-  box-shadow: 0 0 0 1px rgba(42, 91, 255, 0.26), 0 1px 2px rgba(11, 18, 32, 0.05), 0 10px 20px -12px rgba(42, 91, 255, 0.45);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, white), color-mix(in srgb, var(--accent) 7%, white));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 26%, transparent), 0 1px 2px rgba(11, 18, 32, 0.05), 0 10px 20px -12px color-mix(in srgb, var(--accent) 45%, transparent);
 }
 .s-hero__bk.is-new {
   z-index: 2;
@@ -565,7 +565,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: inset 0 0 0 2px var(--accent), 0 0 0 4px rgba(42, 91, 255, 0.16);
+  box-shadow: inset 0 0 0 2px var(--accent), 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
   opacity: 0;
   pointer-events: none;
 }
@@ -604,10 +604,10 @@
   padding: 2px 6px;
   border-radius: 999px;
   font-size: 11px;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
   color: #fff;
   background: var(--accent);
-  box-shadow: 0 2px 6px -2px rgba(42, 91, 255, 0.6);
+  box-shadow: 0 2px 6px -2px color-mix(in srgb, var(--accent) 60%, transparent);
 }
 
 /* ---------- notification: over Zarina's free late morning, hanging off the window's right edge ---------- */
@@ -648,7 +648,7 @@
   color: var(--ink-3);
 }
 .s-hero__note-top b {
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-2);
 }
 .s-hero__note-top b,
@@ -658,7 +658,7 @@
 .s-hero__note-name {
   margin-top: 3px;
   font-size: 15px;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.014em;
 }
 .s-hero__note-text {
@@ -686,7 +686,7 @@
 .s-hero__tg-head b {
   display: block;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
 }
 .s-hero__tg-head small {
   display: block;
@@ -724,7 +724,7 @@
   height: 34px;
   border-radius: 10px;
   font-size: 12.5px;
-  font-weight: 580;
+  font-weight: var(--type-weight, 400);
   color: var(--good);
   background: rgba(227, 245, 236, 0.92);
 }
@@ -741,63 +741,22 @@
 }
 
 /* ---------- the owner's phone: in front of the window's rail, its toast high on the screen ---------- */
-/* A light aluminium frame, so the phone belongs to this high-key picture instead of being its
-   darkest mass; a thin dark band still holds the screen. */
 .s-hero__phone {
   position: absolute;
   left: 0;
   top: 150px;
   z-index: 5;
   width: 212px;
-  padding: 7px;
-  border-radius: 38px;
-  background: linear-gradient(150deg, #fbfcfe 0%, #e3e8f0 38%, #cfd7e3 70%, #b9c4d4 100%);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.9),
-    inset 0 0 0 4.5px rgba(150, 164, 186, 0.5),
-    inset 0 0 0 6.5px #1a2131,
-    0 0 0 1px rgba(28, 46, 92, 0.16),
-    0 4px 10px -2px rgba(28, 46, 92, 0.16),
-    26px 40px 60px -24px rgba(30, 56, 120, 0.38),
-    60px 90px 120px -50px rgba(40, 72, 150, 0.28);
-}
-.s-hero__phone::after {
-  /* the sun on the frame's upper-left edge */
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.5px;
-  background: linear-gradient(140deg, rgba(255, 232, 196, 0.95), rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0) 70%, rgba(160, 190, 245, 0.55));
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  pointer-events: none;
 }
 .s-hero__phone .ui-phone__screen {
-  border-radius: 31px;
   background: #f4f6fa;
-  box-shadow: 0 0 0 1px #1a2131;
-}
-.s-hero__phone .ui-phone__island {
-  top: 8px;
-  width: 62px;
-  height: 19px;
-}
-.s-hero__phone .ui-phone__status {
-  height: 36px;
-  padding: 10px 18px 0 22px;
-  font-size: 10.5px;
-}
-.s-hero__phone .ui-phone__status .i {
-  font-size: 12px;
 }
 .s-hero__dash {
   padding: 8px 12px 0;
 }
 .s-hero__dash-biz {
   font-size: 14px;
-  font-weight: 640;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.016em;
 }
 .s-hero__dash-day {
@@ -817,13 +776,13 @@
   gap: 4px;
   margin-top: 2px;
   font-size: 25px;
-  font-weight: 640;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.03em;
   line-height: 1.15;
 }
 .s-hero__rev small {
   font-size: 12px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   letter-spacing: 0;
   color: var(--ink-3);
 }
@@ -843,7 +802,7 @@
   flex: 1;
   height: 100%;
   border-radius: 3px;
-  background: rgba(42, 91, 255, 0.16);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
   transform-origin: 50% 100%;
   transform: scaleY(var(--v));
 }
@@ -862,7 +821,7 @@
   font-size: 12px;
 }
 .s-hero__dash-row b {
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
 }
 .s-hero__upnext {
   margin-top: 12px;
@@ -885,23 +844,23 @@
 .s-hero__upnext-row b {
   flex: none;
   width: 34px;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
 }
 .s-hero__upnext-row span {
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
 }
 .s-hero__upnext-row small {
   display: block;
   margin-top: 1px;
   font-size: 11px;
-  font-weight: 400;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-3);
 }
 .s-hero__toast {
   position: absolute;
   left: 8px;
   right: 8px;
-  top: 38px;
+  top: calc(100cqw * 66 / 440);
   z-index: 4;
   display: flex;
   align-items: center;
@@ -919,7 +878,7 @@
 .s-hero__toast b {
   display: block;
   font-size: 11.5px;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
 }
 .s-hero__toast small {
   display: block;
@@ -945,7 +904,7 @@
   position: absolute;
   left: 10px;
   right: 10px;
-  bottom: 12px;
+  bottom: calc(100cqw * 30 / 440);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -1141,7 +1100,7 @@
   opacity: 0;
 }
 .s-hero__comp[data-umed="chair"] [data-umed] {
-  background: linear-gradient(180deg, #f5f8ff, #eef3ff);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, white), color-mix(in srgb, var(--accent) 7%, white));
 }
 .s-hero__comp:not([data-umed="chair"]) [data-umed] {
   background: #fff;
@@ -1169,20 +1128,17 @@
     padding-top: calc(var(--nav-h) + 14px);
   }
   .s-hero__title {
-    font-size: clamp(2.25rem, 0.9rem + 2.9vw, 3.375rem);
+    font-size: clamp(2rem, 0.8rem + 2.4vw, 2.875rem);
   }
   .s-hero__lead {
     margin-top: 22px;
-    font-size: 1.0625rem;
+    font-size: var(--fs-lead);
   }
   .s-hero__actions {
     margin-top: 20px;
   }
   .s-hero__actions .btn {
     --btn-h: 48px;
-  }
-  .s-hero__facts {
-    margin-top: 14px;
   }
   .s-hero__stage {
     margin-top: calc(26px + var(--art-gap, 0px));
@@ -1217,10 +1173,6 @@
   .s-hero__phone {
     top: 170px;
     width: 184px;
-    border-radius: 34px;
-  }
-  .s-hero__phone .ui-phone__screen {
-    border-radius: 28px;
   }
   /* one row of what is next, so the screen has no empty band */
   .s-hero__upnext .s-hero__upnext-row + .s-hero__upnext-row {
@@ -1252,7 +1204,7 @@
     padding-bottom: 28px;
   }
   .s-hero__title {
-    font-size: clamp(2.375rem, 1.2rem + 5vw, 2.875rem);
+    font-size: clamp(2rem, 1rem + 4.25vw, 2.375rem);
     max-width: 13ch;
     line-height: 1.02;
     text-wrap: balance;
@@ -1261,7 +1213,7 @@
     display: inline;
   }
   .s-hero__lead {
-    font-size: 1.0625rem;
+    font-size: var(--fs-lead);
     line-height: 1.5;
   }
   .s-hero__actions {
@@ -1274,16 +1226,6 @@
     --btn-h: 48px;
     flex: 1 1 0;
     padding: 0 12px;
-  }
-  /* the three facts as a short stack, icons aligned on the left */
-  .s-hero__facts {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    margin-top: 20px;
-  }
-  .s-hero__facts li + li::before {
-    display: none;
   }
   .s-hero__stage {
     --cw: 360;
@@ -1303,10 +1245,6 @@
     left: 64px;
     top: 104px;
     width: 232px;
-    border-radius: 42px;
-  }
-  .s-hero__phone .ui-phone__screen {
-    border-radius: 35px;
   }
   .s-hero__upnext {
     display: block;
@@ -1334,19 +1272,15 @@
     padding-top: calc(var(--nav-h) + 8px);
   }
   .s-hero__title {
-    font-size: 2.25rem;
+    font-size: 2rem;
   }
   .s-hero__lead {
     margin-top: 16px;
-    font-size: 0.96875rem;
+    font-size: var(--fs-lead);
     line-height: 1.48;
   }
   .s-hero__actions {
     margin-top: 18px;
-  }
-  .s-hero__facts {
-    margin-top: 14px;
-    font-size: 0.8125rem;
   }
 }
 

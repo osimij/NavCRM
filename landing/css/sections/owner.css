@@ -1,11 +1,11 @@
 /* Owner view: the owner's phone dashboard on a stage. On desktop the five feature notes are
    callouts pinned to the part of the dashboard they explain; below that they are a hairline list. */
 
-/* Scale: the phone is drawn at 340 x 725 and zoomed to fit both the column width (--sw) and
+/* Scale: the screen is drawn at 340 x 739 and zoomed to fit both the column width (--sw) and
    the viewport height (--sh), so the whole dashboard can be seen at once under the nav. */
 .s-owner__frame {
   --phone-w: 340px;
-  --phone-h: calc(var(--phone-w) * 19.2 / 9);
+  --phone-h: calc(var(--phone-w) * 956 / 440);
   --sw: 1;
   --sh: 1;
   --s: min(var(--sw), var(--sh));
@@ -77,21 +77,6 @@
     transform-origin: 0 0;
   }
 }
-.s-owner .ui-phone__status .i {
-  font-size: 15px;
-  stroke-width: 2;
-}
-.s-owner__home {
-  position: absolute;
-  left: 50%;
-  bottom: 8px;
-  width: 112px;
-  height: 4px;
-  margin-left: -56px;
-  border-radius: 999px;
-  background: var(--ink);
-}
-
 /* App: a 4px grid throughout. Small text uses a deeper grey than the page ink-3 for contrast. */
 .s-owner__app {
   --ink-3: #667085;
@@ -116,7 +101,7 @@
   padding: 0 8px;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-2);
   background: var(--surface);
   box-shadow: var(--shadow-xs);
@@ -150,7 +135,7 @@
   gap: 2px;
   font-size: 11.5px;
   line-height: 16px;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
   color: var(--good);
 }
 .s-owner__delta .i {
@@ -158,7 +143,7 @@
 }
 .s-owner__delta-vs {
   margin-left: 4px;
-  font-weight: 480;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-3);
 }
 .s-owner__hero {
@@ -170,12 +155,12 @@
 .s-owner__hero-num {
   font-size: 40px;
   line-height: 40px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.04em;
 }
 .s-owner__unit {
   font-size: 15px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.01em;
   color: var(--ink-3);
 }
@@ -252,13 +237,13 @@
   gap: 4px;
   font-size: 20px;
   line-height: 24px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.025em;
 }
 .s-owner__value small {
   font-size: 11px;
   line-height: 1;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   letter-spacing: 0;
   color: var(--ink-3);
 }
@@ -289,11 +274,11 @@
 }
 .s-owner__name {
   font-size: 12.5px;
-  font-weight: 520;
+  font-weight: var(--type-weight, 400);
 }
 .s-owner__pct {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   text-align: right;
   white-space: nowrap;
 }
@@ -358,7 +343,7 @@
 }
 .s-owner__legend b {
   margin-left: auto;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   color: var(--ink);
 }
 
@@ -457,7 +442,7 @@
   color: var(--accent);
   background: linear-gradient(180deg, #ffffff 0%, var(--accent-soft) 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(42, 91, 255, 0.1),
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
     0 1px 2px rgba(11, 18, 32, 0.06);
   flex: none;
@@ -468,7 +453,7 @@
 .s-owner__note h3 {
   font-size: 16px;
   line-height: 20px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.012em;
 }
 .s-owner__note p {
@@ -499,13 +484,13 @@
 
 /* Desktop: callouts. Each note sits beside the phone level with the middle of what it describes,
    with a hairline running into the screen and a dot beside that element. --y is that middle in
-   phone pixels, measured from the top of the 340 x 725 frame. Notes take the room beside the phone. */
+   phone pixels, measured from the top of the 340 x 739 screen. Notes take the room beside the phone. */
 @media (min-width: 1024px) {
   .s-owner__frame {
     --gap: clamp(48px, 5vw, 72px);
     --note-w: clamp(216px, (100cqi - var(--phone-w) * var(--s)) / 2 - var(--gap) - 40px, 304px);
     container-type: inline-size;
-    --pin: calc(17px * var(--s)); /* dot: centre of the 16px gutter inside the 9px bezel */
+    --pin: calc(8px * var(--s)); /* dot: centre of the app gutter; the bezel is outside */
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "stage";
   }
@@ -531,19 +516,19 @@
     box-shadow: none;
   }
   .s-owner__note--access {
-    --y: 69;
+    --y: 63;
   }
   .s-owner__note--reports {
-    --y: 625;
+    --y: 622;
   }
   .s-owner__note--branch {
-    --y: 69;
+    --y: 63;
   }
   .s-owner__note--cash {
-    --y: 311;
+    --y: 308;
   }
   .s-owner__note--pay {
-    --y: 495;
+    --y: 492;
   }
   .s-owner__note--access,
   .s-owner__note--reports {
@@ -589,7 +574,7 @@
     background: var(--accent);
     box-shadow:
       0 0 0 2px var(--surface),
-      0 1px 4px 2px rgba(42, 91, 255, 0.2);
+      0 1px 4px 2px color-mix(in srgb, var(--accent) 20%, transparent);
   }
   .s-owner__note--access::before,
   .s-owner__note--reports::before {

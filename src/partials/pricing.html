@@ -1,53 +1,53 @@
 <section class="s-pricing section" data-section="pricing" id="pricing">
   <div class="container">
     <div class="section-head">
-      <h2 class="reveal">You pay 1.5 somoni for each visit that happened</h2>
-      <p class="lead reveal" style="--delay: 60ms">There's no subscription and no limit on staff, branches or features. Cancelled bookings and no-shows cost nothing, so a quiet month costs less.</p>
+      <h2 class="reveal">1,5 сомони за состоявшийся визит</h2>
+      <p class="lead reveal" style="--delay: 60ms">Без абонентской платы и ограничений на сотрудников, филиалы и функции. За отмены и неявки платить не нужно, поэтому в спокойный месяц расходы меньше.</p>
     </div>
 
     <div class="s-pricing__grid">
       <div class="s-pricing__calc card sq reveal">
         <div class="s-pricing__row">
-          <label class="s-pricing__label" for="pricing-visits">Completed visits a month</label>
+          <label class="s-pricing__label" for="pricing-visits">Состоявшихся визитов в месяц</label>
           <output class="s-pricing__visits" for="pricing-visits" id="pricing-visits-out">600</output>
         </div>
 
         <input class="s-pricing__range" id="pricing-visits" type="range" min="50" max="3000" step="10" value="600" aria-describedby="pricing-result" />
-        <div class="s-pricing__scale" aria-hidden="true"><span>50</span><span>3,000</span></div>
+        <div class="s-pricing__scale" aria-hidden="true"><span>50</span><span>3 000</span></div>
 
-        <div class="s-pricing__presets" role="group" aria-label="Quick picks">
-          <button class="chip" type="button" data-visits="300">300 visits</button>
-          <button class="chip" type="button" data-visits="600" aria-pressed="true">600 visits</button>
-          <button class="chip" type="button" data-visits="1000">1,000 visits</button>
+        <div class="s-pricing__presets" role="group" aria-label="Быстрый выбор количества визитов">
+          <button class="chip" type="button" data-visits="300">300 визитов</button>
+          <button class="chip" type="button" data-visits="600" aria-pressed="true">600 визитов</button>
+          <button class="chip" type="button" data-visits="1000">1 000 визитов</button>
         </div>
 
         <div class="s-pricing__result">
-          <p class="s-pricing__result-label">Your monthly bill</p>
+          <p class="s-pricing__result-label">Ваш платёж за месяц</p>
           <p class="s-pricing__total" id="pricing-result" aria-live="polite">
-            <span class="sr-only" data-total-text>900 TJS a month</span>
+            <span class="sr-only" data-total-text>900 сомони в месяц</span>
             <span class="s-pricing__odo" aria-hidden="true" data-odo></span>
-            <span class="s-pricing__unit" aria-hidden="true">TJS a month</span>
+            <span class="s-pricing__unit" aria-hidden="true">сомони в месяц</span>
           </p>
-          <p class="s-pricing__working"><span data-working>600 visits × 1.5 TJS</span></p>
-          <p class="s-pricing__free chip chip--good"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#calendar-remove" /></svg>No-shows and cancellations: 0 TJS</p>
+          <p class="s-pricing__working"><span data-working>600 визитов × 1,5 сомони</span></p>
+          <p class="s-pricing__free chip chip--good"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#calendar-remove" /></svg>Неявки и отмены: 0 сомони</p>
         </div>
       </div>
 
       <div class="s-pricing__lists" data-stagger="50">
-        <h3 class="s-pricing__list-title reveal">Included</h3>
+        <h3 class="s-pricing__list-title reveal">Включено</h3>
         <ul class="s-pricing__included">
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Unlimited staff and branches</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Every feature and industry profile</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Telegram reminders</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Setup and moving your client list</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Up to two hours of staff training</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Your rate fixed for 12 months</li>
+          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Неограниченно сотрудников и филиалов</li>
+          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Все функции и отраслевые профили</li>
+          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Напоминания в Telegram</li>
+          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Настройка и перенос клиентской базы</li>
+          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>До двух часов обучения сотрудников</li>
+          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Фиксация тарифа на 12 месяцев</li>
         </ul>
 
-        <h3 class="s-pricing__list-title s-pricing__list-title--muted reveal">Charged separately</h3>
+        <h3 class="s-pricing__list-title s-pricing__list-title--muted reveal">Оплачивается отдельно</h3>
         <ul class="s-pricing__extra">
-          <li class="reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>SMS, at the operator's rate, from a prepaid balance</li>
-          <li class="reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>Visits outside Dushanbe, extra training and custom work, agreed with you first</li>
+          <li class="reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>СМС по тарифу оператора с предоплаченного баланса</li>
+          <li class="reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>Выезд за пределы Душанбе, дополнительное обучение и доработки по предварительному согласованию</li>
         </ul>
       </div>
     </div>

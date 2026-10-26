@@ -89,8 +89,8 @@ export function loopWhileVisible(el, scene, { final, threshold = 0.25, gap = 0 }
   };
 }
 
-/** Format a number with comma thousands: 6240 -> "6,240". */
-export const fmt = (n) => Math.round(n).toLocaleString('en-US');
+/** Format numbers for the Russian interface, with a space between thousands. */
+export const fmt = (n) => Math.round(n).toLocaleString('ru-RU');
 
 /** Scroll reveals: .reveal elements fade up once. A [data-stagger] parent staggers its .reveal children. */
 function initReveals() {
@@ -120,7 +120,7 @@ async function initSections() {
     [...roots].map(async (root) => {
       const name = root.dataset.section;
       try {
-        const mod = await import(`./sections/${name}.js`);
+        const mod = await import(`./sections/${name}.js?v=1.5-phone-2`);
         mod.init?.(root);
       } catch (err) {
         // A section without behaviour has no module; anything else is a real error.

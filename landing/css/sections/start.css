@@ -56,7 +56,7 @@
   gap: 8px;
   margin-top: 20px;
   font-size: var(--fs-sm);
-  font-weight: 500;
+  font-weight: var(--type-weight, 400);
   color: #3a465b;
 }
 .s-start__note .i {

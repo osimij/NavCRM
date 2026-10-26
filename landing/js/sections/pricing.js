@@ -2,6 +2,9 @@
 import { fmt } from '../main.js';
 
 const RATE = 1.5;
+const visitForms = { one: 'визит', few: 'визита', many: 'визитов', other: 'визита' };
+const visitRules = new Intl.PluralRules('ru-RU');
+const visitLabel = (count) => visitForms[visitRules.select(count)];
 const CELLS = 4; // up to 4,500 TJS (3,000 visits)
 
 export function init(root) {
@@ -19,7 +22,7 @@ export function init(root) {
     if (i === 1) {
       comma = document.createElement('span');
       comma.className = 'comma';
-      comma.textContent = ',';
+      comma.textContent = '\u00a0';
       odo.append(comma);
     }
     const d = document.createElement('span');
@@ -66,12 +69,12 @@ export function init(root) {
     const pct = ((visits - range.min) / (range.max - range.min)) * 100;
     range.style.setProperty('--p', `${pct}%`);
     visitsOut.textContent = fmt(visits);
-    working.textContent = `${fmt(visits)} visits × 1.5 TJS`;
+    working.textContent = `${fmt(visits)} ${visitLabel(visits)} × 1,5 сомони`;
     presets.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.visits) === visits)));
 
     // Announce the result once the value settles, not on every input event.
     clearTimeout(liveTimer);
-    if (announce) liveTimer = setTimeout(() => (totalText.textContent = `${fmt(total)} TJS a month`), 350);
+    if (announce) liveTimer = setTimeout(() => (totalText.textContent = `${fmt(total)} сомони в месяц`), 350);
   };
 
   range.addEventListener('input', () => render(Number(range.value)));

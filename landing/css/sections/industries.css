@@ -27,7 +27,7 @@
   padding: 0 10px;
   border-radius: var(--r-pill);
   font-size: 0.9375rem;
-  font-weight: 540;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.01em;
   color: var(--ink-2);
   white-space: nowrap;
@@ -136,7 +136,7 @@
   font-size: clamp(1.625rem, 1.25rem + 1.1vw, 2.125rem);
   line-height: 1.08;
   letter-spacing: -0.028em;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
 }
 .s-industries__list li {
   display: flex;
@@ -221,7 +221,7 @@
   min-width: 0;
 }
 .s-industries .ind-strong {
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.008em;
 }
 .s-industries .ind-block {
@@ -338,14 +338,22 @@
 }
 .s-industries .ind-photo {
   position: relative;
-  aspect-ratio: 1 / 1.06;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   border-radius: 12px;
   box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.06);
 }
-.s-industries .ind-photo svg {
-  width: 100%;
+/* The matched photo pair is one asset, with each portrait shown in its own frame. */
+.s-industries .ind-photo__image {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 200%;
+  max-width: none;
   height: 100%;
+  object-fit: cover;
+}
+.s-industries .ind-photo__image--after {
+  left: -100%;
 }
 .s-industries .ind-photo__tag {
   position: absolute;
@@ -357,7 +365,7 @@
   padding: 0 8px;
   border-radius: 999px;
   font-size: 11px;
-  font-weight: 580;
+  font-weight: var(--type-weight, 400);
   color: var(--ink);
   background: rgba(255, 255, 255, 0.82);
   -webkit-backdrop-filter: blur(8px);
@@ -369,7 +377,7 @@
 }
 .s-industries .ind-field__value {
   gap: 8px;
-  font-weight: 520;
+  font-weight: var(--type-weight, 400);
 }
 .s-industries .ind-field__value .ui-avatar {
   width: 22px;
@@ -393,7 +401,7 @@
   height: 34px;
   padding: 0 12px;
   border-radius: 10px;
-  font-weight: 580;
+  font-weight: var(--type-weight, 400);
   color: var(--bad);
   background: var(--bad-soft);
 }
@@ -481,7 +489,7 @@
 .s-industries .ind-nums span {
   font-size: 10.5px;
   line-height: 14px;
-  font-weight: 540;
+  font-weight: var(--type-weight, 400);
   text-align: center;
   color: var(--ink-3);
 }
@@ -502,7 +510,7 @@
   height: 20px;
   border-radius: 50%;
   font-size: 11px;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-2);
   background: #eef1f6;
   flex: none;
@@ -528,7 +536,7 @@
   padding: 0 6px 0 3px;
   border-radius: 4px;
   font-size: 11px;
-  font-weight: 640;
+  font-weight: var(--type-weight, 400);
   letter-spacing: 0.06em;
   color: var(--ink);
   background: #fff;
@@ -562,7 +570,7 @@
 .s-industries .ind-line--total {
   min-height: 34px;
   padding-top: 4px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   box-shadow: none;
 }
 
@@ -607,7 +615,7 @@
   height: 36px;
   border-radius: 10px;
   font-size: 12.5px;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
   background: #eef1f6;
   flex: none;
 }
@@ -658,8 +666,8 @@
   right: 0;
   width: var(--col);
   border-radius: 10px;
-  background: rgba(42, 91, 255, 0.07);
-  box-shadow: inset 0 0 0 1px rgba(42, 91, 255, 0.14);
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 .s-industries .ind-att__day {
   display: grid;
@@ -670,12 +678,12 @@
 }
 .s-industries .ind-att__day b {
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   color: var(--ink);
 }
 .s-industries .ind-att__day.is-today {
   font-size: 11px;
-  font-weight: 620;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.01em;
   color: var(--accent-ink);
 }
@@ -684,7 +692,7 @@
   align-items: center;
   gap: 8px;
   min-width: 0;
-  font-weight: 520;
+  font-weight: var(--type-weight, 400);
   white-space: nowrap;
 }
 .s-industries .ind-mark {
@@ -708,7 +716,7 @@
 .s-industries .ind-msg {
   font-size: 12.5px;
   line-height: 1.38;
-  font-weight: 520;
+  font-weight: var(--type-weight, 400);
 }
 
 /* 6. Repair */
@@ -798,7 +806,7 @@
   align-items: center;
   gap: 8px;
   padding-top: 12px;
-  font-weight: 540;
+  font-weight: var(--type-weight, 400);
   box-shadow: inset 0 1px 0 var(--line);
 }
 .s-industries .ind-foot .i {
@@ -834,7 +842,7 @@
 }
 .s-industries .ind-route__time {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-2);
   text-align: right;
 }
@@ -887,9 +895,10 @@
   border-radius: 10px;
   box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.06);
 }
-.s-industries .ind-proof__photo svg {
+.s-industries .ind-proof__photo img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 .s-industries .ind-proof__sign {
   flex: 1;
@@ -913,6 +922,11 @@
 .s-industries .ind-thumb--dress {
   width: 44px;
   height: 54px;
+}
+.s-industries .ind-thumb--dress img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .s-industries .ind-key--booked {
   background: var(--ink);
@@ -938,7 +952,7 @@
 }
 .s-industries .ind-strip__d b {
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   color: var(--ink);
 }
 .s-industries .ind-strip__free,
@@ -957,7 +971,7 @@
   justify-content: center;
   gap: 4px;
   font-size: 11px;
-  font-weight: 580;
+  font-weight: var(--type-weight, 400);
   white-space: nowrap;
   overflow: hidden;
 }

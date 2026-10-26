@@ -54,12 +54,12 @@
 /* Text */
 .ui-title {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.012em;
 }
 .ui-h {
   font-size: 17px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.02em;
 }
 .ui-sub {
@@ -68,11 +68,11 @@
 }
 .ui-label {
   font-size: 11.5px;
-  font-weight: 520;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-3);
 }
 .ui-amount {
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   white-space: nowrap;
   text-align: right;
 }
@@ -88,7 +88,7 @@
   height: 24px;
   border-radius: 50%;
   font-size: 10.5px;
-  font-weight: 650;
+  font-weight: var(--type-weight, 400);
   letter-spacing: 0;
   color: #475467;
   background: #eef1f6;
@@ -126,7 +126,7 @@
   padding: 0 7px 0 5px;
   border-radius: 999px;
   font-size: 11px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   letter-spacing: 0;
   white-space: nowrap;
 }
@@ -165,7 +165,7 @@
   padding: 0 12px;
   border-radius: 10px;
   font-size: 12.5px;
-  font-weight: 580;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.005em;
   white-space: nowrap;
   transition:
@@ -179,7 +179,7 @@
 .ui-btn--primary {
   color: #fff;
   background: var(--accent);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(28, 66, 212, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px color-mix(in srgb, var(--accent) 40%, transparent);
 }
 .ui-btn--dark {
   color: #fff;
@@ -208,7 +208,7 @@
   padding: 0 10px;
   border-radius: 9px;
   font-size: 12.5px;
-  font-weight: 540;
+  font-weight: var(--type-weight, 400);
   color: var(--ink);
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--line-2);
@@ -255,7 +255,7 @@
   padding: 0 10px;
   border-radius: 8px;
   font-size: 12px;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   color: var(--ink-3);
   display: inline-grid;
   place-items: center;
@@ -348,7 +348,7 @@
 .ui-meter {
   height: 6px;
   border-radius: 999px;
-  background: rgba(42, 91, 255, 0.12);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
   overflow: hidden;
 }
 .ui-meter > span {
@@ -361,45 +361,61 @@
   transition: transform 700ms var(--ease-out);
 }
 
-/* Phone frame */
+/* Shared iPhone display: 440 x 956 pt. The supplied status bar scales as one SVG.
+   A separate outer ring paints the bezel without consuming any screen space. */
 .ui-phone {
   position: relative;
   width: 280px;
-  aspect-ratio: 9 / 19.2;
-  padding: 9px;
-  border-radius: 46px;
-  background: linear-gradient(160deg, #2a3242, #0b1220 40%, #1a2130);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-    inset 0 0 0 3px #0b1220,
-    var(--shadow-lg);
+  aspect-ratio: 440 / 956;
+  padding: 0;
+  border-radius: 15.3% / 7.3%;
+  background: transparent;
+  container-type: inline-size;
+}
+.ui-phone::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 calc(100cqw * 5.05 / 307) rgb(0 0 0 / 12.5%);
+  pointer-events: none;
 }
 .ui-phone__screen {
-  position: relative;
-  height: 100%;
-  border-radius: 37px;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
   background: var(--bg);
   overflow: hidden;
+  container-type: inline-size;
 }
 .ui-phone__island {
   position: absolute;
-  top: 10px;
+  top: calc(100cqw * 13.42 / 440);
   left: 50%;
-  width: 88px;
-  height: 26px;
+  width: calc(100cqw * 120.88 / 440);
+  height: calc(100cqw * 36.26 / 440);
   border-radius: 999px;
-  background: #05080f;
+  background: #000;
   transform: translateX(-50%);
   z-index: 3;
 }
 .ui-phone__status {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 46px;
-  padding: 14px 24px 0 28px;
-  font-size: 12px;
-  font-weight: 620;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.ui-phone__screen::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100cqw * 8 / 440);
+  width: calc(100cqw * 134 / 440);
+  height: calc(100cqw * 5 / 440);
+  border-radius: 999px;
+  background: #000;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 5;
 }
 
 /* Tap indicator for scripted demos: move with transform, press with .is-press */

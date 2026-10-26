@@ -1,21 +1,11 @@
 /* NavCRM landing: tokens, base and shared components */
 
 @font-face {
-  font-family: "Ravon Grotesk";
-  src: url("../assets/fonts/ravon-grotesk-latin.woff2") format("woff2");
-  font-weight: 300 700;
+  font-family: "ALS Hauss Next";
+  src: url("../assets/fonts/als-hauss-next-vf.woff2") format("woff2");
+  font-weight: 1 850;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2116, U+2122, U+2190-2193, U+2212, U+2215, U+2248, U+2260, U+2264-2265, U+FEFF, U+FFFD;
-}
-
-@font-face {
-  font-family: "Ravon Grotesk";
-  src: url("../assets/fonts/ravon-grotesk-cyrillic.woff2") format("woff2");
-  font-weight: 300 700;
-  font-style: normal;
-  font-display: swap;
-  unicode-range: U+0400-045F, U+0490-04FF, U+0500-052F;
 }
 
 :root {
@@ -36,10 +26,11 @@
   --line-2: rgba(11, 18, 32, 0.13);
 
   /* Brand */
-  --accent: #2a5bff;
-  --accent-ink: #1c42d4;
-  --accent-soft: #e9efff;
-  --accent-glow: rgba(42, 91, 255, 0.24);
+  --accent: #0011FF;
+  --accent-ink: var(--accent);
+  --accent-soft: color-mix(in srgb, var(--accent) 9%, white);
+  --accent-lift: color-mix(in srgb, var(--accent) 85%, white);
+  --accent-glow: color-mix(in srgb, var(--accent) 24%, transparent);
 
   /* Status: always paired with an icon and a label */
   --good: #12935a;
@@ -48,15 +39,15 @@
   --warn-soft: #fcf1d9;
   --bad: #d63a35;
   --bad-soft: #fce7e5;
-  --info: #2a5bff;
-  --info-soft: #e9efff;
+  --info: var(--accent);
+  --info-soft: var(--accent-soft);
 
   /* Type */
-  --font: "Ravon Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font: "ALS Hauss Next", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --fs-display: clamp(2.75rem, 1.55rem + 4.6vw, 5.25rem);
-  --fs-h2: clamp(2.125rem, 1.45rem + 2.7vw, 3.5rem);
+  --fs-h2: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
   --fs-h3: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem);
-  --fs-lead: clamp(1.0625rem, 0.98rem + 0.4vw, 1.25rem);
+  --fs-lead: 1rem;
   --fs-body: 1rem;
   --fs-sm: 0.875rem;
   --fs-xs: 0.8125rem;
@@ -77,7 +68,7 @@
   --shadow-xs: 0 0 0 1px rgba(11, 18, 32, 0.06), 0 1px 2px rgba(11, 18, 32, 0.05);
   --shadow-sm: 0 0 0 1px rgba(11, 18, 32, 0.05), 0 1px 2px rgba(11, 18, 32, 0.05), 0 3px 8px -3px rgba(11, 18, 32, 0.08);
   --shadow-md: 0 0 0 1px rgba(11, 18, 32, 0.05), 0 2px 4px -1px rgba(11, 18, 32, 0.05), 0 12px 28px -10px rgba(11, 18, 32, 0.14);
-  --shadow-lg: 0 0 0 1px rgba(11, 18, 32, 0.05), 0 4px 10px -2px rgba(11, 18, 32, 0.05), 0 24px 52px -18px rgba(11, 18, 32, 0.2), 0 52px 110px -40px rgba(28, 62, 160, 0.22);
+  --shadow-lg: 0 0 0 1px rgba(11, 18, 32, 0.05), 0 4px 10px -2px rgba(11, 18, 32, 0.05), 0 24px 52px -18px rgba(11, 18, 32, 0.2), 0 52px 110px -40px color-mix(in srgb, var(--accent) 22%, transparent);
 
   /* Glass */
   --glass-bg: rgba(255, 255, 255, 0.58);
@@ -125,6 +116,20 @@
   }
 }
 
+/* Each text node resolves the inherited type role so nested spans and controls
+   use the same variable-font axes. Width is the font's wdth coordinate, not %. */
+:where(*) {
+  font-weight: var(--type-weight, 400);
+  font-variation-settings: "wght" var(--type-weight, 400), "wdth" var(--type-width, 400), "ital" 1;
+}
+
+:where(h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .display,
+  .ui-title, .ui-h, .s-how__title, .s-hero__date,
+  .s-hero__note-name, .s-hero__dash-biz) {
+  --type-weight: 500;
+  --type-width: 500;
+}
+
 /* Reset */
 *,
 *::before,
@@ -149,7 +154,7 @@ body {
   font-family: var(--font);
   font-size: var(--fs-body);
   line-height: 1.55;
-  font-weight: 400;
+  font-weight: var(--type-weight, 400);
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -168,6 +173,8 @@ h1,
 h2,
 h3,
 h4,
+h5,
+h6,
 p,
 ul,
 ol,
@@ -200,7 +207,7 @@ input {
   color: inherit;
 }
 ::selection {
-  background: rgba(42, 91, 255, 0.18);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
 }
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -226,7 +233,7 @@ h1 {
   font-size: var(--fs-display);
   line-height: 0.98;
   letter-spacing: -0.038em;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   text-wrap: balance;
 }
 h2,
@@ -234,7 +241,7 @@ h2,
   font-size: var(--fs-h2);
   line-height: 1.04;
   letter-spacing: -0.032em;
-  font-weight: 560;
+  font-weight: var(--type-weight, 400);
   text-wrap: balance;
 }
 h3,
@@ -242,7 +249,7 @@ h3,
   font-size: var(--fs-h3);
   line-height: 1.22;
   letter-spacing: -0.016em;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   text-wrap: balance;
 }
 p {
@@ -280,10 +287,10 @@ p {
   margin-bottom: clamp(40px, 6vw, 72px);
 }
 .section-head h2 {
-  max-width: 15ch;
+  max-width: 18ch;
 }
 .section-head .lead {
-  max-width: 46ch;
+  max-width: 52ch;
   padding-bottom: 0.3em;
 }
 .section-head--center {
@@ -316,7 +323,7 @@ p {
   padding: 0 18px;
   border-radius: var(--r-pill);
   font-size: 0.9375rem;
-  font-weight: 540;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.01em;
   white-space: nowrap;
   user-select: none;
@@ -356,12 +363,12 @@ p {
 }
 .btn--accent {
   color: #fff;
-  background: linear-gradient(180deg, #3d6bff 0%, #2a5bff 100%);
+  background: linear-gradient(180deg, var(--accent-lift) 0%, var(--accent) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    0 0 0 1px rgba(28, 66, 212, 0.9),
-    0 2px 4px -1px rgba(28, 66, 212, 0.3),
-    0 10px 22px -10px rgba(42, 91, 255, 0.6);
+    0 0 0 1px color-mix(in srgb, var(--accent) 90%, transparent),
+    0 2px 4px -1px color-mix(in srgb, var(--accent) 30%, transparent),
+    0 10px 22px -10px color-mix(in srgb, var(--accent) 60%, transparent);
 }
 .btn--glass {
   color: var(--ink);
@@ -380,7 +387,7 @@ p {
     background: linear-gradient(180deg, #273246 0%, #131c2e 100%);
   }
   .btn--accent:hover {
-    background: linear-gradient(180deg, #4a76ff 0%, #3463ff 100%);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 70%, white) 0%, var(--accent-lift) 100%);
   }
   .btn--glass:hover,
   .btn--plain:hover {
@@ -400,7 +407,7 @@ p {
   padding: 0 10px;
   border-radius: var(--r-pill);
   font-size: var(--fs-xs);
-  font-weight: 520;
+  font-weight: var(--type-weight, 400);
   letter-spacing: -0.005em;
   color: var(--ink-2);
   background: var(--surface);
@@ -484,7 +491,7 @@ p {
   height: 28px;
   border-radius: 50%;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: var(--type-weight, 400);
   letter-spacing: 0;
   color: var(--ink);
   background: #e8edf5;
