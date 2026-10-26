@@ -211,8 +211,12 @@
 }
 .s-pricing__free {
   margin-top: 20px;
-  height: 32px;
+  height: auto;
+  min-height: 32px;
+  padding-block: 6px;
   font-size: var(--fs-sm);
+  white-space: normal;
+  line-height: 1.3;
 }
 
 /* Lists */
@@ -269,7 +273,7 @@
 
 @media (max-width: 960px) {
   .s-pricing__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 @media (prefers-reduced-motion: reduce) {

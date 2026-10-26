@@ -1114,3 +1114,16 @@
     transition: none;
   }
 }
+
+/* Very narrow phones: let the route content shrink so the signature status never pushes past the card */
+.s-industries .ind-route li > div {
+  min-width: 0;
+}
+@media (max-width: 359px) {
+  .s-industries .ind-proof__sign .ui-status {
+    max-width: 100%;
+    height: auto;
+    min-height: 20px;
+    white-space: normal;
+  }
+}
