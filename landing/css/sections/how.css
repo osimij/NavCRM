@@ -1,5 +1,13 @@
 /* How it works: five steps on the left, one stage on the right that follows a single booking. */
 
+.s-how {
+  /* Status inks a shade deeper than the kit's, for the small text that sits on soft status fills */
+  --how-good-ink: color-mix(in srgb, var(--good) 82%, var(--ink));
+  --how-warn-ink: color-mix(in srgb, var(--warn) 78%, var(--ink));
+  /* Rating stars: the page's one amber, shared with the owner dashboard's chart palette */
+  --how-star: #eda100;
+}
+
 .s-how__grid {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
@@ -7,9 +15,10 @@
   align-items: start;
 }
 
-/* Steps (tablist) */
+/* Steps (tablist). The script sets min-height so the list keeps its height whichever step is open. */
 .s-how__steps {
   display: grid;
+  align-content: start;
   gap: 4px;
 }
 .s-how__step {
@@ -40,7 +49,7 @@
   transition: opacity 250ms ease;
 }
 .s-how__step:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 .s-how__step:focus-visible {
   outline-offset: 2px;
@@ -52,20 +61,16 @@
 .s-how__step[aria-selected="true"]::before {
   opacity: 1;
 }
-@supports (corner-shape: superellipse(1.6)) {
-  .s-how__step {
-    corner-shape: superellipse(1.6);
-  }
-}
+/* data-settling: set for a moment after a click, while the list reflows under a still pointer */
 @media (hover: hover) and (pointer: fine) {
-  .s-how__step:not([aria-selected="true"]):hover {
+  .s-how__steps:not([data-settling]) .s-how__step:not([aria-selected="true"]):hover {
     color: var(--ink);
   }
-  .s-how__step:not([aria-selected="true"]):hover::before {
+  .s-how__steps:not([data-settling]) .s-how__step:not([aria-selected="true"]):hover::before {
     opacity: 0.4;
   }
-  .s-how__step:not([aria-selected="true"]):hover .s-how__num {
-    color: var(--ink-2);
+  .s-how__steps:not([data-settling]) .s-how__step:not([aria-selected="true"]):hover .s-how__num {
+    color: var(--ink);
   }
 }
 
@@ -78,7 +83,7 @@
   font-size: 13px;
   font-weight: 600;
   line-height: 1;
-  color: var(--ink-3);
+  color: var(--ink-2);
   background: rgba(11, 18, 32, 0.055);
   transition:
     background-color 250ms ease,
@@ -130,7 +135,7 @@
   display: block;
   height: 2px;
   margin-top: 18px;
-  border-radius: 2px;
+  border-radius: var(--r-pill);
   background: var(--line);
   overflow: hidden;
   transition: opacity 200ms ease;
@@ -176,6 +181,12 @@
 .s-how__ghost.is-gone {
   opacity: 0;
 }
+.s-how__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
 
 .s-how__time {
   position: relative;
@@ -216,6 +227,7 @@
   color: var(--ink-2);
 }
 
+/* The canvas is drawn at a fixed design width; the script scales it to fit the stage */
 .s-how__fit {
   position: relative;
   width: 100%;
@@ -288,18 +300,11 @@
   padding: 14px 16px;
   box-shadow: inset 0 -1px 0 var(--line);
 }
-.s-how__brand {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  flex: none;
+.s-how__brand.ui-avatar {
   font-size: 11px;
-  font-weight: 650;
   letter-spacing: 0.02em;
   color: #fff;
-  background: linear-gradient(160deg, #3a3f4c, #11161f);
+  background: var(--ink);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 .s-how [data-t] {
@@ -309,6 +314,29 @@
 }
 .s-how [data-t].is-press {
   transform: scale(0.96);
+}
+/* A done state: green bar in place of the buttons that led to it */
+.s-how__ok {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 34px;
+  border-radius: var(--r-xs);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--how-good-ink);
+  background: var(--good-soft);
+}
+.s-how__ok .i {
+  font-size: 15px;
+}
+.s-how__ok--lg {
+  height: 40px;
+  font-size: 13px;
+}
+.s-how__ok--lg .i {
+  font-size: 16px;
 }
 
 /* 1. Booking */
@@ -320,19 +348,15 @@
 .s-how__sources {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 5px;
 }
-.s-how__source {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 28px;
-  padding: 0 11px 0 9px;
-  border-radius: 999px;
+.s-how__source.chip {
+  flex: none;
+  gap: 5px;
+  padding: 0 10px 0 8px;
   font-size: 12px;
   font-weight: 540;
-  color: var(--ink-2);
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--glass-bg-strong);
   -webkit-backdrop-filter: blur(12px) saturate(1.5);
   backdrop-filter: blur(12px) saturate(1.5);
   box-shadow: var(--glass-edge), var(--shadow-xs);
@@ -344,10 +368,11 @@
 .s-how__source .i {
   font-size: 14px;
 }
-.s-how__source.is-on {
+/* Selected source: the same accent as every other selection in this widget */
+.s-how__source.chip.is-on {
   color: #fff;
-  background: var(--ink);
-  box-shadow: 0 6px 14px -6px rgba(11, 18, 32, 0.5);
+  background: var(--accent);
+  box-shadow: 0 4px 10px -4px var(--accent-glow);
 }
 .s-how__book {
   width: 344px;
@@ -369,12 +394,12 @@
   gap: 10px;
   min-height: 52px;
   padding: 8px 12px;
-  border-radius: 12px;
+  border-radius: var(--r-sm);
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--line-2);
 }
 .s-how__pick.is-on {
-  background: #f6f8ff;
+  background: color-mix(in srgb, var(--accent-soft) 45%, var(--surface));
   box-shadow: inset 0 0 0 1.5px var(--accent);
 }
 .s-how__radio {
@@ -393,7 +418,7 @@
 .s-how__radio .i {
   font-size: 11px;
   opacity: 0;
-  transform: scale(0.6);
+  transform: scale(0.95);
   transition:
     opacity 200ms ease,
     transform 250ms var(--ease-out);
@@ -431,12 +456,15 @@
 .s-how__times .ui-option {
   height: 34px;
 }
+/* The button appears once a time is picked */
 .s-how__cta {
   margin-top: 2px;
-  opacity: 0.38;
+  opacity: 0;
+  transform: translateY(4px);
 }
 .s-how__cta.is-on {
   opacity: 1;
+  transform: none;
 }
 .s-how__booked {
   display: grid;
@@ -464,7 +492,7 @@
 .s-how__summary {
   margin: 0;
   padding: 4px 12px;
-  border-radius: 12px;
+  border-radius: var(--r-sm);
   background: var(--surface-2);
   box-shadow: inset 0 0 0 1px var(--line);
 }
@@ -488,18 +516,6 @@
   font-weight: 560;
   text-align: right;
 }
-.s-how__booked-note {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--ink-3);
-}
-.s-how__booked-note .i {
-  font-size: 14px;
-  color: #229ed9;
-}
 .s-how .s-how__booked[data-hidden="true"] {
   transform: scale(0.97);
 }
@@ -516,7 +532,7 @@
 .s-how__tg-mark {
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: var(--r-2xs);
 }
 .s-how__tg-mark .i {
   font-size: 15px;
@@ -528,10 +544,12 @@
   padding: 14px 12px 16px;
   background: var(--bg-sunk);
 }
+/* A message and its buttons share one width, as in Telegram */
 .s-how__msg {
   display: grid;
   gap: 6px;
-  width: 88%;
+  width: fit-content;
+  max-width: 88%;
   opacity: 0;
   transform: translateY(8px);
   transition:
@@ -544,30 +562,11 @@
 }
 .s-how__msg .ui-bubble {
   max-width: none;
+  justify-self: stretch;
   text-wrap: pretty;
-}
-.s-how .s-how__msg--past,
-.s-how .s-how__divider--static {
-  opacity: 1;
-  transform: none;
 }
 .s-how__keys {
   min-height: 34px;
-}
-.s-how__done {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  height: 34px;
-  border-radius: 10px;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--good);
-  background: var(--good-soft);
-}
-.s-how__done .i {
-  font-size: 15px;
 }
 
 .s-how__sched {
@@ -575,7 +574,7 @@
   z-index: 1;
   width: 236px;
   flex: none;
-  margin: 96px 0 0 -28px;
+  margin: 72px 0 0 -28px;
   padding: 14px 14px 0;
 }
 .s-how__sched-head {
@@ -610,7 +609,7 @@
   left: 0;
   font-size: 10.5px;
   font-weight: 520;
-  color: var(--ink-3);
+  color: var(--ink-2);
 }
 .s-how__block {
   position: absolute;
@@ -621,7 +620,7 @@
   justify-items: start;
   gap: 1px;
   padding: 7px 10px 8px 12px;
-  border-radius: 9px;
+  border-radius: var(--r-xs);
   background: var(--surface);
   box-shadow: var(--shadow-xs);
   overflow: hidden;
@@ -667,10 +666,13 @@
 }
 .s-how__block-svc {
   font-size: 11px;
-  color: var(--ink-3);
+  color: var(--ink-2);
 }
 .s-how__block-time {
   display: none;
+}
+.s-how__block .ui-swap > * {
+  justify-self: start;
 }
 @keyframes s-how-ring {
   0% {
@@ -744,9 +746,17 @@
   display: flex;
   width: 100%;
 }
-.s-how__seg > span:not(.ui-seg__thumb) {
-  flex: 1 1 auto;
-  padding: 0 6px;
+.s-how__seg > span {
+  flex: 1 1 0;
+  padding: 0 3px;
+  white-space: nowrap;
+}
+/* The highlight keeps one width (the picked item's) and only moves: translate, plus a slight scaleX
+   when the items it travels between differ in width */
+.s-how__seg .ui-seg__thumb {
+  transform: translateX(var(--x, 3px)) scaleX(var(--sx, 1));
+  transform-origin: 0 50%;
+  transition: transform 300ms var(--ease-in-out);
 }
 .s-how__method {
   margin-top: 10px;
@@ -756,28 +766,26 @@
   align-items: center;
   gap: 12px;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: var(--r-sm);
   background: var(--surface-2);
   box-shadow: inset 0 0 0 1px var(--line);
 }
 .s-how__method-row .ui-tile {
   width: 40px;
   height: 40px;
-  margin: 12px;
+  margin: 10px;
 }
 .s-how__qr {
   width: 60px;
   height: 60px;
   flex: none;
   color: var(--ink);
-  border-radius: 6px;
+  border-radius: var(--r-2xs);
   box-shadow: var(--shadow-xs);
+  transition: transform 300ms var(--ease-out);
 }
 .s-how__method-row[data-hidden="true"] .s-how__qr {
   transform: scale(0.95);
-}
-.s-how__qr {
-  transition: transform 300ms var(--ease-out);
 }
 .s-how__take {
   padding: 14px 16px 16px;
@@ -785,22 +793,7 @@
 .s-how__take .ui-btn--block {
   height: 40px;
 }
-.s-how__paid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  height: 40px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 620;
-  color: var(--good);
-  background: var(--good-soft);
-}
-.s-how__paid .i {
-  font-size: 16px;
-}
-.s-how .s-how__paid[data-hidden="true"] {
+.s-how .s-how__ok--lg[data-hidden="true"] {
   transform: scale(0.95);
 }
 
@@ -816,22 +809,9 @@
   padding: 12px 16px;
   box-shadow: inset 0 -1px 0 var(--line);
 }
-.s-how__closed {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  height: 24px;
-  padding: 0 9px 0 7px;
-  border-radius: 999px;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--good);
-  background: var(--good-soft);
-}
-.s-how__closed .i {
-  font-size: 14px;
-}
 .s-how__group {
+  position: relative;
+  isolation: isolate;
   padding: 12px 16px 10px;
 }
 .s-how__group + .s-how__group {
@@ -852,17 +832,13 @@
   content: "";
   position: absolute;
   inset: 2px -8px;
-  border-radius: 10px;
+  border-radius: var(--r-xs);
   background: var(--accent-soft);
   opacity: 0;
   z-index: -1;
 }
 .s-how__row.is-on::before {
   animation: s-how-flash 1400ms ease forwards;
-}
-.s-how__group {
-  position: relative;
-  isolation: isolate;
 }
 @keyframes s-how-flash {
   0% {
@@ -883,10 +859,13 @@
 .s-how__meter {
   margin-top: 7px;
 }
+/* Money column: change chip, then the value in a fixed cell, so every row lines up */
 .s-how__amounts {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 76px;
   align-items: center;
-  gap: 12px;
+  justify-items: end;
+  column-gap: 10px;
   flex: none;
 }
 .s-how__val {
@@ -923,24 +902,19 @@
   display: block;
   height: 1.3em;
 }
-.s-how__delta {
-  display: inline-flex;
-  align-items: center;
+.s-how__delta.chip {
   height: 22px;
   padding: 0 8px;
-  border-radius: 999px;
   font-size: 11.5px;
   font-weight: 620;
-  white-space: nowrap;
-  color: var(--good);
-  background: var(--good-soft);
+  color: var(--how-good-ink);
   opacity: 0;
-  transform: scale(0.9);
+  transform: scale(0.95);
   transition:
     opacity 250ms ease,
     transform 300ms var(--ease-out);
 }
-.s-how__delta.is-on {
+.s-how__delta.chip.is-on {
   opacity: 1;
   transform: none;
 }
@@ -951,10 +925,10 @@
   height: 36px;
   margin: 4px 0 6px;
   padding: 0 10px;
-  border-radius: 10px;
+  border-radius: var(--r-xs);
   font-size: 12.5px;
   font-weight: 560;
-  color: var(--warn);
+  color: var(--how-warn-ink);
   background: var(--warn-soft);
   opacity: 0;
   transform: translateX(-8px);
@@ -968,24 +942,26 @@
 }
 .s-how__alert .i {
   font-size: 16px;
+  color: var(--warn);
 }
 
 /* 5. Come back */
 .s-how__tg--back .s-how__chat {
   gap: 14px;
 }
-.s-how__stars .ui-btn {
-  position: relative;
-  isolation: isolate;
+.s-how__star.ui-btn {
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
   color: var(--ink-4);
 }
-.s-how__stars .ui-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: #fff1d1;
+.s-how__star .i {
+  grid-area: 1 / 1;
+  font-size: 16px;
+}
+.s-how__star-fill {
+  color: var(--how-star);
+  fill: currentColor;
   opacity: 0;
   transform: scale(0.9);
   transition:
@@ -993,17 +969,7 @@
     transform 250ms var(--ease-out);
   transition-delay: calc(var(--i, 0) * 60ms);
 }
-.s-how__stars .ui-btn .i {
-  font-size: 16px;
-  transition:
-    color 200ms ease,
-    transform 250ms var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 60ms);
-}
-.s-how__stars .ui-btn.is-on {
-  color: #d98a00;
-}
-.s-how__stars .ui-btn.is-on::before {
+.s-how__star.is-on .s-how__star-fill {
   opacity: 1;
   transform: none;
 }
@@ -1020,7 +986,7 @@
   align-items: center;
   height: 22px;
   padding: 0 10px;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   font-size: 11px;
   font-weight: 560;
   color: var(--ink-2);
@@ -1039,15 +1005,70 @@
   transform: none;
 }
 
-/* Narrow canvas (tablet column, phones): stack the paired cards */
-@container s-how (max-width: 579px) {
+/* Continuous corners on everything that takes a radius token */
+@supports (corner-shape: superellipse(1.6)) {
+  .s-how__pick,
+  .s-how__summary,
+  .s-how__tg-mark,
+  .s-how__ok,
+  .s-how__block,
+  .s-how__method-row,
+  .s-how__qr,
+  .s-how__row::before,
+  .s-how__alert {
+    corner-shape: superellipse(1.6);
+  }
+}
+
+/* Narrow canvas (tablet and phone columns): one 328px column, tighter rhythm, stacked pairs */
+@container s-how (max-width: 559px) {
+  .s-how__book,
+  .s-how__tg,
+  .s-how__sched,
+  .s-how__receipt,
+  .s-how__ledger {
+    width: 328px;
+  }
+  .s-how__head {
+    padding: 12px 14px;
+  }
+
+  /* 1. Sources become one row that runs off the edge, as a scrolling chip row does */
+  .s-how__book-wrap {
+    gap: 12px;
+  }
+  .s-how__sources {
+    justify-content: flex-start;
+    width: 328px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, #000 80%, transparent);
+    mask-image: linear-gradient(90deg, #000 80%, transparent);
+  }
+  .s-how__book-body {
+    padding: 14px;
+  }
+  .s-how__form {
+    gap: 12px;
+  }
+  .s-how__field {
+    gap: 6px;
+  }
+  .s-how__pick {
+    gap: 8px;
+    min-height: 48px;
+    padding: 6px 10px;
+  }
+  .s-how__times .ui-option {
+    height: 32px;
+  }
+
+  /* 2. Chat above the schedule */
   .s-how__pair {
     flex-direction: column;
     align-items: center;
     gap: 12px;
   }
   .s-how__sched {
-    width: 340px;
     margin: 0;
     padding-bottom: 14px;
   }
@@ -1073,21 +1094,55 @@
   .s-how__block-time {
     display: inline;
   }
-  .s-how__sources {
-    display: grid;
-    grid-template-columns: repeat(3, auto);
+
+  /* 3. Receipt */
+  .s-how__lines {
+    padding-inline: 14px;
   }
-  .s-how__source {
-    justify-content: center;
+  .s-how__line {
+    min-height: 0;
+    padding: 4px 0;
   }
-  .s-how__receipt,
-  .s-how__ledger {
-    width: 344px;
+  .s-how__pay {
+    padding: 12px 14px 0;
+  }
+  .s-how__seg > span {
+    font-size: 11.5px;
+  }
+  .s-how__method {
+    margin-top: 8px;
+  }
+  .s-how__method-row {
+    padding: 8px;
+  }
+  .s-how__qr {
+    width: 48px;
+    height: 48px;
+  }
+  .s-how__method-row .ui-tile {
+    margin: 4px;
+  }
+  .s-how__take {
+    padding: 12px 14px 14px;
+  }
+  .s-how__take .ui-btn--block,
+  .s-how__ok--lg {
+    height: 38px;
+  }
+
+  /* 4. Value above its change chip */
+  .s-how__group {
+    padding-inline: 14px;
   }
   .s-how__amounts {
-    flex-direction: column-reverse;
-    align-items: flex-end;
-    gap: 3px;
+    grid-template-columns: auto;
+    row-gap: 3px;
+  }
+  .s-how__amounts .s-how__val {
+    order: -1;
+  }
+  .s-how__amounts .s-how__val:empty {
+    display: none;
   }
 }
 
@@ -1109,27 +1164,63 @@
   .s-how__title {
     font-size: 1.0625rem;
   }
+  .s-how__body {
+    max-width: 62ch;
+  }
 }
+/* Phones: a shorter stage and a compact list, so a demo and its text fit on one screen */
 @media (max-width: 560px) {
+  .s-how__grid {
+    gap: 12px;
+  }
   .s-how__stage {
-    padding: 16px 12px 20px;
-    gap: 16px;
+    padding: 12px 12px 16px;
+    gap: 12px;
+  }
+  .s-how__time {
+    height: 30px;
+    padding: 0 12px;
+    font-size: 12.5px;
+  }
+  .s-how__time .i {
+    font-size: 14px;
+  }
+  .s-how__steps {
+    gap: 2px;
   }
   .s-how__step {
-    column-gap: 14px;
-    padding: 12px 14px 12px 12px;
+    grid-template-columns: 24px minmax(0, 1fr);
+    column-gap: 12px;
+    padding: 8px 12px 8px 8px;
+    border-radius: var(--r-md);
+  }
+  .s-how__step:focus-visible {
+    border-radius: var(--r-md);
+  }
+  .s-how__num {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    border-radius: var(--r-2xs);
+  }
+  .s-how__title {
+    font-size: 1rem;
+    line-height: 24px;
   }
   .s-how__body {
+    padding-top: 4px;
     font-size: 0.875rem;
   }
   .s-how__bar {
-    margin-top: 14px;
+    margin: 12px 0 4px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .s-how__panel,
-  .s-how__panel[data-state="out"] {
+  .s-how__panel[data-state="out"],
+  .s-how__panel[data-state="pre"],
+  .s-how__panel[data-state="idle"] {
     transform: none;
     filter: none;
   }
@@ -1140,12 +1231,9 @@
   .s-how__step:active {
     transform: none;
   }
-}
-
-/* Two-state swaps keep each state at its natural width */
-.s-how__head .ui-swap > * {
-  justify-self: end;
-}
-.s-how__block .ui-swap > * {
-  justify-self: start;
+  /* Nothing is changing in a final state, so no highlight flashes */
+  .s-how__row.is-on::before,
+  .s-how__block--main.is-on::after {
+    animation: none;
+  }
 }

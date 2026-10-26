@@ -1,9 +1,13 @@
 // How it works: five steps that follow one booking. Steps auto-advance every 7s while the
-// section is on screen; hover or focus pauses the timer; picking a step stops auto-advance for good.
+// section is on screen; hover, keyboard focus or a touch pauses the timer; picking a step stops
+// auto-advance for good.
 import { sleep, loopWhileVisible, reducedMotion, fmt } from '../main.js';
 
 const STEP_MS = 7000;
-const MIN_CANVAS = 360; // narrowest layout the demos are drawn for; smaller screens scale it down
+const MIN_CANVAS = 340; // narrowest layout the demos are drawn for; smaller stages scale it down
+const DESIGN_W = 568; // wide layout design width; larger stages scale it up...
+const MAX_UP = 1.15; // ...but never by more than this
+const SETTLE_MS = 320; // after a click the list reflows for 250ms; hover tints wait until it has
 
 const abortError = () => new DOMException('Aborted', 'AbortError');
 const idle = (signal) => new Promise((_, reject) => signal.addEventListener('abort', () => reject(abortError()), { once: true }));
@@ -57,13 +61,17 @@ function measureRolls(root) {
   });
 }
 
-/* Segmented control thumb: follows the item at index i */
+/* Segmented control: the highlight takes the picked item's width once (--w), then moves by
+   transform alone, scaling slightly in x when it sits on a narrower or wider item */
+const SEG_PICK = 2;
 function setSeg(seg, i) {
   const items = [...seg.children].filter((c) => !c.classList.contains('ui-seg__thumb'));
   const item = items[i];
-  if (!item) return;
+  const base = items[SEG_PICK];
+  if (!item || !base || !base.offsetWidth) return;
+  seg.style.setProperty('--w', `${base.offsetWidth}px`);
   seg.style.setProperty('--x', `${item.offsetLeft}px`);
-  seg.style.setProperty('--w', `${item.offsetWidth}px`);
+  seg.style.setProperty('--sx', (item.offsetWidth / base.offsetWidth).toFixed(4));
   items.forEach((it, k) => it.classList.toggle('is-active', k === i));
 }
 
@@ -75,7 +83,8 @@ function setBeat(demo, n) {
   demo.querySelectorAll('[data-b-hide]').forEach((el) => (el.dataset.hidden = String(n >= Number(el.dataset.bHide))));
   demo.querySelectorAll('[data-b-roll]').forEach((el) => setRoll(el, n >= Number(el.dataset.bRoll) ? el.dataset.to : el.dataset.from));
   demo.querySelectorAll('[data-b-meter]').forEach((el) => el.style.setProperty('--v', n >= Number(el.dataset.bMeter) ? el.dataset.to : el.dataset.from));
-  demo.querySelectorAll('[data-b-seg]').forEach((el) => setSeg(el, n >= Number(el.dataset.bSeg) ? 2 : 0));
+  demo.querySelectorAll('[data-b-seg]').forEach((el) => setSeg(el, n >= Number(el.dataset.bSeg) ? SEG_PICK : 0));
+  demo.dispatchEvent(new CustomEvent('how:beat', { detail: n }));
 }
 function instantly(demo, fn) {
   demo.classList.add('is-instant');
@@ -131,7 +140,7 @@ const SCRIPTS = {
       setBeat(d, 3);
       await tap(d, '[data-t="time"]', s);
       setBeat(d, 4);
-      await sleep(150, s);
+      await sleep(250, s);
       await tap(d, '[data-t="book"]', s);
       await sleep(120, s);
       hideTap(d);
@@ -202,35 +211,57 @@ export function init(root) {
   const stage = root.querySelector('.s-how__stage');
   const art = stage.querySelector('.stage__art');
   const grid = root.querySelector('.s-how__grid');
+  const list = root.querySelector('.s-how__steps');
   const fit = root.querySelector('.s-how__fit');
   const canvas = root.querySelector('.s-how__canvas');
 
   root.style.setProperty('--how-step', `${STEP_MS}ms`);
   root.querySelectorAll('.s-how__roll').forEach(buildRoll);
 
-  /* Fit the canvas: below MIN_CANVAS the whole demo scales down instead of reflowing */
+  /* Fit the canvas: narrow stages scale the demo down instead of reflowing it, wide ones scale it up a little */
   const fitCanvas = () => {
     const w = fit.clientWidth;
     if (!w) return;
-    if (w >= MIN_CANVAS) {
+    let s = 1;
+    if (w < MIN_CANVAS) s = w / MIN_CANVAS;
+    else if (w > DESIGN_W) s = Math.min(MAX_UP, w / DESIGN_W);
+    if (s === 1) {
       canvas.style.width = '';
       canvas.style.transform = '';
       fit.style.height = '';
     } else {
-      const s = w / MIN_CANVAS;
-      canvas.style.width = `${MIN_CANVAS}px`;
+      canvas.style.width = `${w / s}px`;
       canvas.style.transform = `scale(${s})`;
       fit.style.height = `${canvas.offsetHeight * s}px`;
     }
     // segmented thumbs are placed in px, so re-place them after a reflow
-    demos.forEach((d) => d.querySelectorAll('[data-b-seg]').forEach((seg) => setSeg(seg, Number(d.dataset.beat) >= Number(seg.dataset.bSeg) ? 2 : 0)));
+    demos.forEach((d) => d.querySelectorAll('[data-b-seg]').forEach((seg) => setSeg(seg, Number(d.dataset.beat) >= Number(seg.dataset.bSeg) ? SEG_PICK : 0)));
   };
   new ResizeObserver(fitCanvas).observe(fit);
   new ResizeObserver(fitCanvas).observe(canvas);
 
+  /* Keep the list as tall as it is with its longest step open, so nothing below it moves
+     when the open step changes (in one column the list sits above the rest of the page) */
+  let listW = 0;
+  const sizeList = (force = false) => {
+    const w = list.clientWidth;
+    if (!w || (w === listW && !force)) return;
+    listW = w;
+    let shut = 0;
+    let tallest = 0;
+    tabs.forEach((t) => {
+      shut += t.getBoundingClientRect().height - t.querySelector('.s-how__more').getBoundingClientRect().height;
+      tallest = Math.max(tallest, t.querySelector('.s-how__more-in').scrollHeight);
+    });
+    const gap = parseFloat(getComputedStyle(list).rowGap) || 0;
+    list.style.minHeight = `${Math.ceil(shut + gap * (tabs.length - 1) + tallest)}px`;
+  };
+  new ResizeObserver(() => sizeList()).observe(list);
+
   document.fonts?.ready.then(() => {
     measureRolls(root);
     fitCanvas();
+    sizeList(true);
   });
 
   let index = 0;
@@ -242,7 +273,7 @@ export function init(root) {
   /* Stage tint follows the time of day: the old mood fades out on a ghost layer over the new one */
   const setMood = (mood) => {
     const old = stage.dataset.mood;
-    if (old === mood) return;
+    if (!mood || old === mood) return;
     stage.dataset.mood = mood;
     const ghost = document.createElement('div');
     ghost.className = 'stage s-how__ghost';
@@ -253,6 +284,17 @@ export function init(root) {
     requestAnimationFrame(() => requestAnimationFrame(() => ghost.classList.add('is-gone')));
     setTimeout(() => ghost.remove(), 1100);
   };
+
+  /* Time pill and mood for step i at beat n. A panel can move the clock on mid-story
+     (data-late-beat): the last step jumps five weeks when its divider appears. */
+  const syncStage = (i, n) => {
+    const p = panels[i];
+    const late = p.dataset.lateBeat !== undefined && n >= Number(p.dataset.lateBeat);
+    const t = late ? Number(p.dataset.lateTime) : i;
+    times.forEach((el) => (el.dataset.hidden = String(Number(el.dataset.time) !== t)));
+    setMood(late ? p.dataset.lateMood : p.dataset.mood);
+  };
+  demos.forEach((d, i) => d.addEventListener('how:beat', (e) => i === index && syncStage(i, e.detail)));
 
   const resetDemo = (i) => {
     const d = demos[i];
@@ -265,6 +307,7 @@ export function init(root) {
     instantly(d, () => setBeat(d, SCRIPTS[d.dataset.demo].last));
   };
 
+  // Call after the demo has been reset or finished, so the clock and tint match its beat.
   const show = (i, replay = false) => {
     tabs.forEach((t, k) => {
       const on = k === i;
@@ -283,8 +326,7 @@ export function init(root) {
         p.dataset.state = 'out';
       }
     });
-    times.forEach((t, k) => (t.dataset.hidden = String(k !== i)));
-    setMood(panels[i].dataset.mood);
+    syncStage(i, Number(demos[i].dataset.beat) || 0);
   };
 
   const startBar = (i) => {
@@ -322,8 +364,8 @@ export function init(root) {
     stepCtl = ctl;
     const i = index;
     try {
-      show(i, true);
       resetDemo(i);
+      show(i, true);
       startBar(i);
       const d = demos[i];
       await Promise.all([SCRIPTS[d.dataset.demo].play(d, ctl.signal), barDone(i, ctl.signal)]);
@@ -343,19 +385,37 @@ export function init(root) {
     stepCtl?.abort();
     manualCtl?.abort();
     index = i;
-    show(i);
     if (reducedMotion.matches) {
       finishDemo(i);
+      show(i);
       return;
     }
     manualCtl = new AbortController();
     resetDemo(i);
+    show(i);
     const d = demos[i];
     SCRIPTS[d.dataset.demo].play(d, manualCtl.signal).catch(() => {});
   };
 
-  tabs.forEach((t, i) => t.addEventListener('click', () => choose(i)));
-  root.querySelector('[role="tablist"]').addEventListener('keydown', (e) => {
+  /* After a click the open step changes and the rows below shift under a still pointer;
+     hold the hover tint until the pointer moves again once the list has settled. */
+  let settleAt = 0;
+  const settle = () => {
+    list.dataset.settling = 'true';
+    settleAt = performance.now() + SETTLE_MS;
+  };
+  list.addEventListener('pointermove', () => {
+    if (list.dataset.settling && performance.now() > settleAt) delete list.dataset.settling;
+  });
+  list.addEventListener('pointerleave', () => delete list.dataset.settling);
+
+  tabs.forEach((t, i) =>
+    t.addEventListener('click', (e) => {
+      if (e.detail) settle();
+      choose(i);
+    })
+  );
+  list.addEventListener('keydown', (e) => {
     const cur = tabs.indexOf(document.activeElement);
     if (cur < 0) return;
     let next = null;
@@ -369,10 +429,13 @@ export function init(root) {
     choose(next);
   });
 
-  /* Pause the timer while the visitor is looking at the stage or moving through the steps */
+  /* Pause the timer while the visitor is looking at the stage, moving through the steps by
+     keyboard, or has a finger on the section (reading on a phone); touch resumes a moment after lifting */
   let hover = false;
   let focus = false;
-  const syncPause = () => (root.dataset.paused = String(hover || focus));
+  let touch = false;
+  let touchTimer = 0;
+  const syncPause = () => (root.dataset.paused = String(hover || focus || touch));
   stage.addEventListener('pointerenter', (e) => {
     if (e.pointerType === 'mouse') {
       hover = true;
@@ -393,6 +456,22 @@ export function init(root) {
       syncPause();
     }
   });
+  grid.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse') return;
+    clearTimeout(touchTimer);
+    touch = true;
+    syncPause();
+  });
+  const release = (e) => {
+    if (e.pointerType === 'mouse') return;
+    clearTimeout(touchTimer);
+    touchTimer = setTimeout(() => {
+      touch = false;
+      syncPause();
+    }, 2500);
+  };
+  grid.addEventListener('pointerup', release);
+  grid.addEventListener('pointercancel', release);
 
   // Start every demo in its opening state; the first one plays when the section comes into view.
   demos.forEach((_, i) => resetDemo(i));
@@ -401,8 +480,8 @@ export function init(root) {
     final: () => {
       root.dataset.auto = 'false';
       auto = false;
-      show(0);
       finishDemo(0);
+      show(0);
     },
   });
 }
