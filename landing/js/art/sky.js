@@ -206,7 +206,7 @@ vec3 shadeCloud(vec3 p, vec2 w){
   vec3 litC = mix(P_clLit, P_clLit2, smoothstep(0.3, 0.55, L));
   // the light side is brightest in the crown and settles, a touch warmer, toward the base
   litC = mix(litC * vec3(0.972, 0.952, 0.935), litC, smoothstep(gAttr.y, gAttr.w + 1.4, p.y));
-  vec3 capC = mix(mix(P_clHalf, litC, 0.38), litC, smoothstep(0.07, 0.28, Ld));
+  vec3 capC = mix(mix(P_clHalf, litC, 0.5), litC, smoothstep(0.07, 0.28, Ld));
   col = mix(col, capC, top);
   // in shadow, billows are described by their thin, light-filled edges and darker creases
   float sil = pow(clamp(1.0 - abs(nd.z), 0.0, 1.0), 3.0);
@@ -386,6 +386,9 @@ vec3 seaShade(vec3 p, float t, vec2 w){
   vec3 shC = mix(P_seaShLo, P_seaShHi, smoothstep(0.05, 0.8, rel));
   vec3 col = mix(shC, litC, smoothstep(0.05, 0.8, lit));
   col = mix(col, P_clRim, (1.0 - lit) * smoothstep(0.45, 0.95, rel) * 0.35);
+  // the near sea is left soft and simple: detail belongs to the focal point, not the foreground
+  float near = 1.0 - smoothstep(5.0, 24.0, t);
+  col = mix(col, mix(litC, P_seaShHi, 0.25), near * 0.55);
   vec3 c = toLin(col);
   float hz = 1.0 - exp(-t * 0.026);
   hz = max(hz, smoothstep(40.0, 100.0, t));
@@ -732,7 +735,7 @@ const phone = {
   fade: -12.6,
   sea: [-2.2, 1.5, 0.12],
   paint: 0.0026,
-  clouds: [farCloud(-3.7, 0.55, 0.32), tower(2.4, 0.64)],
+  clouds: [farCloud(-3.7, 0.55, 0.32), tower(2.45, 0.57)],
   peaks: massif(-2.1, 0.78),
 };
 

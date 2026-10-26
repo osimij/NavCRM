@@ -21,6 +21,8 @@ export function init(root) {
   /* ---------- layout ---------- */
   let box = null;
   let compositions = null;
+  let live = null;
+  let job = null, bakeTimer = 0, lastKey = '', failed = false;
   const compName = () => (PHONE.matches ? 'phone' : TABLET.matches ? 'tablet' : 'desktop');
 
   function layout() {
@@ -44,8 +46,18 @@ export function init(root) {
     sky.style.setProperty('--sky-h', `${h.toFixed(1)}px`);
     sky.style.setProperty('--sky-top', `${top.toFixed(1)}px`);
     box = { name, comp: c, W, H, w, h, top, yh };
+    // a live render belongs to one box; when the layout moves, fall back to the still at once
+    if (live && live.dataset.box !== boxKey(box)) {
+      const old = live;
+      live = null;
+      lastKey = '';
+      delete root.dataset.sky;
+      old.classList.remove('is-in');
+      setTimeout(() => { URL.revokeObjectURL(old.src); old.remove(); }, 900);
+    }
     return box;
   }
+  const boxKey = (b) => `${b.name}:${Math.round(b.w)}:${Math.round(b.h)}:${Math.round(b.top)}:${Math.round(b.H)}`;
 
   const ro = new ResizeObserver(() => {
     layout();
@@ -58,7 +70,6 @@ export function init(root) {
   /* ---------- live sky ---------- */
   // The still is the product. A capable desktop GPU re-renders the same frame at the exact
   // device resolution when the still would otherwise be upscaled (or with ?live).
-  let job = null, bakeTimer = 0, lastKey = '', live = null, failed = false;
   const force = params.has('live');
   const allowLive = !params.has('still') && !reducedData();
 
@@ -89,7 +100,7 @@ export function init(root) {
     const visX = (B.w - B.W) / 2;
     const visY = Math.max(0, -B.top);
     const visH = Math.min(B.h - visY, B.H - Math.max(0, B.top));
-    const key = `${B.name}:${Math.round(B.w)}:${Math.round(B.h)}:${Math.round(visH)}:${dpr}`;
+    const key = `${boxKey(B)}:${dpr}`;
     if (key === lastKey) return;
     lastKey = key;
     job?.cancel();
@@ -100,7 +111,10 @@ export function init(root) {
     canvas.height = Math.round(visH * dpr);
     const fw = Math.round(B.w * dpr), fh = Math.round(B.h * dpr);
     const origin = [Math.round(visX * dpr), fh - Math.round(visY * dpr) - canvas.height];
-    const mine = mod.bakeSky(canvas, B.comp, { full: [fw, fh], origin, gate: { firstStripMs: 450, totalMs: 9000 } });
+    // ?live&soft lets a software rasteriser bake too (development only: checking that the
+    // live render lines up with the still)
+    const soft = force && params.has('soft');
+    const mine = mod.bakeSky(canvas, B.comp, { full: [fw, fh], origin, strips: 64, allowSoftware: soft, gate: soft ? null : { firstStripMs: 450, totalMs: 9000 } });
     if (!mine) { failed = true; return; }
     job = mine;
     const off = () => { if (!document.hidden && onScreen) mine.resume(); else mine.pause(); };
@@ -125,8 +139,10 @@ export function init(root) {
     img.className = 's-hero__live';
     img.alt = '';
     img.src = URL.createObjectURL(blob);
+    img.dataset.box = boxKey(B);
     Object.assign(img.style, { left: `${visX}px`, top: `${visY}px`, width: `${B.W}px`, height: `${visH}px` });
     await img.decode().catch(() => {});
+    if (boxKey(box) !== img.dataset.box) { URL.revokeObjectURL(img.src); return; }
     const prev = live;
     sky.append(img);
     requestAnimationFrame(() => img.classList.add('is-in'));

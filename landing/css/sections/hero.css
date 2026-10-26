@@ -555,8 +555,8 @@
 
 /* ---------- notification ---------- */
 .s-hero__note {
-  right: 4px;
-  top: 136px;
+  right: 89px;
+  top: 146px;
   z-index: 4;
   width: 336px;
   display: flex;
@@ -609,8 +609,8 @@
 
 /* ---------- Telegram reminder ---------- */
 .s-hero__tg {
-  right: 4px;
-  top: 296px;
+  right: 137px;
+  top: 470px;
   z-index: 4;
   width: 288px;
   padding: 12px;
@@ -879,7 +879,7 @@
   left: 0;
   width: calc(100% + 1600px);
   background: url("../../assets/art/cloud-shadows.webp") 0 0 / 1600px 100% repeat-x;
-  opacity: 0.9;
+  opacity: 0.55;
   animation: s-hero-drift 140s linear infinite;
   will-change: transform;
 }
@@ -1044,8 +1044,9 @@
     display: none;
   }
   .s-hero__note {
-    right: 22px;
+    right: 0;
     top: 150px;
+    width: 268px;
   }
   .s-hero__comp::before {
     left: 190px;
@@ -1091,7 +1092,7 @@
   .s-hero__stage {
     --cw: 360;
     --ch: 612;
-    margin-top: 120px;
+    margin-top: 136px;
   }
   .s-hero__win {
     display: none;
