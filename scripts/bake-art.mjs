@@ -6,7 +6,11 @@
 //   node scripts/bake-art.mjs --out /tmp/x --png --scale 0.5
 //                                                test renders: another folder, PNG copies, smaller
 //   node scripts/bake-art.mjs --plate '{"name":"t","comp":"desktop","width":1680,"crop":[0.6,0,0.4,0.5]}' --out /tmp/x --png
-//                                                an ad-hoc plate (for example a crop to inspect)
+//                                                an ad-hoc plate (for example a crop to inspect);
+//                                                "override": {"paint": 0.005} changes composition fields
+//   --scales 1                                   only the 1x (or 2x) still of each plate
+// Baking a hero plate into landing/assets/art also rewrites its tiny placeholder in
+// css/sections/hero.css (between the lqip markers).
 //
 // Needs Playwright (require('playwright') must resolve; no browser download is triggered).
 // The script serves landing/ itself on a free port, so the dev server does not need to run.

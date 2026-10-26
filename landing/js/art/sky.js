@@ -436,6 +436,10 @@ float seaH(vec2 q, float fp){
   float calm = smoothstep(-0.25, 0.35, tn(q * 0.045 + vec2(1.9, 7.3)));
   return uSea.x + swell * 0.6 + (d - 0.5) * uSea.y * (0.8 + 0.35 * swell) * mix(0.45, 1.0, calm);
 }
+float farRows(vec2 rq, float fp){
+  float v = dome(vec3(rq.x * 0.026 + 0.21, rq.y * 0.034 + 0.47, 0.61 + rq.x * 0.004));
+  return v * 0.7 + dome(vec3(rq.x * 0.07 + 0.63, rq.y * 0.085 + 0.19, 0.23)) * 0.3 * smoothstep(3.5, 1.5, fp) + 0.3 * (1.0 - smoothstep(3.5, 1.5, fp)) * 0.85;
+}
 vec3 seaHaze(vec2 w){ return mix(skyCol(vec2(w.x, 0.0)), toLin(P_haze), 0.3); }
 float gFpK;
 float seaHit(vec3 ro, vec3 rd){
@@ -479,21 +483,26 @@ vec3 seaShade(vec3 p, float t, vec2 w){
   vec3 shC = mix(P_seaShLo, P_seaShHi, smoothstep(0.05, 0.8, rel));
   vec3 col = mix(shC, litC, smoothstep(0.05, 0.8, lit));
   col = mix(col, P_clRim, (1.0 - lit) * smoothstep(0.45, 0.95, rel) * 0.35);
-  // toward the horizon the billows are painted as receding rows: warm tops, blue gaps between
-  // them, thinning with distance and fading to their average before they get finer than a stroke
-  float far = smoothstep(12.0, 34.0, t);
-  float rowsV = dome(vec3(p.x * 0.0125 + 0.21 + p.z * 0.003, p.z * 0.07 + 0.47, 0.61));
-  rowsV = rowsV * 0.7 + dome(vec3(p.x * 0.031 + 0.63, p.z * 0.16 + 0.19, 0.23)) * 0.3 * smoothstep(3.5, 1.5, fp);
+  // toward the horizon the billows are painted as receding rows of tops: each lit along its top
+  // and in blue shade on the face turned toward us (the sun is ahead and to the left), the shade
+  // thinning with distance and fading before the rows get finer than a stroke
+  float far = smoothstep(9.0, 26.0, t);
+  vec2 rq = vec2(p.x + tn(p.xz * vec2(0.02, 0.05)) * 9.0, p.z);
+  float dzr = 1.6;
+  float hA = farRows(rq, fp), hB = farRows(rq + vec2(0.0, dzr), fp);
+  float face = smoothstep(0.015, 0.09, hB - hA);
+  float crest = smoothstep(0.012, 0.06, hA - hB) * smoothstep(0.9, 0.97, hA);
   float aa = smoothstep(1.2, 3.5, 3.5 / max(fp, 1e-3));
-  vec3 rowC = mix(mix(P_seaShHi, P_seaShLo, 0.45), litC, smoothstep(0.5, 0.85, rowsV));
-  col = mix(col, rowC, far * mix(0.25, 0.75, aa));
+  vec3 rowC = mix(litC, mix(P_seaShHi, P_seaShLo, 0.35), face);
+  rowC = mix(rowC, P_seaLit2, crest * 0.7);
+  col = mix(col, rowC, far * mix(0.3, 0.8, aa));
   // the near sea is left soft and simple: detail belongs to the focal point, not the foreground
   float near = 1.0 - smoothstep(4.0, 16.0, t);
   col = mix(col, mix(litC, P_seaShHi, 0.25), near * 0.3);
   vec3 c = toLin(col);
   c *= 1.0 + uMood.w;
-  float hz = 1.0 - exp(-t * 0.009);
-  hz = max(hz, smoothstep(90.0, 180.0, t));
+  float hz = 1.0 - exp(-t * 0.0065);
+  hz = max(hz, smoothstep(110.0, 190.0, t));
   return mix(c, seaHaze(w), clamp(hz, 0.0, 1.0));
 }
 
@@ -540,15 +549,16 @@ void main(){
   col = mix(col, seaHaze(w), smoothstep(0.35, 0.0, w.y) * 0.85);
   float paint = 0.0;
   vec4 land = landLayer(w, pix);
+  // the clouds stand in front of the range (it is four times farther away) and fade into the
+  // sea at their foot, so they are laid over the land, not hidden by it
+  vec4 c = w.y > -0.06 ? cloudLayer(fc, w, pix) : vec4(0.0);
   if (land.a < 1.0){
-    vec4 c = cloudLayer(fc, w, pix);
     // air close to a cloud is lit by it: a faint halo softens the cut-out
     col = mix(col, toLin(P_halo), max(gHalo, exp(-gMinD / 0.07) * 0.08) * (1.0 - c.a));
-    col = col * (1.0 - c.a) + c.rgb;
-    paint = c.a;
   }
   col = mix(col, land.rgb, land.a);
-  paint = max(paint, land.a);
+  col = col * (1.0 - c.a) + c.rgb;
+  paint = max(c.a, land.a);
 
   // the valley fades into the page
   col = mix(col, toLin(P_bg), smoothstep(uFade + 1.7, uFade, w.y));
