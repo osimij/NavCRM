@@ -248,8 +248,8 @@
     transform 300ms var(--ease-in-out),
     width 300ms var(--ease-in-out);
 }
-.ui-seg button,
-.ui-seg span {
+.ui-seg > button,
+.ui-seg > span:not(.ui-seg__thumb) {
   position: relative;
   height: 26px;
   padding: 0 10px;
