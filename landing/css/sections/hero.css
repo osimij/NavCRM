@@ -15,6 +15,9 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
+  /* past 1920px the panel stops growing: the painting is composed for up to that width */
+  max-width: 1900px;
+  margin-inline: auto;
   border-radius: var(--r-2xl);
   padding-top: calc(var(--nav-h) + clamp(20px, 3vh, 36px));
   padding-bottom: clamp(24px, 3vw, 44px);
@@ -46,9 +49,9 @@
   width: var(--sky-w, 150%);
   height: var(--sky-h, auto);
   transform: translate3d(var(--sky-x, -50%), var(--sky-shift, 0px), 0);
-  -webkit-mask: linear-gradient(90deg, transparent, #000 2.5%), linear-gradient(180deg, transparent, #000 var(--sky-fade, 5%));
+  -webkit-mask: linear-gradient(90deg, transparent, #000 var(--sky-fade-x, 0%)), linear-gradient(180deg, transparent, #000 var(--sky-fade, 5%));
   -webkit-mask-composite: source-in;
-  mask: linear-gradient(90deg, transparent, #000 2.5%), linear-gradient(180deg, transparent, #000 var(--sky-fade, 5%));
+  mask: linear-gradient(90deg, transparent, #000 var(--sky-fade-x, 0%)), linear-gradient(180deg, transparent, #000 var(--sky-fade, 5%));
   mask-composite: intersect;
   /* a tiny, blurred copy of the painting (inlined below) holds the place until the still decodes */
   background-repeat: no-repeat;

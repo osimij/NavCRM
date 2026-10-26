@@ -82,6 +82,8 @@ export function init(root) {
     sky.style.setProperty('--sky-w', `${w.toFixed(1)}px`);
     sky.style.setProperty('--sky-h', `${h.toFixed(1)}px`);
     sky.style.setProperty('--sky-top', `${top.toFixed(1)}px`);
+    // a box that stops short of the frame's left edge fades into the sky there
+    sky.style.setProperty('--sky-fade-x', left > -2 ? '2.5%' : '0%');
     // around the painting's box: the zenith above it, the sky's own gradient to the horizon,
     // and the page below the sea
     const z = Math.max(0, top + h * (place.mode === 'gap' ? 0.12 : 0.06));
@@ -122,7 +124,7 @@ export function init(root) {
     add(lines(title), 52);
     add(lines(lead), 48);
     add([actions.getBoundingClientRect(), facts.getBoundingClientRect()], 40);
-    const minTop = 92; // below the nav, with air
+    const minTop = 86; // below the nav, with air
     const narrow = TABLET.matches;
     const margin = narrow ? 12 : 36;
     const crop = narrow ? 0.22 * (O.right - O.left) : 0;
