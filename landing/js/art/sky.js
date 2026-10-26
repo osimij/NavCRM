@@ -38,7 +38,8 @@ precision highp usampler2D;
 
 uniform sampler3D uNoise;     // r: gradient noise, g: Worley F1
 uniform sampler2D uNoise2;    // r: tileable 2D gradient noise, period 32
-uniform sampler2D uLobes;     // row 0: x y z r, row 1: haze base billow crown, row 2: halo
+uniform sampler2D uLobes;     // row 0: x y z r, row 1: haze base billow crown, row 2: halo level cx crownAmp,
+                              // row 3: the whole cloud as one ellipsoid: centre y, radius x, radius y, centre z
 uniform usampler2D uCells;    // per tile: index list offset, count
 uniform usampler2D uIdx;      // lobe indices
 uniform vec2 uGrid;
@@ -60,6 +61,7 @@ uniform vec3 uSun;
 uniform vec3 uSeaSun;
 uniform vec4 uGlow;           // sun glow centre (world), glow amount, horizon band amount
 uniform vec4 uMood;           // x: stars, y: cloud haze lift, z: land haze, w: sea brightness
+uniform float uTerm;          // how far the cloud terminator follows the masses (0) or the whole form (1)
 uniform vec3 uPal[${PAL.length}];
 ${palDefines}
 
@@ -87,7 +89,7 @@ vec3 skyCol(vec2 w){
   vec3 c = mix(toLin(P_skyHor), toLin(P_skyMid), smoothstep(0.0, 0.42, t));
   c = mix(c, toLin(P_skyZen), smoothstep(0.3, 1.0, t));
   // light pooling on the sun side
-  float g = exp(-length((w - uGlow.xy) * vec2(0.55, 1.0)) * 0.16);
+  float g = exp(-length((w - uGlow.xy) * vec2(0.55, 1.0)) * 0.19);
   c = mix(c, toLin(P_skyGlow), g * uGlow.z);
   // a low band of warmth along the horizon, stronger toward the sun
   float band = exp(-max(w.y, 0.0) * 1.1) * (0.55 + 0.45 * smoothstep(8.0, -8.0, w.x - uGlow.x * 0.3));
@@ -102,7 +104,7 @@ vec3 skyCol(vec2 w){
 vec3 seaHaze(vec2 w);
 int lp[64]; int np;
 int lm[32]; int nm;          // the designed masses and medium lumps under this pixel (no small billows)
-float zN, zF; vec4 gAttr;
+float zN, zF; vec4 gAttr, gAttr2, gAttr3;
 
 vec4 lobe(int i){ return texelFetch(uLobes, ivec2(i, 0), 0); }
 int idxAt(uint k){ return int(texelFetch(uIdx, ivec2(int(k & 2047u), int(k >> 11u)), 0).r); }
@@ -121,7 +123,11 @@ void gather(vec2 fc, vec2 w){
       if (nm < 32 && texelFetch(uLobes, ivec2(id, 2), 0).y < 1.5){ lm[nm] = id; nm++; }
     }
   }
-  if (np > 0) gAttr = texelFetch(uLobes, ivec2(lp[0], 1), 0);
+  if (np > 0){
+    gAttr = texelFetch(uLobes, ivec2(lp[0], 1), 0);
+    gAttr2 = texelFetch(uLobes, ivec2(lp[0], 2), 0);
+    gAttr3 = texelFetch(uLobes, ivec2(lp[0], 3), 0);
+  }
 }
 
 float billow(vec3 p, float fine){
@@ -132,11 +138,13 @@ float billow(vec3 p, float fine){
 }
 float sdP(vec3 p){
   float d = 1e4;
-  for (int k = 0; k < 64; k++){ if (k >= np) break; vec4 s = lobe(lp[k]); d = smin(d, length(p - s.xyz) - s.w, 0.1); }
+  // small lumps join with a small fillet so they stay crisp; big masses blend broadly
+  for (int k = 0; k < 64; k++){ if (k >= np) break; vec4 s = lobe(lp[k]); d = smin(d, length(p - s.xyz) - s.w, clamp(0.16 * s.w, 0.025, 0.12)); }
   d = smax(d, gAttr.y - p.y, 0.22);
-  // billows are small and busy in the crown, broad and quiet in the body
+  // billows are small and busy in the crown on the sun side, broad and quiet in the body
   float cr = smoothstep(gAttr.w - 1.2, gAttr.w + 0.6, p.y);
-  float amp = gAttr.z * mix(0.3, 1.25, cr);
+  float sunSide = smoothstep(0.9, -0.6, p.x - gAttr2.z);
+  float amp = gAttr.z * (0.3 + gAttr2.w * cr * mix(0.3, 1.0, sunSide));
   if (d < 0.2) d -= (billow(p, cr) - 0.5) * amp * smoothstep(gAttr.y, gAttr.y + 0.7, p.y);
   return d;
 }
@@ -209,6 +217,14 @@ vec3 shadeCloud(vec3 p, vec2 w){
   // light reaches the base through the whole mass: the lower body settles into half-tone
   float hgt = smoothstep(gAttr.y + 0.2, gAttr.w + 1.0, p.y);
   float L = ndl * mix(0.25, 1.0, sh) - (1.0 - hgt) * 0.1 - (1.0 - ao) * mix(0.1, 0.3, cr);
+  // the whole cloud is lit as one form first, as a painter blocks it in: one terminator runs
+  // across the tower and everything beyond it stays in shade, however a lump faces
+  // (deep in z, so the terminator falls about two thirds of the way across, as in the design)
+  vec3 mR = vec3(gAttr3.y, gAttr3.z, gAttr3.y * 2.2);
+  vec3 nmac = normalize((p - vec3(gAttr2.z, gAttr3.x, gAttr3.w)) / (mR * mR));
+  // the terminator follows the big masses within that form
+  float Lmac = dot(normalize(mix(nmac, ns, uTerm)), uSun);
+  L = min(L, Lmac * 1.35 + 0.18);
   // three planes with short transitions, stated rather than blended
   float lit = smoothstep(-0.02, 0.05, L) * smoothstep(0.15, 0.6, sh);
   float top = smoothstep(0.24, 0.34, L) * smoothstep(0.3, 0.8, sh);
@@ -220,7 +236,7 @@ vec3 shadeCloud(vec3 p, vec2 w){
   // a shadow cast across a face that turns to the sun is filled by light scattered in the cloud
   shC = mix(shC, P_clShUp, smoothstep(0.0, 0.45, ndl) * 0.5);
   vec3 col = mix(shC, P_clHalf, lit);
-  vec3 litC = mix(P_clLit, P_clLit2, smoothstep(0.35, 0.6, L) * (0.4 + 0.6 * hgt));
+  vec3 litC = mix(P_clLit, P_clLit2, smoothstep(0.4, 0.55, L) * (0.3 + 0.7 * hgt));
   // the light side is brightest in the crown and settles, a touch warmer, toward the base
   litC = mix(litC * vec3(0.975, 0.958, 0.935), litC, smoothstep(gAttr.y + 0.3, gAttr.w + 1.0, p.y));
   col = mix(col, litC, top);
@@ -233,7 +249,7 @@ vec3 shadeCloud(vec3 p, vec2 w){
   float low = 1.0 - smoothstep(-0.6, 3.2, p.y);
   c = mix(c, skyCol(w), clamp(gAttr.x + low * 0.14 + uMood.y, 0.0, 0.92));
   // the foot of the cloud stands in the bright haze over the sea
-  float foot = 1.0 - smoothstep(0.0, 1.1, w.y);
+  float foot = 1.0 - smoothstep(-0.1, 0.75, w.y);
   return mix(c, seaHaze(w), foot * foot * 0.92);
 }
 
@@ -345,7 +361,7 @@ vec3 landShade(vec3 p, float t, vec2 w){
   col *= 1.0 + relief * 0.12 * (1.0 - lit);
 
   // aerial perspective, and the sunlit haze of the sea swallowing the foot of the range
-  float hzA = 0.1 + (1.0 - exp(-t * 0.0048));
+  float hzA = 0.2 + (1.0 - exp(-t * 0.0048));
   float low = 1.0 - smoothstep(uSea.x, uSea.x + 6.5, h0);
   hzA = clamp(hzA + low * low * 0.95 + uMood.z, 0.0, 1.0);
   vec3 hazeC = mix(skyCol(vec2(w.x, max(w.y, 0.0) * 0.6)), toLin(P_haze), 0.6 * low + 0.15);
@@ -356,7 +372,7 @@ vec3 landShade(vec3 p, float t, vec2 w){
 float seaH(vec2 q, float fp){
   vec2 p = q * uSea.z * vec2(0.74, 1.22);
   float swell = tn(q * 0.035 + vec2(5.3, 1.7));
-  p += vec2(tn(q * 0.06), tn(q * 0.06 + 9.1)) * 1.0;
+  p += vec2(tn(q * 0.06), tn(q * 0.06 + 9.1)) * 0.16;
   float big = dome(vec3(p * 0.43 + vec2(0.17, 0.53), 0.91));
   float w1 = 1.0 - smoothstep(0.3, 0.75, fp);
   float w2 = 1.0 - smoothstep(0.13, 0.32, fp);
@@ -411,12 +427,12 @@ vec3 seaShade(vec3 p, float t, vec2 w){
   vec3 col = mix(shC, litC, smoothstep(0.05, 0.8, lit));
   col = mix(col, P_clRim, (1.0 - lit) * smoothstep(0.45, 0.95, rel) * 0.35);
   // the near sea is left soft and simple: detail belongs to the focal point, not the foreground
-  float near = 1.0 - smoothstep(5.0, 24.0, t);
-  col = mix(col, mix(litC, P_seaShHi, 0.25), near * 0.55);
+  float near = 1.0 - smoothstep(4.0, 16.0, t);
+  col = mix(col, mix(litC, P_seaShHi, 0.25), near * 0.3);
   vec3 c = toLin(col);
   c *= 1.0 + uMood.w;
-  float hz = 1.0 - exp(-t * 0.026);
-  hz = max(hz, smoothstep(40.0, 100.0, t));
+  float hz = 1.0 - exp(-t * 0.012);
+  hz = max(hz, smoothstep(75.0, 160.0, t));
   return mix(c, seaHaze(w), clamp(hz, 0.0, 1.0));
 }
 
@@ -699,13 +715,13 @@ function noisePlane(N = 512, P = 32, seed = 3) {
 export const LIGHTS = {
   // Late-October morning: low sun from the upper left, warm light, clear blue shadows.
   morning: {
-    sun: [-0.7, 0.58, -0.2],
+    sun: [-0.62, 0.62, -0.42],
     seaSun: [-0.78, 0.42, 0.12],
-    glow: [-12.5, 3.0, 0.62, 0.42],
+    glow: [-9.5, 6.8, 0.58, 0.42],
     mood: [0, 0, 0, 0],
     pal: {
       skyZen: [0.42, 0.62, 0.89], skyMid: [0.68, 0.81, 0.955], skyHor: [0.935, 0.955, 0.975],
-      skyGlow: [1.0, 0.965, 0.915], skyBand: [1.0, 0.955, 0.9],
+      skyGlow: [1.0, 0.975, 0.93], skyBand: [1.0, 0.955, 0.9],
       clLit: [0.98, 0.962, 0.935], clLit2: [1.0, 0.99, 0.968], clHalf: [0.93, 0.893, 0.855],
       clShUp: [0.76, 0.84, 0.95], clShDn: [0.63, 0.72, 0.86], clRefl: [0.86, 0.85, 0.835], clRim: [0.86, 0.91, 0.98],
       seaLit: [0.975, 0.952, 0.92], seaLit2: [1.0, 0.988, 0.965], seaShLo: [0.64, 0.74, 0.88], seaShHi: [0.78, 0.85, 0.95],
@@ -748,22 +764,28 @@ export const frame = (width, top, bottom) => ({ aspect: width / (top - bottom), 
 // side. Each lobe is [x, y, r, grow]: grow (0 to 1) is how much small cauliflower billowing it
 // sprouts, so the busy detail lives only on the sunlit upper silhouette and the body stays broad.
 const TOWER = [
-  // base: flat-bottomed and wide
-  [-1.55, 0.2, 0.62, 0, 0.3], [-0.75, 0.24, 0.85, 0, 0.3], [0.3, 0.26, 0.92, 0, 0.3], [1.3, 0.2, 0.78, 0, 0.3], [2.0, 0.1, 0.48, 0, 0],
-  // body: one big dome and a lower shoulder in shade
-  [-0.38, 1.38, 1.12, 0.12, 1], [0.72, 1.0, 0.62, 0, 0.5],
-  // upper body, a little to the right: the tower leans with the wind
-  [0.18, 2.48, 0.84, 0.35, 0.8],
-  // crown: one dominant head, a smaller head on the sun side, a low head in shade
-  [-0.12, 3.36, 0.62, 1, 0], [-0.84, 3.0, 0.42, 1, 0], [0.58, 3.12, 0.38, 0.4, 0],
+  // where it rises out of the sea: a wide, low mound
+  [-2.1, 0.12, 0.66, 0, 0.4], [-1.25, 0.28, 0.92, 0, 0.4], [-0.1, 0.3, 1.02, 0, 0.4], [1.0, 0.25, 0.92, 0, 0.4], [1.95, 0.1, 0.66, 0, 0.3],
+  // body: one broad mass
+  [-0.5, 1.35, 1.22, 0.1, 1], [0.55, 1.22, 1.04, 0, 0.7],
+  // upper body, its shoulder on the sun side
+  [-0.1, 2.42, 0.96, 0.3, 0.8], [-0.86, 2.62, 0.52, 1, 0],
+  // crown: one dominant head and a low head in shade
+  [-0.28, 3.3, 0.7, 1, 0], [0.5, 3.08, 0.46, 0.25, 0],
 ];
 /** The tower centred at x, scaled by k (k = 1 in the desktop frame). */
 export const tower = (x, k = 1) => ({
-  z: 14, haze: 0.0, base: -0.55, jitter: 0.3 * k, billow: 0.09 * k, crown: 2.55 * k, halo: 1,
+  z: 14, haze: 0.0, base: -0.55, jitter: 0.3 * k, billow: 0.09 * k, crown: 2.7 * k, halo: 1,
   lobes: TOWER.map(([lx, ly, r, g, m]) => [x + lx * k, ly * k, r * k, g, m]),
 });
 // The massif: one designed peak, a shoulder behind it and a low spur toward the sea.
-const MASSIF = [[0, 1.75, 60, 2.1, 4, 0.6, 0.55, 1], [-1.8, 1.15, 64, 1.9, 5, 1.1, 0.6, 1], [1.9, 0.55, 70, 1.5, 4, 2.0, 0.5, 1]];
+// The Hisor range as it is seen from Dushanbe: a long wall with a double summit, stepping
+// down toward the valley on the right.
+const MASSIF = [
+  [-0.42, 1.5, 62, 1.2, 5, 0.9, 0.45, 1], [0.48, 1.36, 63, 1.1, 4, 1.7, 0.45, 1],
+  [-1.6, 1.1, 64, 1.45, 5, 2.4, 0.5, 1], [-2.9, 0.98, 66, 1.6, 4, 0.3, 0.5, 1],
+  [1.5, 0.8, 66, 1.25, 4, 1.1, 0.5, 1], [2.55, 0.42, 70, 1.2, 4, 2.7, 0.5, 1],
+];
 /** The massif with its main summit at x, scaled by k. */
 export const massif = (x, k = 1) => MASSIF.map(([sx, sh, d, sr, ...rest]) => [x + sx * k, sh * k, d, sr * k, ...rest]);
 // Distant cumulus resting on the far sea, for depth.
@@ -779,7 +801,7 @@ const desktop = {
   fade: -8.4,
   sea: [-2.2, 1.5, 0.12],
   paint: 0.0034,
-  clouds: [farCloud(-7.9, 1, 0.3), farCloud(7.7, 0.7, 0.42), tower(4.4)],
+  clouds: [farCloud(-7.4, 0.8, 0.34), tower(4.35, 0.9)],
   peaks: massif(-5.9),
 };
 
@@ -813,22 +835,26 @@ export const COMPOSITIONS = { desktop, tablet, phone };
 /* ====================================================================== cumulus growth */
 
 function growCloud(c, rnd, sun) {
-  // a lobe is [x, y, r, g, m]: g is how much small billowing it sprouts, m how many medium lumps
-  const L0 = c.lobes.map(([x, y, r, g = 1, m = 0]) => Object.assign([x, y, c.z + (rnd() * 2 - 1) * c.jitter, r], { g, m, lvl: 0 }));
+  // a lobe is [x, y, r, g, lvl]: lvl 0 is a designed mass (it casts the big shadows), 1 a lump on
+  // a mass's outline, 2 a small billow; g is how much small billowing the lobe sprouts
+  // designed lobes keep their depth (dz, optional), so lumps stay on their mass's outline
+  const L0 = c.lobes.map(([x, y, r, g = 0, lvl = 0, dz]) => Object.assign([x, y, c.z + (dz ?? (c.designed ? 0 : (rnd() * 2 - 1) * c.jitter)), r], { g, lvl }));
   const all = L0.slice();
   const buried = (q, list) => list.some((o) => o !== q && Math.hypot(q[0] - o[0], q[1] - o[1], q[2] - o[2]) + q[3] * 0.55 < o[3]);
-  const spawn = (parents, count, rmin, rmax, sunBias, lift, amount, lvl, flat = 1) => {
+  const spawn = (parents, count, rmin, rmax, sunBias, lift) => {
     const out = [];
     for (const P of parents) {
-      const n = Math.round(count * amount(P));
+      const n = Math.round(count * P.g);
       for (let j = 0; j < n; j++) {
-        let dx = rnd() * 2 - 1, dy = rnd() * 1.6 - 0.45 + lift, dz = -(rnd() * (lift ? 0.6 : 1.1) + 0.05) * flat;
+        let dx = rnd() * 2 - 1, dy = rnd() * 1.6 - 0.45 + lift, dz = -(rnd() * (lift ? 0.6 : 1.1) + 0.05);
         dx += sun[0] * sunBias; dy += sun[1] * sunBias;
         const l = Math.hypot(dx, dy, dz); dx /= l; dy /= l; dz /= l;
         if (dy < -0.3) continue;
+        // small billows crowd the sunlit top, not the shaded flank
+        if (dx > 0.35 && dy < 0.55) continue;
         const r = P[3] * (rmin + rnd() * (rmax - rmin));
         const d = P[3] - r * (0.35 + rnd() * 0.3);
-        const q = Object.assign([P[0] + dx * d, P[1] + dy * d, P[2] + dz * d, r], { g: P.g, m: 0, lvl });
+        const q = Object.assign([P[0] + dx * d, P[1] + dy * d, P[2] + dz * d, r], { g: P.g, lvl: 2 });
         if (q[1] - r * 0.5 < c.base) continue;
         if (buried(q, all) || buried(q, out)) continue;
         out.push(q);
@@ -837,10 +863,8 @@ function growCloud(c, rnd, sun) {
     all.push(...out);
     return out;
   };
-  // medium lumps break the big masses' outlines; small billows crowd the sunlit crown
-  const M = spawn(L0, 12, 0.36, 0.52, 0.3, 0.25, (P) => P.m, 1, 0.45);
-  const S = spawn([...L0, ...M], 20, 0.24, 0.42, 0.35, 0, (P) => P.g, 2);
-  spawn(S, 14, 0.28, 0.48, 0.7, 0.35, (P) => P.g, 2);
+  const S = spawn(L0, 20, 0.24, 0.42, 0.35, 0);
+  spawn(S, 14, 0.28, 0.48, 0.7, 0.35);
   return all;
 }
 
@@ -849,15 +873,20 @@ const norm3 = (v) => { const l = Math.hypot(...v); return v.map((x) => x / l); }
 function packComposition(comp, light, fullW, fullH) {
   const rnd = mulberry32(11);
   const sun = norm3(light.sun);
-  const lobes = [], attrs = [], attrs2 = [], big = [], bigBase = [];
+  const lobes = [], attrs = [], attrs2 = [], attrs3 = [], big = [], bigBase = [];
   for (const c of comp.clouds) {
     const grown = growCloud(c, rnd, sun);
+    const ms = grown.filter((l) => l.lvl === 0);
+    const x0 = Math.min(...ms.map((l) => l[0] - l[3])), x1 = Math.max(...ms.map((l) => l[0] + l[3]));
+    const y0 = Math.max(c.base, Math.min(...ms.map((l) => l[1] - l[3]))), y1 = Math.max(...ms.map((l) => l[1] + l[3]));
+    const cx = c.cx ?? (x0 + x1) / 2;
     for (const l of grown) {
       lobes.push(...l);
       attrs.push(c.haze, c.base, c.billow ?? 0.05, c.crown ?? c.base + 1.5);
-      attrs2.push(c.halo ?? 0.6, l.lvl ?? 0, 0, 0);
+      attrs2.push(c.halo ?? 0.6, l.lvl ?? 0, cx, c.crownAmp ?? 1);
+      attrs3.push((y0 + y1) / 2, (x1 - x0) / 2, (y1 - y0) / 2, c.z);
     }
-    for (const l of grown.slice(0, c.lobes.length)) { big.push(...l); bigBase.push(c.base); }
+    for (const l of grown) if (l.lvl === 0 && bigBase.length < 32) { big.push(...l); bigBase.push(c.base); }
   }
   const n = lobes.length / 4;
   // bin lobes into screen tiles so each pixel only marches the lobes under it
@@ -883,7 +912,7 @@ function packComposition(comp, light, fullW, fullH) {
     peaks.push((sx * dist) / FOC, dist, CAMH + (sh * dist) / FOC, (sr * dist) / FOC);
     peakB.push(k, ph, gd, wb);
   }
-  return { lobes, attrs, attrs2, n, big, bigBase, nb: bigBase.length, cells, GX, GY, idx, peaks, peakB, np: comp.peaks.length, sun };
+  return { lobes, attrs, attrs2, attrs3, n, big, bigBase, nb: bigBase.length, cells, GX, GY, idx, peaks, peakB, np: comp.peaks.length, sun };
 }
 
 /* ====================================================================== capability */
@@ -997,9 +1026,9 @@ export function bakeSky(canvas, comp, opts = {}) {
   texture(1, gl.TEXTURE_2D, () => gl.texImage2D(gl.TEXTURE_2D, 0, gl.R16F, N2, N2, 0, gl.RED, gl.FLOAT, noisePlane(N2)), gl.LINEAR, gl.REPEAT);
   const pk = packComposition(comp, light, fullW, fullH);
   texture(2, gl.TEXTURE_2D, () => {
-    const data = new Float32Array(pk.n * 12);
-    data.set(pk.lobes, 0); data.set(pk.attrs, pk.n * 4); data.set(pk.attrs2, pk.n * 8);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, pk.n, 3, 0, gl.RGBA, gl.FLOAT, data);
+    const data = new Float32Array(pk.n * 16);
+    data.set(pk.lobes, 0); data.set(pk.attrs, pk.n * 4); data.set(pk.attrs2, pk.n * 8); data.set(pk.attrs3, pk.n * 12);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, pk.n, 4, 0, gl.RGBA, gl.FLOAT, data);
   }, gl.NEAREST, gl.CLAMP_TO_EDGE);
   texture(3, gl.TEXTURE_2D, () => gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32UI, pk.GX, pk.GY, 0, gl.RGBA_INTEGER, gl.UNSIGNED_INT, pk.cells), gl.NEAREST, gl.CLAMP_TO_EDGE);
   texture(4, gl.TEXTURE_2D, () => {
@@ -1010,7 +1039,8 @@ export function bakeSky(canvas, comp, opts = {}) {
 
   // render targets: the scene, the structure tensor and its blurred copies
   const T = {
-    scene: target(5, gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE),
+    // half float: an 8-bit scene bands on smooth gradients and the brush turns the steps into ridges
+    scene: target(5, gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT),
     tfmA: target(6, gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT),
     tfmB: target(7, gl.RGBA16F, gl.RGBA, gl.HALF_FLOAT),
   };
@@ -1037,6 +1067,7 @@ export function bakeSky(canvas, comp, opts = {}) {
   gl.uniform3f(u('uSeaSun'), ...norm3(light.seaSun || light.sun));
   gl.uniform4f(u('uGlow'), ...light.glow);
   gl.uniform4f(u('uMood'), ...(light.mood || [0, 0, 0, 0]));
+  gl.uniform1f(u('uTerm'), comp.term ?? 0.5);
   gl.uniform3fv(u('uPal'), new Float32Array(PAL.flatMap((k) => light.pal[k] || [1, 0, 1])));
 
   // passes, each drawn in horizontal strips from the top down
