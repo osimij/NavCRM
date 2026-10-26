@@ -4,7 +4,7 @@
 
 .s-hero {
   --inset: 10px;
-  --hour: 64px;
+  --hour: 60px;
   --gut: 52px;
   position: relative;
   padding: var(--inset) var(--inset) 0;
@@ -16,7 +16,7 @@
   isolation: isolate;
   overflow: hidden;
   border-radius: var(--r-2xl);
-  padding-top: calc(var(--nav-h) + clamp(26px, 4.2vh, 46px));
+  padding-top: calc(var(--nav-h) + clamp(20px, 3vh, 36px));
   padding-bottom: clamp(24px, 3vw, 44px);
   box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.04);
 }
@@ -32,18 +32,24 @@
   inset: 0;
   z-index: -2;
   overflow: hidden;
-  /* the sky before anything arrives, in the painting's own colours */
-  background: linear-gradient(180deg, #8eb0e6 0%, #b5cdf0 30%, #e9eff6 52%, #f6f4f1 58%, #f7f7f8 100%);
+  /* the sky before anything arrives, in the painting's own colours; hero.js restates it around
+     the painting's box (zenith above it, the page below), so a box that does not reach an edge
+     of the frame fades into the same sky */
+  background: var(--art-bg, linear-gradient(180deg, #8eb0e6 0%, #b5cdf0 30%, #e9eff6 52%, #f6f4f1 58%, #f6f8fb 100%));
   pointer-events: none;
 }
 .s-hero__sky {
   position: absolute;
   display: block;
-  left: 50%;
+  left: var(--sky-left, 50%);
   top: var(--sky-top, -20%);
-  width: var(--sky-w, 118%);
+  width: var(--sky-w, 150%);
   height: var(--sky-h, auto);
-  transform: translate3d(-50%, var(--sky-shift, 0px), 0);
+  transform: translate3d(var(--sky-x, -50%), var(--sky-shift, 0px), 0);
+  -webkit-mask: linear-gradient(90deg, transparent, #000 2.5%), linear-gradient(180deg, transparent, #000 5%);
+  -webkit-mask-composite: source-in;
+  mask: linear-gradient(90deg, transparent, #000 2.5%), linear-gradient(180deg, transparent, #000 5%);
+  mask-composite: intersect;
   /* a tiny, blurred copy of the painting (inlined below) holds the place until the still decodes */
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -74,9 +80,8 @@
   }
 }
 /* lqip:start (written by scripts/bake-art.mjs: a tiny blurred copy of each still) */
-/* hero-desktop */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRlwCAABXRUJQVlA4WAoAAAAgAAAAGwAAHwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggbgAAABAEAJ0BKhwAIAA+nT6aSCWjIqEwCACwE4ljZkBGFl2iGhpKX4ozm+wAAP7w5gT79JVD/6pPEWhxXzXqyX9nZCLkGipbcax69o2DY+/jh9e7iMcRW72A132ySStpBH4Zzg/oC0WSp3va+EPKtAAA"); }
-@media (max-width: 1099.98px) { /* hero-tablet */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRmoCAABXRUJQVlA4WAoAAAAgAAAAGwAALgAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggfAAAABAFAJ0BKhwALwA+jTyXSCUjoiE1SACgEYljALDsLNqL1N3IOY0TFOQQYlT8tlKwNKAA/u1Xx9l4C8jt+qBAF70ssAm7v4V4lxQflD4zzl9eWipDnMttGD7UCqul675SDPFebz7bLu6psOr9fAZJL5dH1Ei7mmMJzYCt+AA="); } }
-@media (max-width: 759.98px) { /* hero-phone */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRt4CAABXRUJQVlA4WAoAAAAgAAAAGwAAagAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDgg8AAAAJAHAJ0BKhwAawA+nUqcSiWkoqGpOAswsBOJZWwhWcH64X3IrJKTxeMVZN5YfgcpoToAx7DUN8mr9FKdlDpmRB0dOJMCAAD+7/ldq+PwJTQpi0SVpXatIKVcINZcdpu94S2dUDtIyPClFKt8VL2pQC86zn7QJnNdB3x4jlyfxIa0SXMxKn6jKVr5FBosY3z7QExsPJq1dxu6MwrJdALJvwza8cduJcHwA7pNEdzCUAJE7K3ocShEb6U1o8ij4btbaRvzE5/443duqRot/clMJ6g0Z55Qcp65/g4YsePjreGDzgwUoZBrhZB/lcx5jugAAA=="); } }
+/* hero-desktop */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRkoCAABXRUJQVlA4WAoAAAAgAAAAGwAAEQAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggXAAAABADAJ0BKhwAEgA+nT6ZSCWjIqEwCACwE4ljALToKzzXgAD+8YmL7/tgNv/0MiYIXCy7JOD7ErRi2iXqwa3F9n/i3UjwrHK1g+GhFv/54b4ge1iBSB4X4iRjYQAA"); }
+@media (max-width: 759.98px) { /* hero-phone */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRtYCAABXRUJQVlA4WAoAAAAgAAAAGwAAagAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDgg6AAAAFAHAJ0BKhwAawA+nUSbSiWjoiGrfMjgsBOJZQDBVBm8I1+FRfQ2VEoEu6g9HZ4kxcd/k9LcTVhg6WWFsW1Rta0Z7AAA/u7MYFeBZl615+w8rcYTH6AgevHn+fX2j+KQ5y/DouB30bNWulDQPGf39MxYCQbOeH1+M+sIN8RsWaPZZF3W7g1EMcvBpOFha0N0tNtejNqHukcgBpRPOjNegGVPty5cAaCn+HoATLba8frVODG4BJ/AB/w+KslEdNpcXJPAqImoobQpMnSkfF03eJHOTMOLR4IVcPp/TOeQ0FAhlI7U/2TGgAA="); } }
 /* lqip:end */
 /* the live render covers only the part of the box inside the frame (placed by hero.js) */
 .s-hero__live {
@@ -106,7 +111,7 @@
   text-align: center;
 }
 .s-hero__title {
-  font-size: clamp(2.5rem, 1.1rem + 3.7vw, 4.5rem);
+  font-size: clamp(2.5rem, 1.2rem + 3.2vw, 4.25rem);
   line-height: 1;
   letter-spacing: -0.03em;
   color: #0a1324;
@@ -115,9 +120,15 @@
   display: block;
 }
 .s-hero__lead {
-  max-width: 41em;
-  margin-top: clamp(14px, 1.4vw, 20px);
+  /* a reading measure of about 62 characters, which also ends the lines before the cloud */
+  max-width: 31em;
+  margin-top: clamp(18px, 1.5vw, 22px);
   color: #34415a;
+}
+@media (min-width: 1280px) {
+  .s-hero__lead {
+    max-width: 33em;
+  }
 }
 .s-hero__actions {
   display: flex;
@@ -161,9 +172,9 @@
 /* The composition is designed at a fixed size and scaled to fit (--s from hero.js). */
 .s-hero__stage {
   --cw: 1240;
-  --ch: 724;
+  --ch: 664;
   position: relative;
-  margin-top: clamp(34px, 3.4vw, 48px);
+  margin-top: calc(clamp(28px, 2.6vw, 38px) + var(--art-gap, 0px));
   height: calc(var(--ch) * var(--s, 1) * 1px);
 }
 .s-hero__comp {
@@ -182,7 +193,7 @@
 .s-hero__note,
 .s-hero__tg {
   position: absolute;
-  background: linear-gradient(140deg, rgba(255, 251, 243, 0.74) 0%, rgba(255, 255, 255, 0.58) 42%, rgba(234, 242, 255, 0.52) 100%);
+  background: linear-gradient(140deg, rgba(255, 246, 230, 0.8) 0%, rgba(255, 253, 248, 0.6) 30%, rgba(255, 255, 255, 0.55) 55%, rgba(226, 236, 255, 0.6) 100%);
   -webkit-backdrop-filter: blur(22px) saturate(1.5);
   backdrop-filter: blur(22px) saturate(1.5);
   box-shadow:
@@ -210,8 +221,8 @@
   z-index: 3;
   border-radius: inherit;
   corner-shape: inherit;
-  padding: 1.25px;
-  background: linear-gradient(142deg, rgba(255, 244, 222, 1) 0%, rgba(255, 252, 245, 0.55) 16%, rgba(255, 255, 255, 0.08) 42%, rgba(255, 255, 255, 0) 62%, rgba(196, 216, 252, 0.7) 100%);
+  padding: 1.5px;
+  background: linear-gradient(142deg, rgba(255, 226, 184, 1) 0%, rgba(255, 240, 214, 0.85) 9%, rgba(255, 250, 240, 0.3) 24%, rgba(255, 255, 255, 0) 48%, rgba(255, 255, 255, 0) 64%, rgba(168, 198, 250, 0.75) 90%, rgba(150, 186, 248, 0.95) 100%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
@@ -227,8 +238,7 @@
   .s-hero__glyph,
   .s-hero__chip,
   .s-hero__arrow,
-  .s-hero__toast,
-  .s-hero__sweep {
+  .s-hero__toast {
     corner-shape: superellipse(1.6);
   }
 }
@@ -253,7 +263,7 @@
   left: 130px;
   top: 0;
   width: 980px;
-  height: 628px;
+  height: 640px;
   display: grid;
   grid-template-columns: 60px minmax(0, 1fr);
   padding: 8px;
@@ -295,7 +305,7 @@
 .s-hero__main {
   position: relative;
   min-width: 0;
-  padding: 16px 18px 0;
+  padding: 14px 18px 0;
   border-radius: var(--r-lg);
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.05), 0 1px 3px rgba(11, 18, 32, 0.05);
@@ -398,8 +408,8 @@
   column-gap: 10px;
 }
 .s-hero__staff {
-  margin-top: 16px;
-  padding-bottom: 12px;
+  margin-top: 12px;
+  padding-bottom: 10px;
   box-shadow: 0 1px 0 var(--line);
 }
 .s-hero__who {
@@ -421,14 +431,14 @@
 }
 .s-hero__sched {
   position: relative;
-  height: calc(var(--hour) * 7 + 22px);
-  padding-top: 12px;
+  height: calc(var(--hour) * 8 + 20px);
+  padding-top: 10px;
 }
 .s-hero__hours li {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(12px + var(--hour) * var(--i));
+  top: calc(10px + var(--hour) * var(--i));
   height: 0;
   font-size: 11px;
   font-weight: 520;
@@ -452,6 +462,7 @@
 .s-hero__hours li:nth-child(6) { --i: 5; }
 .s-hero__hours li:nth-child(7) { --i: 6; }
 .s-hero__hours li:nth-child(8) { --i: 7; }
+.s-hero__hours li:nth-child(9) { --i: 8; }
 .s-hero__col {
   position: relative;
   grid-row: 1;
@@ -469,8 +480,8 @@
   height: calc(var(--hour) * var(--d) - 4px);
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: 6px 8px 6px 12px;
+  gap: 1px;
+  padding: 5px 8px 4px 12px;
   border-radius: 11px;
   background: #fff;
   box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.07), 0 1px 2px rgba(11, 18, 32, 0.05), 0 8px 16px -12px rgba(28, 52, 110, 0.4);
@@ -552,7 +563,7 @@
   position: absolute;
   left: calc(var(--gut) - 4px);
   right: 0;
-  top: calc(12px + var(--hour) * var(--t));
+  top: calc(10px + var(--hour) * var(--t));
   z-index: 0;
   height: 2px;
   border-radius: 2px;
@@ -584,12 +595,12 @@
   box-shadow: 0 2px 6px -2px rgba(42, 91, 255, 0.6);
 }
 
-/* ---------- notification: half over the window (over Zarina's free hour), half over the sky ---------- */
+/* ---------- notification: over Zarina's free late morning, hanging off the window's right edge ---------- */
 .s-hero__note {
-  left: 915px;
-  top: 244px;
+  left: 931px;
+  top: 226px;
   z-index: 4;
-  width: 336px;
+  width: 320px;
   display: flex;
   gap: 12px;
   padding: 14px 16px 14px 14px;
@@ -642,12 +653,12 @@
   color: var(--ink-2);
 }
 
-/* ---------- Telegram reminder: off the window's lower right corner ---------- */
+/* ---------- Telegram reminder: stacked under the notification, over Zarina's free afternoon ---------- */
 .s-hero__tg {
-  left: 952px;
-  top: 520px;
+  left: 931px;
+  top: 344px;
   z-index: 4;
-  width: 288px;
+  width: 320px;
   padding: 12px;
   border-radius: var(--r-lg);
 }
@@ -714,22 +725,26 @@
   transform: translateY(3px);
 }
 
-/* ---------- the owner's phone: under the window's tabs, its toast high on the screen ---------- */
+/* ---------- the owner's phone: in front of the window's rail, its toast high on the screen ---------- */
+/* A light aluminium frame, so the phone belongs to this high-key picture instead of being its
+   darkest mass; a thin dark band still holds the screen. */
 .s-hero__phone {
   position: absolute;
   left: 0;
-  top: 268px;
+  top: 150px;
   z-index: 5;
   width: 212px;
   padding: 7px;
   border-radius: 38px;
+  background: linear-gradient(150deg, #fbfcfe 0%, #e3e8f0 38%, #cfd7e3 70%, #b9c4d4 100%);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-    inset 0 0 0 3px #0b1220,
-    0 0 0 1px rgba(11, 18, 32, 0.2),
-    0 4px 10px -2px rgba(11, 18, 32, 0.18),
-    26px 40px 60px -24px rgba(30, 56, 120, 0.42),
-    60px 90px 120px -50px rgba(40, 72, 150, 0.3);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.9),
+    inset 0 0 0 4.5px rgba(150, 164, 186, 0.5),
+    inset 0 0 0 6.5px #1a2131,
+    0 0 0 1px rgba(28, 46, 92, 0.16),
+    0 4px 10px -2px rgba(28, 46, 92, 0.16),
+    26px 40px 60px -24px rgba(30, 56, 120, 0.38),
+    60px 90px 120px -50px rgba(40, 72, 150, 0.28);
 }
 .s-hero__phone::after {
   /* the sun on the frame's upper-left edge */
@@ -738,7 +753,7 @@
   inset: 0;
   border-radius: inherit;
   padding: 1.5px;
-  background: linear-gradient(140deg, rgba(255, 236, 205, 0.7), rgba(255, 255, 255, 0.05) 30%, rgba(255, 255, 255, 0) 70%, rgba(170, 196, 245, 0.35));
+  background: linear-gradient(140deg, rgba(255, 232, 196, 0.95), rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0) 70%, rgba(160, 190, 245, 0.55));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
@@ -747,6 +762,7 @@
 .s-hero__phone .ui-phone__screen {
   border-radius: 31px;
   background: #f4f6fa;
+  box-shadow: 0 0 0 1px #1a2131;
 }
 .s-hero__phone .ui-phone__island {
   top: 8px;
@@ -841,13 +857,15 @@
   margin-bottom: 6px;
 }
 .s-hero__upnext-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
   padding: 6px 0;
   font-size: 12px;
   line-height: 1.25;
   box-shadow: 0 -1px 0 var(--line);
+}
+.s-hero__upnext-row > p {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
 }
 .s-hero__upnext-row b {
   flex: none;
@@ -875,10 +893,13 @@
   gap: 8px;
   padding: 8px 10px 8px 8px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.97);
+  background: #fff;
   box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.06), 0 8px 20px -8px rgba(11, 18, 32, 0.3);
   line-height: 1.25;
-  transition: opacity 300ms ease, transform 450ms var(--ease-out);
+  /* it slides down out of the status bar behind a clip, so the heading under it never shows
+     through: at every moment each part of it is either fully there or not there */
+  clip-path: inset(-40px round 14px);
+  transition: clip-path 420ms var(--ease-out), transform 420ms var(--ease-out), visibility 0s;
 }
 .s-hero__toast b {
   display: block;
@@ -960,25 +981,26 @@
 }
 
 /* ---------- drifting cloud shadows ---------- */
-/* Soft, clear-blue shadows of clouds out of frame drift across the sea and the glass. The layer
-   starts at the horizon and is multiplied over everything below it; over the window's white
-   schedule (a hole placed by hero.js) it is held to a third of its strength, so text keeps its
-   contrast. */
+/* Soft, clear-blue shadows of clouds out of frame drift across the cloud sea. The layer lies on
+   the sea, under the product: the glass shows the shadows passing beneath it, while the white
+   schedule, the cards and the phone's screen keep their own light. It moves in small steps
+   (about 15 a second), which reads as continuous at this speed and lets the glass above it
+   repaint less often. */
 .s-hero__drift {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: calc(-1 * var(--inset) - 40px);
+  right: calc(-1 * var(--inset) - 40px);
   top: -18px;
   bottom: calc(-1 * clamp(24px, 3vw, 44px));
-  z-index: 6;
+  z-index: 0;
   overflow: hidden;
   pointer-events: none;
   mix-blend-mode: multiply;
-  --hole: linear-gradient(rgba(0, 0, 0, 0.66) 0 0) var(--hx, -9999px) var(--hy, 0px) / var(--hw, 0px) var(--hh, 0px) no-repeat;
-  -webkit-mask: linear-gradient(180deg, transparent 0, #000 90px), var(--hole);
-  -webkit-mask-composite: source-out;
-  mask: linear-gradient(180deg, transparent 0, #000 90px), var(--hole);
-  mask-composite: subtract;
+  -webkit-mask: linear-gradient(180deg, transparent 0, #000 90px);
+  mask: linear-gradient(180deg, transparent 0, #000 90px);
+}
+.s-hero__comp {
+  z-index: 1;
 }
 .s-hero__drift::before {
   content: "";
@@ -988,7 +1010,7 @@
   left: 0;
   width: calc(100% + 1600px);
   background: url("../../assets/art/cloud-shadows.webp") 0 0 / 1600px 100% repeat-x;
-  animation: s-hero-drift 120s linear infinite;
+  animation: s-hero-drift 120s steps(1800) infinite;
   will-change: transform;
 }
 @keyframes s-hero-drift {
@@ -1015,8 +1037,7 @@
 
 /* ---------- entrance (once, on load; runs without script) ---------- */
 /* The copy fades in as one block. The product rises out of the cloud sea: the window lifts to
-   the horizon with the sea covering its lower edge, the sea clears, and the sun's warm rim
-   crosses the glass once. */
+   the horizon with the sea covering its lower edge, then the sea clears. */
 @keyframes s-hero-fade {
   from {
     opacity: 0;
@@ -1042,38 +1063,6 @@
     transform: translateY(14px) scale(0.98);
   }
 }
-@keyframes s-hero-sweep {
-  from {
-    transform: translateX(-60%) skewX(-18deg);
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  to {
-    transform: translateX(160%) skewX(-18deg);
-    opacity: 0;
-  }
-}
-.s-hero__sweep {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  overflow: hidden;
-  border-radius: inherit;
-  pointer-events: none;
-}
-.s-hero__sweep::before {
-  content: "";
-  position: absolute;
-  top: -10%;
-  bottom: -10%;
-  left: 0;
-  width: 46%;
-  background: linear-gradient(90deg, rgba(255, 226, 180, 0) 0%, rgba(255, 226, 180, 0.16) 38%, rgba(255, 236, 205, 0.34) 50%, rgba(255, 226, 180, 0.16) 62%, rgba(255, 226, 180, 0) 100%);
-  mix-blend-mode: multiply;
-  opacity: 0;
-}
 @media (prefers-reduced-motion: no-preference) {
   .s-hero__copy {
     animation: s-hero-fade 900ms ease 60ms backwards;
@@ -1090,9 +1079,6 @@
   }
   .s-hero__phone { animation-delay: 900ms; }
   .s-hero__tg { animation-delay: 1000ms; }
-  .s-hero__sweep::before {
-    animation: s-hero-sweep 1300ms var(--ease-in-out) 1050ms;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .s-hero__copy,
@@ -1108,12 +1094,15 @@
 /* The notification slides in from the right with a clip, never a fade: at every moment each
    part of it is either fully there or not there, so nothing beneath shows through. */
 .s-hero__note {
-  clip-path: inset(0 round var(--r-lg));
-  transition: clip-path 560ms var(--ease-out), transform 560ms var(--ease-out);
+  clip-path: inset(-200px round var(--r-lg));
+  transition: clip-path 560ms var(--ease-out), transform 560ms var(--ease-out), visibility 0s;
 }
 .s-hero__comp[data-note="off"] .s-hero__note {
   clip-path: inset(0 0 0 100% round var(--r-lg));
   transform: translateX(28px);
+  /* once clipped away it is gone entirely, rim and shadow included */
+  visibility: hidden;
+  transition: clip-path 560ms var(--ease-out), transform 560ms var(--ease-out), visibility 0s linear 560ms;
 }
 .s-hero__bk[data-slot] {
   transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
@@ -1144,8 +1133,10 @@
   box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.07), 0 1px 2px rgba(11, 18, 32, 0.05), 0 8px 16px -12px rgba(28, 52, 110, 0.4);
 }
 .s-hero__comp[data-toast="off"] .s-hero__toast {
-  opacity: 0;
-  transform: translateY(-8px) scale(0.98);
+  clip-path: inset(0 0 100% 0 round 14px);
+  transform: translateY(-8px);
+  visibility: hidden;
+  transition: clip-path 420ms var(--ease-out), transform 420ms var(--ease-out), visibility 0s linear 420ms;
 }
 .s-hero__comp[data-reset] .s-hero__note {
   transition-duration: 420ms;
@@ -1156,44 +1147,46 @@
   transition-timing-function: ease;
 }
 
-/* Short laptop screens (1280x720, 1366x768): a tighter vertical rhythm so the product
-   starts well above the fold. */
+/* Short laptop screens (1280x720, 1366x768): the title drops a step so the product starts well
+   above the fold, while the copy keeps its breathing room. */
 @media (min-width: 760px) and (max-height: 820px) {
   .s-hero__frame {
-    padding-top: calc(var(--nav-h) + 10px);
+    padding-top: calc(var(--nav-h) + 14px);
   }
   .s-hero__title {
-    font-size: clamp(2.5rem, 1rem + 3vw, 3.75rem);
+    font-size: clamp(2.25rem, 0.9rem + 2.9vw, 3.375rem);
   }
   .s-hero__lead {
-    margin-top: 10px;
+    margin-top: 18px;
     font-size: 1.0625rem;
   }
   .s-hero__actions {
-    margin-top: 16px;
+    margin-top: 20px;
   }
   .s-hero__actions .btn {
     --btn-h: 48px;
   }
   .s-hero__facts {
-    margin-top: 12px;
+    margin-top: 14px;
   }
   .s-hero__stage {
-    margin-top: 24px;
+    margin-top: calc(26px + var(--art-gap, 0px));
   }
 }
 
 /* ---------- arrangements ---------- */
-/* Tablets and narrow windows: the window shows two of the three staff, the phone overlaps its
-   rail, and the notification hangs off its right edge over the sky. */
+/* Tablets and narrow windows: the window, centred under the copy, shows two of the three staff;
+   the phone stands in front of its rail and the notification hangs off its right edge over
+   Farrukh's free early afternoon. */
 @media (max-width: 1099.98px) {
   .s-hero__stage {
-    --cw: 930;
-    --ch: 660;
+    --cw: 860;
+    --ch: 640;
   }
   .s-hero__win {
-    left: 120px;
+    left: 130px;
     width: 600px;
+    height: 620px;
   }
   .s-hero__staff,
   .s-hero__sched {
@@ -1207,23 +1200,23 @@
     display: none;
   }
   .s-hero__phone {
-    top: 268px;
+    top: 170px;
     width: 184px;
     border-radius: 34px;
   }
   .s-hero__phone .ui-phone__screen {
     border-radius: 28px;
   }
-  .s-hero__upnext {
+  /* one row of what is next, so the screen has no empty band */
+  .s-hero__upnext .s-hero__upnext-row + .s-hero__upnext-row {
     display: none;
   }
   .s-hero__tg {
     display: none;
   }
-  /* in the empty afternoon of Farrukh's column, clear of every booking and status */
   .s-hero__note {
-    left: 620px;
-    top: 300px;
+    left: 548px;
+    top: 286px;
     width: 300px;
   }
   .s-hero__comp::before {
@@ -1267,9 +1260,12 @@
     flex: 1 1 0;
     padding: 0 12px;
   }
+  /* the three facts as a short stack, icons aligned on the left */
   .s-hero__facts {
-    gap: 8px 18px;
-    margin-top: 18px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 20px;
   }
   .s-hero__facts li + li::before {
     display: none;
@@ -1299,6 +1295,9 @@
   }
   .s-hero__upnext {
     display: block;
+  }
+  .s-hero__upnext .s-hero__upnext-row + .s-hero__upnext-row {
+    display: grid;
   }
   .s-hero__tg {
     display: none;

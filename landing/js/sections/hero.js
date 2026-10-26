@@ -1,18 +1,24 @@
-// Hero: lays the painted sky out so its horizon meets the top edge of the product, scales the
-// product composition to fit, bakes the sky live where the still would be upscaled, and plays
-// a short loop of a working day at Gulnor Beauty.
+// Hero: places the painted sky so its horizon meets the top edge of the product and its cumulus
+// tower stands in clear air beside the copy, scales the product composition to fit, bakes the
+// sky live where the still would be upscaled, and plays a short loop of a working day at
+// Gulnor Beauty.
 
 import { sleep, loopWhileVisible, reducedMotion } from '../main.js';
+import { FRAMES, towerOutline } from '../art/frames.js';
 
 const PHONE = matchMedia('(max-width: 759.98px)');
 const TABLET = matchMedia('(max-width: 1099.98px)');
 const params = new URLSearchParams(location.search);
+const OUTLINE = { desktop: towerOutline(...FRAMES.desktop.tower), phone: towerOutline(...FRAMES.phone.tower) };
+// the stills' resolution in CSS pixels per world unit (1x: the 1x still; 2x screens get the 2x still)
+const STILL_U = { desktop: 2236 / FRAMES.desktop.width, phone: 600 / FRAMES.phone.width };
 
 export function init(root) {
   const frame = root.querySelector('.s-hero__frame');
   const stage = root.querySelector('[data-stage]');
   const comp = root.querySelector('[data-comp]');
   const sky = root.querySelector('[data-sky]');
+  const art = root.querySelector('.s-hero__art');
   const still = sky.querySelector('picture img');
 
   grain(root.querySelector('.s-hero__grain'));
@@ -26,16 +32,17 @@ export function init(root) {
     still.addEventListener('error', showStill, { once: true });
   }
   const copy = root.querySelector('.s-hero__copy');
-  const drift = root.querySelector('.s-hero__drift');
-  const win = comp.querySelector('[data-win]');
-  const main = comp.querySelector('.s-hero__main');
+  const title = root.querySelector('.s-hero__title');
+  const lead = root.querySelector('.s-hero__lead');
+  const actions = root.querySelector('.s-hero__actions');
+  const facts = root.querySelector('.s-hero__facts');
 
   /* ---------- layout ---------- */
   let box = null;
   let compositions = null;
   let live = null;
   let job = null, bakeTimer = 0, lastKey = '', failed = false;
-  const compName = () => (PHONE.matches ? 'phone' : TABLET.matches ? 'tablet' : 'desktop');
+  const compName = () => (PHONE.matches ? 'phone' : 'desktop');
 
   let phoneVH = 0;
   function layout() {
@@ -46,6 +53,7 @@ export function init(root) {
     const gutter = parseFloat(getComputedStyle(copy).paddingLeft) || 16;
     const s = Math.min(1, (W - gutter * 2) / cw);
     stage.style.setProperty('--s', s.toFixed(4));
+    stage.style.removeProperty('--art-gap');
 
     // phones: the painting gets the rest of the first screen, so the horizon (and the product)
     // sits near its bottom edge; the viewport height is read once per width so the address bar
@@ -54,35 +62,31 @@ export function init(root) {
       if (!phoneVH || Math.abs(window.innerHeight - phoneVH) > 160) phoneVH = window.innerHeight;
       const copyBottom = copy.offsetTop + copy.offsetHeight;
       const inset = frame.getBoundingClientRect().top + window.scrollY;
-      const target = phoneVH * 0.9 - inset;
-      const gap = Math.round(Math.max(170, Math.min(target - copyBottom, 380)));
+      const target = phoneVH * 0.92 - inset;
+      const gap = Math.round(Math.max(200, Math.min(target - copyBottom, 380)));
       stage.style.setProperty('--phone-art', `${gap}px`);
     } else stage.style.removeProperty('--phone-art');
 
-    // the drift is held back over the window's white schedule, where the text is
-    if (main && win.offsetParent) {
-      const compLeft = (stage.clientWidth - cw * s) / 2;
-      const x = compLeft + (win.offsetLeft + main.offsetLeft) * s;
-      const y = (win.offsetTop + main.offsetTop) * s - drift.offsetTop;
-      drift.style.setProperty('--hx', `${x.toFixed(1)}px`);
-      drift.style.setProperty('--hy', `${y.toFixed(1)}px`);
-      drift.style.setProperty('--hw', `${(main.offsetWidth * s).toFixed(1)}px`);
-      drift.style.setProperty('--hh', `${(main.offsetHeight * s).toFixed(1)}px`);
-    } else drift.style.setProperty('--hx', '-9999px');
-    const H = frame.clientHeight;
-
-    // the horizon is the top edge of the window (or of the phone, on phones)
-    const yh = stage.offsetTop;
     const name = compName();
-    const c = compositions?.[name] || FRAMES[name];
-    const below = c.hz, above = 1 - c.hz;
-    const h = Math.max(W / c.aspect, yh / above, (H - yh) / below);
-    const w = h * c.aspect;
-    const top = yh - above * h;
+    const F = FRAMES[name];
+    const place = name === 'phone' ? placePhone(W, F) : placeBeside(W, F);
+    const { u, X0 } = place;
+    const yh = stage.offsetTop;
+    const H = frame.clientHeight;
+    const w = F.width * u, h = F.span * u;
+    const left = X0 - (F.width / 2) * u;
+    const top = yh - F.top * u;
+    sky.style.setProperty('--sky-left', `${left.toFixed(1)}px`);
+    sky.style.setProperty('--sky-x', '0px');
     sky.style.setProperty('--sky-w', `${w.toFixed(1)}px`);
     sky.style.setProperty('--sky-h', `${h.toFixed(1)}px`);
     sky.style.setProperty('--sky-top', `${top.toFixed(1)}px`);
-    box = { name, comp: c, W, H, w, h, top, yh };
+    // around the painting's box: the zenith above it, the sky's own gradient to the horizon,
+    // and the page below the sea
+    const z = Math.max(0, top + h * 0.06);
+    art.style.setProperty('--art-bg', `linear-gradient(180deg, #6b9ee3 ${z.toFixed(0)}px, #a9c9f1 ${(yh - 0.42 * (yh - z)).toFixed(0)}px, #e9f0f8 ${(yh - 14).toFixed(0)}px, #f7f4ef ${(yh + 24).toFixed(0)}px, #f6f8fb ${(yh + 5.5 * u).toFixed(0)}px)`);
+    box = { name, comp: F, W, H, w, h, top, left, yh, u };
+    root.dataset.artMode = place.mode;
     // a live render belongs to one box; when the layout moves, fall back to the still at once
     if (live && live.dataset.box !== boxKey(box)) {
       const old = live;
@@ -94,7 +98,69 @@ export function init(root) {
     }
     return box;
   }
-  const boxKey = (b) => `${b.name}:${Math.round(b.w)}:${Math.round(b.h)}:${Math.round(b.top)}:${Math.round(b.H)}`;
+
+  // Phones: the tall phone frame, as wide as the frame and centred.
+  function placePhone(W, F) {
+    const yh = stage.offsetTop, H = frame.clientHeight;
+    const u = Math.max(W / F.width, yh / F.top, (H - yh) / -F.bottom);
+    return { u, X0: W / 2, mode: 'phone' };
+  }
+
+  // Desktops and tablets: the largest tower that fits beside the copy. The tower's lit edge
+  // keeps clear air from every line of copy it rises beside (52px from the title, 48px from the
+  // lead, 40px from the buttons and facts), its crown stays below the nav and inside the frame
+  // (on tablets its shaded side may run off the edge), and the painting still covers the frame.
+  // Where no such tower fits (portrait tablets), the product moves down and the tower stands
+  // in the gap between the copy and the product.
+  function placeBeside(W, F) {
+    const O = OUTLINE.desktop;
+    const fr = frame.getBoundingClientRect();
+    const bands = [];
+    const add = (rects, gap) => { for (const r of rects) if (r.width > 1) bands.push({ t: r.top - fr.top, b: r.bottom - fr.top, r: r.right - fr.left, gap }); };
+    const lines = (el) => { const range = document.createRange(); range.selectNodeContents(el); return [...range.getClientRects()]; };
+    add(lines(title), 52);
+    add(lines(lead), 48);
+    add([actions.getBoundingClientRect(), facts.getBoundingClientRect()], 40);
+    const minTop = 78; // below the nav
+    const narrow = TABLET.matches;
+    const margin = narrow ? 0 : 36;
+    const crop = narrow ? 0.22 * (O.right - O.left) : 0;
+    const half = F.width / 2;
+
+    const solve = (yh, uMax, uMin, cover) => {
+      for (let u = uMax; u >= uMin; u -= 0.5) {
+        let lo = -Infinity, hi = Infinity;
+        for (const [y, xl, xr] of O.rows) {
+          if (y < 0.2) continue; // at the horizon the tower stands behind the product
+          const sy = yh - y * u;
+          for (const b of bands) if (sy >= b.t - 12 && sy <= b.b + 12) lo = Math.max(lo, b.r + b.gap - xl * u);
+          hi = Math.min(hi, W - margin + crop * u - xr * u);
+        }
+        if (cover) { lo = Math.max(lo, W - half * u); hi = Math.min(hi, half * u); }
+        if (lo <= hi) return { u, X0: lo + (hi - lo) * 0.3 };
+      }
+      return null;
+    };
+
+    let yh = stage.offsetTop;
+    const uFit = (yh - minTop) / O.top;
+    const uMax = Math.min(uFit, STILL_U.desktop * 1.06);
+    const found = solve(yh, uMax, uFit * 0.5, true) || solve(yh, uMax, uFit * 0.5, false);
+    if (found) return { ...found, mode: 'beside' };
+
+    // no room beside the copy: open a band between the copy and the product for the tower
+    const vh = window.innerHeight;
+    const gap = Math.round(Math.max(200, Math.min(0.3 * vh, 340)));
+    stage.style.setProperty('--art-gap', `${gap}px`);
+    yh = stage.offsetTop;
+    const factsBottom = facts.getBoundingClientRect().bottom - fr.top;
+    const u = Math.min((yh - factsBottom - 26) / O.top, STILL_U.desktop * 1.06);
+    let X0 = W * 0.76 - ((O.left + O.right) / 2) * u;
+    X0 = Math.min(Math.max(X0, W - half * u), half * u);
+    return { u, X0, mode: 'gap' };
+  }
+
+  const boxKey = (b) => `${b.name}:${Math.round(b.w)}:${Math.round(b.h)}:${Math.round(b.top)}:${Math.round(b.left)}:${Math.round(b.H)}`;
 
   const ro = new ResizeObserver(() => {
     layout();
@@ -134,9 +200,9 @@ export function init(root) {
     const B = box;
 
     // only the part of the box that is inside the frame is rendered
-    const visX = (B.w - B.W) / 2;
-    const visY = Math.max(0, -B.top);
-    const visH = Math.min(B.h - visY, B.H - Math.max(0, B.top));
+    const x0 = Math.max(0, B.left), x1 = Math.min(B.W, B.left + B.w);
+    const y0 = Math.max(0, B.top), y1 = Math.min(B.H, B.top + B.h);
+    const visX = x0 - B.left, visY = y0 - B.top, visW = x1 - x0, visH = y1 - y0;
     const key = `${boxKey(B)}:${dpr}`;
     if (key === lastKey) return;
     lastKey = key;
@@ -144,14 +210,14 @@ export function init(root) {
     job?.release?.();
 
     const canvas = document.createElement('canvas');
-    canvas.width = Math.round(B.W * dpr);
+    canvas.width = Math.round(visW * dpr);
     canvas.height = Math.round(visH * dpr);
     const fw = Math.round(B.w * dpr), fh = Math.round(B.h * dpr);
     const origin = [Math.round(visX * dpr), fh - Math.round(visY * dpr) - canvas.height];
     // ?live&soft lets a software rasteriser bake too (development only: checking that the
     // live render lines up with the still)
     const soft = force && params.has('soft');
-    const mine = mod.bakeSky(canvas, B.comp, { full: [fw, fh], origin, strips: 64, allowSoftware: soft, gate: soft ? null : { firstStripMs: 450, totalMs: 9000 } });
+    const mine = mod.bakeSky(canvas, compositions[B.name], { full: [fw, fh], origin, strips: 64, allowSoftware: soft, gate: soft ? null : { firstStripMs: 450, totalMs: 9000 } });
     if (!mine) { failed = true; return; }
     job = mine;
     const off = () => { if (!document.hidden && onScreen) mine.resume(); else mine.pause(); };
@@ -177,7 +243,7 @@ export function init(root) {
     img.alt = '';
     img.src = URL.createObjectURL(blob);
     img.dataset.box = boxKey(B);
-    Object.assign(img.style, { left: `${visX}px`, top: `${visY}px`, width: `${B.W}px`, height: `${visH}px` });
+    Object.assign(img.style, { left: `${visX}px`, top: `${visY}px`, width: `${visW}px`, height: `${visH}px` });
     await img.decode().catch(() => {});
     if (boxKey(box) !== img.dataset.box) { URL.revokeObjectURL(img.src); return; }
     const prev = live;
@@ -199,33 +265,50 @@ export function init(root) {
   document.addEventListener('visibilitychange', syncPause);
 
   /* ---------- the loop ---------- */
+  // The beats the first screen can see come first: a booking arrives, lands at 12:00 and joins
+  // the owner's "next up"; Umed pays and the owner's phone hears about it. Then a client further
+  // down confirms tomorrow's reminder.
   const tap = comp.querySelector('[data-tap]');
+  const note = comp.querySelector('[data-note]');
   const confirmBtn = comp.querySelector('[data-confirm]');
   const keys = comp.querySelector('[data-keys]');
   const done = comp.querySelector('[data-done]');
   const chair = comp.querySelector('[data-chair]');
   const paid = comp.querySelector('[data-paid]');
   const tg = comp.querySelector('[data-tg]');
+  const next = [...comp.querySelectorAll('[data-next]')];
 
   const setOdo = (to) => comp.querySelectorAll('[data-odo]').forEach((el) => el._odo?.(to ? el.dataset.odo : el.dataset.from));
-  const startState = () => {
+  const setNext = (after) => next.forEach((row) => {
+    row.querySelector('[data-before]').dataset.hidden = String(after);
+    row.querySelector('[data-after]').dataset.hidden = String(!after);
+  });
+  const setUmed = (isPaid) => {
+    if (isPaid) delete comp.dataset.umed; else comp.dataset.umed = 'chair';
+    chair.dataset.hidden = String(isPaid);
+    paid.dataset.hidden = String(!isPaid);
+  };
+  const setTg = (confirmed) => {
+    keys.dataset.hidden = String(confirmed);
+    done.dataset.hidden = String(!confirmed);
+  };
+  // the start of the day's loop; on phones the notification stays up until the loop runs, so a
+  // phone always opens on the booking resting on the cloud sea
+  const startState = ({ keepNote = false } = {}) => {
     delete comp.dataset.reset;
-    comp.dataset.note = 'off';
+    if (keepNote) delete comp.dataset.note; else comp.dataset.note = 'off';
     comp.dataset.slot = 'off';
-    comp.dataset.umed = 'chair';
     comp.dataset.toast = 'off';
-    keys.dataset.hidden = 'false';
-    done.dataset.hidden = 'true';
-    chair.dataset.hidden = 'false';
-    paid.dataset.hidden = 'true';
+    setUmed(false);
+    setTg(false);
+    setNext(false);
     setOdo(false);
   };
   const endState = () => {
     for (const k of ['note', 'slot', 'umed', 'toast', 'reset']) delete comp.dataset[k];
-    keys.dataset.hidden = 'true';
-    done.dataset.hidden = 'false';
-    chair.dataset.hidden = 'true';
-    paid.dataset.hidden = 'false';
+    setUmed(true);
+    setTg(true);
+    setNext(true);
     setOdo(true);
   };
   const centerIn = (el) => {
@@ -234,15 +317,25 @@ export function init(root) {
     return [x, y];
   };
 
+  let runs = 0;
   async function scene(signal) {
-    startState();
-    await sleep(900, signal);
+    // the first time round on a phone the notification is already there: the day starts with it
+    const first = runs++ === 0 && PHONE.matches;
+    startState({ keepNote: first });
+    await sleep(first ? 500 : 900, signal);
     delete comp.dataset.note; // a booking arrives from Instagram
-    await sleep(1100, signal);
-    comp.dataset.slot = 'ring'; // and lands in Malika's column at 15:00
+    await sleep(1000, signal);
+    comp.dataset.slot = 'ring'; // and lands in Malika's column at 12:00
+    setNext(true); // and in the owner's "next up"
     await sleep(1300, signal);
     delete comp.dataset.slot;
-    await sleep(500, signal);
+    await sleep(400, signal);
+    // Umed, finished at 11:15, pays by Alif QR; the owner's phone hears about it
+    setUmed(true);
+    await sleep(300, signal);
+    delete comp.dataset.toast;
+    setOdo(true);
+    await sleep(1500, signal);
     if (tg.offsetParent) {
       // a client confirms tomorrow's reminder in Telegram
       const [x, y] = centerIn(confirmBtn);
@@ -260,31 +353,21 @@ export function init(root) {
       await sleep(160, signal);
       tap.classList.remove('is-press');
       confirmBtn.classList.remove('is-press');
-      keys.dataset.hidden = 'true';
-      done.dataset.hidden = 'false';
+      setTg(true);
       await sleep(260, signal);
       tap.classList.remove('is-on');
-      await sleep(1200, signal);
     } else {
-      keys.dataset.hidden = 'true';
-      done.dataset.hidden = 'false';
-      await sleep(800, signal);
+      setTg(true);
     }
-    // Umed, finished at 11:15, pays by Alif QR; the owner's phone hears about it
-    delete comp.dataset.umed;
-    chair.dataset.hidden = 'true';
-    paid.dataset.hidden = 'false';
-    await sleep(300, signal);
-    delete comp.dataset.toast;
-    setOdo(true);
-    await sleep(4300, signal);
+    await sleep(3600, signal);
     // everything that changed goes back to the start one piece at a time, then the day plays again
     comp.dataset.reset = '';
     const steps = [
+      () => setTg(false),
       () => { comp.dataset.toast = 'off'; },
       () => setOdo(false),
-      () => { comp.dataset.umed = 'chair'; chair.dataset.hidden = 'false'; paid.dataset.hidden = 'true'; },
-      () => { keys.dataset.hidden = 'false'; done.dataset.hidden = 'true'; },
+      () => setUmed(false),
+      () => setNext(false),
       () => { comp.dataset.slot = 'off'; },
       () => { comp.dataset.note = 'off'; },
     ];
@@ -295,18 +378,14 @@ export function init(root) {
     await sleep(520, signal);
   }
 
-  if (!reducedMotion.matches) startState();
-  loopWhileVisible(comp, scene, { final: endState, threshold: 0.2 });
+  if (!reducedMotion.matches) startState({ keepNote: PHONE.matches });
+  // on phones the loop follows the notification itself, which is what the first screen shows
+  loopWhileVisible(PHONE.matches ? note : comp, scene, { final: endState, threshold: PHONE.matches ? 0.3 : 0.2 });
   reducedMotion.addEventListener?.('change', (e) => e.matches && endState());
 
-  /* ---------- lensing on the glass (Chromium), once the entrance has settled ---------- */
+  /* ---------- lensing on the window's glass (Chromium), once the entrance has settled ---------- */
   setTimeout(() => lensAll(comp), reducedMotion.matches ? 0 : 1300);
 }
-
-/* Frame proportions of each composition, so layout works before sky.js is loaded.
-   Must match COMPOSITIONS in js/art/sky.js. */
-const frameOf = (width, top, bottom) => ({ aspect: width / (top - bottom), hz: -bottom / (top - bottom) });
-const FRAMES = { desktop: frameOf(15, 7.4, -9.5), tablet: frameOf(11, 8.4, -10.0), phone: frameOf(6.8, 12.0, -14.0) };
 
 function reducedData() {
   try {

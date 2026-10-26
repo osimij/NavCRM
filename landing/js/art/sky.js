@@ -69,6 +69,7 @@ uniform vec3 uLandSun;        // the sun stated for the range: from the left, so
 uniform vec4 uGlow;           // sun glow centre (world), glow amount, horizon band amount
 uniform vec4 uMood;           // x: stars, y: cloud haze lift, z: land haze, w: sea brightness
 uniform float uTex;           // strength of the paint's body in the clouds
+uniform float uLitFlat;       // how far the turrets go quiet deep in the light (big flat planes there)
 uniform float uMidK;          // how broadly the turrets blend for the light (larger: fewer, bigger planes)
 uniform float uBias;          // shifts the terminator: lower puts more of the cloud in shade
 uniform float uTerm;          // how far the cloud terminator follows the single masses (1) or the whole form (0)
@@ -260,7 +261,7 @@ vec3 shadeCloud(vec3 p, vec2 w){
   float Le = dot(nenv, uSun);
   // turrets speak most near the terminator of the whole form; deep in its shadow side they
   // merge into one quiet plane, and deep in its light they only turn into half-tone
-  float speak = uTerm * (1.0 - 0.6 * smoothstep(0.1, 0.5, -Le));
+  float speak = uTerm * (1.0 - 0.6 * smoothstep(0.1, 0.5, -Le)) * (1.0 - uLitFlat * smoothstep(0.2, 0.55, Le));
   float L = mix(Le, ndl, speak) + uBias - (1.0 - hgt) * 0.08;
   // shadows cast by the masses above (the crown over the neck, a turret over the one below)
   // (on the sunlit side of the whole form they only fall to a warm half-tone)
@@ -332,7 +333,7 @@ vec4 cloudLayer(vec2 fc, vec2 w, float pix){
   if (!hit && minD < 0.45){
     vec3 nb = nrmBig(pMin);
     float toSun = dot(normalize(nb.xy + 1e-4), normalize(uSun.xy));
-    gHalo = exp(-minD / 0.13) * (0.05 + 0.2 * smoothstep(-0.2, 0.8, toSun)) * a2.x;
+    gHalo = exp(-minD / 0.1) * (0.04 + 0.12 * smoothstep(-0.2, 0.8, toSun)) * a2.x;
   }
   if (!hit && minD > 0.16) return vec4(0.0);
   vec3 c = shadeCloud(hit ? p : pMin, w);
@@ -343,7 +344,7 @@ vec4 cloudLayer(vec2 fc, vec2 w, float pix){
   float soft = mix(pix * 1.1, pix * 2.4 + 0.025, 1.0 - found) + lowB * (0.09 + pix * 2.0);
   float cov = hit ? 1.0 : 1.0 - smoothstep(0.0, soft, minD);
   c = mix(c, skyCol(w), gEdge * 0.28);
-  cov *= smoothstep(-0.05, 0.6, w.y);
+  cov *= smoothstep(-0.06, 0.1, w.y);
   if (cov <= 0.001) return vec4(0.0);
   return vec4(c * cov, cov);
 }
@@ -512,24 +513,37 @@ vec3 seaShade(vec3 p, float t, vec2 w){
 // (the sun is ahead and to the left); the troughs between the rows lie in their shade.
 #define ROW_DZ 2.4
 #define ROW_A 2.9
+float gRowBase;
 float rowHash(float j, float i){ return hash12(vec2(j * 37.0 + 11.0, i * 3.0 + 5.0)); }
 // the top of row j at x: the highest of the domes over x; dome = (offset from its centre, radius, height)
 float rowTop(float j, float x, out vec3 dome){
   float X = x + rowHash(j, -7.0) * 97.0;
   float ci = floor(X / ROW_A);
   // calm stretches and fields of bigger billows
-  float field = 0.75 + 0.45 * smoothstep(-0.3, 0.4, tn(vec2(X * 0.021, j * 0.09) + vec2(4.1, 2.3)));
-  float best = 0.0; dome = vec3(0.0, 1.0, 0.0);
-  for (int k = -1; k <= 1; k++){
-    float i = ci + float(k);
+  float field = 0.7 + 0.6 * smoothstep(-0.35, 0.45, tn(vec2(X * 0.017, j * 0.07) + vec2(4.1, 2.3)));
+  // the sea swells: rows rise and fall in long, slow undulations
+  float swell = tn(vec2(X * 0.011 + 1.3, j * 0.045 + 0.6)) * 0.45;
+  // neighbouring billows in a row merge softly (a smooth maximum), so no hard seam runs down
+  // between them; the light follows the blend
+  float fk[3]; vec3 dk[3]; float fmax = -9.0;
+  for (int k = 0; k < 3; k++){
+    float i = ci + float(k - 1);
     float h1 = rowHash(j, i), h2 = rowHash(j + 0.31, i), h3 = rowHash(j + 0.67, i);
-    float c = (i + 0.5 + (h1 - 0.5) * 0.55) * ROW_A;
-    float r = ROW_A * (0.5 + 0.3 * h2);
-    float hd = r * (0.5 + 0.25 * h3) * field;
+    float c = (i + 0.5 + (h1 - 0.5) * 0.6) * ROW_A;
+    float r = ROW_A * (0.42 + 0.5 * h2 * h2) * mix(0.85, 1.25, field - 0.7);
+    float hd = r * (0.45 + 0.3 * h3) * field;
     float u = (X - c) / r;
-    float f = hd * sqrt(max(0.0, 1.0 - u * u));
-    if (f > best){ best = f; dome = vec3(X - c, r, hd); }
+    fk[k] = hd * sqrt(max(0.0, 1.0 - u * u));
+    dk[k] = vec3(clamp(u, -1.0, 1.0), r, hd);
+    fmax = max(fmax, fk[k]);
   }
+  float kk = 0.12 * ROW_A;
+  float ws = 0.0, fs = 0.0; vec3 ds = vec3(0.0);
+  for (int k = 0; k < 3; k++){ float w = exp((fk[k] - fmax) / kk); ws += w; ds += dk[k] * w; }
+  ds /= ws;
+  float best = fmax + kk * log(ws) * 0.35 + swell;
+  dome = vec3(ds.x, ds.y, max(ds.z, 1e-3));
+  gRowBase = swell;
   return best;
 }
 // march the rows from depth z0; returns t of the hit (or -1) and the hit's dome and row
@@ -541,7 +555,6 @@ float seaRowsHit(vec3 ro, vec3 rd, float z0, out vec3 dome, out float row, out f
     float j = j0 + float(k);
     float z = (j + (rowHash(j, 0.5) - 0.5) * 0.5) * ROW_DZ;
     float t = z / rd.z;
-    if (t > tBase){ trough = 1.0; return tBase; }
     vec3 p = ro + rd * t;
     float f = rowTop(j, p.x, dome);
     if (p.y < uSea.x + f){ row = j; return t; }
@@ -555,17 +568,18 @@ vec3 seaRowsShade(vec3 ro, vec3 rd, float t, vec3 dome, float trough, vec2 w, fl
   shC = mix(P_seaShLo, P_seaShHi, 0.45);
   vec3 col;
   if (trough > 0.5){
-    col = mix(P_seaShLo, P_seaShHi, 0.85);
+    col = mix(P_seaShLo, P_seaShHi, 0.8);
   } else {
-    float nx = dome.x / dome.y, ny = clamp((p.y - uSea.x) / max(dome.z, 1e-3), 0.0, 1.0);
+    float nx = dome.x, ny = clamp((p.y - uSea.x - gRowBase) / dome.z, 0.0, 1.0);
     float nz = -sqrt(max(0.0, 1.0 - nx * nx - ny * ny));
     vec3 n = normalize(vec3(nx / dome.y, ny / max(dome.z, 1e-3), nz / dome.y));
     // stated for the rows: their tops take the light, the faces turned toward us are in shade
     float ndl = dot(n, normalize(vec3(uSeaSun.x * 0.45, uSeaSun.y, uSeaSun.z)));
     litC = mix(P_seaLit, P_seaLit2, smoothstep(0.3, 0.8, ndl));
     // the face turned toward us: lighter near the top (skylight), deeper toward the trough
-    shC = mix(P_seaShLo, P_seaShHi, 0.35 + 0.65 * smoothstep(0.0, 0.9, ny));
-    col = mix(shC, litC, smoothstep(-0.02, 0.14, ndl));
+    shC = mix(P_seaShLo, P_seaShHi, 0.5 + 0.5 * smoothstep(0.0, 0.8, ny));
+    // soft turning from the lit cap into the shaded face, so each top reads as round
+    col = mix(shC, litC, smoothstep(-0.12, 0.3, ndl));
     // a light-filled rim where the face turns over into the lit crown
     col = mix(col, P_clRim, smoothstep(0.6, 0.95, ny) * (1.0 - smoothstep(-0.02, 0.14, ndl)) * 0.4);
   }
@@ -573,7 +587,9 @@ vec3 seaRowsShade(vec3 ro, vec3 rd, float t, vec3 dome, float trough, vec2 w, fl
   float z = t * rd.z;
   float gapPx = (CAMH - uSea.x) * FOC * ROW_DZ / (z * z) / pix;
   vec3 avg = mix(mix(P_seaLit, P_seaLit2, 0.4), mix(P_seaShHi, P_seaShLo, 0.25), 0.28);
-  col = mix(avg, col, smoothstep(1.2, 4.5, gapPx));
+  col = mix(avg, col, smoothstep(1.5, 7.0, gapPx));
+  // the near sea is left soft and simple: detail belongs to the middle distance, not the foreground
+  col = mix(col, mix(P_seaLit, P_seaShHi, 0.3), (1.0 - smoothstep(6.0, 18.0, z)) * 0.6);
   vec3 c = toLin(col);
   c *= 1.0 + uMood.w;
   float hz = 1.0 - exp(-t * 0.0065);
@@ -906,6 +922,25 @@ export const LIGHTS = {
       haze: [0.985, 0.97, 0.94], bg: [246 / 255, 248 / 255, 251 / 255], halo: [0.985, 0.97, 0.94],
     },
   },
+  // Late afternoon, for the final call: the same sun low in the west (left), warm light on the
+  // sunward faces, a peach band along the horizon, and shadows that stay a clear blue.
+  evening: {
+    sun: [-0.72, 0.4, -0.45],
+    seaSun: [-0.8, 0.3, 0.25],
+    landSun: [-0.9, 0.36, 0.1],
+    glow: [-9.0, 2.2, 0.72, 0.75],
+    mood: [0, 0, 0, 0],
+    pal: {
+      skyZen: [0.46, 0.62, 0.88], skyMid: [0.74, 0.82, 0.94], skyHor: [0.995, 0.92, 0.85],
+      skyGlow: [1.0, 0.9, 0.78], skyBand: [1.0, 0.87, 0.74],
+      clLit: [1.0, 0.915, 0.83], clLit2: [1.0, 0.955, 0.9], clHalf: [0.95, 0.83, 0.76],
+      clShUp: [0.73, 0.78, 0.91], clShDn: [0.6, 0.66, 0.82], clRefl: [0.93, 0.82, 0.76], clRim: [0.9, 0.88, 0.94],
+      seaLit: [1.0, 0.915, 0.84], seaLit2: [1.0, 0.955, 0.9], seaShLo: [0.62, 0.68, 0.85], seaShHi: [0.78, 0.81, 0.93],
+      rockLit: [0.93, 0.84, 0.78], rockSh: [0.58, 0.64, 0.82],
+      snowLit: [1.0, 0.92, 0.83], snowSh: [0.66, 0.72, 0.89], snowShUp: [0.78, 0.82, 0.95],
+      haze: [1.0, 0.93, 0.87], bg: [246 / 255, 248 / 255, 251 / 255], halo: [1.0, 0.94, 0.88],
+    },
+  },
   // A starting point for night plates: a high moon from the upper left, a deep blue sky with a
   // few stars, clouds and snow lit cool. Tune per plate; keep it light enough for white glass.
   night: {
@@ -967,10 +1002,11 @@ const desktop = {
   paint: 0.0034,
   term: 0.8,
   bias: -0.08,
-  midK: 0.3,
+  midK: 0.35,
+  litFlat: 0.6,
   clouds: [tower(...FRAMES.desktop.tower)],
   rough: 1.4,
-  peaks: massif(-6.0),
+  peaks: massif(-7.0),
 };
 
 // Phones: a tall frame and its own framing. The tower rises on the right from the horizon to
@@ -980,19 +1016,38 @@ const phone = {
   ...FRAMES.phone,
   light: 'morning',
   snow: 5.2,
-  fade: -12.6,
+  fade: -10.8,
   sea: [-2.2, 1.5, 0.12],
   paint: 0.0026,
   term: 0.8,
   bias: -0.08,
-  midK: 0.3,
+  midK: 0.35,
+  litFlat: 0.6,
   glowAt: [-5.2, 9.5],
   landHaze: -0.14,
   clouds: [tower(...FRAMES.phone.tower)],
-  peaks: massif(-2.2, 0.95),
+  peaks: massif(-2.0, 0.85),
 };
 
-export const COMPOSITIONS = { desktop, phone };
+// The final call: a wide panel, the tower on the right and the range on the left framing the
+// copy over the evening sky; the horizon low in the panel, the sea below it.
+const final = {
+  ...frame(18, 6.8, -2.2),
+  light: 'evening',
+  snow: 5.6,
+  fade: -12,
+  sea: [-2.2, 1.5, 0.12],
+  paint: 0.0036,
+  term: 0.8,
+  bias: -0.08,
+  midK: 0.35,
+  litFlat: 0.6,
+  rough: 1.4,
+  clouds: [tower(6.0, 0.86)],
+  peaks: massif(-6.2, 0.85),
+};
+
+export const COMPOSITIONS = { desktop, phone, final };
 
 /* ====================================================================== cumulus growth */
 
@@ -1229,7 +1284,7 @@ export function bakeSky(canvas, comp, opts = {}) {
   gl.uniform3f(u('uSeaSun'), ...norm3(light.seaSun || light.sun));
   gl.uniform3f(u('uLandSun'), ...norm3(light.landSun || light.sun));
   gl.uniform1f(u('uRough'), comp.rough ?? 1);
-  gl.uniform1f(u('uRowsZ'), comp.rowsZ ?? 15);
+  gl.uniform1f(u('uRowsZ'), comp.rowsZ ?? 5);
   // a narrow frame may pull the glow's centre in so the light from the upper left still reads
   gl.uniform4f(u('uGlow'), ...(comp.glowAt ? [...comp.glowAt, light.glow[2], light.glow[3]] : light.glow));
   const mood = (light.mood || [0, 0, 0, 0]).slice();
@@ -1238,6 +1293,7 @@ export function bakeSky(canvas, comp, opts = {}) {
   gl.uniform1f(u('uTerm'), comp.term ?? 0.5);
   gl.uniform1f(u('uBias'), comp.bias ?? -0.06);
   gl.uniform1f(u('uMidK'), comp.midK ?? 0.16);
+  gl.uniform1f(u('uLitFlat'), comp.litFlat ?? 0);
   gl.uniform1f(u('uTex'), comp.tex ?? 1);
   gl.uniform3fv(u('uPal'), new Float32Array(PAL.flatMap((k) => light.pal[k] || [1, 0, 1])));
 

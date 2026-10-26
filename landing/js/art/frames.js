@@ -17,10 +17,10 @@ export const TOWER = [
   // body: turrets stacked with alternating offsets
   [-0.35, 1.25, 1.0], [0.6, 1.05, 0.78], [-0.55, 2.15, 0.85], [0.45, 2.2, 0.8], [-0.25, 2.95, 0.88],
   // crown, wider than the neck: three big billows and two on top
-  [-0.95, 3.7, 0.78], [0.15, 3.95, 0.92], [1.0, 3.6, 0.8, 0, 0, 0.15], [-0.45, 4.6, 0.62], [0.5, 4.65, 0.6, 0, 0, 0.15],
+  [-0.95, 3.7, 0.78], [0.15, 3.95, 0.92], [0.9, 3.72, 0.85, 0, 0, 0.25], [-0.45, 4.6, 0.62], [0.5, 4.65, 0.6, 0, 0, 0.15],
   // medium lumps on the outlines: crisp on the sunlit crown, broad and set back in the shade
   [-1.45, 4.05, 0.42, 0, 1], [-1.15, 4.65, 0.4, 0, 1], [-0.6, 5.08, 0.44, 0, 1], [0.15, 5.22, 0.38, 0, 1], [0.62, 5.0, 0.34, 0, 1],
-  [1.5, 3.85, 0.46, 0, 1, 0.15],
+  [1.45, 3.62, 0.5, 0, 1, 0.35],
   [-1.3, 1.3, 0.55, 0, 1], [-1.35, 2.3, 0.48, 0, 1], [-1.15, 3.05, 0.55, 0, 1],
   [1.25, 1.6, 0.5, 0, 1], [1.05, 2.75, 0.45, 0, 1],
   // small billows, only on the sunlit crown, unevenly sized and spaced
@@ -52,6 +52,6 @@ export function towerOutline(x = 0, k = 1, step = 0.1, air = 0.12) {
 // Each composition's frame and where its tower stands ([x, scale]). Desktop and tablets share one
 // wide frame, so the painting can slide and scale behind the copy; phones have their own.
 export const FRAMES = {
-  desktop: { ...frame(24, 9, -8), tower: [6.2, 1] },
-  phone: { ...frame(6.8, 12, -14), tower: [1.25, 1.06] },
+  desktop: { ...frame(26, 9, -8), tower: [6.5, 1] },
+  phone: { ...frame(6.8, 14, -12), tower: [1.35, 0.68] },
 };

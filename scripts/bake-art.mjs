@@ -35,9 +35,11 @@ const LANDING = path.join(ROOT, 'landing');
 export const PLATES = [
   // The hero: the full frame, laid out by js/sections/hero.js so the horizon meets the app window.
   // `lqip` also writes a tiny blurred copy into css/sections/hero.css, shown until the still decodes.
-  { name: 'hero-desktop', comp: 'desktop', width: 1680, scales: [1, 2], q: 0.86, lqip: '' },
-  { name: 'hero-tablet', comp: 'tablet', width: 1100, scales: [1, 2], q: 0.86, lqip: '(max-width: 1099.98px)' },
+  // Desktops and tablets share one wide frame; hero.js slides and scales it beside the copy.
+  { name: 'hero-desktop', comp: 'desktop', width: 2236, scales: [1, 2], q: 0.86, lqip: '' },
   { name: 'hero-phone', comp: 'phone', width: 600, scales: [1, 2], q: 0.86, lqip: '(max-width: 759.98px)' },
+  // The final call's panel: the same world under the evening light (css/sections/start.css).
+  { name: 'stage-start', comp: 'final', width: 1240, scales: [1, 2], q: 0.84 },
   // Soft cloud shadows for the slow drift over the sea and the glass (multiplied in CSS).
   { name: 'cloud-shadows', kind: 'shadows', width: 1600, height: 440, scales: [1], q: 0.8 },
 ];
@@ -152,7 +154,7 @@ async function writeLqip(plate, uri) {
   const lines = src.slice(head.length, b).split('\n').filter((l) => l.trim() && !l.includes(`/* ${plate.name} */`));
   const rule = `.s-hero__sky { background-image: url("${uri}"); }`;
   lines.push(plate.lqip ? `@media ${plate.lqip} { /* ${plate.name} */ ${rule} }` : `/* ${plate.name} */ ${rule}`);
-  const order = (l) => (l.includes('hero-desktop') ? 0 : l.includes('hero-tablet') ? 1 : 2);
+  const order = (l) => (l.includes('hero-desktop') ? 0 : 1);
   lines.sort((x, y) => order(x) - order(y));
   await writeFile(css, head + lines.join('\n') + '\n' + src.slice(b));
 }
