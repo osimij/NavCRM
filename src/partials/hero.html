@@ -5,7 +5,7 @@
     <div class="s-hero__art" aria-hidden="true">
       <div class="s-hero__sky" data-sky>
         <picture>
-          <source media="(max-width: 759.98px)" srcset="assets/art/hero-phone.webp 520w, assets/art/hero-phone@2x.webp 1040w" sizes="112vw" />
+          <source media="(max-width: 759.98px)" srcset="assets/art/hero-phone.webp 600w, assets/art/hero-phone@2x.webp 1200w" sizes="112vw" />
           <source media="(max-width: 1099.98px)" srcset="assets/art/hero-tablet.webp 1100w, assets/art/hero-tablet@2x.webp 2200w" sizes="118vw" />
           <img src="assets/art/hero-desktop.webp" srcset="assets/art/hero-desktop.webp 1680w, assets/art/hero-desktop@2x.webp 3360w" sizes="112vw" alt="" fetchpriority="high" decoding="async" />
         </picture>
@@ -14,7 +14,7 @@
     </div>
 
     <div class="container s-hero__copy">
-      <h1 id="hero-title" class="s-hero__title"><span class="w">One</span> <span class="w">app</span> <span class="w">for</span> <span class="w">your</span> <span class="w">bookings,</span> <span class="w">clients</span> <span class="w">and</span> <span class="w">cash</span></h1>
+      <h1 id="hero-title" class="s-hero__title"><span class="s-hero__line">One app for your bookings,</span> <span class="s-hero__line">clients and cash</span></h1>
       <p class="lead s-hero__lead">NavCRM is made for salons, clinics, car services, studios and other service businesses in Tajikistan. Clients book online at any hour, reminders go out on Telegram, and every visit updates your till, stock and staff pay without anyone redoing the sums.</p>
       <div class="s-hero__actions">
         <a class="btn btn--dark btn--lg" href="#start">Get started<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
@@ -22,8 +22,8 @@
       </div>
       <ul class="s-hero__facts">
         <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#coins" /></svg>1.5 TJS per completed visit</li>
-        <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#calendar-remove" /></svg>No monthly fee</li>
-        <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wifi-off" /></svg>Works offline</li>
+        <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wallet" /></svg>No monthly fee</li>
+        <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#sync" /></svg>Works offline</li>
       </ul>
     </div>
 
@@ -58,7 +58,7 @@
                 <p class="s-hero__meta">Gulnor Beauty<span class="s-hero__dot"></span><span class="s-hero__count" data-count><span>10</span><span>11</span></span> bookings</p>
               </div>
               <div class="s-hero__tools">
-                <span class="s-hero__chip"><svg class="i"><use href="assets/icons.svg#map-pin" /></svg>Rudaki 54<svg class="i s-hero__caret"><use href="assets/icons.svg#chevron-down" /></svg></span>
+                <span class="s-hero__chip"><svg class="i"><use href="assets/icons.svg#store" /></svg>Rudaki 54<svg class="i s-hero__caret"><use href="assets/icons.svg#chevron-down" /></svg></span>
                 <span class="s-hero__arrow"><svg class="i s-hero__prev"><use href="assets/icons.svg#chevron-down" /></svg></span>
                 <span class="s-hero__arrow"><svg class="i s-hero__next"><use href="assets/icons.svg#chevron-down" /></svg></span>
                 <span class="ui-btn ui-btn--dark s-hero__new"><svg class="i"><use href="assets/icons.svg#plus" /></svg>New booking</span>
@@ -84,10 +84,10 @@
               </div>
               <div class="s-hero__col" data-person="farrukh">
                 <div class="s-hero__bk is-done" style="--s: 0; --d: 0.75"><p><b>Rustam K.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Paid</span></p><small>09:00 Men's haircut</small></div>
-                <div class="s-hero__bk is-done is-missed" style="--s: 1; --d: 0.75"><p><b>Bahrom T.</b><span class="ui-status ui-status--noshow"><svg class="i"><use href="assets/icons.svg#cancel" /></svg>No-show</span></p><small>10:00 Men's haircut</small></div>
-                <div class="s-hero__bk is-live" data-umed style="--s: 2; --d: 0.75">
+                <div class="s-hero__bk is-done is-missed" style="--s: 0.75; --d: 0.75"><p><b>Bahrom T.</b><span class="ui-status ui-status--noshow"><svg class="i"><use href="assets/icons.svg#cancel" /></svg>No-show</span></p><small>09:45 Men's haircut</small></div>
+                <div class="s-hero__bk is-live" data-umed style="--s: 1.5; --d: 0.75">
                   <p><b>Umed N.</b><span class="ui-swap s-hero__umed"><span class="ui-status ui-status--paid" data-paid><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Paid</span><span class="ui-status ui-status--chair" data-chair data-hidden="true"><svg class="i"><use href="assets/icons.svg#scissor" /></svg>In the chair</span></span></p>
-                  <small>11:00 Men's haircut</small>
+                  <small>10:30 Men's haircut</small>
                 </div>
                 <div class="s-hero__bk" style="--s: 5; --d: 0.75"><p><b>Jamshed R.</b><span class="ui-status ui-status--waiting"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg>Waiting</span></p><small>14:00 Men's haircut</small></div>
               </div>
@@ -96,9 +96,13 @@
                 <div class="s-hero__bk" style="--s: 2.5; --d: 1.5"><p><b>Dilnoza K.</b><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Confirmed</span></p><small>11:30 Gel manicure</small></div>
                 <div class="s-hero__bk" style="--s: 5; --d: 1.5"><p><b>Madina H.</b><span class="ui-status ui-status--waiting"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg>Waiting</span></p><small>14:00 Gel manicure</small></div>
               </div>
+              <!-- the time now: the line runs under the bookings, its time sits in the gutter -->
               <div class="s-hero__now" style="--t: 2.333"><span>11:20</span></div>
             </div>
           </div>
+
+          <!-- the sun's rim crossing the glass once, as the window settles -->
+          <span class="s-hero__sweep"></span>
         </div>
 
         <div class="s-hero__note" data-note data-lens data-lens-bezel="18" data-lens-scale="44" data-lens-blur="14" aria-hidden="true">
@@ -140,6 +144,11 @@
                 <div class="s-hero__bars"><i style="--v: 0.34"></i><i style="--v: 0.62"></i><i style="--v: 0.8"></i><i style="--v: 0.56"></i><i style="--v: 0.7"></i><i style="--v: 0.92"></i><i style="--v: 0.48"></i><i class="is-now" style="--v: 0.3"></i></div>
               </div>
               <div class="s-hero__dash-row"><span class="ui-label">Cash in till</span><b>2,180 TJS</b></div>
+              <div class="s-hero__next">
+                <p class="ui-label">Next up</p>
+                <p class="s-hero__next-row"><b>11:30</b><span>Dilnoza K.<small>Gel manicure, Zarina</small></span></p>
+                <p class="s-hero__next-row"><b>13:00</b><span>Parvina A.<small>Keratin, Malika</small></span></p>
+              </div>
             </div>
             <div class="s-hero__tabbar">
               <span class="is-on"><svg class="i"><use href="assets/icons.svg#dashboard" /></svg></span>
@@ -152,6 +161,9 @@
 
         <span class="tap" data-tap></span>
       </div>
+
+      <!-- the cloud sea in front of the product during the entrance: the window rises out of it -->
+      <div class="s-hero__mist" aria-hidden="true"></div>
     </div>
   </div>
 </section>

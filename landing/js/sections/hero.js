@@ -18,6 +18,18 @@ export function init(root) {
   grain(root.querySelector('.s-hero__grain'));
   odometers(comp);
 
+  // the still fades in over the blurred placeholder once it has decoded
+  const showStill = () => still.classList.add('is-ready');
+  if (still.complete && still.naturalWidth) showStill();
+  else {
+    still.addEventListener('load', () => (still.decode ? still.decode().catch(() => {}).then(showStill) : showStill()), { once: true });
+    still.addEventListener('error', showStill, { once: true });
+  }
+  const copy = root.querySelector('.s-hero__copy');
+  const drift = root.querySelector('.s-hero__drift');
+  const win = comp.querySelector('[data-win]');
+  const main = comp.querySelector('.s-hero__main');
+
   /* ---------- layout ---------- */
   let box = null;
   let compositions = null;
@@ -25,14 +37,39 @@ export function init(root) {
   let job = null, bakeTimer = 0, lastKey = '', failed = false;
   const compName = () => (PHONE.matches ? 'phone' : TABLET.matches ? 'tablet' : 'desktop');
 
+  let phoneVH = 0;
   function layout() {
-    const W = frame.clientWidth, H = frame.clientHeight;
+    const W = frame.clientWidth;
     // the composition is designed at a fixed size and scaled to the copy column
     const cs = getComputedStyle(stage);
     const cw = parseFloat(cs.getPropertyValue('--cw')) || 1200;
-    const gutter = parseFloat(getComputedStyle(root.querySelector('.s-hero__copy')).paddingLeft) || 16;
+    const gutter = parseFloat(getComputedStyle(copy).paddingLeft) || 16;
     const s = Math.min(1, (W - gutter * 2) / cw);
     stage.style.setProperty('--s', s.toFixed(4));
+
+    // phones: the painting gets the rest of the first screen, so the horizon (and the product)
+    // sits near its bottom edge; the viewport height is read once per width so the address bar
+    // showing and hiding does not move it
+    if (PHONE.matches) {
+      if (!phoneVH || Math.abs(window.innerHeight - phoneVH) > 160) phoneVH = window.innerHeight;
+      const copyBottom = copy.offsetTop + copy.offsetHeight;
+      const inset = frame.getBoundingClientRect().top + window.scrollY;
+      const target = phoneVH * 0.9 - inset;
+      const gap = Math.round(Math.max(170, Math.min(target - copyBottom, 380)));
+      stage.style.setProperty('--phone-art', `${gap}px`);
+    } else stage.style.removeProperty('--phone-art');
+
+    // the drift is held back over the window's white schedule, where the text is
+    if (main && win.offsetParent) {
+      const compLeft = (stage.clientWidth - cw * s) / 2;
+      const x = compLeft + (win.offsetLeft + main.offsetLeft) * s;
+      const y = (win.offsetTop + main.offsetTop) * s - drift.offsetTop;
+      drift.style.setProperty('--hx', `${x.toFixed(1)}px`);
+      drift.style.setProperty('--hy', `${y.toFixed(1)}px`);
+      drift.style.setProperty('--hw', `${(main.offsetWidth * s).toFixed(1)}px`);
+      drift.style.setProperty('--hh', `${(main.offsetHeight * s).toFixed(1)}px`);
+    } else drift.style.setProperty('--hx', '-9999px');
+    const H = frame.clientHeight;
 
     // the horizon is the top edge of the window (or of the phone, on phones)
     const yh = stage.offsetTop;
@@ -233,7 +270,7 @@ export function init(root) {
       done.dataset.hidden = 'false';
       await sleep(800, signal);
     }
-    // Umed pays by Alif QR; the owner's phone hears about it
+    // Umed, finished at 11:15, pays by Alif QR; the owner's phone hears about it
     delete comp.dataset.umed;
     chair.dataset.hidden = 'true';
     paid.dataset.hidden = 'false';
@@ -241,11 +278,21 @@ export function init(root) {
     delete comp.dataset.toast;
     setOdo(true);
     await sleep(4300, signal);
-    // everything that changed fades back to the start, then the day plays again
+    // everything that changed goes back to the start one piece at a time, then the day plays again
     comp.dataset.reset = '';
-    startState();
-    comp.dataset.reset = '';
-    await sleep(500, signal);
+    const steps = [
+      () => { comp.dataset.toast = 'off'; },
+      () => setOdo(false),
+      () => { comp.dataset.umed = 'chair'; chair.dataset.hidden = 'false'; paid.dataset.hidden = 'true'; },
+      () => { keys.dataset.hidden = 'false'; done.dataset.hidden = 'true'; },
+      () => { comp.dataset.slot = 'off'; },
+      () => { comp.dataset.note = 'off'; },
+    ];
+    for (const step of steps) {
+      step();
+      await sleep(70, signal);
+    }
+    await sleep(520, signal);
   }
 
   if (!reducedMotion.matches) startState();

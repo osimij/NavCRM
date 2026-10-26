@@ -16,8 +16,8 @@
   isolation: isolate;
   overflow: hidden;
   border-radius: var(--r-2xl);
-  padding-top: calc(var(--nav-h) + clamp(30px, 5.2vh, 60px));
-  padding-bottom: clamp(48px, 6vw, 88px);
+  padding-top: calc(var(--nav-h) + clamp(26px, 4.2vh, 46px));
+  padding-bottom: clamp(24px, 3vw, 44px);
   box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.04);
 }
 @supports (corner-shape: superellipse(1.6)) {
@@ -32,7 +32,7 @@
   inset: 0;
   z-index: -2;
   overflow: hidden;
-  /* the sky before the still arrives, in the still's own colours */
+  /* the sky before anything arrives, in the painting's own colours */
   background: linear-gradient(180deg, #8eb0e6 0%, #b5cdf0 30%, #e9eff6 52%, #f6f4f1 58%, #f7f7f8 100%);
   pointer-events: none;
 }
@@ -44,6 +44,9 @@
   width: var(--sky-w, 118%);
   height: var(--sky-h, auto);
   transform: translate3d(-50%, var(--sky-shift, 0px), 0);
+  /* a tiny, blurred copy of the painting (inlined below) holds the place until the still decodes */
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 .s-hero__sky picture,
 .s-hero__sky img {
@@ -54,6 +57,25 @@
 .s-hero__sky img {
   object-fit: fill;
 }
+.js .s-hero__sky img {
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.js .s-hero__sky img.is-ready {
+  opacity: 1;
+}
+/* should the script never arrive, show the still anyway */
+.js .s-hero__sky img:not(.is-ready) {
+  animation: s-hero-show 300ms ease 3s forwards;
+}
+@keyframes s-hero-show {
+  to {
+    opacity: 1;
+  }
+}
+/* lqip:start (written by scripts/bake-art.mjs: a tiny blurred copy of each still) */
+/* hero-desktop */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRmACAABXRUJQVlA4WAoAAAAgAAAAGwAAHwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggcgAAANADAJ0BKhwAIAA+nT6ZSCWjIqEwCACwE4ljZddKc5R8bLtcyMHkAAD+8OYE+/SVQ/+rEI8bkM+4QbpYC2vqW2CpxiQUU5JMKxZst9CfIujJsfNAVO8Xn1W22O+k6RAy+xNM0yeYpHcK8WUSuS/Uh7AAAA=="); }
+/* lqip:end */
 /* the live render covers only the part of the box inside the frame (placed by hero.js) */
 .s-hero__live {
   position: absolute;
@@ -82,18 +104,17 @@
   text-align: center;
 }
 .s-hero__title {
-  max-width: 13.2ch;
-  font-size: clamp(2.5rem, 1.25rem + 4.1vw, 4.75rem);
-  line-height: 0.97;
-  letter-spacing: -0.042em;
+  font-size: clamp(2.5rem, 1.1rem + 3.7vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
   color: #0a1324;
 }
-.s-hero__title .w {
-  display: inline-block;
+.s-hero__line {
+  display: block;
 }
 .s-hero__lead {
-  max-width: 54ch;
-  margin-top: clamp(16px, 1.8vw, 22px);
+  max-width: 41em;
+  margin-top: clamp(14px, 1.4vw, 20px);
   color: #34415a;
 }
 .s-hero__actions {
@@ -101,7 +122,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-  margin-top: clamp(22px, 2.4vw, 32px);
+  margin-top: clamp(20px, 2vw, 28px);
 }
 .s-hero__facts {
   display: flex;
@@ -109,7 +130,7 @@
   justify-content: center;
   align-items: center;
   gap: 8px 0;
-  margin-top: 22px;
+  margin-top: 18px;
   font-size: var(--fs-sm);
   font-weight: 500;
   letter-spacing: -0.004em;
@@ -138,9 +159,9 @@
 /* The composition is designed at a fixed size and scaled to fit (--s from hero.js). */
 .s-hero__stage {
   --cw: 1240;
-  --ch: 640;
+  --ch: 724;
   position: relative;
-  margin-top: clamp(40px, 4.6vw, 60px);
+  margin-top: clamp(34px, 3.4vw, 48px);
   height: calc(var(--ch) * var(--s, 1) * 1px);
 }
 .s-hero__comp {
@@ -160,8 +181,8 @@
 .s-hero__tg {
   position: absolute;
   background: linear-gradient(140deg, rgba(255, 251, 243, 0.74) 0%, rgba(255, 255, 255, 0.58) 42%, rgba(234, 242, 255, 0.52) 100%);
-  -webkit-backdrop-filter: blur(22px) saturate(1.6);
-  backdrop-filter: blur(22px) saturate(1.6);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  backdrop-filter: blur(22px) saturate(1.5);
   box-shadow:
     inset 0 1px 0 rgba(255, 252, 244, 0.95),
     inset 1px 0 0 rgba(255, 250, 240, 0.6),
@@ -170,6 +191,12 @@
     0 2px 6px -2px rgba(28, 52, 110, 0.1),
     22px 34px 60px -26px rgba(34, 62, 128, 0.3),
     56px 80px 120px -50px rgba(40, 72, 150, 0.28);
+}
+/* The floating cards hang half over the window and half over the sky, so their glass is dense:
+   the app underneath never shows through as a ghost. */
+.s-hero__note,
+.s-hero__tg {
+  background: linear-gradient(140deg, rgba(255, 252, 246, 0.93) 0%, rgba(255, 255, 255, 0.89) 45%, rgba(242, 247, 255, 0.84) 100%);
 }
 .s-hero__win::after,
 .s-hero__note::after,
@@ -198,7 +225,8 @@
   .s-hero__glyph,
   .s-hero__chip,
   .s-hero__arrow,
-  .s-hero__toast {
+  .s-hero__toast,
+  .s-hero__sweep {
     corner-shape: superellipse(1.6);
   }
 }
@@ -208,9 +236,9 @@
   content: "";
   position: absolute;
   left: 190px;
-  right: 40px;
+  right: 10px;
   top: 300px;
-  height: 420px;
+  height: 440px;
   z-index: -1;
   border-radius: 50%;
   background: radial-gradient(closest-side, rgba(52, 84, 152, 0.2), rgba(52, 84, 152, 0.08) 60%, rgba(52, 84, 152, 0));
@@ -233,20 +261,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   padding: 8px 8px 8px 0;
 }
 .s-hero__logo {
   width: 30px;
   height: 30px;
-  margin: 4px 0 14px;
+  margin: 4px 0 12px;
   filter: drop-shadow(0 2px 4px rgba(28, 66, 212, 0.3));
 }
 .s-hero__tab {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 36px;
   border-radius: var(--r-sm);
   color: #6c788c;
 }
@@ -333,7 +361,7 @@
 }
 .s-hero__chip {
   gap: 6px;
-  padding: 0 8px 0 10px;
+  padding: 0 8px 0 9px;
 }
 .s-hero__chip .i {
   font-size: 15px;
@@ -517,12 +545,13 @@
   justify-items: end;
 }
 
+/* The time now runs under the bookings (it shows only in the gaps), with its time in the gutter. */
 .s-hero__now {
   position: absolute;
   left: calc(var(--gut) - 4px);
   right: 0;
   top: calc(12px + var(--hour) * var(--t));
-  z-index: 3;
+  z-index: 0;
   height: 2px;
   border-radius: 2px;
   background: var(--accent);
@@ -553,10 +582,10 @@
   box-shadow: 0 2px 6px -2px rgba(42, 91, 255, 0.6);
 }
 
-/* ---------- notification ---------- */
+/* ---------- notification: half over the window, half over the sky ---------- */
 .s-hero__note {
-  right: 89px;
-  top: 130px;
+  left: 915px;
+  top: 188px;
   z-index: 4;
   width: 336px;
   display: flex;
@@ -611,10 +640,10 @@
   color: var(--ink-2);
 }
 
-/* ---------- Telegram reminder ---------- */
+/* ---------- Telegram reminder: off the window's lower right corner ---------- */
 .s-hero__tg {
-  right: 137px;
-  top: 452px;
+  left: 952px;
+  top: 520px;
   z-index: 4;
   width: 288px;
   padding: 12px;
@@ -674,12 +703,20 @@
 .s-hero__tg-done .i {
   font-size: 15px;
 }
+/* state swaps in the hero stay crisp: a short crossfade with the lightest blur */
+.s-hero .ui-swap > * {
+  transition-duration: 180ms;
+}
+.s-hero .ui-swap > [data-hidden="true"] {
+  filter: blur(2px);
+  transform: translateY(3px);
+}
 
-/* ---------- the owner's phone ---------- */
+/* ---------- the owner's phone: under the window's tabs, its toast high on the screen ---------- */
 .s-hero__phone {
   position: absolute;
   left: 0;
-  top: 112px;
+  top: 268px;
   z-index: 5;
   width: 212px;
   padding: 7px;
@@ -766,7 +803,7 @@
   display: flex;
   align-items: flex-end;
   gap: 4px;
-  height: 38px;
+  height: 34px;
   margin-top: 10px;
 }
 .s-hero__bars i {
@@ -793,6 +830,37 @@
 }
 .s-hero__dash-row b {
   font-weight: 620;
+}
+.s-hero__next {
+  margin-top: 12px;
+  padding: 0 2px;
+}
+.s-hero__next .ui-label {
+  margin-bottom: 6px;
+}
+.s-hero__next-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.25;
+  box-shadow: 0 -1px 0 var(--line);
+}
+.s-hero__next-row b {
+  flex: none;
+  width: 34px;
+  font-weight: 620;
+}
+.s-hero__next-row span {
+  font-weight: 560;
+}
+.s-hero__next-row small {
+  display: block;
+  margin-top: 1px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--ink-3);
 }
 .s-hero__toast {
   position: absolute;
@@ -890,20 +958,25 @@
 }
 
 /* ---------- drifting cloud shadows ---------- */
-/* Shadows fall only on things below the sky: the sea and the glass. The layer starts at the
-   horizon, is multiplied over everything there, and never darkens text by more than ~8%. */
+/* Soft, clear-blue shadows of clouds out of frame drift across the sea and the glass. The layer
+   starts at the horizon and is multiplied over everything below it; over the window's white
+   schedule (a hole placed by hero.js) it is held to a third of its strength, so text keeps its
+   contrast. */
 .s-hero__drift {
   position: absolute;
   left: 0;
   right: 0;
   top: -18px;
-  bottom: calc(-1 * clamp(48px, 6vw, 88px));
+  bottom: calc(-1 * clamp(24px, 3vw, 44px));
   z-index: 6;
   overflow: hidden;
   pointer-events: none;
   mix-blend-mode: multiply;
-  -webkit-mask: linear-gradient(180deg, transparent 0, #000 90px);
-  mask: linear-gradient(180deg, transparent 0, #000 90px);
+  --hole: linear-gradient(rgba(0, 0, 0, 0.66) 0 0) var(--hx, -9999px) var(--hy, 0px) / var(--hw, 0px) var(--hh, 0px) no-repeat;
+  -webkit-mask: linear-gradient(180deg, transparent 0, #000 90px), var(--hole);
+  -webkit-mask-composite: source-out;
+  mask: linear-gradient(180deg, transparent 0, #000 90px), var(--hole);
+  mask-composite: subtract;
 }
 .s-hero__drift::before {
   content: "";
@@ -913,8 +986,7 @@
   left: 0;
   width: calc(100% + 1600px);
   background: url("../../assets/art/cloud-shadows.webp") 0 0 / 1600px 100% repeat-x;
-  opacity: 0.55;
-  animation: s-hero-drift 140s linear infinite;
+  animation: s-hero-drift 120s linear infinite;
   will-change: transform;
 }
 @keyframes s-hero-drift {
@@ -926,60 +998,102 @@
   animation-play-state: paused;
 }
 
+/* the cloud sea in front of the product while it rises out of it (entrance only) */
+.s-hero__mist {
+  position: absolute;
+  left: -40px;
+  right: -40px;
+  top: calc(80px * var(--s, 1));
+  bottom: calc(-1 * clamp(24px, 3vw, 44px));
+  z-index: 7;
+  background: linear-gradient(180deg, rgba(248, 246, 242, 0) 0%, rgba(248, 246, 242, 0.9) 34%, rgba(247, 247, 248, 0.97) 100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* ---------- entrance (once, on load; runs without script) ---------- */
-@keyframes s-hero-rise {
+/* The copy fades in as one block. The product rises out of the cloud sea: the window lifts to
+   the horizon with the sea covering its lower edge, the sea clears, and the sun's warm rim
+   crosses the glass once. */
+@keyframes s-hero-fade {
   from {
     opacity: 0;
-    transform: translateY(12px);
-    filter: blur(6px);
   }
 }
-@keyframes s-hero-stage {
+@keyframes s-hero-rise {
   from {
+    transform: translateY(64px) scale(var(--s, 1));
+  }
+}
+@keyframes s-hero-mist {
+  0%,
+  35% {
+    opacity: 1;
+  }
+  to {
     opacity: 0;
-    transform: translateY(24px);
   }
 }
 @keyframes s-hero-card {
   from {
     opacity: 0;
-    transform: translateY(10px) scale(0.98);
+    transform: translateY(14px) scale(0.98);
   }
+}
+@keyframes s-hero-sweep {
+  from {
+    transform: translateX(-60%) skewX(-18deg);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(160%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+.s-hero__sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.s-hero__sweep::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  bottom: -10%;
+  left: 0;
+  width: 46%;
+  background: linear-gradient(90deg, rgba(255, 238, 206, 0) 0%, rgba(255, 238, 206, 0.32) 44%, rgba(255, 249, 236, 0.55) 50%, rgba(255, 238, 206, 0.32) 56%, rgba(255, 238, 206, 0) 100%);
+  mix-blend-mode: soft-light;
+  opacity: 0;
 }
 @media (prefers-reduced-motion: no-preference) {
-  .s-hero__title .w {
-    animation: s-hero-rise 700ms var(--ease-out) backwards;
+  .s-hero__copy {
+    animation: s-hero-fade 900ms ease 60ms backwards;
   }
-  .s-hero__title .w:nth-child(2) { animation-delay: 30ms; }
-  .s-hero__title .w:nth-child(3) { animation-delay: 60ms; }
-  .s-hero__title .w:nth-child(4) { animation-delay: 90ms; }
-  .s-hero__title .w:nth-child(5) { animation-delay: 120ms; }
-  .s-hero__title .w:nth-child(6) { animation-delay: 150ms; }
-  .s-hero__title .w:nth-child(7) { animation-delay: 180ms; }
-  .s-hero__title .w:nth-child(8) { animation-delay: 210ms; }
-  .s-hero__lead {
-    animation: s-hero-rise 700ms var(--ease-out) 200ms backwards;
+  .s-hero__comp {
+    animation: s-hero-rise 1400ms var(--ease-out) 250ms backwards;
   }
-  .s-hero__actions {
-    animation: s-hero-rise 700ms var(--ease-out) 260ms backwards;
+  .s-hero__mist {
+    animation: s-hero-mist 1500ms ease 250ms backwards;
   }
-  .s-hero__facts {
-    animation: s-hero-rise 700ms var(--ease-out) 320ms backwards;
+  .s-hero__phone,
+  .s-hero__tg {
+    animation: s-hero-card 800ms var(--ease-out) backwards;
   }
-  .s-hero__stage {
-    animation: s-hero-stage 900ms var(--ease-out) 200ms backwards;
+  .s-hero__phone { animation-delay: 900ms; }
+  .s-hero__tg { animation-delay: 1000ms; }
+  .s-hero__sweep::before {
+    animation: s-hero-sweep 1300ms var(--ease-in-out) 1050ms;
   }
-  .s-hero__note,
-  .s-hero__tg,
-  .s-hero__phone {
-    animation: s-hero-card 700ms var(--ease-out) backwards;
-  }
-  .s-hero__note { animation-delay: 520ms; }
-  .s-hero__tg { animation-delay: 600ms; }
-  .s-hero__phone { animation-delay: 680ms; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .s-hero__copy > *,
+  .s-hero__copy,
   .s-hero__stage {
     animation: s-hero-fade 400ms ease backwards;
   }
@@ -987,19 +1101,17 @@
     animation: none;
   }
 }
-@keyframes s-hero-fade {
-  from {
-    opacity: 0;
-  }
-}
 
 /* ---------- live loop states (set by hero.js; the markup itself is the end state) ---------- */
+/* The notification slides in from the right with a clip, never a fade: at every moment each
+   part of it is either fully there or not there, so nothing beneath shows through. */
 .s-hero__note {
-  transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
+  clip-path: inset(0 round var(--r-lg));
+  transition: clip-path 560ms var(--ease-out), transform 560ms var(--ease-out);
 }
 .s-hero__comp[data-note="off"] .s-hero__note {
-  opacity: 0;
-  transform: translateX(16px) scale(0.98);
+  clip-path: inset(0 0 0 100% round var(--r-lg));
+  transform: translateX(28px);
 }
 .s-hero__bk[data-slot] {
   transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
@@ -1033,10 +1145,12 @@
   opacity: 0;
   transform: translateY(-8px) scale(0.98);
 }
-.s-hero__comp[data-reset] .s-hero__note,
+.s-hero__comp[data-reset] .s-hero__note {
+  transition-duration: 420ms;
+}
 .s-hero__comp[data-reset] .s-hero__bk[data-slot],
 .s-hero__comp[data-reset] .s-hero__toast {
-  transition-duration: 400ms;
+  transition-duration: 380ms;
   transition-timing-function: ease;
 }
 
@@ -1044,69 +1158,93 @@
    starts well above the fold. */
 @media (min-width: 760px) and (max-height: 820px) {
   .s-hero__frame {
-    padding-top: calc(var(--nav-h) + 22px);
+    padding-top: calc(var(--nav-h) + 18px);
   }
   .s-hero__title {
-    font-size: clamp(2.5rem, 1rem + 3.6vw, 4.1rem);
+    font-size: clamp(2.5rem, 1rem + 3.3vw, 4rem);
   }
   .s-hero__lead {
-    margin-top: 14px;
+    margin-top: 12px;
+    font-size: 1.125rem;
   }
   .s-hero__actions {
-    margin-top: 22px;
+    margin-top: 20px;
   }
   .s-hero__facts {
-    margin-top: 16px;
+    margin-top: 14px;
   }
   .s-hero__stage {
-    margin-top: 40px;
+    margin-top: 30px;
   }
 }
 
 /* ---------- arrangements ---------- */
-/* Tablets and narrow windows: the window and the phone; the Telegram card steps aside. */
+/* Tablets and narrow windows: the window shows two of the three staff, the phone overlaps its
+   rail, and the notification hangs off its right edge over the sky. */
 @media (max-width: 1099.98px) {
   .s-hero__stage {
-    --cw: 1030;
-    --ch: 640;
+    --cw: 930;
+    --ch: 660;
   }
   .s-hero__win {
-    left: 130px;
-    width: 840px;
+    left: 120px;
+    width: 640px;
+  }
+  .s-hero__staff,
+  .s-hero__sched {
+    grid-template-columns: var(--gut) repeat(2, minmax(0, 1fr));
+  }
+  .s-hero__who:nth-child(4),
+  .s-hero__col:nth-of-type(3) {
+    display: none;
+  }
+  .s-hero__tools .s-hero__arrow {
+    display: none;
   }
   .s-hero__phone {
-    width: 190px;
+    top: 268px;
+    width: 184px;
     border-radius: 34px;
   }
   .s-hero__phone .ui-phone__screen {
     border-radius: 28px;
   }
+  .s-hero__next {
+    display: none;
+  }
   .s-hero__tg {
     display: none;
   }
   .s-hero__note {
-    right: 8px;
-    top: 130px;
+    left: 626px;
+    top: 118px;
     width: 300px;
   }
   .s-hero__comp::before {
     left: 170px;
+    right: 0;
   }
 }
 
-/* Phones: the phone first, the notification above it, the Telegram card below. */
+/* Phones: the art gets the first screen; below it the notification meets the horizon and the
+   owner's phone follows. */
 @media (max-width: 759.98px) {
   .s-hero {
     --inset: 8px;
   }
   .s-hero__frame {
     border-radius: var(--r-xl);
-    padding-top: calc(var(--nav-h) + 18px);
-    padding-bottom: 40px;
+    padding-top: calc(var(--nav-h) + 16px);
+    padding-bottom: 28px;
   }
   .s-hero__title {
     font-size: clamp(2.375rem, 1.2rem + 5vw, 2.875rem);
     max-width: 12ch;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+  .s-hero__line {
+    display: inline;
   }
   .s-hero__lead {
     font-size: 1.0625rem;
@@ -1132,8 +1270,8 @@
   }
   .s-hero__stage {
     --cw: 360;
-    --ch: 612;
-    margin-top: 136px;
+    --ch: 596;
+    margin-top: var(--phone-art, 300px);
   }
   .s-hero__win {
     display: none;
@@ -1141,26 +1279,23 @@
   /* on phones the notification is the first panel, so its top edge meets the horizon */
   .s-hero__note {
     left: 0;
-    right: auto;
     top: 0;
     width: 360px;
   }
   .s-hero__phone {
     left: 64px;
-    right: auto;
-    top: 116px;
+    top: 104px;
     width: 232px;
     border-radius: 42px;
   }
   .s-hero__phone .ui-phone__screen {
     border-radius: 35px;
   }
-  .s-hero__tg {
+  .s-hero__next {
     display: block;
-    left: auto;
-    right: 0;
-    top: 404px;
-    width: 300px;
+  }
+  .s-hero__tg {
+    display: none;
   }
   .s-hero__comp::before {
     left: 40px;
@@ -1168,12 +1303,15 @@
     top: 200px;
     height: 400px;
   }
+  .s-hero__mist {
+    top: 40px;
+  }
 }
 
-/* short phones: a tighter type scale so the art still reaches the first screen */
+/* short phones: a tighter type scale */
 @media (max-width: 759.98px) and (max-height: 700px) {
   .s-hero__frame {
-    padding-top: calc(var(--nav-h) + 10px);
+    padding-top: calc(var(--nav-h) + 8px);
   }
   .s-hero__title {
     font-size: 2.25rem;
@@ -1189,9 +1327,6 @@
   .s-hero__facts {
     margin-top: 14px;
     font-size: 0.8125rem;
-  }
-  .s-hero__stage {
-    margin-top: 96px;
   }
 }
 

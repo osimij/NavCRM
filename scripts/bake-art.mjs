@@ -30,9 +30,10 @@ const LANDING = path.join(ROOT, 'landing');
 
 export const PLATES = [
   // The hero: the full frame, laid out by js/sections/hero.js so the horizon meets the app window.
-  { name: 'hero-desktop', comp: 'desktop', width: 1680, scales: [1, 2], q: 0.86 },
-  { name: 'hero-tablet', comp: 'tablet', width: 1100, scales: [1, 2], q: 0.86 },
-  { name: 'hero-phone', comp: 'phone', width: 520, scales: [1, 2], q: 0.86 },
+  // `lqip` also writes a tiny blurred copy into css/sections/hero.css, shown until the still decodes.
+  { name: 'hero-desktop', comp: 'desktop', width: 1680, scales: [1, 2], q: 0.86, lqip: '' },
+  { name: 'hero-tablet', comp: 'tablet', width: 1100, scales: [1, 2], q: 0.86, lqip: '(max-width: 1099.98px)' },
+  { name: 'hero-phone', comp: 'phone', width: 600, scales: [1, 2], q: 0.86, lqip: '(max-width: 759.98px)' },
   // Soft cloud shadows for the slow drift over the sea and the glass (multiplied in CSS).
   { name: 'cloud-shadows', kind: 'shadows', width: 1600, height: 440, scales: [1], q: 0.8 },
 ];
@@ -109,13 +110,24 @@ for (const plate of plates) {
       const ms = await job.done;
       const webp = c.toDataURL('image/webp', plate.q ?? 0.86);
       const png = c.toDataURL('image/png');
+      // the placeholder: about 28 pixels across, enough for the browser's own smoothing to blur
+      let tiny = null;
+      if (plate.lqip !== undefined) {
+        const t = document.createElement('canvas');
+        t.width = 28; t.height = Math.round((28 * h) / w);
+        const tc = t.getContext('2d');
+        tc.imageSmoothingQuality = 'high';
+        tc.drawImage(c, 0, 0, t.width, t.height);
+        tiny = t.toDataURL('image/webp', 0.7);
+      }
       job.release();
-      return { w, h, ms, webp, png };
+      return { w, h, ms, webp, png, tiny };
     }, { plate, s, scale: SCALE });
     const suffix = s === 1 ? '' : `@${s}x`;
     const file = path.join(OUT, `${plate.name}${suffix}.webp`);
     await writeFile(file, Buffer.from(res.webp.split(',')[1], 'base64'));
     if (PNG) await writeFile(path.join(OUT, `${plate.name}${suffix}.png`), Buffer.from(res.png.split(',')[1], 'base64'));
+    if (res.tiny && s === 1 && !adhoc && OUT === path.join(LANDING, 'assets/art')) await writeLqip(plate, res.tiny);
     const kb = Math.round((await stat(file)).size / 1024);
     console.log(`${path.relative(ROOT, file)}  ${res.w}x${res.h}  ${kb} KB  render ${Math.round(res.ms / 1000)}s  total ${Math.round((Date.now() - t0) / 1000)}s`);
   }
@@ -123,6 +135,22 @@ for (const plate of plates) {
 
 await browser.close();
 server.close();
+
+/* Keep the hero's placeholders in step with its stills: one rule per plate between the
+   lqip markers in css/sections/hero.css. */
+async function writeLqip(plate, uri) {
+  const css = path.join(LANDING, 'css/sections/hero.css');
+  const src = await readFile(css, 'utf8');
+  const a = src.indexOf('/* lqip:start'), b = src.indexOf('/* lqip:end */');
+  if (a < 0 || b < 0) return;
+  const head = src.slice(0, src.indexOf('\n', a) + 1);
+  const lines = src.slice(head.length, b).split('\n').filter((l) => l.trim() && !l.includes(`/* ${plate.name} */`));
+  const rule = `.s-hero__sky { background-image: url("${uri}"); }`;
+  lines.push(plate.lqip ? `@media ${plate.lqip} { /* ${plate.name} */ ${rule} }` : `/* ${plate.name} */ ${rule}`);
+  const order = (l) => (l.includes('hero-desktop') ? 0 : l.includes('hero-tablet') ? 1 : 2);
+  lines.sort((x, y) => order(x) - order(y));
+  await writeFile(css, head + lines.join('\n') + '\n' + src.slice(b));
+}
 
 /* Cloud shadows: a horizontally tileable field of soft, cool shadows, flattened and smaller
    toward the top (the far sea), white where there is no shadow so it can be multiplied.
