@@ -3,7 +3,7 @@
 // the track comes into view, and each node, card and text appears as the line reaches it.
 // Vertical track (narrower screens, taller than the screen): the line follows the scroll, so each
 // step appears as the reader gets to it instead of finishing off screen.
-import { reducedMotion } from '../main.js';
+import { reducedMotion } from '../shared.js';
 
 const DRAW = 1200; // ms, matches the clip-path transition on .s-setup__line[data-axis="x"]
 

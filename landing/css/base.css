@@ -88,7 +88,7 @@
   --container: 1200px;
   --gutter: clamp(16px, 4vw, 32px);
   --section-y: clamp(96px, 11vw, 168px);
-  --nav-h: 64px;
+  --nav-h: 56px;
 }
 
 /* Corner smoothing: continuous (squircle) corners where supported.
@@ -313,15 +313,17 @@ p {
 
 /* Buttons */
 .btn {
-  --btn-h: 44px;
+  --btn-h: 40px;
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   height: var(--btn-h);
-  padding: 0 18px;
+  padding: 0 16px;
+  border: 1px solid transparent;
   border-radius: var(--r-pill);
+  corner-shape: round;
   font-size: 0.9375rem;
   font-weight: var(--type-weight, 400);
   letter-spacing: -0.01em;
@@ -332,66 +334,54 @@ p {
   transition:
     transform var(--dur-press) var(--ease-out),
     background-color 200ms ease,
-    box-shadow 200ms ease,
+    border-color 200ms ease,
     color 200ms ease;
 }
 .btn:active {
   transform: scale(0.97);
 }
 .btn .i {
-  font-size: 18px;
+  font-size: 16px;
   transition: transform 200ms var(--ease-out);
 }
 .btn--lg {
-  --btn-h: 52px;
-  padding: 0 24px;
+  --btn-h: 40px;
+  padding: 0 16px;
   font-size: 1rem;
 }
 .btn--sm {
   --btn-h: 36px;
-  padding: 0 14px;
+  padding: 0 12px;
   font-size: 0.875rem;
 }
 .btn--dark {
   color: #fff;
-  background: linear-gradient(180deg, #1c2536 0%, #0b1220 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.16),
-    0 0 0 1px rgba(11, 18, 32, 0.9),
-    0 2px 4px -1px rgba(11, 18, 32, 0.25),
-    0 8px 18px -8px rgba(11, 18, 32, 0.45);
+  background: #090b0c;
 }
 .btn--accent {
   color: #fff;
-  background: linear-gradient(180deg, var(--accent-lift) 0%, var(--accent) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.24),
-    0 0 0 1px color-mix(in srgb, var(--accent) 90%, transparent),
-    0 2px 4px -1px color-mix(in srgb, var(--accent) 30%, transparent),
-    0 10px 22px -10px color-mix(in srgb, var(--accent) 60%, transparent);
+  background: var(--accent);
 }
 .btn--glass {
   color: var(--ink);
-  background: var(--glass-bg-strong);
-  -webkit-backdrop-filter: blur(16px) saturate(1.6);
-  backdrop-filter: blur(16px) saturate(1.6);
-  box-shadow: var(--glass-edge), var(--shadow-sm);
+  background: transparent;
+  border-color: rgba(9, 11, 12, 0.16);
 }
 .btn--plain {
   color: var(--ink);
   background: var(--surface);
-  box-shadow: var(--shadow-sm);
+  border-color: rgba(9, 11, 12, 0.12);
 }
 @media (hover: hover) and (pointer: fine) {
   .btn--dark:hover {
-    background: linear-gradient(180deg, #273246 0%, #131c2e 100%);
+    background: #292b2c;
   }
   .btn--accent:hover {
-    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 70%, white) 0%, var(--accent-lift) 100%);
+    background: color-mix(in srgb, var(--accent) 88%, white);
   }
   .btn--glass:hover,
   .btn--plain:hover {
-    background: #fff;
+    background: rgba(9, 11, 12, 0.05);
   }
   .btn:hover .i--nudge {
     transform: translateX(2px);

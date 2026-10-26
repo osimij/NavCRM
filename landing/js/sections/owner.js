@@ -1,6 +1,6 @@
 // Owner view: each card of the dashboard plays once as it comes into view (amounts and visits
 // count up, the sparkline draws, meters grow, the source bar reveals), then stays still.
-import { onceVisible, reducedMotion, fmt } from '../main.js';
+import { onceVisible, reducedMotion, fmt } from '../shared.js';
 
 const COUNT_MS = 900;
 

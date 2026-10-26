@@ -1,5 +1,5 @@
 // Made here (#local): the offline phone demo and the language switch.
-import { sleep, loopWhileVisible, reducedMotion } from '../main.js';
+import { sleep, loopWhileVisible, reducedMotion } from '../shared.js';
 
 export function init(root) {
   const offline = root.querySelector('[data-offline]');

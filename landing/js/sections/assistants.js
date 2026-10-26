@@ -1,7 +1,7 @@
 // Assistants: an Instagram Direct exchange plays in the chat. The client's question is already
 // there; the assistant types and replies, and earlier messages slide up as new ones arrive at the
 // bottom, the way a messenger does. It holds, fades out and starts again.
-import { sleep, loopWhileVisible } from '../main.js';
+import { sleep, loopWhileVisible } from '../shared.js';
 
 export function init(root) {
   const demo = root.querySelector('.s-assistants__demo');

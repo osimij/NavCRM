@@ -1,5 +1,5 @@
 // Pricing calculator: 1.5 TJS per completed visit, with a rolling odometer.
-import { fmt } from '../main.js';
+import { fmt } from '../shared.js';
 
 const RATE = 1.5;
 const visitForms = { one: 'визит', few: 'визита', many: 'визитов', other: 'визита' };

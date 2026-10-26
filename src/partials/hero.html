@@ -1,5 +1,8 @@
 <section class="s-hero" data-section="hero" data-art="image" id="hero" aria-labelledby="hero-title">
   <div class="s-hero__frame">
+    <div class="s-hero__nav">
+      <!-- @partial nav -->
+    </div>
     <!-- Supplied blue-wave artwork fills the hero behind its copy and product preview. -->
     <div class="s-hero__art" aria-hidden="true">
       <div class="s-hero__sky" data-sky>
@@ -11,8 +14,10 @@
     </div>
 
     <div class="container s-hero__copy">
-      <h1 id="hero-title" class="s-hero__title"><span class="s-hero__line">Одно приложение для записей,</span> <span class="s-hero__line">клиентов и кассы</span></h1>
-      <p class="lead s-hero__lead">CRM для салонов, клиник, автосервисов, студий и других сервисных компаний. Клиенты записываются онлайн в любое время, напоминания приходят в Telegram, а визиты отражаются в кассе и на складе</p>
+      <div class="s-hero__heading">
+        <h1 id="hero-title" class="s-hero__title"><span class="s-hero__line">Одно приложение для</span> <span class="s-hero__line">записей,клиентов и кассы</span></h1>
+        <p class="lead s-hero__lead"><span class="s-hero__intro">CRM для салонов, клиник, автосервисов, студий и других сервисных компаний.</span></p>
+      </div>
       <div class="s-hero__actions">
         <a class="btn btn--dark btn--lg" href="#start">Начать работу<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
         <a class="btn btn--glass btn--lg" href="#how">Как это работает</a>

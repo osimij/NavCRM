@@ -3,7 +3,7 @@
 // sky live where the still would be upscaled, and plays a short loop of a working day at
 // Gulnor Beauty.
 
-import { sleep, loopWhileVisible, reducedMotion } from '../main.js';
+import { sleep, loopWhileVisible, reducedMotion } from '../shared.js';
 import { FRAMES, towerOutline } from '../art/frames.js';
 
 const PHONE = matchMedia('(max-width: 759.98px)');

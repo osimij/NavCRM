@@ -1,7 +1,7 @@
 // How it works: five steps that follow one booking. Steps auto-advance every 7s while the
 // section is on screen; hover, keyboard focus or a touch pauses the timer; picking a step stops
 // auto-advance for good.
-import { sleep, loopWhileVisible, reducedMotion, fmt } from '../main.js';
+import { sleep, loopWhileVisible, reducedMotion, fmt } from '../shared.js';
 
 const STEP_MS = 7000;
 const MIN_CANVAS = 340; // narrowest layout the demos are drawn for; smaller stages scale it down

@@ -8,14 +8,14 @@
     <meta name="theme-color" content="#f6f8fb" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="assets/fonts/als-hauss-next-vf.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/base.css?v=1.5-aside-header" />
     <link rel="stylesheet" href="css/ui.css?v=1.5-phone-2" />
     <link rel="stylesheet" href="css/art.css" />
-    <link rel="stylesheet" href="css/sections/nav.css" />
-    <link rel="stylesheet" href="css/sections/hero.css?v=1.5-hero-details" />
+    <link rel="stylesheet" href="css/sections/nav.css?v=1.5-nav-sides-20" />
+    <link rel="stylesheet" href="css/sections/hero.css?v=1.5-hero-corners" />
     <link rel="stylesheet" href="css/sections/how.css" />
-    <link rel="stylesheet" href="css/sections/owner.css?v=1.5-phone-3" />
-    <link rel="stylesheet" href="css/sections/industries.css" />
+    <link rel="stylesheet" href="css/sections/owner.css?v=1.5-owner-spacing" />
+    <link rel="stylesheet" href="css/sections/industries.css?v=1.5-vertical-industries-2" />
     <link rel="stylesheet" href="css/sections/local.css?v=1.5-phone-2" />
     <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-compact-3" />
     <link rel="stylesheet" href="css/sections/setup.css" />
@@ -23,12 +23,17 @@
     <link rel="stylesheet" href="css/sections/faq.css" />
     <link rel="stylesheet" href="css/sections/start.css" />
     <link rel="stylesheet" href="css/sections/footer.css" />
-    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/main.js?v=1.5-vertical-industries-2"></script>
   </head>
   <body>
-    <header class="s-nav" data-section="nav">
+    <main id="top">
+      <section class="s-hero" data-section="hero" data-art="image" id="hero" aria-labelledby="hero-title">
+  <div class="s-hero__frame">
+    <div class="s-hero__nav">
+      <header class="s-nav" data-section="nav">
   <div class="s-nav__bar">
     <div class="container s-nav__inner">
+      <a class="s-nav__brand" href="#top" aria-label="NavCRM, в начало страницы">NavCRM</a>
       <nav class="s-nav__links" aria-label="Основная навигация">
         <a href="#how">Как это работает</a>
         <a href="#industries">Отрасли</a>
@@ -45,7 +50,7 @@
     </div>
   </div>
 
-  <div class="s-nav__menu glass" id="nav-menu" hidden>
+  <div class="s-nav__menu" id="nav-menu" hidden>
     <nav aria-label="Основная навигация на мобильном">
       <a href="#how">Как это работает</a>
       <a href="#industries">Отрасли</a>
@@ -55,9 +60,7 @@
     <a class="btn btn--dark s-nav__menu-cta" href="#start">Начать работу</a>
   </div>
 </header>
-    <main id="top">
-      <section class="s-hero" data-section="hero" data-art="image" id="hero" aria-labelledby="hero-title">
-  <div class="s-hero__frame">
+    </div>
     <!-- Supplied blue-wave artwork fills the hero behind its copy and product preview. -->
     <div class="s-hero__art" aria-hidden="true">
       <div class="s-hero__sky" data-sky>
@@ -69,8 +72,10 @@
     </div>
 
     <div class="container s-hero__copy">
-      <h1 id="hero-title" class="s-hero__title"><span class="s-hero__line">Одно приложение для записей,</span> <span class="s-hero__line">клиентов и кассы</span></h1>
-      <p class="lead s-hero__lead">CRM для салонов, клиник, автосервисов, студий и других сервисных компаний. Клиенты записываются онлайн в любое время, напоминания приходят в Telegram, а визиты отражаются в кассе и на складе</p>
+      <div class="s-hero__heading">
+        <h1 id="hero-title" class="s-hero__title"><span class="s-hero__line">Одно приложение для</span> <span class="s-hero__line">записей,клиентов и кассы</span></h1>
+        <p class="lead s-hero__lead"><span class="s-hero__intro">CRM для салонов, клиник, автосервисов, студий и других сервисных компаний.</span></p>
+      </div>
       <div class="s-hero__actions">
         <a class="btn btn--dark btn--lg" href="#start">Начать работу<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
         <a class="btn btn--glass btn--lg" href="#how">Как это работает</a>
@@ -753,10 +758,11 @@
       <p class="lead reveal" style="--delay: 60ms">Клинике нужны истории пациентов, автосервису нужны заказ-наряды, студии нужны абонементы. Выберите свой профиль, и NavCRM предложит нужные карточки и расписания. Для нескольких направлений можно объединить профили.</p>
     </div>
 
+    <div class="s-industries__layout">
     <div class="s-industries__switch reveal" style="--delay: 120ms">
-      <div class="s-industries__scroller" data-scroller>
+      <div class="s-industries__scroller">
         <div class="s-industries__track">
-          <div class="s-industries__tabs" role="tablist" aria-label="Отраслевые профили">
+          <div class="s-industries__tabs" role="tablist" aria-label="Отраслевые профили" aria-orientation="vertical">
             <button class="s-industries__tab" type="button" role="tab" id="industries-tab-beauty" aria-controls="industries-panel-beauty" aria-selected="true"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#scissor" /></svg><span>Красота</span></button>
             <button class="s-industries__tab" type="button" role="tab" id="industries-tab-clinics" aria-controls="industries-panel-clinics" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#tooth" /></svg><span>Клиники</span></button>
             <button class="s-industries__tab" type="button" role="tab" id="industries-tab-car" aria-controls="industries-panel-car" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#car" /></svg><span>Автосервис</span></button>
@@ -765,16 +771,6 @@
             <button class="s-industries__tab" type="button" role="tab" id="industries-tab-repair" aria-controls="industries-panel-repair" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wrench" /></svg><span>Ремонт</span></button>
             <button class="s-industries__tab" type="button" role="tab" id="industries-tab-cleaning" aria-controls="industries-panel-cleaning" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#cleaning" /></svg><span>Клининг</span></button>
             <button class="s-industries__tab" type="button" role="tab" id="industries-tab-weddings" aria-controls="industries-panel-weddings" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dress" /></svg><span>Свадьбы</span></button>
-          </div>
-          <div class="s-industries__tabs s-industries__tabs--active" aria-hidden="true" data-clip>
-            <span class="s-industries__tab"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#scissor" /></svg><span>Красота</span></span>
-            <span class="s-industries__tab"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#tooth" /></svg><span>Клиники</span></span>
-            <span class="s-industries__tab"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#car" /></svg><span>Автосервис</span></span>
-            <span class="s-industries__tab"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dumbbell" /></svg><span>Фитнес</span></span>
-            <span class="s-industries__tab"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#school" /></svg><span>Обучение</span></span>
-            <span class="s-industries__tab"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wrench" /></svg><span>Ремонт</span></span>
-            <span class="s-industries__tab"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#cleaning" /></svg><span>Клининг</span></span>
-            <span class="s-industries__tab"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dress" /></svg><span>Свадьбы</span></span>
           </div>
         </div>
       </div>
@@ -1216,6 +1212,7 @@
     </div>
 
     <p class="s-industries__note reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>Профиль для салонов и барбершопов уже доступен. Остальные запускаются поэтапно. Уточните у нас статус вашего направления.</p>
+    </div>
   </div>
 </section>
       <section class="s-local section" data-section="local" id="local">

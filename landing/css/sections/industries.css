@@ -1,50 +1,64 @@
-/* Industries: a tab bar with a clip-path active copy, and one panel per industry profile. */
+/* Industries: a vertical profile menu beside the feature copy and product preview. */
 
-/* Tab bar */
+.s-industries__layout {
+  display: grid;
+  grid-template-columns: 184px minmax(0, 1fr);
+  align-items: start;
+  gap: 20px 24px;
+}
+
+/* Vertical menu */
 .s-industries__switch {
-  margin-bottom: 14px;
+  min-width: 0;
 }
 .s-industries__scroller {
   position: relative;
 }
 .s-industries__track {
   position: relative;
-  padding: 6px;
-  border-radius: var(--r-pill);
+  padding: 8px;
+  border-radius: var(--r-lg);
   background: var(--surface);
   box-shadow: var(--shadow-sm);
 }
 .s-industries__tabs {
   display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
 }
 .s-industries__tab {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 44px;
-  padding: 0 10px;
-  border-radius: var(--r-pill);
+  justify-content: flex-start;
+  gap: 12px;
+  min-width: 0;
+  min-height: 52px;
+  padding: 12px 16px;
+  border-radius: var(--r-sm);
   font-size: 0.9375rem;
   font-weight: var(--type-weight, 400);
   letter-spacing: -0.01em;
   color: var(--ink-2);
-  white-space: nowrap;
+  text-align: left;
   transition:
     color 200ms ease,
     background-color 200ms ease,
     transform var(--dur-press) var(--ease-out);
 }
 .s-industries__tab .i {
+  flex: none;
   font-size: 18px;
+}
+.s-industries__tab[aria-selected="true"] {
+  color: var(--surface);
+  background: var(--ink);
+  box-shadow: var(--shadow-sm);
 }
 .s-industries button.s-industries__tab[aria-selected="false"]:active {
   transform: scale(0.97);
 }
 .s-industries button.s-industries__tab:focus-visible {
-  outline-offset: 2px;
-  border-radius: var(--r-pill);
+  outline-offset: -3px;
 }
 @media (hover: hover) and (pointer: fine) {
   .s-industries button.s-industries__tab[aria-selected="false"]:hover {
@@ -53,35 +67,11 @@
   }
 }
 
-/* The active copy: same layout, dark and white, clipped to the selected tab. */
-.s-industries__tabs--active {
-  position: absolute;
-  inset: 6px;
-  pointer-events: none;
-  border-radius: var(--r-pill);
-  background: linear-gradient(180deg, #1c2536 0%, #0b1220 100%);
-  clip-path: inset(0 var(--clip-r, 100%) 0 var(--clip-l, 0px) round 999px);
-}
-.s-industries__tabs--active[data-ready] {
-  transition: clip-path 300ms var(--ease-in-out);
-}
-.s-industries__tabs--active .s-industries__tab {
-  color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
-}
-/* Without JS the clip is never measured, so the selected tab carries the dark pill itself. */
-:root:not(.js) .s-industries__tabs--active {
-  display: none;
-}
-:root:not(.js) .s-industries__tab[aria-selected="true"] {
-  color: #fff;
-  background: linear-gradient(180deg, #1c2536 0%, #0b1220 100%);
-}
-
 /* Panels: all stacked in one grid area so switching never shifts the layout. */
 .s-industries__panels {
+  min-width: 0;
   display: grid;
-  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   grid-template-rows: auto;
   padding: 10px;
   border-radius: var(--r-2xl);
@@ -89,7 +79,7 @@
 .s-industries__stage {
   grid-column: 2;
   grid-row: 1;
-  min-height: 508px;
+  min-height: 520px;
   border-radius: var(--r-xl);
 }
 /* Positioned so the panel (and its focus ring) paints above the shared stage.
@@ -103,20 +93,16 @@
   grid-template-rows: subgrid;
   border-radius: var(--r-xl);
   opacity: 0;
-  filter: blur(4px);
   visibility: hidden;
   transition:
     opacity 150ms ease,
-    filter 150ms ease,
     visibility 0s linear 150ms;
 }
 .s-industries__panel[data-active] {
   opacity: 1;
-  filter: none;
   visibility: visible;
   transition:
-    opacity 250ms ease 60ms,
-    filter 250ms ease 60ms,
+    opacity 200ms ease 40ms,
     visibility 0s;
 }
 .s-industries__panel:focus-visible {
@@ -128,22 +114,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 28px;
-  padding: 40px 48px 40px 34px;
+  gap: 24px;
+  padding: 32px 28px 32px 24px;
 }
 .s-industries__copy h3 {
   max-width: 18ch;
-  font-size: clamp(1.625rem, 1.25rem + 1.1vw, 2.125rem);
-  line-height: 1.08;
+  font-size: clamp(1.5rem, 1.125rem + 1vw, 1.875rem);
+  line-height: 1.12;
   letter-spacing: -0.028em;
   font-weight: var(--type-weight, 400);
 }
 .s-industries__list li {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
   padding: 12px 0;
-  font-size: 0.9375rem;
+  font-size: var(--fs-sm);
   line-height: 1.45;
   letter-spacing: -0.006em;
   color: var(--ink-2);
@@ -164,7 +150,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   place-items: center;
-  padding: 48px;
+  padding: 36px 28px;
   min-width: 0;
 }
 .s-industries__demo {
@@ -173,11 +159,12 @@
 }
 
 .s-industries__note {
+  grid-column: 2;
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  margin-top: 20px;
-  padding-left: 44px;
+  margin: 0;
+  padding-inline: 24px;
   font-size: var(--fs-sm);
   /* Between ink-2 and ink-3: ink-3 alone is 3.4:1 on the page background, this clears 4.5:1. */
   color: color-mix(in srgb, var(--ink-2) 50%, var(--ink-3));
@@ -200,8 +187,8 @@
   opacity: 1;
   transform: none;
   transition:
-    opacity 300ms ease calc(var(--i, 0) * 40ms + 100ms),
-    transform 450ms var(--ease-out) calc(var(--i, 0) * 40ms + 100ms);
+    opacity 200ms ease calc(var(--i, 0) * 30ms + 40ms),
+    transform 240ms var(--ease-out) calc(var(--i, 0) * 30ms + 40ms);
 }
 .s-industries[data-armed]:not([data-seen]) .s-industries__panel[data-active] .ind-in {
   opacity: 0;
@@ -291,10 +278,10 @@
   border-radius: var(--r-md);
 }
 .s-industries .ind-comp--float-r .ind-float {
-  margin: -14px -36px 0 auto;
+  margin: -14px -16px 0 auto;
 }
 .s-industries .ind-comp--float-l .ind-float {
-  margin: -14px auto 0 -36px;
+  margin: -14px auto 0 -16px;
 }
 .s-industries .ind-float .ui-label {
   line-height: 1.2;
@@ -990,59 +977,17 @@
   font-size: 14px;
 }
 
-/* Tablet and down: tabs scroll horizontally */
-@media (max-width: 1100px) {
-  .s-industries__scroller {
-    --fade-l: 0px;
-    --fade-r: 0px;
-    margin: -8px calc(var(--gutter) * -1);
-    padding: 8px var(--gutter);
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x proximity;
-    scroll-padding-inline: calc(var(--gutter) + 4px);
-    scrollbar-width: none;
-    touch-action: pan-x pan-y;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%);
-  }
-  .s-industries__scroller::-webkit-scrollbar {
-    display: none;
-  }
-  .s-industries__scroller[data-start="false"] {
-    --fade-l: 40px;
-  }
-  .s-industries__scroller[data-end="false"] {
-    --fade-r: 40px;
-  }
-  .s-industries__track {
-    width: max-content;
-    min-width: 100%;
-    padding: 4px;
-  }
-  .s-industries__tabs {
-    display: flex;
-  }
-  .s-industries__tabs--active {
-    inset: 4px;
+/* Keep the menu beside the content on tablets, stacking copy and preview
+   inside the right-hand card once all three columns would be too narrow. */
+@media (max-width: 1120px) {
+  .s-industries__layout {
+    grid-template-columns: 168px minmax(0, 1fr);
+    column-gap: 20px;
   }
   .s-industries__tab {
-    flex: 1 0 auto;
-    height: 40px;
-    padding: 0 16px;
-    font-size: 0.875rem;
-    scroll-snap-align: start;
+    padding-inline: 12px;
+    font-size: var(--fs-sm);
   }
-  .s-industries__tab .i {
-    font-size: 17px;
-  }
-}
-
-/* Single column below 980px: the demo on its stage first, right under the tabs, then the copy.
-   Panels stay stacked in one grid area, so the card keeps the height of the tallest one: switching
-   never moves the page below, and the outgoing panel crossfades as on desktop. Spare height lands
-   in the stage around the demo and under the list, at the bottom of the card. */
-@media (max-width: 980px) {
   .s-industries__panels {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto;
@@ -1050,26 +995,39 @@
   }
   .s-industries__stage {
     grid-column: 1;
-    grid-row: 1;
-    min-height: 0;
+    grid-row: 2;
+    min-height: 440px;
   }
   .s-industries__cell {
     grid-column: 1;
-    grid-row: 1;
-    padding: 40px 24px;
+    grid-row: 2;
+    padding: 32px 28px;
   }
   .s-industries__copy {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 1;
     justify-content: flex-start;
     gap: 20px;
-    padding: 28px 24px 24px;
+    padding: 24px;
   }
   .s-industries__copy h3 {
     max-width: none;
   }
+}
+
+/* Phones: the same vertical menu sits above the card, with no sideways scrolling. */
+@media (max-width: 640px) {
+  .s-industries__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .s-industries__tab {
+    min-height: 44px;
+    padding: 10px 16px;
+  }
   .s-industries__note {
-    padding-left: 0;
+    grid-column: 1;
+    padding-inline: 8px;
   }
 }
 
@@ -1124,7 +1082,9 @@
   .s-industries[data-armed]:not([data-seen]) .s-industries__panel[data-active] .ind-in {
     transform: none;
   }
-  .s-industries__tabs--active[data-ready] {
+  .s-industries__tab,
+  .s-industries__panel,
+  .s-industries .ind-in {
     transition: none;
   }
 }
@@ -1140,4 +1100,11 @@
     min-height: 20px;
     white-space: normal;
   }
+}
+
+/* Keyboard selection updates immediately so focus and the visible panel stay in sync. */
+.s-industries[data-keyboard] .s-industries__tab,
+.s-industries[data-keyboard] .s-industries__panel,
+.s-industries[data-keyboard] .ind-in {
+  transition: none;
 }
