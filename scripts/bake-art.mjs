@@ -94,8 +94,9 @@ for (const plate of plates) {
     const t0 = Date.now();
     const res = plate.kind === 'shadows' ? await page.evaluate(shadows, { plate, s, scale: SCALE }) : await page.evaluate(async ({ plate, s, scale }) => {
       const { bakeSky, COMPOSITIONS } = await import(`/js/art/sky.js?v=${Date.now()}`);
-      const comp = COMPOSITIONS[plate.comp];
-      if (!comp) throw new Error(`no composition "${plate.comp}"`);
+      if (!COMPOSITIONS[plate.comp]) throw new Error(`no composition "${plate.comp}"`);
+      // `override` changes composition fields for a test render (for example the brush size)
+      const comp = { ...COMPOSITIONS[plate.comp], ...(plate.override || {}) };
       const [cl, ct, cw, ch] = plate.crop || [0, 0, 1, 1];
       // the full frame at this scale, then the crop inside it (origin counts from the bottom-left)
       const fullW = Math.round((plate.width * s * scale) / cw);
@@ -152,9 +153,11 @@ async function writeLqip(plate, uri) {
   await writeFile(css, head + lines.join('\n') + '\n' + src.slice(b));
 }
 
-/* Cloud shadows: a horizontally tileable field of soft, cool shadows, flattened and smaller
-   toward the top (the far sea), white where there is no shadow so it can be multiplied.
-   The darkest value is capped so text under it keeps its contrast. Runs in the page. */
+/* Cloud shadows: a horizontally tileable field of soft, clear-blue shadows, flattened and smaller
+   toward the top (the far sea), white where there is no shadow so it can be multiplied. A few
+   large masses, each built from clustered puffs so the edges are irregular, with open sea between
+   them so the movement reads. The darkest value is capped (about 14% in red, 3% in blue) so text
+   under it keeps its contrast. Runs in the page. */
 function shadows({ plate, s, scale }) {
   const W = Math.round(plate.width * s * scale), H = Math.round(plate.height * s * scale);
   const c = document.createElement('canvas');
@@ -167,9 +170,9 @@ function shadows({ plate, s, scale }) {
   const blob = (x, y, rx, ry, a) => {
     for (const dx of [-W, 0, W]) {
       const g = ctx.createRadialGradient(x + dx, y, 0, x + dx, y, rx);
-      g.addColorStop(0, `rgba(196, 210, 236, ${a})`);
-      g.addColorStop(0.55, `rgba(206, 218, 240, ${a * 0.7})`);
-      g.addColorStop(1, 'rgba(220, 230, 246, 0)');
+      g.addColorStop(0, `rgba(200, 218, 246, ${a})`);
+      g.addColorStop(0.6, `rgba(208, 224, 248, ${a * 0.75})`);
+      g.addColorStop(1, 'rgba(222, 234, 252, 0)');
       ctx.save();
       ctx.translate(x + dx, y);
       ctx.scale(1, ry / rx);
@@ -182,22 +185,21 @@ function shadows({ plate, s, scale }) {
     }
   };
   ctx.globalCompositeOperation = 'multiply';
-  // a few large shadow masses, each built from clustered puffs so the edges are irregular
-  const masses = 7;
+  const masses = 4;
   for (let m = 0; m < masses; m++) {
-    const cx = (m + rnd() * 0.6) * (W / masses);
-    const cy = H * (0.25 + rnd() * 0.65);
+    const cx = (m + 0.15 + rnd() * 0.5) * (W / masses);
+    const cy = H * (0.3 + rnd() * 0.55);
     const depth = cy / H; // 0 far, 1 near
-    const size = (110 + rnd() * 120) * (0.45 + depth * 0.9) * (W / 1600);
-    const puffs = 6 + Math.floor(rnd() * 5);
+    const size = (150 + rnd() * 110) * (0.5 + depth * 0.85) * (W / 1600);
+    const puffs = 9 + Math.floor(rnd() * 5);
     for (let k = 0; k < puffs; k++) {
-      const px = cx + (rnd() - 0.5) * size * 2.2;
-      const py = cy + (rnd() - 0.5) * size * 0.5 * (0.5 + depth);
-      const r = size * (0.45 + rnd() * 0.55);
-      blob(px, py, r, r * (0.32 + depth * 0.3), 0.32 + rnd() * 0.18);
+      const px = cx + (rnd() - 0.5) * size * 2.0;
+      const py = cy + (rnd() - 0.5) * size * 0.45 * (0.5 + depth);
+      const r = size * (0.42 + rnd() * 0.5);
+      blob(px, py, r, r * (0.34 + depth * 0.3), 0.42 + rnd() * 0.2);
     }
   }
-  // soften everything once more, keeping the tile seamless by blurring a wrapped copy
+  // soften once more, keeping the tile seamless by blurring a wrapped copy
   const t = document.createElement('canvas');
   t.width = W * 3; t.height = H;
   const tc = t.getContext('2d');
@@ -207,14 +209,17 @@ function shadows({ plate, s, scale }) {
   const oc = out.getContext('2d');
   oc.fillStyle = '#fff';
   oc.fillRect(0, 0, W, H);
-  oc.filter = `blur(${Math.round(16 * (W / 1600))}px)`;
+  oc.filter = `blur(${Math.round(10 * (W / 1600))}px)`;
   oc.drawImage(t, -W, 0);
   oc.filter = 'none';
-  // cap the darkening
+  // cap the darkening with a soft knee, so the cores stay soft rather than flat
   const img = oc.getImageData(0, 0, W, H);
-  const floor = [0.86, 0.89, 0.95].map((v) => v * 255);
+  const cap = [0.14, 0.1, 0.03];
   for (let i = 0; i < img.data.length; i += 4) {
-    for (let ch = 0; ch < 3; ch++) img.data[i + ch] = Math.max(img.data[i + ch], floor[ch]);
+    const d = 1 - img.data[i + 1] / 255; // the green channel carries the shape
+    const k = Math.min(1, d / 0.13);
+    const e = 1 - Math.exp(-k * 1.8);
+    for (let ch = 0; ch < 3; ch++) img.data[i + ch] = Math.round(255 * (1 - cap[ch] * e / (1 - Math.exp(-1.8))));
   }
   oc.putImageData(img, 0, 0);
   return { w: W, h: H, ms: 0, webp: out.toDataURL('image/webp', plate.q ?? 0.8), png: out.toDataURL('image/png') };

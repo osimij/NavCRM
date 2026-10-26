@@ -74,7 +74,9 @@
   }
 }
 /* lqip:start (written by scripts/bake-art.mjs: a tiny blurred copy of each still) */
-/* hero-desktop */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRmACAABXRUJQVlA4WAoAAAAgAAAAGwAAHwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggcgAAANADAJ0BKhwAIAA+nT6ZSCWjIqEwCACwE4ljZddKc5R8bLtcyMHkAAD+8OYE+/SVQ/+rEI8bkM+4QbpYC2vqW2CpxiQUU5JMKxZst9CfIujJsfNAVO8Xn1W22O+k6RAy+xNM0yeYpHcK8WUSuS/Uh7AAAA=="); }
+/* hero-desktop */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRlYCAABXRUJQVlA4WAoAAAAgAAAAGwAAHwAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggaAAAALAEAJ0BKhwAIAA+nT6aSCWjIqEwCACwE4ljALEex0L8TX/7wA/bjgOUMStKFAAA/u/XisbiryCe8CLeRaoRULHcFiCdEbMKcLsQytoE/7VHv6H6jHf49AZyr3gYmoQaoh/e18IbKgAA"); }
+@media (max-width: 1099.98px) { /* hero-tablet */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRmwCAABXRUJQVlA4WAoAAAAgAAAAGwAALgAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggfgAAADAFAJ0BKhwALwA+jTyXSCUjoiE1SACgEYljAL/sLNqL1N3IOY0TFOQQYlTijFg4V3ngAP7tV8fZeAvdnsRDytxiw3WVhNJJ6npcZLWfhvgzTahZH73QGuC+9+Dq9M1dh3I/8gz2M37bLu6mUOBwZKBhkulyQaMc90hx19gAAA=="); } }
+@media (max-width: 759.98px) { /* hero-phone */ .s-hero__sky { background-image: url("data:image/webp;base64,UklGRtgCAABXRUJQVlA4WAoAAAAgAAAAGwAAagAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDgg6gAAAPAGAJ0BKhwAawA+nUicSiWkoqGpOAswsBOJZWoUWKIOXrOaDnlZf//pBhTSJozMSTW82lIPBH16fLZ3RwbNRmgA/vA0TPqnu6WELS1dDRfLrDpN/IcVAusQGZ79AHxjATKXQX68zCcabNjrtF14Yg1NoDBtPNVXGjfkZRfobqZ+98wMxxyvFzwZ2T3gQ5EC5cZi1//ppL0+rTzjP40ALT/0GXjuYScoL/BVxMt2H8rNyXGQVajUixy9ATnB3duIlOMnyEWboAkOT3pxRf6DBSo/n5TpgrWyG+hhJBuKPJNEbjuAJkqFodQAAA=="); } }
 /* lqip:end */
 /* the live render covers only the part of the box inside the frame (placed by hero.js) */
 .s-hero__live {
@@ -582,10 +584,10 @@
   box-shadow: 0 2px 6px -2px rgba(42, 91, 255, 0.6);
 }
 
-/* ---------- notification: half over the window, half over the sky ---------- */
+/* ---------- notification: half over the window (over Zarina's free hour), half over the sky ---------- */
 .s-hero__note {
   left: 915px;
-  top: 188px;
+  top: 244px;
   z-index: 4;
   width: 336px;
   display: flex;
@@ -831,14 +833,14 @@
 .s-hero__dash-row b {
   font-weight: 620;
 }
-.s-hero__next {
+.s-hero__upnext {
   margin-top: 12px;
   padding: 0 2px;
 }
-.s-hero__next .ui-label {
+.s-hero__upnext .ui-label {
   margin-bottom: 6px;
 }
-.s-hero__next-row {
+.s-hero__upnext-row {
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -847,15 +849,15 @@
   line-height: 1.25;
   box-shadow: 0 -1px 0 var(--line);
 }
-.s-hero__next-row b {
+.s-hero__upnext-row b {
   flex: none;
   width: 34px;
   font-weight: 620;
 }
-.s-hero__next-row span {
+.s-hero__upnext-row span {
   font-weight: 560;
 }
-.s-hero__next-row small {
+.s-hero__upnext-row small {
   display: block;
   margin-top: 1px;
   font-size: 11px;
@@ -1158,23 +1160,26 @@
    starts well above the fold. */
 @media (min-width: 760px) and (max-height: 820px) {
   .s-hero__frame {
-    padding-top: calc(var(--nav-h) + 18px);
+    padding-top: calc(var(--nav-h) + 10px);
   }
   .s-hero__title {
-    font-size: clamp(2.5rem, 1rem + 3.3vw, 4rem);
+    font-size: clamp(2.5rem, 1rem + 3vw, 3.75rem);
   }
   .s-hero__lead {
-    margin-top: 12px;
-    font-size: 1.125rem;
+    margin-top: 10px;
+    font-size: 1.0625rem;
   }
   .s-hero__actions {
-    margin-top: 20px;
+    margin-top: 16px;
+  }
+  .s-hero__actions .btn {
+    --btn-h: 48px;
   }
   .s-hero__facts {
-    margin-top: 14px;
+    margin-top: 12px;
   }
   .s-hero__stage {
-    margin-top: 30px;
+    margin-top: 24px;
   }
 }
 
@@ -1188,7 +1193,7 @@
   }
   .s-hero__win {
     left: 120px;
-    width: 640px;
+    width: 600px;
   }
   .s-hero__staff,
   .s-hero__sched {
@@ -1209,15 +1214,16 @@
   .s-hero__phone .ui-phone__screen {
     border-radius: 28px;
   }
-  .s-hero__next {
+  .s-hero__upnext {
     display: none;
   }
   .s-hero__tg {
     display: none;
   }
+  /* in the empty afternoon of Farrukh's column, clear of every booking and status */
   .s-hero__note {
-    left: 626px;
-    top: 118px;
+    left: 620px;
+    top: 300px;
     width: 300px;
   }
   .s-hero__comp::before {
@@ -1239,7 +1245,7 @@
   }
   .s-hero__title {
     font-size: clamp(2.375rem, 1.2rem + 5vw, 2.875rem);
-    max-width: 12ch;
+    max-width: 13ch;
     line-height: 1.02;
     text-wrap: balance;
   }
@@ -1291,7 +1297,7 @@
   .s-hero__phone .ui-phone__screen {
     border-radius: 35px;
   }
-  .s-hero__next {
+  .s-hero__upnext {
     display: block;
   }
   .s-hero__tg {

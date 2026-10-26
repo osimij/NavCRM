@@ -61,6 +61,7 @@ uniform vec3 uSun;
 uniform vec3 uSeaSun;
 uniform vec4 uGlow;           // sun glow centre (world), glow amount, horizon band amount
 uniform vec4 uMood;           // x: stars, y: cloud haze lift, z: land haze, w: sea brightness
+uniform float uTex;           // strength of the paint's body in the clouds
 uniform float uTerm;          // how far the cloud terminator follows the single masses (1) or the whole form (0)
 uniform vec3 uPal[${PAL.length}];
 ${palDefines}
@@ -282,6 +283,10 @@ vec3 shadeCloud(vec3 p, vec2 w){
   col = mix(col, P_clRim, sil * (1.0 - lit) * 0.55);
   col *= mix(vec3(0.92, 0.94, 0.98), vec3(1.0), mix(ao, 1.0, lit * 0.8 + 0.2));
   gEdge = sil * sil * (1.0 - lit);
+  // a little body in the paint: soft value variation across each plane, which the brush pass
+  // turns into strokes that follow the form (never strong enough to make islands)
+  float tex = (dome(p * 0.42 + vec3(0.13, 0.71, 0.37)) - 0.62) * 0.7 + (dome(p * 1.1 + vec3(0.51, 0.23, 0.9)) - 0.62) * 0.3;
+  col *= 1.0 + tex * mix(0.1, 0.07, top) * uTex;
   vec3 c = toLin(col);
   float low = 1.0 - smoothstep(-0.6, 3.2, p.y);
   c = mix(c, skyCol(w), clamp(gAttr.x + low * 0.14 + uMood.y, 0.0, 0.92));
@@ -320,8 +325,8 @@ vec4 cloudLayer(vec2 fc, vec2 w, float pix){
   if (!hit && minD > 0.16) return vec4(0.0);
   vec3 c = shadeCloud(hit ? p : pMin, w);
   // found edges where the light is, lost edges in shadow and in the lower body
-  float lowB = 1.0 - smoothstep(gAttr.y + 0.6, gAttr.w - 0.4, pMin.y);
-  float soft = mix(pix * 1.1, pix * 2.6 + 0.035, 1.0 - gLit) + lowB * (0.16 + pix * 3.0);
+  float lowB = 1.0 - smoothstep(gAttr.y + 0.4, gAttr.y + 1.8, pMin.y);
+  float soft = mix(pix * 1.1, pix * 2.4 + 0.025, 1.0 - gLit) + lowB * (0.09 + pix * 2.0);
   float cov = hit ? 1.0 : 1.0 - smoothstep(0.0, soft, minD);
   c = mix(c, skyCol(w), gEdge * 0.28);
   cov *= smoothstep(-0.05, 0.6, w.y);
@@ -339,7 +344,8 @@ float peakField(vec2 q){
     float r2 = dot(d, d);
     if (r2 > 6.0) continue;
     float r = sqrt(r2);
-    float th = atan(d.y, d.x) + (tn(q * 0.09 + float(i) * 3.71) * 0.5) * pb.w;
+    // the aretes and gullies wander as they fall, so no line runs ruler-straight down a face
+    float th = atan(d.y, d.x) + (tn(q * 0.09 + float(i) * 3.71) * 0.5 + tn(q * 0.31 + float(i) * 1.37) * 0.22 * r) * pb.w;
     float g = abs(sin(0.5 * pb.x * (th - pb.y)));
     float lin = r * (0.72 + pb.z * g);
     // the foot drops away steeply, so each range rises straight out of the cloud sea
@@ -404,9 +410,10 @@ vec3 landShade(vec3 p, float t, vec2 w){
 
   // aerial perspective, and the sunlit haze of the sea swallowing the foot of the range
   float hzA = 0.12 + (1.0 - exp(-t * 0.0048));
-  float low = 1.0 - smoothstep(uSea.x, uSea.x + 6.5, h0);
+  float low = 1.0 - smoothstep(uSea.x, uSea.x + 9.5, h0);
   hzA = clamp(hzA + low * low * 0.95 + uMood.z, 0.0, 1.0);
-  vec3 hazeC = mix(skyCol(vec2(w.x, max(w.y, 0.0) * 0.6)), toLin(P_haze), 0.6 * low + 0.15);
+  // the air in front of the range is the sky's own colour, cool and light, warming only at the foot
+  vec3 hazeC = mix(skyCol(vec2(w.x, max(w.y, 0.0) * 0.75)), toLin(P_haze), 0.45 * low * low + 0.08);
   return mix(col, hazeC, hzA);
 }
 
@@ -600,6 +607,7 @@ uniform vec2 uOrigin;   // this canvas inside the composition, in pixels from th
 uniform vec2 uFull;
 uniform vec3 uFrame;    // aspect, horizon, span
 uniform float uStars;
+uniform float uGrain;   // strength of the brush grain laid along the strokes
 out vec4 o;
 
 float hash12(vec2 p){
@@ -607,6 +615,13 @@ float hash12(vec2 p){
   v = v * 1664525u + 1013904223u; v.x += v.y * 1664525u; v.y += v.x * 1664525u;
   v ^= v >> 16u; v.x += v.y * 1664525u;
   return float(v.x & 65535u) / 65535.0;
+}
+
+float vnoise(vec2 q){
+  vec2 i = floor(q), f = fract(q);
+  f = f * f * (3.0 - 2.0 * f);
+  float a = hash12(i), b = hash12(i + vec2(1.0, 0.0)), c = hash12(i + vec2(0.0, 1.0)), d = hash12(i + vec2(1.0, 1.0));
+  return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
 }
 
 void main(){
@@ -675,6 +690,17 @@ void main(){
   }
   vec3 painted = acc.w > 0.0 ? acc.rgb / acc.w : src.rgb;
   vec3 col = mix(src.rgb, painted, uMix);
+  // brush grain: fine noise smeared along the stroke direction, sized in composition units so
+  // every resolution gets the same strokes; only on painted forms, strongest where they are flat
+  if (uGrain > 0.0 && src.a > 0.0) {
+    float cell = uFull.y * 0.0012;
+    vec2 fp = gl_FragCoord.xy + uOrigin;
+    vec2 dir = t * cell * 1.3;
+    float g = 0.0;
+    for (int k = -5; k <= 5; k++) g += vnoise((fp + dir * float(k)) / cell);
+    g = g / 11.0 - 0.5;
+    col *= 1.0 + g * uGrain * src.a * (0.6 + 0.4 * A);
+  }
   // stars, after the paint so the brush cannot wipe them out; only in open sky
   if (uStars > 0.0) {
     vec2 fp = gl_FragCoord.xy + uOrigin;
@@ -779,7 +805,7 @@ export const LIGHTS = {
       clLit: [0.98, 0.962, 0.935], clLit2: [1.0, 0.99, 0.968], clHalf: [0.93, 0.893, 0.855],
       clShUp: [0.78, 0.85, 0.95], clShDn: [0.66, 0.74, 0.87], clRefl: [0.86, 0.85, 0.835], clRim: [0.86, 0.91, 0.98],
       seaLit: [0.975, 0.952, 0.92], seaLit2: [1.0, 0.988, 0.965], seaShLo: [0.64, 0.74, 0.88], seaShHi: [0.78, 0.85, 0.95],
-      rockLit: [0.84, 0.82, 0.8], rockSh: [0.56, 0.66, 0.83],
+      rockLit: [0.8, 0.81, 0.84], rockSh: [0.62, 0.7, 0.85],
       snowLit: [1.0, 0.965, 0.915], snowSh: [0.66, 0.75, 0.91], snowShUp: [0.78, 0.85, 0.97],
       haze: [0.985, 0.97, 0.94], bg: [246 / 255, 248 / 255, 251 / 255], halo: [0.985, 0.97, 0.94],
     },
@@ -875,9 +901,9 @@ export const tower = (x, k = 1) => ({
 // The Hisor range as it is seen from Dushanbe: a long wall with a double summit, stepping
 // down toward the valley on the right.
 const MASSIF = [
-  [-0.5, 1.72, 62, 1.75, 3, 0.9, 0.25, 1], [0.6, 1.56, 63, 1.6, 3, 1.9, 0.25, 1],
-  [-1.95, 1.22, 64, 1.9, 3, 2.4, 0.3, 1], [-3.4, 1.05, 66, 2.0, 3, 0.3, 0.3, 1],
-  [1.9, 0.86, 66, 1.6, 3, 1.1, 0.3, 1], [3.05, 0.45, 70, 1.5, 3, 2.7, 0.3, 1],
+  [-0.5, 1.4, 62, 1.6, 3, 0.9, 0.22, 1.4], [0.6, 1.27, 63, 1.5, 3, 1.9, 0.22, 1.4],
+  [-1.95, 1.0, 64, 1.8, 3, 2.4, 0.26, 1.4], [-3.4, 0.86, 66, 1.9, 3, 0.3, 0.26, 1.4],
+  [1.9, 0.7, 66, 1.5, 3, 1.1, 0.26, 1.4], [3.05, 0.37, 70, 1.4, 3, 2.7, 0.26, 1.4],
 ];
 /** The massif with its main summit at x, scaled by k. */
 export const massif = (x, k = 1) => MASSIF.map(([sx, sh, d, sr, ...rest]) => [x + sx * k, sh * k, d, sr * k, ...rest]);
@@ -907,12 +933,14 @@ const tablet = {
   fade: -8.9,
   sea: [-2.2, 1.5, 0.12],
   paint: 0.0032,
-  clouds: [farCloud(-5.9, 0.85, 0.3), tower(4.05, 0.86)],
-  peaks: massif(-4.3, 0.9),
+  term: 0.5,
+  clouds: [tower(3.45, 0.8)],
+  peaks: massif(-4.0, 0.95),
 };
 
-// Phones: a tall frame. The tower stands on the right behind the end of the copy, its lit side
-// toward the text, and one peak breaks the horizon on the left, so both read in the first screen.
+// Phones: a tall frame and its own framing. The tower rises on the right from the horizon to
+// just under the buttons, its lit side toward the copy, crown whole; the double summit stands
+// whole on the left.
 const phone = {
   ...frame(6.8, 12.0, -14.0),
   light: 'morning',
@@ -920,8 +948,11 @@ const phone = {
   fade: -12.6,
   sea: [-2.2, 1.5, 0.12],
   paint: 0.0026,
-  clouds: [farCloud(-3.7, 0.55, 0.32), tower(2.45, 0.57)],
-  peaks: massif(-2.25, 0.62),
+  term: 0.5,
+  glowAt: [-5.2, 9.5],
+  landHaze: -0.14,
+  clouds: [tower(1.2, 1.22)],
+  peaks: massif(-2.2, 0.95),
 };
 
 export const COMPOSITIONS = { desktop, tablet, phone };
@@ -1159,9 +1190,13 @@ export function bakeSky(canvas, comp, opts = {}) {
   gl.uniform3f(u('uSea'), ...comp.sea);
   gl.uniform3f(u('uSun'), ...pk.sun);
   gl.uniform3f(u('uSeaSun'), ...norm3(light.seaSun || light.sun));
-  gl.uniform4f(u('uGlow'), ...light.glow);
-  gl.uniform4f(u('uMood'), ...(light.mood || [0, 0, 0, 0]));
+  // a narrow frame may pull the glow's centre in so the light from the upper left still reads
+  gl.uniform4f(u('uGlow'), ...(comp.glowAt ? [...comp.glowAt, light.glow[2], light.glow[3]] : light.glow));
+  const mood = (light.mood || [0, 0, 0, 0]).slice();
+  mood[2] += comp.landHaze ?? 0; // a framing may thin the air in front of the range
+  gl.uniform4f(u('uMood'), ...mood);
   gl.uniform1f(u('uTerm'), comp.term ?? 0.5);
+  gl.uniform1f(u('uTex'), comp.tex ?? 1);
   gl.uniform3fv(u('uPal'), new Float32Array(PAL.flatMap((k) => light.pal[k] || [1, 0, 1])));
 
   // passes, each drawn in horizontal strips from the top down
@@ -1178,6 +1213,7 @@ export function bakeSky(canvas, comp, opts = {}) {
         gl.uniform1f(q.u('uHard'), comp.hard ?? 8); gl.uniform1f(q.u('uMix'), comp.paintMix ?? 1);
         gl.uniform2f(q.u('uOrigin'), origin[0], origin[1]); gl.uniform2f(q.u('uFull'), fullW, fullH);
         gl.uniform3f(q.u('uFrame'), comp.aspect, comp.hz, comp.span); gl.uniform1f(q.u('uStars'), (light.mood || [0])[0]);
+        gl.uniform1f(q.u('uGrain'), comp.grain ?? 0.05);
       },
     },
   ];
