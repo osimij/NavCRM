@@ -8,33 +8,73 @@
     <meta name="theme-color" content="#f6f8fb" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="assets/fonts/als-hauss-next-vf.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="css/base.css?v=1.5-aside-header" />
-    <link rel="stylesheet" href="css/ui.css?v=1.5-phone-2" />
-    <link rel="stylesheet" href="css/art.css" />
-    <link rel="stylesheet" href="css/sections/nav.css?v=1.5-nav-sides-20" />
-    <link rel="stylesheet" href="css/sections/hero.css?v=1.5-hero-corners" />
-    <link rel="stylesheet" href="css/sections/how.css" />
-    <link rel="stylesheet" href="css/sections/owner.css?v=1.5-owner-spacing" />
-    <link rel="stylesheet" href="css/sections/industries.css?v=1.5-vertical-industries-2" />
-    <link rel="stylesheet" href="css/sections/local.css?v=1.5-phone-2" />
-    <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-compact-3" />
-    <link rel="stylesheet" href="css/sections/setup.css" />
-    <link rel="stylesheet" href="css/sections/assistants.css" />
-    <link rel="stylesheet" href="css/sections/faq.css" />
-    <link rel="stylesheet" href="css/sections/start.css" />
-    <link rel="stylesheet" href="css/sections/footer.css" />
-    <script type="module" src="js/main.js?v=1.5-vertical-industries-2"></script>
+    <link rel="stylesheet" href="css/base.css?v=1.5-btn-soft" />
+    <link rel="stylesheet" href="css/ui.css?v=1.5-imessage" />
+    <link rel="stylesheet" href="css/art.css?v=1.5-offline-art-4" />
+    <link rel="stylesheet" href="css/fx/glow.css?v=1.5-glow-shape-3" />
+    <link rel="stylesheet" href="css/sections/nav.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/hero.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/problems.css?v=1.5-imessage" />
+    <!-- ARCHIVED 2026-10-27: How it works section stylesheet. Restore with the section (see <main>). -->
+    <!-- <link rel="stylesheet" href="css/sections/how.css?v=1.5-tones" /> -->
+    <link rel="stylesheet" href="css/sections/owner.css?v=1.5-plain" />
+    <link rel="stylesheet" href="css/sections/industries.css?v=1.5-cta-below" />
+    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-layouts" />
+    <link rel="stylesheet" href="css/sections/local.css?v=1.5-imessage" />
+    <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/setup.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/ai.css?v=1.5-ai-bare-2" />
+    <!-- ARCHIVED 2026-10-27: Assistants section stylesheet. Restore with the section (see <main>). -->
+    <!-- <link rel="stylesheet" href="css/sections/assistants.css?v=1.5-tones" /> -->
+    <link rel="stylesheet" href="css/sections/faq.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/start.css?v=1.5-offline-art-4" />
+    <link rel="stylesheet" href="css/sections/footer.css?v=1.5-tones" />
+    <script type="module" src="js/main.js?v=1.5-four-cards"></script>
   </head>
   <body>
     <main id="top">
       <!-- @partial hero -->
-      <!-- @partial how -->
+      <!-- @partial problems -->
+      <!--
+      ARCHIVED 2026-10-27: "How it works" section (id="how"), removed from the page at the owner's request.
+
+      Heading "От записи до следующего визита". Five tabbed steps on the left (night-time
+      online booking, Telegram reminder, auto-filled receipt, stock and payroll updates,
+      returning clients) drove one stage on the right that followed a single booking at
+      Gulnor Beauty. Steps auto-advanced every 7s while the section was on screen.
+      The problems bento (src/partials/problems.html), placed right after the hero, now
+      covers this ground, and the "Как это работает" links point to #problems.
+
+      Nothing was deleted: markup in src/partials/how.html, styles in
+      landing/css/sections/how.css, behaviour in landing/js/sections/how.js (main.js loads
+      it only when a data-section="how" element is on the page).
+
+      To restore: put back the "@ partial how" marker (without the space) here, uncomment
+      the how.css link in <head>, optionally point the "Как это работает" links back to
+      #how, then run npm run build.
+      -->
       <!-- @partial owner -->
       <!-- @partial industries -->
+      <!-- @partial industries-ring -->
       <!-- @partial local -->
       <!-- @partial pricing -->
       <!-- @partial setup -->
-      <!-- @partial assistants -->
+      <!-- @partial ai -->
+      <!--
+      ARCHIVED 2026-10-27: "Assistants" section (id="assistants"), removed from the page at the owner's request.
+
+      Heading "Ассистенты, которые понимают ваш язык" with a Beta chip. An Instagram Direct chat
+      on the left (a client writes in Tajik, the assistant books a manicure in Russian) and three
+      rows on the right: for clients, owners and staff.
+
+      Nothing was deleted: markup in src/partials/assistants.html, styles in
+      landing/css/sections/assistants.css, behaviour in landing/js/sections/assistants.js.
+      With it gone, FAQ, the closing section and the footer swapped tones (faq soft, start white,
+      footer soft) so neighbouring sections still alternate.
+
+      To restore: put back the "@ partial assistants" marker (without the space) here, uncomment
+      the assistants.css link in <head>, swap those three tones back, then run npm run build.
+      -->
       <!-- @partial faq -->
       <!-- @partial start -->
     </main>

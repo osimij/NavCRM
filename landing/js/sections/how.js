@@ -1,3 +1,6 @@
+// ARCHIVED 2026-10-27: the "How it works" section is no longer on the page.
+// It is kept for reference and restore. See the ARCHIVED note in src/index.template.html.
+
 // How it works: five steps that follow one booking. Steps auto-advance every 7s while the
 // section is on screen; hover, keyboard focus or a touch pauses the timer; picking a step stops
 // auto-advance for good.

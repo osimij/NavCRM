@@ -1,464 +1,67 @@
-<section class="s-industries section" data-section="industries" id="industries">
+<section class="s-industries section tone-soft" data-section="industries" id="industries">
   <div class="container">
     <div class="section-head">
-      <h2 class="reveal">Подстроится под ваш бизнес</h2>
-      <p class="lead reveal" style="--delay: 60ms">Клинике нужны истории пациентов, автосервису нужны заказ-наряды, студии нужны абонементы. Выберите свой профиль, и NavCRM предложит нужные карточки и расписания. Для нескольких направлений можно объединить профили.</p>
+      <h2 class="reveal">Подходит для <span class="text-accent">любого бизнеса</span></h2>
+      <p class="lead reveal" style="--delay: 60ms">Не нашли свою сферу? NavCRM всё равно подойдёт, если вы работаете с клиентами и записями.</p>
     </div>
+  </div>
 
-    <div class="s-industries__layout">
-    <div class="s-industries__switch reveal" style="--delay: 120ms">
-      <div class="s-industries__scroller">
-        <div class="s-industries__track">
-          <div class="s-industries__tabs" role="tablist" aria-label="Отраслевые профили" aria-orientation="vertical">
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-beauty" aria-controls="industries-panel-beauty" aria-selected="true"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#scissor" /></svg><span>Красота</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-clinics" aria-controls="industries-panel-clinics" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#tooth" /></svg><span>Клиники</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-car" aria-controls="industries-panel-car" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#car" /></svg><span>Автосервис</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-fitness" aria-controls="industries-panel-fitness" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dumbbell" /></svg><span>Фитнес</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-education" aria-controls="industries-panel-education" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#school" /></svg><span>Обучение</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-repair" aria-controls="industries-panel-repair" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wrench" /></svg><span>Ремонт</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-cleaning" aria-controls="industries-panel-cleaning" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#cleaning" /></svg><span>Клининг</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-weddings" aria-controls="industries-panel-weddings" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dress" /></svg><span>Свадьбы</span></button>
-          </div>
-        </div>
+  <div class="s-industries__band reveal" style="--delay: 120ms">
+    <div class="container s-industries__wide">
+    <div class="s-industries__ticker" aria-label="Кому подходит NavCRM" role="group">
+      <div class="s-industries__row" style="--speed: 60s">
+        <ul class="s-industries__group">
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 96px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#hair-dryer" /></svg>Салоны красоты</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#scissor" /></svg>Барбершопы</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#tooth" /></svg>Стоматологии</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 120px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#stethoscope" /></svg>Медицинские центры</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#car" /></svg>Автосервисы</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dumbbell" /></svg>Фитнес-клубы</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 96px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#yoga" /></svg>Йога-студии</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#leaf" /></svg>Массаж и СПА</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#glasses" /></svg>Оптики</li>
+        </ul>
       </div>
-    </div>
-
-    <div class="s-industries__panels card reveal" style="--delay: 160ms">
-      <div class="stage s-industries__stage" aria-hidden="true"><div class="stage__art" aria-hidden="true"></div></div>
-
-      <!-- 1. Beauty -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-beauty" aria-labelledby="industries-tab-beauty" tabindex="0" data-active>
-        <div class="s-industries__copy">
-          <h3>Салоны и барбершопы</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Запись к специалистам с индивидуальными ценами</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Запись на кресла и кабинеты</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Фото до и после в карточке клиента</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Списание материалов по каждой услуге</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Расчёт процентов для каждого специалиста</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Карточка Дильнозы Каримовой с фотографиями до и после окрашивания, последним визитом к Малике 14 сентября и формулой краски.">
-            <div class="ind-comp ind-comp--float-r" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-avatar ui-avatar--lg" data-tint="sky">ДК</span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Дильноза Каримова</p>
-                    <p class="ui-sub">Карточка клиента</p>
-                  </div>
-                  <span class="ind-icon-btn"><svg class="i"><use href="assets/icons.svg#camera" /></svg></span>
-                </div>
-                <div class="ind-photos ind-in" style="--i: 1">
-                  <figure class="ind-photo">
-                    <img class="ind-photo__image" src="assets/photos/salon-before-after.webp" width="1536" height="1024" alt="Волосы до окрашивания: натуральный каштановый цвет" loading="lazy" decoding="async" />
-                    <figcaption class="ind-photo__tag">До</figcaption>
-                  </figure>
-                  <figure class="ind-photo">
-                    <img class="ind-photo__image ind-photo__image--after" src="assets/photos/salon-before-after.webp" width="1536" height="1024" alt="Волосы после окрашивания: пепельно-бежевый балаяж и укладка" loading="lazy" decoding="async" />
-                    <figcaption class="ind-photo__tag">После</figcaption>
-                  </figure>
-                </div>
-                <div class="ind-field ind-in" style="--i: 2">
-                  <p class="ui-label">Последний визит</p>
-                  <div class="ui-row ind-field__value"><span class="ui-avatar" data-person="malika">М</span><span>Окрашивание у Малики, 14 сентября</span></div>
-                </div>
-              </div>
-              <div class="ui-card ui-card--glass ind-float ind-in" style="--i: 3">
-                <span class="ind-swatch"></span>
-                <div>
-                  <p class="ui-label">Формула</p>
-                  <p class="ind-strong">7.1, оксид 6%, 35 мин</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="s-industries__row" style="--speed: 68s" data-dir="reverse">
+        <ul class="s-industries__group">
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#school" /></svg>Учебные центры</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 72px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#language" /></svg>Языковые школы</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#guitar" /></svg>Музыкальные школы</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#baby" /></svg>Детские центры</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 88px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#cleaning" /></svg>Клининг</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wrench" /></svg>Ремонт техники</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#washing-machine" /></svg>Химчистки</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 72px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#hanger" /></svg>Ателье</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#paint-brush" /></svg>Тату-студии</li>
+        </ul>
       </div>
-
-      <!-- 2. Clinics -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-clinics" aria-labelledby="industries-tab-clinics" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Стоматологии, клиники и лаборатории</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>История пациента и аллергии всегда под рукой</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Планы лечения с этапами и стоимостью</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Зубная формула</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Кабинеты и оборудование в расписании</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Формы согласий</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Направления на анализы и защищённые ссылки на результаты</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Карточка пациента Рустама К. с предупреждением об аллергии на пенициллин, зубной формулой с отметками о лечении и планом из трёх этапов: чистка завершена, пломба на зуб 36 запланирована на 4 ноября, затем коронка на зуб 46.">
-            <div class="ind-comp" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-avatar ui-avatar--lg" data-tint="olive">РК</span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Рустам К.</p>
-                    <p class="ui-sub">Карточка пациента</p>
-                  </div>
-                </div>
-                <p class="ind-alert ind-in" style="--i: 1"><svg class="i"><use href="assets/icons.svg#alert" /></svg>Аллергия: пенициллин</p>
-                <div class="ind-block ind-in" style="--i: 2">
-                  <div class="ui-row ui-row--between">
-                    <p class="ui-label">Зубная формула</p>
-                    <p class="ind-legend"><span><i class="ind-key ind-key--treated"></i>Вылечено</span><span><i class="ind-key ind-key--planned"></i>Запланировано</span></p>
-                  </div>
-                  <div class="ind-teeth">
-                    <div class="ind-jaw ind-jaw--upper">
-                      <span class="ind-tooth" data-t="m"></span><span class="ind-tooth is-treated" data-t="m"></span><span class="ind-tooth is-treated" data-t="m"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="c"></span><span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="i"></span>
-                      <span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="c"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth is-treated" data-t="m"></span><span class="ind-tooth" data-t="m"></span><span class="ind-tooth" data-t="m"></span>
-                    </div>
-                    <div class="ind-nums">
-                      <span data-t="m">8</span><span data-t="m">7</span><span data-t="m">6</span><span data-t="p">5</span><span data-t="p">4</span><span data-t="c">3</span><span data-t="i">2</span><span data-t="i">1</span>
-                      <span data-t="i">1</span><span data-t="i">2</span><span data-t="c">3</span><span data-t="p">4</span><span data-t="p">5</span><span data-t="m">6</span><span data-t="m">7</span><span data-t="m">8</span>
-                    </div>
-                    <div class="ind-jaw ind-jaw--lower">
-                      <span class="ind-tooth" data-t="m"></span><span class="ind-tooth" data-t="m"></span><span class="ind-tooth is-planned" data-t="m"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="c"></span><span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="i"></span>
-                      <span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="c"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth is-planned" data-t="m"></span><span class="ind-tooth is-treated" data-t="m"></span><span class="ind-tooth" data-t="m"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="ind-block ind-in" style="--i: 3">
-                  <p class="ui-label">План лечения</p>
-                  <ol class="ind-plan">
-                    <li><span class="ind-step">1</span><span class="ind-grow">Чистка</span><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#check" /></svg>Готово</span></li>
-                    <li><span class="ind-step">2</span><span class="ind-grow">Пломба, зуб 36</span><span class="ind-meta"><svg class="i"><use href="assets/icons.svg#calendar" /></svg>4 ноября</span></li>
-                    <li><span class="ind-step">3</span><span class="ind-grow">Коронка, зуб 46</span><span class="ind-meta">Запланировано</span></li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. Car service -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-car" aria-labelledby="industries-tab-car" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Автосервисы, шиномонтаж и детейлинг</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Карточки автомобилей по госномеру и VIN</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>История пробега</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Заказ-наряды с работами и запчастями</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Посты и подъёмники в расписании</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Напоминания о ТО по дате или пробегу</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Заказ-наряд на Toyota Camry 2018 года, номер 4521 AB 01, пост 2, пробег 86 400 км: работа по замене масла: 80 сомони, масло 5W-30 объёмом 4 л: 360 сомони, фильтр: 65 сомони. Следующее ТО на 96 400 км.">
-            <div class="ind-comp ind-comp--float-l" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#car" /></svg></span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Toyota Camry 2018</p>
-                    <span class="ind-plate"><span class="ind-plate__flag"></span><span>4521 AB</span><span class="ind-plate__region">01</span></span>
-                  </div>
-                  <span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#map-pin" /></svg>Пост 2</span>
-                </div>
-                <div class="ind-kv ind-in" style="--i: 1">
-                  <span class="ui-sub">Пробег</span>
-                  <span class="ind-strong">86 400 км</span>
-                </div>
-                <div class="ind-block ind-in" style="--i: 2">
-                  <p class="ui-label">Заказ-наряд</p>
-                  <div class="ind-lines">
-                    <p class="ind-line"><svg class="i"><use href="assets/icons.svg#wrench" /></svg><span class="ind-grow">Замена масла, работа</span><span class="ui-amount ind-amt">80 сомони</span></p>
-                    <p class="ind-line"><svg class="i"><use href="assets/icons.svg#package" /></svg><span class="ind-grow">Масло 5W-30, 4 л</span><span class="ui-amount ind-amt">360 сомони</span></p>
-                    <p class="ind-line"><svg class="i"><use href="assets/icons.svg#package" /></svg><span class="ind-grow">Масляный фильтр</span><span class="ui-amount ind-amt">65 сомони</span></p>
-                    <p class="ind-line ind-line--total"><span class="ind-grow">Итого</span><span class="ui-amount ind-amt">505 сомони</span></p>
-                  </div>
-                </div>
-              </div>
-              <div class="ui-card ui-card--glass ind-float ind-in" style="--i: 3">
-                <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#bell" /></svg></span>
-                <p class="ind-strong">Следующее ТО на 96 400 км</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. Fitness -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-fitness" aria-labelledby="industries-tab-fitness" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Фитнес, йога, танцы и бассейны</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Абонементы с учётом посещений</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Заморозка абонемента</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Групповые занятия с ограничением мест</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Листы ожидания для освободившихся мест</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Расписания тренеров и залов</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Отметка о посещении по QR-коду</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Абонемент на 12 занятий йогой: осталось 7, действует до 30 ноября, заморозка на 5 дней. Хатха-йога в 19:00 в зале 2: занято 14 из 16 мест, 2 человека в листе ожидания. QR-код для отметки о посещении.">
-            <div class="ind-comp ind-comp--float-r" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#yoga" /></svg></span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Йога, 12 занятий</p>
-                    <p class="ui-sub">Действует до 30 ноября</p>
-                  </div>
-                  <span class="ui-status ind-status--frozen"><svg class="i"><use href="assets/icons.svg#snow" /></svg>Заморожен на 5 дней</span>
-                </div>
-                <div class="ind-pass ind-in" style="--i: 1">
-                  <div class="ind-dots"><i></i><i></i><i></i><i></i><i></i><i class="is-left"></i><i class="is-left"></i><i class="is-left"></i><i class="is-left"></i><i class="is-left"></i><i class="is-left"></i><i class="is-left"></i></div>
-                  <p class="ind-strong">Осталось 7</p>
-                </div>
-                <div class="ind-class ind-in" style="--i: 2">
-                  <div class="ui-row">
-                    <span class="ind-time">19:00</span>
-                    <div class="ind-grow">
-                      <p class="ui-title">Хатха-йога</p>
-                      <p class="ui-sub">Зал 2</p>
-                    </div>
-                    <p class="ind-strong">14 из 16 мест</p>
-                  </div>
-                  <div class="ui-meter"><span style="--v: 0.875"></span></div>
-                  <div class="ui-row ui-row--between">
-                    <span class="ind-faces"><span class="ui-avatar" data-tint="coral">Н</span><span class="ui-avatar" data-tint="olive">С</span><span class="ui-avatar" data-tint="sky">П</span><span class="ui-avatar" data-tint="sand">Д</span><span class="ui-avatar ind-faces__more">+10</span></span>
-                    <span class="ui-status ui-status--waiting"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg>2 в листе ожидания</span>
-                  </div>
-                </div>
-              </div>
-              <div class="ui-card ui-card--glass ind-float ind-in" style="--i: 3">
-                <span class="ind-qr"><svg viewBox="0 0 21 21" shape-rendering="crispEdges"><path fill="currentColor" d="M0 0h7v1h-7zM9 0h1v1h-1zM14 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM11 1h1v1h-1zM14 1h1v1h-1zM20 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM11 2h2v1h-2zM14 2h1v1h-1zM16 2h3v1h-3zM20 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h2v1h-2zM14 3h1v1h-1zM16 3h3v1h-3zM20 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h1v1h-1zM12 4h1v1h-1zM14 4h1v1h-1zM16 4h3v1h-3zM20 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM11 5h2v1h-2zM14 5h1v1h-1zM20 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h7v1h-7zM1 8h3v1h-3zM5 8h3v1h-3zM9 8h1v1h-1zM12 8h2v1h-2zM15 8h2v1h-2zM19 8h1v1h-1zM1 9h1v1h-1zM3 9h2v1h-2zM8 9h4v1h-4zM13 9h2v1h-2zM19 9h1v1h-1zM0 10h1v1h-1zM3 10h2v1h-2zM6 10h3v1h-3zM11 10h2v1h-2zM14 10h2v1h-2zM17 10h1v1h-1zM19 10h1v1h-1zM1 11h2v1h-2zM4 11h2v1h-2zM7 11h1v1h-1zM9 11h4v1h-4zM14 11h1v1h-1zM20 11h1v1h-1zM0 12h1v1h-1zM2 12h1v1h-1zM6 12h1v1h-1zM10 12h1v1h-1zM13 12h2v1h-2zM18 12h3v1h-3zM8 13h2v1h-2zM12 13h1v1h-1zM14 13h2v1h-2zM20 13h1v1h-1zM0 14h7v1h-7zM9 14h1v1h-1zM11 14h2v1h-2zM14 14h1v1h-1zM16 14h2v1h-2zM0 15h1v1h-1zM6 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM14 15h1v1h-1zM18 15h1v1h-1zM0 16h1v1h-1zM2 16h3v1h-3zM6 16h1v1h-1zM8 16h1v1h-1zM11 16h1v1h-1zM13 16h4v1h-4zM20 16h1v1h-1zM0 17h1v1h-1zM2 17h3v1h-3zM6 17h1v1h-1zM8 17h1v1h-1zM10 17h4v1h-4zM16 17h1v1h-1zM18 17h1v1h-1zM20 17h1v1h-1zM0 18h1v1h-1zM2 18h3v1h-3zM6 18h1v1h-1zM9 18h3v1h-3zM13 18h1v1h-1zM15 18h4v1h-4zM20 18h1v1h-1zM0 19h1v1h-1zM6 19h1v1h-1zM9 19h5v1h-5zM18 19h2v1h-2zM0 20h7v1h-7zM10 20h1v1h-1zM13 20h5v1h-5z" /></svg></span>
-                <div>
-                  <p class="ui-title">Вход по QR-коду</p>
-                  <p class="ui-sub">Мадина Х.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. Education -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-education" aria-labelledby="industries-tab-education" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Учебные центры и репетиторы</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Группы и регулярные занятия</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Посещаемость в одно нажатие</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Личные кабинеты родителей</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Оплата за месяц или за занятие</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Домашние задания и комментарии преподавателя</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Посещаемость группы английского B1 по понедельникам, средам и пятницам в 16:00 за пять занятий: Амир, Нилуфар, Сорбон и Мехрона. Сорбон пропустил сегодняшнее занятие, его родителю отправлено сообщение.">
-            <div class="ind-comp ind-comp--float-l" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#school" /></svg></span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Английский B1</p>
-                    <p class="ui-sub">Пн Ср Пт 16:00</p>
-                  </div>
-                </div>
-                <div class="ind-att ind-in" style="--i: 1">
-                  <span class="ind-att__today"></span>
-                  <span></span>
-                  <span class="ind-att__day">Пт<b>16</b></span>
-                  <span class="ind-att__day">Пн<b>19</b></span>
-                  <span class="ind-att__day">Ср<b>21</b></span>
-                  <span class="ind-att__day">Пт<b>23</b></span>
-                  <span class="ind-att__day is-today">Сегодня</span>
-
-                  <span class="ind-att__name"><span class="ui-avatar" data-tint="sky">А</span>Амир</span>
-                  <span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span>
-
-                  <span class="ind-att__name"><span class="ui-avatar" data-tint="coral">Н</span>Нилуфар</span>
-                  <span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span>
-
-                  <span class="ind-att__name"><span class="ui-avatar" data-tint="olive">С</span>Сорбон</span>
-                  <span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark ind-mark--no"><svg class="i"><use href="assets/icons.svg#cancel" /></svg></span>
-
-                  <span class="ind-att__name"><span class="ui-avatar" data-tint="sand">М</span>Мехрона</span>
-                  <span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark ind-mark--no"><svg class="i"><use href="assets/icons.svg#cancel" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span>
-                </div>
-              </div>
-              <div class="ui-card ui-card--glass ind-float ind-in" style="--i: 2">
-                <span class="ui-tile ui-tile--telegram"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
-                <p class="ind-msg">Родителю Сорбона отправлено сообщение о пропуске занятия.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6. Repair -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-repair" aria-labelledby="industries-tab-repair" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Ремонт техники и электроники</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Приём устройства с серийным номером или IMEI</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Фото состояния при приёме</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Этапы ремонта, доступные клиенту</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Запчасти для каждого ремонта</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Уведомление о готовности к выдаче</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Условия гарантии в чеке</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Заказ на ремонт Samsung Galaxy A54 со скрытым IMEI и фотографией разбитого экрана при приёме. Этапы: принято, диагностика, ожидание дисплея в сборе стоимостью 640 сомони, затем выдача. Гарантия 90 дней.">
-            <div class="ind-comp" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ind-thumb">
-                    <svg viewBox="0 0 44 44">
-                      <defs>
-                        <linearGradient id="ind-desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef1f5" /><stop offset="1" stop-color="#dfe4eb" /></linearGradient>
-                        <linearGradient id="ind-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3d475c" /><stop offset="1" stop-color="#1c2230" /></linearGradient>
-                      </defs>
-                      <rect width="44" height="44" fill="url(#ind-desk)" />
-                      <ellipse cx="22.5" cy="39.5" rx="10" ry="1.6" fill="#0b1220" fill-opacity=".12" />
-                      <rect x="13" y="5" width="18" height="34" rx="3.4" fill="#161b26" />
-                      <rect x="14.4" y="6.6" width="15.2" height="30.8" rx="2.4" fill="url(#ind-glass)" />
-                      <path d="M14.4 9 29.6 22v-6Z" fill="#fff" fill-opacity=".06" />
-                      <path d="m25 11.5-3.2 5.6 2.2 2.6-4.3 6.8-1 6.2M21.8 17.1l-4.6 1.6M24 19.7l4.3 2.5-1 4.6M19.7 26.5l-3.2.8" fill="none" stroke="#fff" stroke-opacity=".82" stroke-width=".55" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                  </span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Samsung Galaxy A54</p>
-                    <p class="ui-sub">IMEI 35 •••• 0921</p>
-                  </div>
-                </div>
-                <ol class="ind-stages ind-in" style="--i: 1">
-                  <li class="is-done"><span class="ind-node"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-grow">Принято</span><span class="ui-sub">24 октября</span></li>
-                  <li class="is-done"><span class="ind-node"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-grow">Диагностика</span><span class="ui-sub">26 октября</span></li>
-                  <li class="is-current">
-                    <span class="ind-node"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg></span>
-                    <div class="ind-grow">
-                      <p class="ind-strong">Ожидание детали</p>
-                      <p class="ind-part"><svg class="i"><use href="assets/icons.svg#package" /></svg><span class="ind-grow">Дисплей в сборе</span><span class="ui-amount ind-amt">640 сомони</span></p>
-                    </div>
-                  </li>
-                  <li><span class="ind-node"></span><span class="ind-grow ui-muted">Готово</span></li>
-                </ol>
-                <p class="ind-foot ind-in" style="--i: 2"><svg class="i"><use href="assets/icons.svg#shield" /></svg>Гарантия 90 дней</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 7. Cleaning -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-cleaning" aria-labelledby="industries-tab-cleaning" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Клининг и выездные услуги</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Адреса клиентов и зоны обслуживания</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Расписание бригад с учётом дороги</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Регулярные заказы</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Фото после выполнения работ</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Подпись клиента при сдаче работ</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="День бригады А: в 09:00 квартира в районе Сино, работа завершена, есть фото и подпись клиента; 25 минут в пути; в 12:00 офис на проспекте Исмоили Сомони; в 15:30 квартира в районе Фирдавси.">
-            <div class="ind-comp" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#cleaning" /></svg></span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Бригада А</p>
-                    <p class="ui-sub">Сегодня</p>
-                  </div>
-                </div>
-                <ol class="ind-route">
-                  <li class="is-done ind-in" style="--i: 1">
-                    <span class="ind-route__time">09:00</span>
-                    <span class="ind-node"><svg class="i"><use href="assets/icons.svg#check" /></svg></span>
-                    <div>
-                      <p class="ind-strong">Квартира, район Сино</p>
-                      <div class="ind-proof">
-                        <span class="ind-proof__photo">
-                          <img src="assets/illustrations/clean-room.webp" width="72" height="56" alt="Иллюстрация чистой светлой квартиры после уборки" loading="lazy" decoding="async" />
-                        </span>
-                        <span class="ind-proof__sign">
-                          <svg viewBox="0 0 100 30"><path d="M6 21C10 9 16 5 17 11c1 6-5 14-3 15 3 1 7-13 11-12 3 1 0 9 4 8 4-1 5-7 8-6s1 6 5 5 5-7 9-6-1 6 4 5c6-1 13-8 21-9M60 25c10-1 22-2 34-5" fill="none" stroke="#1d3b8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                          <span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#signature" /></svg>Подписано клиентом</span>
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="ind-route__drive ind-in" style="--i: 2"><span></span><span></span><p><svg class="i"><use href="assets/icons.svg#car" /></svg>25 мин в пути</p></li>
-                  <li class="is-current ind-in" style="--i: 3">
-                    <span class="ind-route__time">12:00</span>
-                    <span class="ind-node"></span>
-                    <p class="ind-strong">Офис, проспект Исмоили Сомони</p>
-                  </li>
-                  <li class="ind-in" style="--i: 4">
-                    <span class="ind-route__time">15:30</span>
-                    <span class="ind-node"></span>
-                    <p class="ind-strong">Квартира, район Фирдавси</p>
-                  </li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 8. Weddings -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-weddings" aria-labelledby="industries-tab-weddings" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Свадебные салоны и прокат платьев</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Чек-лист невесты до дня свадьбы</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Примерки в календаре</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Доступность платьев по датам</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Залоги, выдача и проверка при возврате</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Время на чистку после каждого возврата</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Задачи для швей</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Платье А-114 цвета айвори, размер 44. Календарь с 10 по 19 ноября: занято с 13 по 15 ноября, чистка 16 и 17 ноября, остальные дни свободны. Примерка 6 ноября в 15:00, залог 1 500 сомони оплачен.">
-            <div class="ind-comp" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ind-thumb ind-thumb--dress">
-                    <img src="assets/illustrations/wedding-dress.webp" width="44" height="54" alt="Иллюстрация свадебного платья цвета айвори на вешалке" loading="lazy" decoding="async" />
-                  </span>
-                  <div class="ind-grow">
-                    <p class="ui-title">А-114, айвори, размер 44</p>
-                    <p class="ui-sub">Доступность платья</p>
-                  </div>
-                </div>
-                <div class="ind-block ind-in" style="--i: 1">
-                  <div class="ui-row ui-row--between">
-                    <p class="ui-label">Ноябрь</p>
-                    <p class="ind-legend"><span><i class="ind-key ind-key--booked"></i>Занято</span><span><i class="ind-key ind-key--cleaning"></i>Чистка</span><span><i class="ind-key"></i>Свободно</span></p>
-                  </div>
-                  <div class="ind-strip">
-                    <span class="ind-strip__d">Вт<b>10</b></span><span class="ind-strip__d">Ср<b>11</b></span><span class="ind-strip__d">Чт<b>12</b></span><span class="ind-strip__d">Пт<b>13</b></span><span class="ind-strip__d">Сб<b>14</b></span><span class="ind-strip__d">Вс<b>15</b></span><span class="ind-strip__d">Пн<b>16</b></span><span class="ind-strip__d">Вт<b>17</b></span><span class="ind-strip__d">Ср<b>18</b></span><span class="ind-strip__d">Чт<b>19</b></span>
-                    <span class="ind-strip__free" style="grid-column: 1"></span><span class="ind-strip__free" style="grid-column: 2"></span><span class="ind-strip__free" style="grid-column: 3"></span>
-                    <span class="ind-strip__bar ind-strip__bar--booked">Манижа Д.</span>
-                    <span class="ind-strip__bar ind-strip__bar--cleaning"><svg class="i"><use href="assets/icons.svg#cleaning" /></svg></span>
-                    <span class="ind-strip__free" style="grid-column: 9"></span><span class="ind-strip__free" style="grid-column: 10"></span>
-                  </div>
-                </div>
-                <div class="ind-rows ind-in" style="--i: 2">
-                  <p class="ind-kv"><span class="ui-sub"><svg class="i"><use href="assets/icons.svg#calendar" /></svg>Примерка</span><span class="ind-strong">6 ноября, 15:00</span></p>
-                  <p class="ind-kv"><span class="ui-sub"><svg class="i"><use href="assets/icons.svg#wallet" /></svg>Залог</span><span class="ind-kv__end"><span class="ind-strong">1 500 сомони</span><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#check" /></svg>Оплачено</span></span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="s-industries__row" style="--speed: 64s">
+        <ul class="s-industries__group">
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dress" /></svg>Свадебные салоны</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#camera" /></svg>Фотостудии</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 160px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#paw" /></svg>Ветклиники и груминг</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#restaurant" /></svg>Рестораны</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#coffee" /></svg>Кофейни</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 140px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#hotel" /></svg>Гостиницы</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#flower" /></svg>Цветочные магазины</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#key" /></svg>Прокат и аренда</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 160px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#legal" /></svg>Юристы и консультанты</li>
+        </ul>
       </div>
     </div>
-
-    <p class="s-industries__note reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>Профиль для салонов и барбершопов уже доступен. Остальные запускаются поэтапно. Уточните у нас статус вашего направления.</p>
     </div>
+  </div>
+
+  <div class="container s-industries__cta">
+    <a class="btn btn--accent reveal" style="--delay: 160ms" href="https://t.me/+992070070070" target="_blank" rel="noopener">Расскажите о своём бизнесе<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#chevron-right" /></svg></a>
   </div>
 </section>

@@ -19,7 +19,7 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  /* past 1920px the panel stops growing: the painting is composed for up to that width */
+  /* Keep the original painting bounded; the image variant expands its background below. */
   max-width: 1900px;
   margin-inline: auto;
   border-radius: calc(var(--r-2xl) * 0.8);
@@ -29,6 +29,8 @@
 }
 .s-hero__nav {
   height: calc(var(--nav-h) + env(safe-area-inset-top));
+  max-width: 1900px;
+  margin-inline: auto;
 }
 @supports (corner-shape: superellipse(1.6)) {
   .s-hero__frame {
@@ -125,6 +127,9 @@
 }
 
 /* Supplied image preview: cover the panel without the painted sky's placement or effects. */
+.s-hero[data-art="image"] .s-hero__frame {
+  max-width: none;
+}
 .s-hero[data-art="image"] .s-hero__art {
   background: #dbeefa;
 }
@@ -201,14 +206,19 @@
 .s-hero__stage {
   --cw: 1240;
   --ch: 664;
+  /* The visible group runs from x=130 to the composition's right edge.
+     Offset by half that unused space, scaled with the mockups, to center both. */
+  --group-offset: 65px;
   position: relative;
+  max-width: 1900px;
+  margin-inline: auto;
   margin-top: calc(clamp(28px, 2.6vw, 38px) + var(--art-gap, 0px));
   height: calc(var(--ch) * var(--s, 1) * 1px);
 }
 .s-hero__comp {
   position: absolute;
   top: 0;
-  left: 50%;
+  left: calc(50% - var(--group-offset) * var(--s, 1));
   width: calc(var(--cw) * 1px);
   height: calc(var(--ch) * 1px);
   margin-left: calc(var(--cw) * -0.5px);
@@ -533,6 +543,10 @@
   height: auto;
   padding-bottom: 5px;
 }
+/* Leave a gap after a short card expands to fit its text and balanced padding. */
+.s-hero__bk--fit + .s-hero__bk {
+  margin-top: 2px;
+}
 .s-hero__bk p {
   display: flex;
   align-items: center;
@@ -629,7 +643,10 @@
   box-shadow: 0 2px 6px -2px color-mix(in srgb, var(--accent) 60%, transparent);
 }
 
-/* ---------- notification: over Zarina's free late morning, hanging off the window's right edge ---------- */
+/* ARCHIVED 2026-10-26: Booking notification, originally above the reminder at the
+   schedule's right edge. Markup is commented out in src/partials/hero.html.
+   Retain these styles, shared glass selectors, responsive rules and data-note
+   transitions below so restoring the original markup restores its appearance. */
 .s-hero__note {
   left: 931px;
   top: 226px;
@@ -687,7 +704,9 @@
   color: var(--ink-2);
 }
 
-/* ---------- Telegram reminder: stacked under the notification, over Zarina's free afternoon ---------- */
+/* ARCHIVED 2026-10-26: Telegram reminder below the booking notification.
+   Original markup and restoration instructions are in src/partials/hero.html.
+   These styles and the optional hero.js confirmation choreography are retained. */
 .s-hero__tg {
   left: 931px;
   top: 344px;
@@ -759,11 +778,13 @@
   transform: translateY(3px);
 }
 
-/* ---------- the owner's phone: in front of the window's rail, its toast high on the screen ---------- */
+/* ---------- the owner's phone: overlapping the window's right edge, its toast high on the screen ---------- */
 .s-hero__phone {
   position: absolute;
-  left: 0;
-  top: 150px;
+  left: auto;
+  right: 0;
+  top: auto;
+  bottom: 12px; /* Extend 12px below the web mockup's lower edge. */
   z-index: 5;
   width: 212px;
 }
@@ -1165,7 +1186,7 @@
 
 /* ---------- arrangements ---------- */
 /* Tablets and narrow windows: the window, centred under the copy, shows two of the three staff;
-   the phone stands in front of its rail and the notification hangs off its right edge over
+   the phone overlaps its right edge and the archived notification was positioned over
    Farrukh's free early afternoon. */
 @media (max-width: 1099.98px) {
   .s-hero__stage {
@@ -1189,7 +1210,7 @@
     display: none;
   }
   .s-hero__phone {
-    top: 170px;
+    bottom: 8px; /* Keep the same 12px overlap below the tablet web mockup. */
     width: 184px;
   }
   /* one row of what is next, so the screen has no empty band */
@@ -1248,6 +1269,7 @@
   .s-hero__stage {
     --cw: 360;
     --ch: 596;
+    --group-offset: 0px; /* The single phone is already centered on mobile. */
     margin-top: var(--phone-art, 300px);
   }
   .s-hero__win {
@@ -1261,8 +1283,21 @@
   }
   .s-hero__phone {
     left: 64px;
+    right: auto;
     top: 104px;
+    bottom: auto;
     width: 232px;
+  }
+  /* The archived booking card occupied the first 104px on phones. Close that
+     space while it is absent; restoring its original markup restores the layout. */
+  .s-hero__stage:not(:has([data-note])) {
+    --ch: 492;
+  }
+  .s-hero__comp:not(:has([data-note])) .s-hero__phone {
+    top: 0;
+  }
+  .s-hero__comp:not(:has([data-note]))::before {
+    top: 96px;
   }
   .s-hero__upnext {
     display: block;

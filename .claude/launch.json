@@ -4,8 +4,23 @@
     {
       "name": "landing",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4317", "--directory", "landing"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4317",
+        "--directory",
+        "landing"
+      ],
       "port": 4317
+    },
+    {
+      "name": "landing-alt",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "exec python3 -m http.server \"${PORT:-4321}\" --directory landing"
+      ],
+      "port": 4321
     }
   ]
 }

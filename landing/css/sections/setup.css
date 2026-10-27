@@ -44,7 +44,7 @@
   color: #fff;
   background: var(--ink);
   box-shadow:
-    0 0 0 4px var(--node-ring, var(--bg)),
+    0 0 0 4px var(--node-ring, var(--panel, var(--bg))),
     0 2px 6px -1px rgba(11, 18, 32, 0.3);
 }
 
@@ -179,6 +179,7 @@
     grid-column: 1 / 2;
     inset: -24px;
     border-radius: calc(var(--r-xl) - 8px);
+    background: var(--panel-inner);
   }
   .s-setup__steps {
     grid-row: 1 / span 4;

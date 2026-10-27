@@ -1,4 +1,4 @@
-<section class="s-hero" data-section="hero" data-art="image" id="hero" aria-labelledby="hero-title">
+<section class="s-hero tone-white" data-section="hero" data-art="image" id="hero" aria-labelledby="hero-title">
   <div class="s-hero__frame">
     <div class="s-hero__nav">
       <!-- @partial nav -->
@@ -7,6 +7,7 @@
     <div class="s-hero__art" aria-hidden="true">
       <div class="s-hero__sky" data-sky>
         <picture>
+          <source media="(min-width: 1933px)" srcset="assets/art/hero-large.png" />
           <img src="assets/art/hero-waves.png" width="1672" height="941" alt="" fetchpriority="high" decoding="async" />
         </picture>
       </div>
@@ -20,7 +21,7 @@
       </div>
       <div class="s-hero__actions">
         <a class="btn btn--dark btn--lg" href="#start">Начать работу<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
-        <a class="btn btn--glass btn--lg" href="#how">Как это работает</a>
+        <a class="btn btn--glass btn--lg" href="#problems">Как это работает</a>
       </div>
     </div>
 
@@ -32,7 +33,7 @@
         class="s-hero__comp ui"
         data-comp
         role="img"
-        aria-label="Рабочий день в NavCRM в салоне Gulnor Beauty на Рудаки, 54: расписание Малики, Фарруха и Зарины, новая запись Ситоры Рахимовой из Instagram на 12:00, подтверждение напоминания в Telegram и телефон владельца с выручкой 6 240 сомони за 31 визит."
+        aria-label="Рабочий день в NavCRM в салоне Gulnor Beauty на Рудаки, 54: расписание Малики, Фарруха и Зарины, новая запись Ситоры Рахимовой на 12:00 и телефон владельца с выручкой 6 240 сомони за 31 визит."
       >
         <div class="s-hero__win" data-win data-lens data-lens-bezel="26" data-lens-scale="60" data-lens-blur="18" aria-hidden="true">
           <div class="s-hero__rail">
@@ -80,7 +81,7 @@
                 <div class="s-hero__bk" style="--s: 4; --d: 1.5"><p><b>Парвина А.</b><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Подтверждено</span></p><small>13:00 Кератин</small></div>
               </div>
               <div class="s-hero__col" data-person="farrukh">
-                <div class="s-hero__bk is-done" style="--s: 0; --d: 0.75"><p><b>Рустам К.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span></p><small>09:00 Мужская стрижка</small></div>
+                <div class="s-hero__bk s-hero__bk--fit is-done" style="--s: 0; --d: 0.75"><p><b>Рустам К.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span></p><small>09:00 Мужская стрижка</small></div>
                 <div class="s-hero__bk is-done is-missed" style="--s: 0.75; --d: 0.75"><p><b>Бахром Т.</b><span class="ui-status ui-status--noshow"><svg class="i"><use href="assets/icons.svg#cancel" /></svg>Неявка</span></p><small>09:45 Мужская стрижка</small></div>
                 <div class="s-hero__bk is-live" data-umed style="--s: 1.5; --d: 0.75">
                   <p><b>Умед Н.</b><span class="ui-swap s-hero__umed"><span class="ui-status ui-status--paid" data-paid><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span><span class="ui-status ui-status--chair" data-chair data-hidden="true"><svg class="i"><use href="assets/icons.svg#scissor" /></svg>У мастера</span></span></p>
@@ -98,6 +99,23 @@
           </div>
         </div>
 
+        <!--
+        ARCHIVED 2026-10-26: Hero Instagram booking notification.
+        Removed from the visible hero at the owner's request; the original markup is
+        preserved below, rather than deleted, so this component can be reviewed/restored.
+
+        This was an aria-hidden, scripted illustration of Sitora Rakhimova booking a
+        haircut with Malika at 12:00. A translucent card floated over the schedule's
+        right edge (above the Telegram card); on phones it preceded the owner's phone.
+        hero.js revealed it using data-note, then highlighted the 12:00 appointment
+        and updated the phone's next appointment. It did not receive real bookings.
+
+        Its styling remains in landing/css/sections/hero.css, marked ARCHIVED.
+        Optional animation hooks remain in landing/js/sections/hero.js and tolerate
+        its absence. To restore, move only the original div below outside this
+        comment. The mobile layout detects the restored card and reserves its space.
+
+        Original markup:
         <div class="s-hero__note" data-note aria-hidden="true">
           <span class="s-hero__glyph"><svg class="i"><use href="assets/icons.svg#instagram" /></svg></span>
           <div class="s-hero__note-body">
@@ -106,10 +124,27 @@
             <p class="s-hero__note-text">Стрижка и укладка у Малики, сегодня в 12:00</p>
           </div>
         </div>
+        -->
 
+        <!--
+        ARCHIVED 2026-10-26: Hero Telegram reminder and confirmation demo.
+        Removed from the visible hero at the owner's request; original markup follows.
+
+        This aria-hidden glass card sat below the booking notification on desktop
+        and was hidden on tablets/phones. It showed Gulnor Beauty's reminder for a
+        manicure with Zarina, then hero.js moved a simulated tap onto "Confirm" and
+        replaced the decorative buttons with a green confirmation message. These
+        were illustration states, not real Telegram messages or working controls.
+
+        Styling remains in landing/css/sections/hero.css, marked ARCHIVED; optional
+        timing/state hooks remain in landing/js/sections/hero.js. To restore, move
+        the original div below outside this comment and restore the archived
+        data-tap span near the end of this composition. Keep the data attributes.
+
+        Original markup:
         <div class="s-hero__tg" data-tg aria-hidden="true">
           <div class="s-hero__tg-head">
-            <span class="ui-tile ui-tile--telegram s-hero__tg-tile"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
+            <span class="ui-tile ui-tile--telegram s-hero__tg-tile"><img src="assets/logos/telegram.svg" alt=""></span>
             <span><b>Gulnor Beauty</b><small>Telegram</small></span>
           </div>
           <p class="ui-bubble ui-bubble--in s-hero__tg-msg">Напоминаем: завтра в 10:00 у вас маникюр с гелем у Зарины. Рудаки, 54.</p>
@@ -118,6 +153,7 @@
             <div class="ui-chat-keys s-hero__tg-keys" data-keys data-hidden="true"><span class="ui-btn" data-confirm>Подтвердить</span><span class="ui-btn">Перенести</span></div>
           </div>
         </div>
+        -->
 
         <div class="s-hero__phone ui-phone" data-phone aria-hidden="true">
           <div class="ui-phone__screen">
@@ -158,7 +194,10 @@
           </div>
         </div>
 
+        <!-- ARCHIVED 2026-10-26: Simulated pointer used only by the Telegram card
+             archived above. Restore together with that card to replay its tap.
         <span class="tap" data-tap></span>
+        -->
       </div>
 
       <!-- the cloud sea in front of the product during the entrance: the window rises out of it -->

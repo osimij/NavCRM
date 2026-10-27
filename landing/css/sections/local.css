@@ -1,4 +1,4 @@
-/* Made here (#local): a bento of seven cards. Each card places a plain icon above its visual and the copy at the bottom.
+/* Made here (#local): a bento of four cards. Each card places a plain icon above its visual and the copy at the bottom.
    The well sits 8px inside the card with a radius 8px smaller, and both are squircles
    (.card, .sq), so the band between them stays even all the way round the corner. */
 
@@ -8,7 +8,7 @@
   --gap: 16px;
 }
 
-/* Three shared rows: icon, demo, and copy. Wide cards keep the demo beside
+/* Three shared rows: icon, demo, and copy. The wide card keeps the demo beside
    a full-height text column, with its icon at the top and copy at the bottom. */
 .s-local__grid {
   display: grid;
@@ -25,14 +25,10 @@
   min-width: 0;
 }
 
-/* Reveal: stagger within a row only */
+/* Reveal: stagger within a row only (Offline + Payments, then Telegram + Support) */
 .s-local__grid > :nth-child(2),
-.s-local__grid > :nth-child(4),
-.s-local__grid > :nth-child(7) {
+.s-local__grid > :nth-child(4) {
   --delay: 60ms;
-}
-.s-local__grid > :nth-child(5) {
-  --delay: 120ms;
 }
 
 /* Kit cards in this section share the card's squircle corners */
@@ -84,14 +80,14 @@
   min-height: 152px;
   padding: 12px;
   border-radius: var(--well-r);
-  background: var(--bg-sunk);
-  box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.03);
+  background: var(--panel-inner);
+  box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.04);
 }
 .s-local__well > * {
   width: 100%;
 }
 
-/* Wide cards place the demo beside the icon and bottom-aligned copy. */
+/* The wide Offline card places the demo beside the icon and bottom-aligned copy. */
 @media (min-width: 700px) {
   .s-local__card--offline {
     grid-column: span 2;
@@ -122,41 +118,12 @@
   }
 }
 
-@media (min-width: 1101px) {
-  .s-local__card--support {
-    grid-column: span 2;
-    grid-template-columns: minmax(0, 1fr) calc((100% - 2 * var(--well-inset) - var(--gap)) / 2);
-    grid-template-rows: subgrid;
-    column-gap: var(--well-inset);
-  }
-  .s-local__card--support .s-local__text {
-    grid-column: 1;
-    grid-row: 1 / -1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 40px;
-    padding: 16px;
-  }
-  .s-local__card--support .s-local__icon {
-    margin: 0;
-    flex: none;
-  }
-  .s-local__card--support .s-local__copy {
-    align-self: stretch;
-    padding: 0;
-  }
-  .s-local__card--support > :is(.s-local__stage, .s-local__well) {
-    grid-column: 2;
-    grid-row: 1 / -1;
-  }
-}
-
 /* ---------- Offline: today's schedule on a phone that loses its connection ---------- */
 
 .s-local__stage {
   min-height: 440px;
   border-radius: var(--well-r);
+  background: var(--panel-inner);
 }
 .s-local__offline {
   position: absolute;
@@ -401,110 +368,55 @@
 
 /* ---------- Payments: the payment step of a receipt ---------- */
 
-.s-local__picker {
-  display: grid;
-  gap: 12px;
-}
-.s-local__picker-head {
+/* Payment partners: the logo files are used as masks, so every logo takes the same grey.
+   Sizes are optical, not equal: each logo's height (--k, in px at full size) was tuned by eye
+   so they all read as the same size. A light, detailed emblem (Korti Milli) needs more height
+   than a heavy, dense wordmark (Visa). Widths follow each logo's own proportions. --u shrinks
+   everything together on narrow cards so the row always stays on one line. */
+.s-local__logos {
+  container-type: inline-size;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: min(34px, 10%);
 }
-.s-local__picker-head .ui-title {
-  flex: 1;
-  min-width: 0;
+.s-local__logo {
+  --u: min(1px, 0.33cqi);
+  flex: none;
+  height: calc(var(--k) * var(--u));
+  background: var(--ink-3);
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
 }
-.s-local__methods {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 8px;
+.s-local__logo--alif {
+  --k: 38.4;
+  --logo: url("../../assets/logos/alif.svg");
+  aspect-ratio: 335 / 408;
 }
-.s-local__methods .ui-option {
-  grid-column: span 2;
-  padding: 0 4px;
+.s-local__logo--dc {
+  --k: 29;
+  --logo: url("../../assets/logos/dc.svg");
+  aspect-ratio: 758 / 327;
 }
-.s-local__methods .ui-option:nth-child(n + 4) {
-  grid-column: span 3;
+.s-local__logo--visa {
+  --k: 21;
+  --logo: url("../../assets/logos/visa.svg");
+  aspect-ratio: 960 / 312;
 }
-.s-local__picker .ui-divider {
-  margin: 0;
-}
-.s-local__extras {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-.s-local__extras .ui-btn {
-  padding: 0 4px;
-}
-
-/* ---------- Languages ---------- */
-
-.s-local__langs {
-  display: grid;
-  gap: 12px;
-  max-width: 300px;
-}
-.s-local__seg {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-/* Equal tabs, so the thumb only ever moves (never resizes) */
-.s-local__seg .ui-seg__thumb {
-  width: calc((100% - 6px) / 3);
-  transform: translateX(calc(3px + var(--i, 0) * 100%));
-  transition: transform 300ms var(--ease-in-out);
-}
-.s-local__seg button {
-  color: var(--ink-2);
-  transition:
-    color 200ms ease,
-    transform 160ms var(--ease-out);
-}
-.s-local__seg button.is-active {
-  color: var(--ink);
-}
-.s-local__seg button:active {
-  transform: scale(0.97);
-}
-.s-local__seg button:focus-visible {
-  outline-offset: 0;
-  border-radius: var(--r-2xs);
-}
-@media (hover: hover) and (pointer: fine) {
-  .s-local__seg button:not(.is-active):hover {
-    color: var(--ink);
-  }
-}
-.s-local__new-swap > span {
-  display: inline-flex;
-  align-items: center;
-  justify-self: center;
-  gap: 8px;
-}
-.s-local__new-swap > [data-hidden="true"] {
-  transform: translateY(6px);
-}
-.s-local__new-swap > .is-leaving[data-hidden="true"] {
-  transform: translateY(-6px);
+.s-local__logo--korti {
+  --k: 56;
+  --logo: url("../../assets/logos/korti-milli.svg");
+  aspect-ratio: 281 / 437;
 }
 
 /* ---------- Telegram ---------- */
 
 .s-local__tg {
   display: grid;
-  gap: 8px;
+  gap: 14px;
 }
-.s-local__chat-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.s-local__chat-who {
-  display: grid;
-}
-.s-local__chat-who .ui-sub {
-  line-height: 1.2;
+.s-local__tg .ui-thread-head .ui-tile .i {
+  font-size: 22px;
 }
 .s-local__tg .ui-bubble {
   max-width: none;
@@ -525,68 +437,20 @@
   box-shadow: -1px 0 0 var(--line);
 }
 
-/* ---------- Data ---------- */
-
-.s-local__clients {
-  display: grid;
-  padding: 12px;
-}
-.s-local__clients-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding-bottom: 4px;
-}
-.s-local__client-list li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 36px;
-}
-.s-local__client-list li + li {
-  box-shadow: 0 -1px 0 var(--line);
-}
-.s-local__client-list .s-local__name {
-  flex: 1;
-  min-width: 0;
-  font-size: 12.5px;
-}
-.s-local__where {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding-top: 8px;
-  box-shadow: 0 -1px 0 var(--line);
-}
-.s-local__where .i {
-  font-size: 14px;
-}
-
-/* ---------- Platforms ---------- */
-
-.s-local__platforms {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-.s-local__platforms li {
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  padding: 16px 8px 12px;
-  font-weight: var(--type-weight, 400);
-}
-.s-local__platforms .i {
-  font-size: 18px;
-  color: var(--ink-2);
-}
-
 /* ---------- Support contacts ---------- */
 
 .s-local__well--contact {
   align-content: center;
   gap: 8px;
+}
+/* Wide support card: it spans two columns, with phone and Telegram side by side */
+@media (min-width: 700px) {
+  .s-local__card--support {
+    grid-column: span 2;
+  }
+  .s-local__well--contact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .s-local__contact {
   display: grid;
@@ -658,41 +522,27 @@
   }
 }
 
-/* Desktop: the support card is wide, so the two contacts become large tiles filling the well */
+/* ---------- Desktop: a 12-column grid, so the rows can split differently. Offline 8 + Payments 4
+   (as before), then Reminders 5 + Support 7, which gives the reminders card a little more room. ---------- */
 @media (min-width: 1101px) {
-  .s-local__card--support .s-local__well--contact {
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    align-content: stretch;
-    place-items: stretch;
+  .s-local__grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
   }
-  .s-local__card--support .s-local__contact {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas:
-      "tile . go"
-      "text text text";
-    align-content: space-between;
-    gap: 16px;
-    padding: 16px;
-    border-radius: var(--r-md);
+  .s-local__card--offline {
+    grid-column: span 8;
   }
-  .s-local__card--support .s-local__contact-tile {
-    grid-area: tile;
+  .s-local__grid > :nth-child(2) {
+    grid-column: span 4;
   }
-  .s-local__card--support .s-local__contact-text {
-    grid-area: text;
-    gap: 2px;
+  .s-local__grid > :nth-child(3) {
+    grid-column: span 5;
   }
-  .s-local__card--support .s-local__contact-go {
-    grid-area: go;
-    align-self: start;
-  }
-  .s-local__card--support .s-local__contact-value {
-    font-size: 1.25rem;
+  .s-local__card--support {
+    grid-column: span 7;
   }
 }
 
-/* ---------- Tablet: two columns. Offline keeps its split, Support stacks ---------- */
+/* ---------- Tablet: two columns. Offline keeps its split, Support runs full width ---------- */
 @media (max-width: 1100px) {
   .s-local__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -700,13 +550,11 @@
   .s-local__stage {
     min-height: 460px;
   }
-  /* Offline spans both columns, followed by pairs of compact cards. */
+  /* Offline and Support span both columns, with Payments and Telegram paired between them. */
   .s-local__grid > :nth-child(n) {
     --delay: 0ms;
   }
-  .s-local__grid > :nth-child(3),
-  .s-local__grid > :nth-child(5),
-  .s-local__grid > :nth-child(7) {
+  .s-local__grid > :nth-child(3) {
     --delay: 60ms;
   }
 }
@@ -744,7 +592,6 @@
 @media (prefers-reduced-motion: reduce) {
   .s-local__net,
   .s-local__change,
-  .s-local__new-swap > *,
   .s-local__tick .i,
   .s-local__net-text .ui-title {
     transform: none !important;
@@ -754,8 +601,7 @@
   .s-local__offline[data-phase="syncing"] .s-local__spin .i {
     animation: none;
   }
-  .s-local__sched,
-  .s-local__seg .ui-seg__thumb {
+  .s-local__sched {
     transition: none;
   }
 }

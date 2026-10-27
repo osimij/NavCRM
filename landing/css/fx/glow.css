@@ -1,0 +1,33 @@
+/* Glow preset: light that wells up in the middle of a shape and runs out to its edges in the
+   shape's own outline, the way the Touch ID glyph lights up: round on a round icon, shield-shaped
+   on a shield, from the middle of a word out to its ends. js/fx/glow.js draws it with an SVG
+   filter, so it works on any icon, text or image.
+
+   Put data-glow on the thing that should light up:
+     <svg class="i" data-glow><use href="assets/icons.svg#fingerprint" /></svg>   lights on its own hover
+     <span data-glow>Текст</span>                                                 text works the same way
+     <a data-glow-trigger>…<svg class="i" data-glow>…</svg>…</a>   hovering the trigger lights every glow inside
+     <svg class="i" data-glow="loop">…</svg>                         runs while on screen, no hover needed
+     <div data-glow-trigger="view">…</div>       every glow inside runs while the block is on screen
+
+   Tune it per element or per section with the custom properties below,
+   e.g. style="--glow-hi: #ffd36b; --glow-period: 2s". Give the glows in one trigger rising
+   --glow-delay values (0s, 0.2s, 0.4s…) and the light travels from one to the next.
+   Put data-glow on the icon or the text itself, not on a button or chip: the light fills
+   everything the element paints, background included. */
+
+:root {
+  --glow-base: #3d7cc9; /* the shape's colour while the light runs */
+  --glow-hi: #86f2ff; /* the light itself */
+  --glow-bloom: 0.75; /* soft light spilling past the shape; 0 turns it off */
+  --glow-period: 1.25s; /* one run of light, middle to edge */
+  --glow-delay: 0s; /* wait before the first run */
+  --glow-ease: linear; /* steady, like the Touch ID waves; any cubic-bezier() works */
+}
+/* On the page's white and #fafafa tones the pale light needs more weight to read */
+.tone-white,
+.tone-soft {
+  --glow-base: #1d5fe0;
+  --glow-hi: #3fd0ff;
+  --glow-bloom: 0.4;
+}

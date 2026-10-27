@@ -1,7 +1,7 @@
-<section class="s-local section" data-section="local" id="local">
+<section class="s-local section tone-white" data-section="local" id="local">
   <div class="container">
     <div class="section-head">
-      <h2 class="reveal">Создано в Душанбе для местного бизнеса</h2>
+      <h2 class="reveal">Создано <span class="text-accent">в Душанбе</span> для местного бизнеса</h2>
       <p class="lead reveal" style="--delay: 60ms">Большинство CRM создают для других рынков, и бизнесу приходится под них подстраиваться. NavCRM учитывает местные способы оплаты, языки и качество интернета.</p>
     </div>
 
@@ -12,7 +12,7 @@
           <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wifi-off" /></svg></span>
           <div class="s-local__copy">
             <h3>Работает, даже если пропал интернет</h3>
-            <p>В мобильном приложении расписание, клиенты, касса и склад работают без интернета до конца смены. Когда связь восстановится, изменения синхронизируются. Если записи совпали по времени, NavCRM покажет конфликт, чтобы вы могли его разрешить.</p>
+            <p>В мобильном приложении расписание, клиенты, касса и склад работают без интернета до конца смены. Когда связь восстановится, изменения синхронизируются.</p>
           </div>
         </div>
         <div class="s-local__stage stage">
@@ -118,54 +118,13 @@
             <p>Наличные, терминалы, Alif QR, DC NEXT и Корти Милли, а также разделение платежей, залоги и долги.</p>
           </div>
         </div>
-        <div class="s-local__well sq" role="img" aria-label="Оплата Ситоры Рахимовой на 260 сомони через Alif QR. Другие способы: наличные, карта, DC NEXT и Корти Милли. Можно разделить платёж, внести залог или учесть долг.">
-          <div class="s-local__picker ui ui-card" aria-hidden="true">
-            <div class="s-local__picker-head">
-              <span class="ui-avatar" data-person="sitora">СР</span>
-              <span class="ui-title">Ситора Рахимова</span>
-              <span class="ui-amount">260 сомони</span>
-            </div>
-            <div class="s-local__methods">
-              <span class="ui-option">Наличные</span>
-              <span class="ui-option">Карта</span>
-              <span class="ui-option is-selected">Alif QR</span>
-              <span class="ui-option">DC NEXT</span>
-              <span class="ui-option">Корти Милли</span>
-            </div>
-            <hr class="ui-divider" />
-            <div class="s-local__extras">
-              <span class="ui-btn ui-btn--soft">Разделить</span>
-              <span class="ui-btn ui-btn--soft">Залог</span>
-              <span class="ui-btn ui-btn--soft">Долг</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product-language example: Russian by default, other languages on request. -->
-      <div class="s-local__card card reveal">
-        <div class="s-local__text">
-          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#language" /></svg></span>
-          <div class="s-local__copy">
-            <h3>Таджикский и русский</h3>
-            <p>Сотрудники и клиенты выбирают удобный язык в NavCRM. Английский тоже доступен.</p>
-          </div>
-        </div>
-        <div class="s-local__well sq">
-          <div class="s-local__langs ui ui-card" data-langs>
-            <div class="ui-seg s-local__seg" style="--i: 1" role="group" aria-label="Язык интерфейса">
-              <div class="ui-seg__thumb" aria-hidden="true"></div>
-              <button type="button" data-lang="tg" aria-pressed="false">Таджикский</button>
-              <button type="button" data-lang="ru" lang="ru" class="is-active" aria-pressed="true">Русский</button>
-              <button type="button" data-lang="en" aria-pressed="false">Английский</button>
-            </div>
-            <span class="ui-btn ui-btn--dark ui-btn--block s-local__new" aria-hidden="true">
-              <span class="s-local__new-swap ui-swap">
-                <span data-lang="tg" lang="tg" data-hidden="true"><svg class="i"><use href="assets/icons.svg#plus" /></svg>Навбати нав</span>
-                <span data-lang="ru" lang="ru"><svg class="i"><use href="assets/icons.svg#plus" /></svg>Новая запись</span>
-                <span data-lang="en" lang="en" data-hidden="true"><svg class="i"><use href="assets/icons.svg#plus" /></svg>New booking</span>
-              </span>
-            </span>
+        <!-- Payment partners: one row of logos, all in the same grey at the same height (local.css) -->
+        <div class="s-local__well s-local__well--plain sq" role="img" aria-label="Оплата через Alif, DC (Dushanbe City), Visa и Корти Милли.">
+          <div class="s-local__logos" aria-hidden="true">
+            <span class="s-local__logo s-local__logo--alif"></span>
+            <span class="s-local__logo s-local__logo--dc"></span>
+            <span class="s-local__logo s-local__logo--visa"></span>
+            <span class="s-local__logo s-local__logo--korti"></span>
           </div>
         </div>
       </div>
@@ -181,11 +140,15 @@
         </div>
         <div class="s-local__well sq" role="img" aria-label="Напоминание Gulnor Beauty в Telegram: завтра в 10:00 маникюр с гелем у Зарины по адресу Рудаки, 54. Напоминания в Telegram бесплатны, СМС оплачиваются по тарифу оператора.">
           <div class="s-local__tg ui" aria-hidden="true">
-            <div class="s-local__chat-head">
-              <span class="ui-tile ui-tile--telegram"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
-              <span class="s-local__chat-who"><span class="ui-title">Gulnor Beauty</span><span class="ui-sub">бот</span></span>
+            <div class="s-local__chat-head ui-thread-head">
+              <span class="ui-tile ui-tile--telegram"><img src="assets/logos/telegram.svg" alt=""></span>
+              <span class="ui-thread-head__name">Gulnor Beauty<svg class="i"><use href="assets/icons.svg#chevron-right" /></svg></span>
+              <span class="ui-sub">бот в Telegram</span>
             </div>
-            <p class="ui-bubble ui-bubble--in">Напоминаем: завтра в 10:00 у вас маникюр с гелем у Зарины. Рудаки, 54.</p>
+            <div class="ui-msg">
+              <span class="ui-avatar">GB</span>
+              <p class="ui-bubble ui-bubble--in">Напоминаем: завтра в 10:00 у вас маникюр с гелем у Зарины. Рудаки, 54.<span class="ui-tapback">👍</span></p>
+            </div>
             <div class="s-local__cost ui-card">
               <div>
                 <span class="ui-label">Telegram</span>
@@ -200,50 +163,7 @@
         </div>
       </div>
 
-      <!-- Data: the client list, ready to export -->
-      <div class="s-local__card card reveal">
-        <div class="s-local__text">
-          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#database" /></svg></span>
-          <div class="s-local__copy">
-            <h3>Ваши данные остаются в Таджикистане</h3>
-            <p>Данные хранятся в дата-центре в Таджикистане. Вы можете выгрузить их в Excel в любой момент.</p>
-          </div>
-        </div>
-        <div class="s-local__well sq" role="img" aria-label="Список клиентов: Ситора Рахимова, Нигина С. и Шахло М. Доступна выгрузка в Excel. Данные хранятся в Таджикистане.">
-          <div class="s-local__clients ui ui-card" aria-hidden="true">
-            <div class="s-local__clients-head">
-              <span class="ui-title">Клиенты</span>
-              <span class="ui-btn ui-btn--soft"><svg class="i"><use href="assets/icons.svg#xls" /></svg>Выгрузить в Excel</span>
-            </div>
-            <ul class="s-local__client-list">
-              <li><span class="ui-avatar" data-person="sitora">СР</span><span class="s-local__name">Ситора Рахимова</span><span class="ui-sub">Стрижка и укладка</span></li>
-              <li><span class="ui-avatar">НС</span><span class="s-local__name">Нигина С.</span><span class="ui-sub">Маникюр с гелем</span></li>
-              <li><span class="ui-avatar">ШМ</span><span class="s-local__name">Шахло М.</span><span class="ui-sub">Окрашивание</span></li>
-            </ul>
-            <p class="s-local__where ui-sub"><svg class="i"><use href="assets/icons.svg#maps" /></svg>Хранится в Таджикистане</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Phone -->
-      <div class="s-local__card card reveal">
-        <div class="s-local__text">
-          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#phone" /></svg></span>
-          <div class="s-local__copy">
-            <h3>Компьютер не нужен</h3>
-            <p>Приложения для Android и iOS для владельцев, сотрудников и клиентов, а также версия в браузере для администратора.</p>
-          </div>
-        </div>
-        <div class="s-local__well sq" role="img" aria-label="NavCRM работает на Android, iOS и в браузере.">
-          <ul class="s-local__platforms ui" aria-hidden="true">
-            <li class="ui-card"><svg class="i"><use href="assets/icons.svg#android" /></svg>Android</li>
-            <li class="ui-card"><svg class="i"><use href="assets/icons.svg#apple" /></svg>iOS</li>
-            <li class="ui-card"><svg class="i"><use href="assets/icons.svg#browser" /></svg>Браузер</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Support: the wide card, with real contact links -->
+      <!-- Support: real contact links -->
       <div class="s-local__card s-local__card--support card reveal">
         <div class="s-local__text">
           <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#support" /></svg></span>
@@ -259,7 +179,7 @@
             <svg class="i s-local__contact-go" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg>
           </a>
           <a class="s-local__contact sq" href="https://t.me/+992070070070" target="_blank" rel="noopener">
-            <span class="ui-tile ui-tile--telegram s-local__contact-tile" aria-hidden="true"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
+            <span class="ui-tile ui-tile--telegram s-local__contact-tile" aria-hidden="true"><img src="assets/logos/telegram.svg" alt=""></span>
             <span class="s-local__contact-text"><span class="s-local__contact-label">Telegram</span><span class="s-local__contact-value">t.me/+992070070070</span></span>
             <span class="sr-only">(откроется в Telegram)</span>
             <svg class="i s-local__contact-go" aria-hidden="true"><use href="assets/icons.svg#arrow-up-right" /></svg>

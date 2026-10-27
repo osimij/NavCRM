@@ -16,6 +16,9 @@
   --bg-sunk: #eef2f7;
   --surface: #ffffff;
   --surface-2: #f9fafc;
+  /* Page tones: sections alternate between these two (see .tone-white / .tone-soft) */
+  --paper: #ffffff;
+  --paper-soft: #fafafa;
 
   /* Ink */
   --ink: #0b1220;
@@ -26,7 +29,7 @@
   --line-2: rgba(11, 18, 32, 0.13);
 
   /* Brand */
-  --accent: #0011FF;
+  --accent: #0000FF;
   --accent-ink: var(--accent);
   --accent-soft: color-mix(in srgb, var(--accent) 9%, white);
   --accent-lift: color-mix(in srgb, var(--accent) 85%, white);
@@ -149,7 +152,7 @@ html {
 }
 body {
   margin: 0;
-  background: var(--bg);
+  background: var(--paper-soft);
   color: var(--ink);
   font-family: var(--font);
   font-size: var(--fs-body);
@@ -264,8 +267,26 @@ p {
 .muted {
   color: var(--ink-3);
 }
+/* The key words of a heading, in the accent colour */
+.text-accent {
+  color: var(--accent-ink);
+}
 .num {
   font-variant-numeric: lining-nums;
+}
+
+/* Section tones: sections alternate white and #fafafa down the page. Cards and panels inside a
+   section take the other tone (--panel), and anything set inside a card flips back (--panel-inner),
+   so every layer stands apart from the one behind it. */
+.tone-white {
+  --panel: var(--paper-soft);
+  --panel-inner: var(--paper);
+  background: var(--paper);
+}
+.tone-soft {
+  --panel: var(--paper);
+  --panel-inner: var(--paper-soft);
+  background: var(--paper-soft);
 }
 
 /* Layout */
@@ -372,9 +393,17 @@ p {
   background: var(--surface);
   border-color: rgba(9, 11, 12, 0.12);
 }
+/* A quiet grey button that sits on white or #fafafa without a border */
+.btn--soft {
+  color: var(--ink);
+  background: rgba(9, 11, 12, 0.06);
+}
 @media (hover: hover) and (pointer: fine) {
   .btn--dark:hover {
     background: #292b2c;
+  }
+  .btn--soft:hover {
+    background: rgba(9, 11, 12, 0.1);
   }
   .btn--accent:hover {
     background: color-mix(in srgb, var(--accent) 88%, white);
@@ -431,7 +460,7 @@ p {
 /* Surfaces */
 .card {
   position: relative;
-  background: var(--surface);
+  background: var(--panel, var(--surface));
   border-radius: var(--r-lg);
   box-shadow: var(--shadow-md);
 }
@@ -495,7 +524,7 @@ p {
   isolation: isolate;
   overflow: hidden;
   border-radius: var(--r-2xl);
-  background: linear-gradient(180deg, #e8eff9 0%, #f2f5fa 100%);
+  background: var(--panel, linear-gradient(180deg, #e8eff9 0%, #f2f5fa 100%));
   box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.04);
 }
 .stage__art {

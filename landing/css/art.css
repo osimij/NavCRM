@@ -1,0 +1,7 @@
+/* Art direction. The product-demo stages are plain: they take the section's panel tone
+   (see .tone-white / .tone-soft in base.css). The hero and the closing section keep their own art. */
+
+/* Offline: drifting blue and aqua light, behind the phone that loses its connection */
+.s-local__stage .stage__art {
+  background: url("../assets/art/stage-offline.webp?v=4") center / cover no-repeat;
+}

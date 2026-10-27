@@ -278,8 +278,11 @@ export function init(root) {
 
   /* ---------- the loop ---------- */
   // The beats the first screen can see come first: a booking arrives, lands at 12:00 and joins
-  // the owner's "next up"; Umed pays and the owner's phone hears about it. Then a client further
-  // down confirms tomorrow's reminder.
+  // the owner's "next up"; Umed pays and the owner's phone hears about it.
+  // ARCHIVED 2026-10-26: The booking notification, Telegram reminder and its pointer
+  // are preserved as comments in src/partials/hero.html. Their optional hooks below
+  // preserve the original choreography for restoration, while the live schedule
+  // and phone continue without those decorative cards.
   const tap = comp.querySelector('[data-tap]');
   const note = comp.querySelector('[data-note]');
   const confirmBtn = comp.querySelector('[data-confirm]');
@@ -301,14 +304,16 @@ export function init(root) {
     paid.dataset.hidden = String(!isPaid);
   };
   const setTg = (confirmed) => {
+    if (!keys || !done) return; // Archived reminder is absent from the live DOM.
     keys.dataset.hidden = String(confirmed);
     done.dataset.hidden = String(!confirmed);
   };
-  // the start of the day's loop; on phones the notification stays up until the loop runs, so a
-  // phone always opens on the booking resting on the cloud sea
+  // If the archived notification is restored, retain its original phone entrance.
   const startState = ({ keepNote = false } = {}) => {
     delete comp.dataset.reset;
-    if (keepNote) delete comp.dataset.note; else comp.dataset.note = 'off';
+    if (note) {
+      if (keepNote) delete comp.dataset.note; else comp.dataset.note = 'off';
+    }
     comp.dataset.slot = 'off';
     comp.dataset.toast = 'off';
     setUmed(false);
@@ -331,12 +336,14 @@ export function init(root) {
 
   let runs = 0;
   async function scene(signal) {
-    // the first time round on a phone the notification is already there: the day starts with it
-    const first = runs++ === 0 && PHONE.matches;
+    // A restored notification is already visible on the first phone loop.
+    const first = runs++ === 0 && PHONE.matches && !!note;
     startState({ keepNote: first });
     await sleep(first ? 500 : 900, signal);
-    delete comp.dataset.note; // a booking arrives from Instagram
-    await sleep(1000, signal);
+    if (note) {
+      delete comp.dataset.note; // Original archived beat: a booking arrives from Instagram.
+      await sleep(1000, signal);
+    }
     comp.dataset.slot = 'ring'; // and lands in Malika's column at 12:00
     setNext(true); // and in the owner's "next up"
     await sleep(1300, signal);
@@ -348,7 +355,7 @@ export function init(root) {
     delete comp.dataset.toast;
     setOdo(true);
     await sleep(1500, signal);
-    if (tg.offsetParent) {
+    if (tg?.offsetParent && confirmBtn && tap && keys && done) {
       // a client confirms tomorrow's reminder in Telegram
       const [x, y] = centerIn(confirmBtn);
       tap.style.transition = 'none';
@@ -381,7 +388,7 @@ export function init(root) {
       () => setUmed(false),
       () => setNext(false),
       () => { comp.dataset.slot = 'off'; },
-      () => { comp.dataset.note = 'off'; },
+      ...(note ? [() => { comp.dataset.note = 'off'; }] : []),
     ];
     for (const step of steps) {
       step();
@@ -391,8 +398,9 @@ export function init(root) {
   }
 
   if (!reducedMotion.matches) startState({ keepNote: PHONE.matches });
-  // on phones the loop follows the notification itself, which is what the first screen shows
-  loopWhileVisible(PHONE.matches ? note : comp, scene, { final: endState, threshold: PHONE.matches ? 0.3 : 0.2 });
+  // The phone is now the visible mobile anchor; a restored notification takes priority.
+  const loopTarget = PHONE.matches ? (note || comp.querySelector('[data-phone]') || comp) : comp;
+  loopWhileVisible(loopTarget, scene, { final: endState, threshold: PHONE.matches ? 0.3 : 0.2 });
   reducedMotion.addEventListener?.('change', (e) => e.matches && endState());
 
   /* ---------- lensing on the window's glass (Chromium), once the entrance has settled ---------- */

@@ -1,11 +1,9 @@
-// Made here (#local): the offline phone demo and the language switch.
+// Made here (#local): the offline phone demo.
 import { sleep, loopWhileVisible, reducedMotion } from '../shared.js';
 
 export function init(root) {
   const offline = root.querySelector('[data-offline]');
-  const langs = root.querySelector('[data-langs]');
   if (offline) initOffline(offline);
-  if (langs) initLanguages(langs);
 }
 
 /*
@@ -82,34 +80,4 @@ function initOffline(el) {
     },
     { final: () => render('synced', rows) }
   );
-}
-
-/* A product-language example. Russian is the initial language; switches are explicit. */
-function initLanguages(el) {
-  const seg = el.querySelector('.ui-seg');
-  const tabs = [...seg.querySelectorAll('button[data-lang]')];
-  const labels = [...el.querySelectorAll('.s-local__new-swap > [data-lang]')];
-  const order = tabs.map((t) => t.dataset.lang);
-  let current = tabs.find((tab) => tab.getAttribute('aria-pressed') === 'true').dataset.lang;
-  seg.style.setProperty('--i', order.indexOf(current));
-
-  const show = (lang) => {
-    if (lang === current) return;
-    const prev = current;
-    current = lang;
-    tabs.forEach((t) => {
-      const on = t.dataset.lang === lang;
-      t.classList.toggle('is-active', on);
-      t.setAttribute('aria-pressed', String(on));
-    });
-    seg.style.setProperty('--i', order.indexOf(lang));
-    labels.forEach((l) => {
-      const name = l.dataset.lang;
-      // The outgoing label leaves upwards; the others wait below, unseen, for their turn.
-      l.classList.toggle('is-leaving', name === prev);
-      l.dataset.hidden = String(name !== lang);
-    });
-  };
-
-  tabs.forEach((tab) => tab.addEventListener('click', () => show(tab.dataset.lang)));
 }

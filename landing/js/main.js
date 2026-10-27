@@ -26,11 +26,17 @@ function initReveals() {
 
 async function initSections() {
   const roots = document.querySelectorAll('[data-section]');
+  const versions = {
+    hero: '1.5-hero-cards-archived',
+    industries: '1.5-industry-hover-slow',
+    'industries-ring': '1.5-ring-layouts',
+    local: '1.5-four-cards',
+  };
   await Promise.all(
     [...roots].map(async (root) => {
       const name = root.dataset.section;
       try {
-        const version = name === 'industries' ? '1.5-vertical-industries-2' : '1.5-aside-inspected';
+        const version = versions[name] || '1.5-aside-inspected';
         const mod = await import(`./sections/${name}.js?v=${version}`);
         mod.init?.(root);
       } catch (err) {
@@ -41,5 +47,11 @@ async function initSections() {
   );
 }
 
+/** Effect presets (css/fx, js/fx): each one loads only when the page uses it. */
+async function initEffects() {
+  if (document.querySelector('[data-glow]')) (await import('./fx/glow.js?v=1.5-glow-shape-3')).initGlow();
+}
+
 initReveals();
 initSections();
+initEffects();

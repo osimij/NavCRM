@@ -14,10 +14,15 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: none;
+  max-width: calc(var(--container) + var(--gutter) * 2);
   height: var(--nav-h);
   margin-inline: auto;
-  padding-inline: 20px;
+  padding-inline: var(--gutter);
+}
+/* Inside the hero frame the nav is already inset, so take the inset off to stay on the content edges. */
+.s-hero .s-nav:not([data-scrolled="true"]) .s-nav__inner {
+  max-width: calc(var(--container) + (var(--gutter) - var(--inset)) * 2);
+  padding-inline: max(0px, var(--gutter) - var(--inset));
 }
 .s-nav__brand {
   display: inline-flex;
@@ -61,11 +66,6 @@
   background: #fff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   animation: s-nav-enter 180ms var(--ease-out) both;
-}
-.s-nav[data-scrolled="true"] .s-nav__inner {
-  width: 100%;
-  max-width: 1536px;
-  padding-inline: 16px;
 }
 .s-nav[data-scrolled="true"] .s-nav__actions .btn {
   border-radius: 11px;
@@ -153,15 +153,6 @@
   .s-nav__toggle {
     display: grid;
   }
-}
-@media (min-width: 640px) {
-  .s-nav[data-scrolled="true"] .s-nav__inner { padding-inline: 24px; }
-}
-@media (min-width: 1024px) {
-  .s-nav[data-scrolled="true"] .s-nav__inner { padding-inline: 48px; }
-}
-@media (min-width: 1280px) {
-  .s-nav[data-scrolled="true"] .s-nav__inner { padding-inline: 96px; }
 }
 @media (max-width: 400px) {
   .s-nav__actions > .btn {

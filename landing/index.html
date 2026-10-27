@@ -8,26 +8,32 @@
     <meta name="theme-color" content="#f6f8fb" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="assets/fonts/als-hauss-next-vf.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="css/base.css?v=1.5-aside-header" />
-    <link rel="stylesheet" href="css/ui.css?v=1.5-phone-2" />
-    <link rel="stylesheet" href="css/art.css" />
-    <link rel="stylesheet" href="css/sections/nav.css?v=1.5-nav-sides-20" />
-    <link rel="stylesheet" href="css/sections/hero.css?v=1.5-hero-corners" />
-    <link rel="stylesheet" href="css/sections/how.css" />
-    <link rel="stylesheet" href="css/sections/owner.css?v=1.5-owner-spacing" />
-    <link rel="stylesheet" href="css/sections/industries.css?v=1.5-vertical-industries-2" />
-    <link rel="stylesheet" href="css/sections/local.css?v=1.5-phone-2" />
-    <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-compact-3" />
-    <link rel="stylesheet" href="css/sections/setup.css" />
-    <link rel="stylesheet" href="css/sections/assistants.css" />
-    <link rel="stylesheet" href="css/sections/faq.css" />
-    <link rel="stylesheet" href="css/sections/start.css" />
-    <link rel="stylesheet" href="css/sections/footer.css" />
-    <script type="module" src="js/main.js?v=1.5-vertical-industries-2"></script>
+    <link rel="stylesheet" href="css/base.css?v=1.5-btn-soft" />
+    <link rel="stylesheet" href="css/ui.css?v=1.5-imessage" />
+    <link rel="stylesheet" href="css/art.css?v=1.5-offline-art-4" />
+    <link rel="stylesheet" href="css/fx/glow.css?v=1.5-glow-shape-3" />
+    <link rel="stylesheet" href="css/sections/nav.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/hero.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/problems.css?v=1.5-imessage" />
+    <!-- ARCHIVED 2026-10-27: How it works section stylesheet. Restore with the section (see <main>). -->
+    <!-- <link rel="stylesheet" href="css/sections/how.css?v=1.5-tones" /> -->
+    <link rel="stylesheet" href="css/sections/owner.css?v=1.5-plain" />
+    <link rel="stylesheet" href="css/sections/industries.css?v=1.5-cta-below" />
+    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-layouts" />
+    <link rel="stylesheet" href="css/sections/local.css?v=1.5-imessage" />
+    <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/setup.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/ai.css?v=1.5-ai-bare-2" />
+    <!-- ARCHIVED 2026-10-27: Assistants section stylesheet. Restore with the section (see <main>). -->
+    <!-- <link rel="stylesheet" href="css/sections/assistants.css?v=1.5-tones" /> -->
+    <link rel="stylesheet" href="css/sections/faq.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/start.css?v=1.5-offline-art-4" />
+    <link rel="stylesheet" href="css/sections/footer.css?v=1.5-tones" />
+    <script type="module" src="js/main.js?v=1.5-four-cards"></script>
   </head>
   <body>
     <main id="top">
-      <section class="s-hero" data-section="hero" data-art="image" id="hero" aria-labelledby="hero-title">
+      <section class="s-hero tone-white" data-section="hero" data-art="image" id="hero" aria-labelledby="hero-title">
   <div class="s-hero__frame">
     <div class="s-hero__nav">
       <header class="s-nav" data-section="nav">
@@ -35,7 +41,7 @@
     <div class="container s-nav__inner">
       <a class="s-nav__brand" href="#top" aria-label="NavCRM, в начало страницы">NavCRM</a>
       <nav class="s-nav__links" aria-label="Основная навигация">
-        <a href="#how">Как это работает</a>
+        <a href="#problems">Как это работает</a>
         <a href="#industries">Отрасли</a>
         <a href="#pricing">Стоимость</a>
         <a href="#faq">Вопросы</a>
@@ -52,7 +58,7 @@
 
   <div class="s-nav__menu" id="nav-menu" hidden>
     <nav aria-label="Основная навигация на мобильном">
-      <a href="#how">Как это работает</a>
+      <a href="#problems">Как это работает</a>
       <a href="#industries">Отрасли</a>
       <a href="#pricing">Стоимость</a>
       <a href="#faq">Вопросы</a>
@@ -65,6 +71,7 @@
     <div class="s-hero__art" aria-hidden="true">
       <div class="s-hero__sky" data-sky>
         <picture>
+          <source media="(min-width: 1933px)" srcset="assets/art/hero-large.png" />
           <img src="assets/art/hero-waves.png" width="1672" height="941" alt="" fetchpriority="high" decoding="async" />
         </picture>
       </div>
@@ -78,7 +85,7 @@
       </div>
       <div class="s-hero__actions">
         <a class="btn btn--dark btn--lg" href="#start">Начать работу<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
-        <a class="btn btn--glass btn--lg" href="#how">Как это работает</a>
+        <a class="btn btn--glass btn--lg" href="#problems">Как это работает</a>
       </div>
     </div>
 
@@ -90,7 +97,7 @@
         class="s-hero__comp ui"
         data-comp
         role="img"
-        aria-label="Рабочий день в NavCRM в салоне Gulnor Beauty на Рудаки, 54: расписание Малики, Фарруха и Зарины, новая запись Ситоры Рахимовой из Instagram на 12:00, подтверждение напоминания в Telegram и телефон владельца с выручкой 6 240 сомони за 31 визит."
+        aria-label="Рабочий день в NavCRM в салоне Gulnor Beauty на Рудаки, 54: расписание Малики, Фарруха и Зарины, новая запись Ситоры Рахимовой на 12:00 и телефон владельца с выручкой 6 240 сомони за 31 визит."
       >
         <div class="s-hero__win" data-win data-lens data-lens-bezel="26" data-lens-scale="60" data-lens-blur="18" aria-hidden="true">
           <div class="s-hero__rail">
@@ -138,7 +145,7 @@
                 <div class="s-hero__bk" style="--s: 4; --d: 1.5"><p><b>Парвина А.</b><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Подтверждено</span></p><small>13:00 Кератин</small></div>
               </div>
               <div class="s-hero__col" data-person="farrukh">
-                <div class="s-hero__bk is-done" style="--s: 0; --d: 0.75"><p><b>Рустам К.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span></p><small>09:00 Мужская стрижка</small></div>
+                <div class="s-hero__bk s-hero__bk--fit is-done" style="--s: 0; --d: 0.75"><p><b>Рустам К.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span></p><small>09:00 Мужская стрижка</small></div>
                 <div class="s-hero__bk is-done is-missed" style="--s: 0.75; --d: 0.75"><p><b>Бахром Т.</b><span class="ui-status ui-status--noshow"><svg class="i"><use href="assets/icons.svg#cancel" /></svg>Неявка</span></p><small>09:45 Мужская стрижка</small></div>
                 <div class="s-hero__bk is-live" data-umed style="--s: 1.5; --d: 0.75">
                   <p><b>Умед Н.</b><span class="ui-swap s-hero__umed"><span class="ui-status ui-status--paid" data-paid><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span><span class="ui-status ui-status--chair" data-chair data-hidden="true"><svg class="i"><use href="assets/icons.svg#scissor" /></svg>У мастера</span></span></p>
@@ -156,6 +163,23 @@
           </div>
         </div>
 
+        <!--
+        ARCHIVED 2026-10-26: Hero Instagram booking notification.
+        Removed from the visible hero at the owner's request; the original markup is
+        preserved below, rather than deleted, so this component can be reviewed/restored.
+
+        This was an aria-hidden, scripted illustration of Sitora Rakhimova booking a
+        haircut with Malika at 12:00. A translucent card floated over the schedule's
+        right edge (above the Telegram card); on phones it preceded the owner's phone.
+        hero.js revealed it using data-note, then highlighted the 12:00 appointment
+        and updated the phone's next appointment. It did not receive real bookings.
+
+        Its styling remains in landing/css/sections/hero.css, marked ARCHIVED.
+        Optional animation hooks remain in landing/js/sections/hero.js and tolerate
+        its absence. To restore, move only the original div below outside this
+        comment. The mobile layout detects the restored card and reserves its space.
+
+        Original markup:
         <div class="s-hero__note" data-note aria-hidden="true">
           <span class="s-hero__glyph"><svg class="i"><use href="assets/icons.svg#instagram" /></svg></span>
           <div class="s-hero__note-body">
@@ -164,10 +188,27 @@
             <p class="s-hero__note-text">Стрижка и укладка у Малики, сегодня в 12:00</p>
           </div>
         </div>
+        -->
 
+        <!--
+        ARCHIVED 2026-10-26: Hero Telegram reminder and confirmation demo.
+        Removed from the visible hero at the owner's request; original markup follows.
+
+        This aria-hidden glass card sat below the booking notification on desktop
+        and was hidden on tablets/phones. It showed Gulnor Beauty's reminder for a
+        manicure with Zarina, then hero.js moved a simulated tap onto "Confirm" and
+        replaced the decorative buttons with a green confirmation message. These
+        were illustration states, not real Telegram messages or working controls.
+
+        Styling remains in landing/css/sections/hero.css, marked ARCHIVED; optional
+        timing/state hooks remain in landing/js/sections/hero.js. To restore, move
+        the original div below outside this comment and restore the archived
+        data-tap span near the end of this composition. Keep the data attributes.
+
+        Original markup:
         <div class="s-hero__tg" data-tg aria-hidden="true">
           <div class="s-hero__tg-head">
-            <span class="ui-tile ui-tile--telegram s-hero__tg-tile"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
+            <span class="ui-tile ui-tile--telegram s-hero__tg-tile"><img src="assets/logos/telegram.svg" alt=""></span>
             <span><b>Gulnor Beauty</b><small>Telegram</small></span>
           </div>
           <p class="ui-bubble ui-bubble--in s-hero__tg-msg">Напоминаем: завтра в 10:00 у вас маникюр с гелем у Зарины. Рудаки, 54.</p>
@@ -176,6 +217,7 @@
             <div class="ui-chat-keys s-hero__tg-keys" data-keys data-hidden="true"><span class="ui-btn" data-confirm>Подтвердить</span><span class="ui-btn">Перенести</span></div>
           </div>
         </div>
+        -->
 
         <div class="s-hero__phone ui-phone" data-phone aria-hidden="true">
           <div class="ui-phone__screen">
@@ -216,7 +258,10 @@
           </div>
         </div>
 
+        <!-- ARCHIVED 2026-10-26: Simulated pointer used only by the Telegram card
+             archived above. Restore together with that card to replay its tap.
         <span class="tap" data-tap></span>
+        -->
       </div>
 
       <!-- the cloud sea in front of the product during the entrance: the window rises out of it -->
@@ -224,376 +269,202 @@
     </div>
   </div>
 </section>
-      <section class="s-how section" data-section="how" id="how">
-  <div class="container">
-    <div class="section-head">
-      <h2 class="reveal">От записи до следующего визита</h2>
-      <p class="lead reveal" style="--delay: 60ms">От онлайн-записи до повторного визита. Напоминания, оплата, склад и зарплата связаны в одной системе.</p>
+      <section class="s-problems section tone-soft" data-section="problems" id="problems">
+  <div class="container s-problems__inner">
+    <div class="section-head section-head--center">
+      <h2 class="reveal">Рутину NavCRM <span class="text-accent">берёт на себя</span></h2>
     </div>
 
-    <div class="s-how__grid">
-      <div class="s-how__steps reveal" role="tablist" aria-label="Один визит шаг за шагом" aria-orientation="vertical" style="--delay: 120ms">
-        <button class="s-how__step" type="button" role="tab" id="how-tab-1" aria-controls="how-panel-1" aria-selected="true" aria-labelledby="how-title-1" aria-describedby="how-body-1">
-          <span class="s-how__num sq" aria-hidden="true">1</span>
-          <span class="s-how__title" id="how-title-1">Клиенты записываются даже ночью</span>
-          <span class="s-how__more">
-            <span class="s-how__more-in">
-              <span class="s-how__body" id="how-body-1">Клиент выбирает услугу, специалиста и время по вашей ссылке. Для записи нужны только телефон и код.</span>
-              <span class="s-how__bar" aria-hidden="true"><i></i></span>
-            </span>
-          </span>
-        </button>
-        <button class="s-how__step" type="button" role="tab" id="how-tab-2" aria-controls="how-panel-2" aria-selected="false" tabindex="-1" aria-labelledby="how-title-2" aria-describedby="how-body-2">
-          <span class="s-how__num sq" aria-hidden="true">2</span>
-          <span class="s-how__title" id="how-title-2">Напоминание приходит в Telegram</span>
-          <span class="s-how__more">
-            <span class="s-how__more-in">
-              <span class="s-how__body" id="how-body-2">За день и за два часа клиент получает напоминание и может подтвердить, перенести или отменить запись.</span>
-              <span class="s-how__bar" aria-hidden="true"><i></i></span>
-            </span>
-          </span>
-        </button>
-        <button class="s-how__step" type="button" role="tab" id="how-tab-3" aria-controls="how-panel-3" aria-selected="false" tabindex="-1" aria-labelledby="how-title-3" aria-describedby="how-body-3">
-          <span class="s-how__num sq" aria-hidden="true">3</span>
-          <span class="s-how__title" id="how-title-3">Чек заполняется сам</span>
-          <span class="s-how__more">
-            <span class="s-how__more-in">
-              <span class="s-how__body" id="how-body-3">Чек заполняется из записи. Добавьте товары и примите оплату наличными, картой или по QR.</span>
-              <span class="s-how__bar" aria-hidden="true"><i></i></span>
-            </span>
-          </span>
-        </button>
-        <button class="s-how__step" type="button" role="tab" id="how-tab-4" aria-controls="how-panel-4" aria-selected="false" tabindex="-1" aria-labelledby="how-title-4" aria-describedby="how-body-4">
-          <span class="s-how__num sq" aria-hidden="true">4</span>
-          <span class="s-how__title" id="how-title-4">Склад и зарплата обновляются сами</span>
-          <span class="s-how__more">
-            <span class="s-how__more-in">
-              <span class="s-how__body" id="how-body-4">Закрытие чека списывает материалы и начисляет процент сотруднику и бонусы клиенту.</span>
-              <span class="s-how__bar" aria-hidden="true"><i></i></span>
-            </span>
-          </span>
-        </button>
-        <button class="s-how__step" type="button" role="tab" id="how-tab-5" aria-controls="how-panel-5" aria-selected="false" tabindex="-1" aria-labelledby="how-title-5" aria-describedby="how-body-5">
-          <span class="s-how__num sq" aria-hidden="true">5</span>
-          <span class="s-how__title" id="how-title-5">Клиенты возвращаются</span>
-          <span class="s-how__more">
-            <span class="s-how__more-in">
-              <span class="s-how__body" id="how-body-5">После визита клиент получает запрос отзыва, а позже приглашение записаться снова.</span>
-              <span class="s-how__bar" aria-hidden="true"><i></i></span>
-            </span>
-          </span>
-        </button>
-      </div>
-
-      <div class="s-how__stage stage reveal" data-mood="night">
-        <div class="stage__art" aria-hidden="true"></div>
-
-        <div class="s-how__time" aria-hidden="true">
-          <span class="s-how__time-label" data-time="0"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#moon" /></svg>Понедельник, 23:41</span>
-          <span class="s-how__time-label" data-time="1" data-hidden="true"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#sun" /></svg>Вторник, 10:30</span>
-          <span class="s-how__time-label" data-time="2" data-hidden="true"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#sun" /></svg>Среда, 11:35</span>
-          <span class="s-how__time-label" data-time="3" data-hidden="true"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#sun" /></svg>Среда, 11:36</span>
-          <span class="s-how__time-label" data-time="4" data-hidden="true"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#sun" /></svg>Среда, 12:30</span>
-          <span class="s-how__time-label" data-time="5" data-hidden="true"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#calendar" /></svg>Через пять недель</span>
-        </div>
-
-        <div class="s-how__fit">
-          <div class="s-how__canvas">
-            <!-- 1. Booking -->
-            <div class="s-how__panel" role="tabpanel" id="how-panel-1" aria-labelledby="how-title-1" tabindex="0" data-state="in" data-mood="night">
-              <div class="s-how__demo ui" data-demo="book" role="img" aria-label="Понедельник, 23:41. Клиент открывает ссылку Gulnor Beauty из Instagram, выбирает стрижку и укладку за 180 сомони у Малики в среду в 10:30 и получает подтверждение записи. Ссылка также доступна в Telegram, 2ГИС, Яндекс Картах, на сайте и по QR-коду.">
-                <div class="s-how__book-wrap" aria-hidden="true">
-                  <ul class="s-how__sources">
-                    <li class="chip s-how__source" data-b="1"><svg class="i"><use href="assets/icons.svg#instagram" /></svg>Instagram</li>
-                    <li class="chip s-how__source"><svg class="i"><use href="assets/icons.svg#telegram" /></svg>Telegram</li>
-                    <li class="chip s-how__source"><svg class="i"><use href="assets/icons.svg#maps" /></svg>2ГИС</li>
-                    <li class="chip s-how__source"><svg class="i"><use href="assets/icons.svg#map-pin" /></svg>Яндекс Карты</li>
-                    <li class="chip s-how__source"><svg class="i"><use href="assets/icons.svg#globe" /></svg>Сайт</li>
-                    <li class="chip s-how__source"><svg class="i"><use href="assets/icons.svg#qr" /></svg>QR-код</li>
-                  </ul>
-
-                  <div class="ui-window s-how__book">
-                    <div class="s-how__head">
-                      <span class="ui-avatar ui-avatar--lg s-how__brand">GB</span>
-                      <div class="s-how__grow">
-                        <div class="ui-title">Gulnor Beauty</div>
-                        <div class="ui-sub">Рудаки, 54, Душанбе</div>
-                      </div>
-                    </div>
-                    <div class="ui-swap s-how__book-body">
-                      <div class="s-how__form" data-b-hide="5">
-                        <div class="s-how__field">
-                          <div class="ui-label">Услуга</div>
-                          <div class="s-how__pick s-how__svc" data-t="service" data-b="2">
-                            <div class="s-how__grow">
-                              <div class="ui-title">Стрижка и укладка</div>
-                              <div class="ui-sub">60 мин</div>
-                            </div>
-                            <div class="ui-amount">180 сомони</div>
-                            <span class="s-how__radio"><svg class="i i--bold"><use href="assets/icons.svg#check" /></svg></span>
-                          </div>
-                        </div>
-                        <div class="s-how__field">
-                          <div class="ui-label">Специалист</div>
-                          <div class="s-how__people">
-                            <div class="s-how__pick s-how__person" data-t="malika" data-b="3">
-                              <span class="ui-avatar ui-avatar--lg" data-person="malika">М</span>
-                              <div class="s-how__grow">
-                                <div class="s-how__name">Малика</div>
-                                <div class="ui-sub">Парикмахер</div>
-                              </div>
-                              <span class="s-how__radio"><svg class="i i--bold"><use href="assets/icons.svg#check" /></svg></span>
-                            </div>
-                            <div class="s-how__pick s-how__person">
-                              <span class="ui-avatar ui-avatar--lg" data-person="farrukh">Ф</span>
-                              <div class="s-how__grow">
-                                <div class="s-how__name">Фаррух</div>
-                                <div class="ui-sub">Барбер</div>
-                              </div>
-                              <span class="s-how__radio"><svg class="i i--bold"><use href="assets/icons.svg#check" /></svg></span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="s-how__field">
-                          <div class="ui-row ui-row--between">
-                            <span class="ui-label">Время</span>
-                            <span class="ui-label">Среда, 28 октября</span>
-                          </div>
-                          <div class="s-how__times">
-                            <span class="ui-option">10:00</span>
-                            <span class="ui-option" data-t="time" data-b="4" data-b-cls="is-selected">10:30</span>
-                            <span class="ui-option">11:30</span>
-                            <span class="ui-option">12:00</span>
-                          </div>
-                        </div>
-                        <span class="ui-btn ui-btn--primary ui-btn--block s-how__cta" data-t="book" data-b="4">Записаться на среду, 10:30</span>
-                      </div>
-                      <div class="s-how__booked" data-b-show="5" data-hidden="true">
-                        <div class="s-how__booked-top">
-                          <span class="s-how__booked-mark"><svg class="i i--bold"><use href="assets/icons.svg#check" /></svg></span>
-                          <div class="ui-h">Вы записаны</div>
-                        </div>
-                        <dl class="s-how__summary">
-                          <div><dt>Услуга</dt><dd>Стрижка и укладка</dd></div>
-                          <div><dt>Специалист</dt><dd>Малика</dd></div>
-                          <div><dt>Когда</dt><dd>Среда, 28 октября, 10:30</dd></div>
-                          <div><dt>Стоимость</dt><dd>180 сомони</dd></div>
-                        </dl>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <span class="tap" aria-hidden="true"></span>
-              </div>
+    <!-- Each tile: a grey well holding a piece of product, then one statement:
+         ink, then a grey continuation. -->
+    <ul class="s-problems__grid" data-stagger="50">
+      <!-- 1. AI replies and books -->
+      <li class="s-problems__card s-problems__card--ai sq reveal">
+        <div class="s-problems__stage ui" aria-hidden="true">
+          <div class="s-problems__chat">
+            <div class="s-problems__chat-head ui-thread-head">
+              <span class="ui-avatar" data-person="malika">Н</span>
+              <span class="ui-thread-head__name">Нигина<svg class="i"><use href="assets/icons.svg#chevron-right" /></svg></span>
+              <span class="ui-sub"><svg class="i"><use href="assets/icons.svg#instagram" /></svg>Instagram · 23:47</span>
             </div>
-
-            <!-- 2. Reminder -->
-            <div class="s-how__panel" role="tabpanel" id="how-panel-2" aria-labelledby="how-title-2" tabindex="0" data-state="idle" data-mood="morning">
-              <div class="s-how__demo ui" data-demo="remind" role="img" aria-label="Вторник, 10:30. Gulnor Beauty напоминает Ситоре в Telegram о стрижке и укладке у Малики завтра в 10:30. Доступны кнопки подтверждения, переноса и отмены. После подтверждения статус в расписании меняется с «Ожидает» на «Подтверждено».">
-                <div class="s-how__pair" aria-hidden="true">
-                  <div class="ui-window s-how__tg">
-                    <div class="s-how__head">
-                      <span class="ui-avatar ui-avatar--lg s-how__brand">GB</span>
-                      <div class="s-how__grow ui-title">Gulnor Beauty</div>
-                      <span class="ui-tile ui-tile--telegram s-how__tg-mark"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
-                    </div>
-                    <div class="s-how__chat">
-                      <div class="s-how__msg" data-b="1">
-                        <div class="ui-bubble ui-bubble--in">Ситора, напоминаем: завтра в 10:30 у вас стрижка и укладка у Малики. Рудаки, 54.<span class="ui-bubble__meta">10:30</span></div>
-                        <div class="ui-swap s-how__keys">
-                          <div class="ui-chat-keys" data-b-hide="2">
-                            <span class="ui-btn" data-t="confirm">Подтвердить</span>
-                            <span class="ui-btn">Перенести</span>
-                            <span class="ui-btn">Отменить</span>
-                          </div>
-                          <div class="s-how__ok" data-b-show="2" data-hidden="true"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Подтверждено</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="ui-card ui-card--glass s-how__sched">
-                    <div class="s-how__sched-head">
-                      <div class="ui-title">Среда, 28 октября</div>
-                      <div class="s-how__who"><span class="ui-avatar" data-person="malika">М</span>Малика</div>
-                    </div>
-                    <div class="s-how__rail">
-                      <div class="s-how__slot"><span>10:00</span></div>
-                      <div class="s-how__slot"><span>10:30</span></div>
-                      <div class="s-how__slot"><span>11:00</span></div>
-                      <div class="s-how__slot"><span>11:30</span></div>
-                      <div class="s-how__slot"><span>12:00</span></div>
-                      <div class="s-how__block s-how__block--main" data-b="3">
-                        <div class="s-how__block-name">Ситора Рахимова</div>
-                        <div class="s-how__block-svc"><span class="s-how__block-time">10:30–11:30, </span>Стрижка и укладка</div>
-                        <div class="ui-swap">
-                          <span class="ui-status ui-status--waiting" data-b-hide="3"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg>Ожидает</span>
-                          <span class="ui-status ui-status--confirmed" data-b-show="3" data-hidden="true"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Подтверждено</span>
-                        </div>
-                      </div>
-                      <div class="s-how__block s-how__block--next">
-                        <div class="s-how__block-name">Парвина А.</div>
-                        <div class="s-how__block-svc">Окрашивание</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <span class="tap" aria-hidden="true"></span>
+            <div class="s-problems__chat-body">
+              <div class="ui-msg">
+                <span class="ui-avatar" data-person="malika">Н</span>
+                <p class="ui-bubble ui-bubble--in">Есть время в субботу?</p>
               </div>
-            </div>
-
-            <!-- 3. Receipt -->
-            <div class="s-how__panel" role="tabpanel" id="how-panel-3" aria-labelledby="how-title-3" tabindex="0" data-state="idle" data-mood="midday">
-              <div class="s-how__demo ui" data-demo="receipt" role="img" aria-label="Среда, 11:35. Чек Ситоры уже заполнен: стрижка и укладка: 180 сомони, маска для волос: 95 сомони, списание бонусов: 15 сомони, итого: 260 сомони. Среди наличных, карты, Alif QR, DC NEXT и Корти Милли выбран Alif QR. После сканирования QR-кода чек получает статус «Оплачено».">
-                <div class="ui-window s-how__receipt" aria-hidden="true">
-                  <div class="s-how__head">
-                    <span class="ui-avatar ui-avatar--lg" data-person="sitora">СР</span>
-                    <div class="s-how__grow ui-title">Ситора Рахимова</div>
-                    <span class="ui-status ui-status--chair"><svg class="i"><use href="assets/icons.svg#scissor" /></svg>У мастера</span>
-                  </div>
-                  <div class="s-how__lines">
-                    <div class="s-how__line" data-b="1">
-                      <div class="s-how__grow"><div class="s-how__line-name">Стрижка и укладка</div><div class="ui-sub">Малика, 60 мин</div></div>
-                      <span class="ui-amount">180 сомони</span>
-                    </div>
-                    <div class="s-how__line" data-b="1" style="--i: 1">
-                      <div class="s-how__grow"><div class="s-how__line-name">Маска для волос</div><div class="ui-sub">Продукт</div></div>
-                      <span class="ui-amount">95 сомони</span>
-                    </div>
-                    <div class="s-how__line s-how__line--bonus" data-b="1" style="--i: 2">
-                      <div class="s-how__grow"><div class="s-how__line-name"><svg class="i"><use href="assets/icons.svg#gift" /></svg>Бонусы</div></div>
-                      <span class="ui-amount">−15 сомони</span>
-                    </div>
-                    <div class="s-how__total" data-b="1" style="--i: 3">
-                      <span>Итого</span>
-                      <span class="ui-amount">260 сомони</span>
-                    </div>
-                  </div>
-                  <div class="s-how__pay">
-                    <div class="ui-seg s-how__seg" data-b-seg="2">
-                      <div class="ui-seg__thumb"></div>
-                      <span class="is-active">Наличные</span>
-                      <span>Карта</span>
-                      <span data-t="alif">Alif QR</span>
-                      <span>DC NEXT</span>
-                      <span>Корти Милли</span>
-                    </div>
-                    <div class="ui-swap s-how__method">
-                      <div class="s-how__method-row" data-b-hide="2">
-                        <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#cash" /></svg></span>
-                        <div class="s-how__grow"><div class="ui-title">Наличные</div><div class="ui-sub">260 сомони</div></div>
-                      </div>
-                      <div class="s-how__method-row" data-b-show="2" data-hidden="true">
-                        <svg class="s-how__qr" viewBox="-2 -2 29 29" aria-hidden="true"><rect x="-2" y="-2" width="29" height="29" rx="3" fill="#fff" /><path d="M0 0h7v1h-7zM8 0h1v1h-1zM11 0h1v1h-1zM14 0h3v1h-3zM18 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h1v1h-1zM11 1h1v1h-1zM14 1h1v1h-1zM18 1h1v1h-1zM24 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM9 2h1v1h-1zM12 2h1v1h-1zM16 2h1v1h-1zM18 2h1v1h-1zM20 2h3v1h-3zM24 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM11 3h1v1h-1zM15 3h2v1h-2zM18 3h1v1h-1zM20 3h3v1h-3zM24 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h2v1h-2zM16 4h1v1h-1zM18 4h1v1h-1zM20 4h3v1h-3zM24 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM10 5h3v1h-3zM16 5h1v1h-1zM18 5h1v1h-1zM24 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h7v1h-7zM10 7h2v1h-2zM13 7h4v1h-4zM1 8h1v1h-1zM4 8h3v1h-3zM9 8h1v1h-1zM11 8h1v1h-1zM13 8h1v1h-1zM16 8h1v1h-1zM18 8h2v1h-2zM22 8h3v1h-3zM0 9h3v1h-3zM4 9h1v1h-1zM10 9h1v1h-1zM12 9h4v1h-4zM17 9h1v1h-1zM19 9h1v1h-1zM21 9h1v1h-1zM0 10h1v1h-1zM3 10h2v1h-2zM6 10h1v1h-1zM8 10h2v1h-2zM11 10h1v1h-1zM13 10h3v1h-3zM20 10h3v1h-3zM3 11h2v1h-2zM7 11h1v1h-1zM9 11h1v1h-1zM13 11h3v1h-3zM17 11h3v1h-3zM22 11h3v1h-3zM4 12h4v1h-4zM9 12h4v1h-4zM16 12h3v1h-3zM20 12h3v1h-3zM24 12h1v1h-1zM0 13h1v1h-1zM2 13h1v1h-1zM4 13h2v1h-2zM8 13h1v1h-1zM10 13h1v1h-1zM12 13h1v1h-1zM15 13h2v1h-2zM19 13h2v1h-2zM1 14h1v1h-1zM5 14h5v1h-5zM11 14h1v1h-1zM14 14h2v1h-2zM17 14h1v1h-1zM20 14h1v1h-1zM0 15h1v1h-1zM4 15h1v1h-1zM7 15h3v1h-3zM11 15h1v1h-1zM14 15h3v1h-3zM18 15h1v1h-1zM2 16h2v1h-2zM5 16h2v1h-2zM8 16h2v1h-2zM11 16h1v1h-1zM13 16h1v1h-1zM16 16h5v1h-5zM22 16h1v1h-1zM24 16h1v1h-1zM9 17h3v1h-3zM14 17h1v1h-1zM16 17h1v1h-1zM20 17h1v1h-1zM0 18h7v1h-7zM10 18h4v1h-4zM16 18h1v1h-1zM18 18h1v1h-1zM20 18h3v1h-3zM24 18h1v1h-1zM0 19h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM12 19h1v1h-1zM14 19h1v1h-1zM16 19h1v1h-1zM20 19h1v1h-1zM23 19h1v1h-1zM0 20h1v1h-1zM2 20h3v1h-3zM6 20h1v1h-1zM8 20h1v1h-1zM10 20h2v1h-2zM14 20h1v1h-1zM16 20h5v1h-5zM24 20h1v1h-1zM0 21h1v1h-1zM2 21h3v1h-3zM6 21h1v1h-1zM8 21h1v1h-1zM10 21h3v1h-3zM14 21h4v1h-4zM22 21h2v1h-2zM0 22h1v1h-1zM2 22h3v1h-3zM6 22h1v1h-1zM10 22h4v1h-4zM16 22h1v1h-1zM19 22h1v1h-1zM24 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h2v1h-2zM11 23h2v1h-2zM16 23h1v1h-1zM19 23h1v1h-1zM21 23h1v1h-1zM23 23h2v1h-2zM0 24h7v1h-7zM9 24h1v1h-1zM11 24h1v1h-1zM13 24h2v1h-2zM18 24h1v1h-1zM20 24h3v1h-3zM24 24h1v1h-1z" fill="currentColor" /></svg>
-                        <div class="s-how__grow"><div class="ui-title">Alif QR</div><div class="ui-sub">260 сомони</div></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="ui-swap s-how__take">
-                    <span class="ui-btn ui-btn--dark ui-btn--block" data-t="take" data-b-hide="3">Принять 260 сомони</span>
-                    <span class="s-how__ok s-how__ok--lg" data-b-show="3" data-hidden="true"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span>
-                  </div>
-                </div>
-                <span class="tap" aria-hidden="true"></span>
+              <div class="ui-bubble ui-bubble--out">
+                <span class="s-problems__ai"><svg class="i"><use href="assets/icons.svg#brain" /></svg>NavCRM</span>
+                Да! К Малике свободно:
+                <span class="s-problems__slots"><span>11:00</span><span class="is-on">14:30</span><span>16:00</span></span>
               </div>
-            </div>
-
-            <!-- 4. Behind the scenes -->
-            <div class="s-how__panel" role="tabpanel" id="how-panel-4" aria-labelledby="how-title-4" tabindex="0" data-state="idle" data-mood="midday">
-              <div class="s-how__demo ui" data-demo="after" role="img" aria-label="Среда, 11:36. После закрытия чека остаток шампуня объёмом 1 л уменьшается с 64% до 61%, остаток мусса для укладки снижается с 12 до 11. Напоминание: осталось 3 маски для волос, пора заказать. Заработок Малики за день увеличивается с 1 240 до 1 294 сомони, а Ситоре начисляется 13 сомони бонусов.">
-                <div class="ui-window s-how__ledger" aria-hidden="true">
-                  <div class="s-how__ledger-top">
-                    <span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span>
-                    <span class="ui-sub">Ситора Рахимова, 260 сомони</span>
-                  </div>
-                  <div class="s-how__group">
-                    <div class="ui-label s-how__group-label">Склад, Рудаки, 54</div>
-                    <div class="s-how__row" data-b="1">
-                      <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#package" /></svg></span>
-                      <div class="s-how__grow">
-                        <div class="s-how__row-name">Шампунь, 1 л</div>
-                        <div class="ui-meter s-how__meter"><span data-b-meter="1" data-from="0.64" data-to="0.61"></span></div>
-                      </div>
-                      <span class="s-how__val"><span class="s-how__roll" data-b-roll="1" data-from="64" data-to="61">64</span>%</span>
-                    </div>
-                    <div class="s-how__row" data-b="2">
-                      <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#package" /></svg></span>
-                      <div class="s-how__grow s-how__row-name">Мусс для укладки</div>
-                      <span class="s-how__val"><span class="s-how__roll" data-b-roll="2" data-from="12" data-to="11">12</span> осталось</span>
-                    </div>
-                    <div class="s-how__alert" data-b="3">
-                      <svg class="i"><use href="assets/icons.svg#alert" /></svg>
-                      <span>Маска для волос: осталось 3. Пора заказать.</span>
-                    </div>
-                  </div>
-                  <div class="s-how__group">
-                    <div class="ui-label s-how__group-label">Зарплата и бонусы</div>
-                    <div class="s-how__row" data-b="4">
-                      <span class="ui-avatar ui-avatar--lg" data-person="malika">М</span>
-                      <div class="s-how__grow s-how__row-name">Малика, заработано сегодня</div>
-                      <span class="s-how__amounts">
-                        <span class="chip chip--good s-how__delta" data-b="4">+54 сомони</span>
-                        <span class="s-how__val"><span class="s-how__roll" data-b-roll="4" data-from="1240" data-to="1294">1 240</span> сомони</span>
-                      </span>
-                    </div>
-                    <div class="s-how__row" data-b="5">
-                      <span class="ui-avatar ui-avatar--lg" data-person="sitora">СР</span>
-                      <div class="s-how__grow s-how__row-name">Ситора, баланс бонусов</div>
-                      <span class="s-how__amounts">
-                        <span class="chip chip--good s-how__delta" data-b="5">+13 сомони</span>
-                        <span class="s-how__val"></span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
+              <div class="ui-msg">
+                <span class="ui-avatar" data-person="malika">Н</span>
+                <p class="ui-bubble ui-bubble--in">14:30, пожалуйста<span class="ui-tapback">👍</span></p>
               </div>
-            </div>
-
-            <!-- 5. Come back. The stage clock moves on to "Five weeks later" when the divider appears (beat 3). -->
-            <div class="s-how__panel" role="tabpanel" id="how-panel-5" aria-labelledby="how-title-5" tabindex="0" data-state="idle" data-mood="midday" data-late-beat="3" data-late-time="5" data-late-mood="season">
-              <div class="s-how__demo ui" data-demo="back" role="img" aria-label="Среда, 12:30. Gulnor Beauty спрашивает в Telegram, как прошёл визит. Ситора ставит пять звёзд. Через пять недель приходит приглашение снова записаться на стрижку у Малики с кнопкой выбора времени.">
-                <div class="ui-window s-how__tg s-how__tg--back" aria-hidden="true">
-                  <div class="s-how__head">
-                    <span class="ui-avatar ui-avatar--lg s-how__brand">GB</span>
-                    <div class="s-how__grow ui-title">Gulnor Beauty</div>
-                    <span class="ui-tile ui-tile--telegram s-how__tg-mark"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
-                  </div>
-                  <div class="s-how__chat">
-                    <div class="s-how__msg" data-b="1">
-                      <div class="ui-bubble ui-bubble--in">Как прошёл ваш визит в Gulnor Beauty?<span class="ui-bubble__meta">12:30</span></div>
-                      <div class="ui-chat-keys s-how__stars">
-                        <span class="ui-btn s-how__star" data-b="2" style="--i: 0"><svg class="i"><use href="assets/icons.svg#star" /></svg><svg class="i s-how__star-fill"><use href="#s-how-star" /></svg></span>
-                        <span class="ui-btn s-how__star" data-b="2" style="--i: 1"><svg class="i"><use href="assets/icons.svg#star" /></svg><svg class="i s-how__star-fill"><use href="#s-how-star" /></svg></span>
-                        <span class="ui-btn s-how__star" data-b="2" style="--i: 2"><svg class="i"><use href="assets/icons.svg#star" /></svg><svg class="i s-how__star-fill"><use href="#s-how-star" /></svg></span>
-                        <span class="ui-btn s-how__star" data-b="2" style="--i: 3"><svg class="i"><use href="assets/icons.svg#star" /></svg><svg class="i s-how__star-fill"><use href="#s-how-star" /></svg></span>
-                        <span class="ui-btn s-how__star" data-b="2" data-t="star" style="--i: 4"><svg class="i"><use href="assets/icons.svg#star" /></svg><svg class="i s-how__star-fill"><use href="#s-how-star" /></svg></span>
-                      </div>
-                    </div>
-                    <div class="s-how__divider" data-b="3"><span>Через пять недель</span></div>
-                    <div class="s-how__msg" data-b="4">
-                      <div class="ui-bubble ui-bubble--in">Ситора, со стрижки у Малики прошло пять недель. Записать вас снова?<span class="ui-bubble__meta">10:00</span></div>
-                      <div class="ui-chat-keys s-how__rebook" data-b="5">
-                        <span class="ui-btn"><svg class="i"><use href="assets/icons.svg#calendar" /></svg>Выбрать время</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <span class="tap" aria-hidden="true"></span>
+              <div class="ui-bubble ui-bubble--out ui-bubble--dark s-problems__booking">
+                <span class="s-problems__ai"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Запись</span>
+                <span class="s-problems__booking-when">Сб, 14:30</span>
+                <span class="s-problems__booking-what">Стрижка у Малики</span>
+                <span class="s-problems__booking-done"><svg class="i"><use href="assets/icons.svg#check" /></svg>Записана</span>
               </div>
             </div>
           </div>
         </div>
+        <div class="s-problems__copy">
+          <p class="s-problems__eyebrow"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#brain" /></svg>ИИ-администратор</p>
+          <h3 class="s-problems__say">Отвечает клиентам 24/7. <span>Сам находит свободное окно в Instagram и Telegram и записывает.</span></h3>
+        </div>
+      </li>
 
-        <!-- The Hugeicons star from the sprite, without its fill="none", so the rating can show filled stars. -->
-        <svg class="s-how__defs" aria-hidden="true" focusable="false"><symbol id="s-how-star" viewBox="0 0 24 24"><path d="M13.7276 3.44418L15.4874 6.99288C15.7274 7.48687 16.3673 7.9607 16.9073 8.05143L20.0969 8.58575C22.1367 8.92853 22.6167 10.4206 21.1468 11.8925L18.6671 14.3927C18.2471 14.8161 18.0172 15.6327 18.1471 16.2175L18.8571 19.3125C19.417 21.7623 18.1271 22.71 15.9774 21.4296L12.9877 19.6452C12.4478 19.3226 11.5579 19.3226 11.0079 19.6452L8.01827 21.4296C5.8785 22.71 4.57865 21.7522 5.13859 19.3125L5.84851 16.2175C5.97849 15.6327 5.74852 14.8161 5.32856 14.3927L2.84884 11.8925C1.389 10.4206 1.85895 8.92853 3.89872 8.58575L7.08837 8.05143C7.61831 7.9607 8.25824 7.48687 8.49821 6.99288L10.258 3.44418C11.2179 1.51861 12.7777 1.51861 13.7276 3.44418Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" /></symbol></svg>
-      </div>
-    </div>
+      <!-- 2. Reminders: the two Telegram notifications, a day and two hours before -->
+      <li class="s-problems__card s-problems__card--remind sq reveal">
+        <div class="s-problems__stage ui" aria-hidden="true">
+          <div class="s-problems__stack">
+            <div class="ui-card s-problems__row s-problems__row--read">
+              <span class="ui-tile ui-tile--telegram"><img src="assets/logos/telegram.svg" alt=""></span>
+              <span class="s-problems__lines"><span class="s-problems__top"><span class="ui-title">Gulnor Beauty</span><span class="ui-sub">за 24 ч</span></span><span class="ui-sub">Завтра в 14:30 стрижка у Малики</span></span>
+            </div>
+            <div class="ui-card s-problems__row">
+              <span class="ui-tile ui-tile--telegram"><img src="assets/logos/telegram.svg" alt=""></span>
+              <span class="s-problems__lines"><span class="s-problems__top"><span class="ui-title">Gulnor Beauty</span><span class="ui-sub">за 2 ч</span></span><span class="ui-sub">Нигина, ждём вас сегодня в 14:30</span></span>
+              <span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#check" /></svg>Приду</span>
+            </div>
+          </div>
+        </div>
+        <h3 class="s-problems__say">Напоминания уходят сами. <span>Обзванивать никого не нужно.</span></h3>
+      </li>
+
+      <!-- 3. Reviews: the rating, and where each review goes -->
+      <li class="s-problems__card s-problems__card--reviews sq reveal">
+        <div class="s-problems__stage ui" aria-hidden="true">
+          <div class="s-problems__reviews">
+            <div class="s-problems__score">
+              <span class="s-problems__num">4,9</span>
+              <span class="s-problems__stars" style="--n: 5">★★★★★</span>
+            </div>
+            <div class="s-problems__stack">
+              <div class="ui-card s-problems__route">
+                <span class="s-problems__stars" style="--n: 5">★★★★★</span>
+                <svg class="i s-problems__arrow"><use href="assets/icons.svg#arrow-right" /></svg>
+                <span class="s-problems__route-to s-problems__route-to--good"><svg class="i"><use href="assets/icons.svg#map-pin" /></svg>2ГИС и Яндекс Карты</span>
+              </div>
+              <div class="ui-card s-problems__route">
+                <span class="s-problems__stars" style="--n: 2">★★★★★</span>
+                <svg class="i s-problems__arrow"><use href="assets/icons.svg#arrow-right" /></svg>
+                <span class="s-problems__route-to"><svg class="i"><use href="assets/icons.svg#lock" /></svg>Лично директору</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h3 class="s-problems__say">Отзывы после каждого визита. <span>Хорошие идут на карты, плохие лично директору.</span></h3>
+      </li>
+
+      <!-- 4. Payroll -->
+      <li class="s-problems__card s-problems__card--pay sq reveal">
+        <div class="s-problems__stage ui" aria-hidden="true">
+          <div class="s-problems__figure">
+            <span class="s-problems__num s-problems__num--good">+412</span>
+            <span class="s-problems__unit"><span class="ui-avatar" data-person="malika">М</span>сомони Малике за сегодня</span>
+          </div>
+        </div>
+        <h3 class="s-problems__say">Зарплата без калькулятора. <span>Каждый видит свой заработок за день.</span></h3>
+      </li>
+
+      <!-- 5. Waitlist: the cancelled booking hands its slot to the next person -->
+      <li class="s-problems__card s-problems__card--wait sq reveal">
+        <div class="s-problems__stage ui" aria-hidden="true">
+          <div class="s-problems__handover">
+            <div class="s-problems__slot s-problems__slot--gone">
+              <span class="ui-sub">Сб, 16:00 · Стрижка</span>
+              <span class="ui-title">Шахло М.</span>
+              <span class="ui-status ui-status--noshow"><svg class="i"><use href="assets/icons.svg#cancel" /></svg>Отмена</span>
+            </div>
+            <svg class="i s-problems__arrow"><use href="assets/icons.svg#arrow-right" /></svg>
+            <div class="s-problems__slot s-problems__slot--new">
+              <span class="ui-sub">Сб, 16:00 · Стрижка</span>
+              <span class="ui-title">Дилноза Р.</span>
+              <span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#check" /></svg>Записана</span>
+            </div>
+          </div>
+          <div class="s-problems__queue">
+            <span>Лист ожидания</span>
+            <span class="s-problems__faces"><span class="ui-avatar is-first" data-person="zarina">Д</span><span class="ui-avatar" data-person="sitora">П</span><span class="ui-avatar" data-person="farrukh">С</span></span>
+          </div>
+        </div>
+        <h3 class="s-problems__say">Отмена? <span>Окно сразу уходит первому из листа ожидания.</span></h3>
+      </li>
+
+      <!-- 6. Cash -->
+      <li class="s-problems__card s-problems__card--cash sq reveal">
+        <div class="s-problems__stage ui" aria-hidden="true">
+          <div class="s-problems__figure">
+            <span class="s-problems__num s-problems__num--bad">−40</span>
+            <span class="s-problems__unit">сомони: 2 140 в кассе из 2 180</span>
+          </div>
+        </div>
+        <h3 class="s-problems__say">Касса не сходится? <span>Отчёт смены покажет это сразу.</span></h3>
+      </li>
+
+      <!-- 7. Stock: a running-low item and the order that is already drafted -->
+      <li class="s-problems__card s-problems__card--stock sq reveal">
+        <div class="s-problems__stage ui" aria-hidden="true">
+          <div class="s-problems__pair">
+            <div class="ui-card s-problems__panel">
+              <span class="s-problems__head"><span class="ui-tile ui-tile--warn"><svg class="i"><use href="assets/icons.svg#package-low" /></svg></span><span class="ui-title">Шампунь, 250 мл</span></span>
+              <span class="s-problems__bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+              <span class="s-problems__left">Осталось 2 шт.</span>
+            </div>
+            <div class="ui-card s-problems__panel">
+              <span class="s-problems__head"><span class="ui-tile"><svg class="i"><use href="assets/icons.svg#truck" /></svg></span><span class="ui-title">Заказ поставщику</span></span>
+              <span class="s-problems__line"><span>Шампунь, 250 мл</span><span>× 12</span></span>
+              <span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#check" /></svg>Готов к отправке</span>
+            </div>
+          </div>
+        </div>
+        <h3 class="s-problems__say">Шампунь не кончится внезапно. <span>Заказ поставщику уже готов.</span></h3>
+      </li>
+
+      <!-- 8. Birthdays and win-back: the two messages it sends on its own -->
+      <li class="s-problems__card s-problems__card--return sq reveal">
+        <div class="s-problems__stage ui" aria-hidden="true">
+          <div class="s-problems__pair">
+            <div class="ui-card s-problems__panel">
+              <span class="s-problems__head"><span class="ui-tile s-problems__tile-gift"><svg class="i"><use href="assets/icons.svg#gift" /></svg></span><span class="ui-sub">День рождения</span></span>
+              <p class="s-problems__text">С днём рождения, Нигина! Подарок к следующему визиту уже ждёт.</p>
+            </div>
+            <div class="ui-card s-problems__panel">
+              <span class="s-problems__head"><span class="ui-tile"><svg class="i"><use href="assets/icons.svg#calendar" /></svg></span><span class="ui-sub">60 дней без визита</span></span>
+              <p class="s-problems__text">Парвина, давно не виделись. Запишем к Малике на этой неделе?</p>
+            </div>
+          </div>
+        </div>
+        <h3 class="s-problems__say">Помнит дни рождения. <span>И пишет тем, кто не был 60 дней.</span></h3>
+      </li>
+    </ul>
   </div>
 </section>
-      <section class="s-owner section" data-section="owner" id="owner">
+      <!--
+      ARCHIVED 2026-10-27: "How it works" section (id="how"), removed from the page at the owner's request.
+
+      Heading "От записи до следующего визита". Five tabbed steps on the left (night-time
+      online booking, Telegram reminder, auto-filled receipt, stock and payroll updates,
+      returning clients) drove one stage on the right that followed a single booking at
+      Gulnor Beauty. Steps auto-advanced every 7s while the section was on screen.
+      The problems bento (src/partials/problems.html), placed right after the hero, now
+      covers this ground, and the "Как это работает" links point to #problems.
+
+      Nothing was deleted: markup in src/partials/how.html, styles in
+      landing/css/sections/how.css, behaviour in landing/js/sections/how.js (main.js loads
+      it only when a data-section="how" element is on the page).
+
+      To restore: put back the "@ partial how" marker (without the space) here, uncomment
+      the how.css link in <head>, optionally point the "Как это работает" links back to
+      #how, then run npm run build.
+      -->
+      <section class="s-owner section tone-white" data-section="owner" id="owner">
   <div class="container">
     <div class="section-head">
-      <h2 class="reveal">Весь день бизнеса на вашем телефоне</h2>
+      <h2 class="reveal">Весь день бизнеса <span class="text-accent">на вашем телефоне</span></h2>
       <p class="lead reveal" style="--delay: 60ms">Выручка, записи, наличные в кассе, долги и новые отзывы обновляются в течение дня. Смотрите показатели с телефона, где бы вы ни были, а для подробного анализа открывайте отчёты.</p>
     </div>
 
@@ -751,474 +622,157 @@
     </div>
   </div>
 </section>
-      <section class="s-industries section" data-section="industries" id="industries">
+      <section class="s-industries section tone-soft" data-section="industries" id="industries">
   <div class="container">
     <div class="section-head">
-      <h2 class="reveal">Подстроится под ваш бизнес</h2>
-      <p class="lead reveal" style="--delay: 60ms">Клинике нужны истории пациентов, автосервису нужны заказ-наряды, студии нужны абонементы. Выберите свой профиль, и NavCRM предложит нужные карточки и расписания. Для нескольких направлений можно объединить профили.</p>
+      <h2 class="reveal">Подходит для <span class="text-accent">любого бизнеса</span></h2>
+      <p class="lead reveal" style="--delay: 60ms">Не нашли свою сферу? NavCRM всё равно подойдёт, если вы работаете с клиентами и записями.</p>
     </div>
+  </div>
 
-    <div class="s-industries__layout">
-    <div class="s-industries__switch reveal" style="--delay: 120ms">
-      <div class="s-industries__scroller">
-        <div class="s-industries__track">
-          <div class="s-industries__tabs" role="tablist" aria-label="Отраслевые профили" aria-orientation="vertical">
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-beauty" aria-controls="industries-panel-beauty" aria-selected="true"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#scissor" /></svg><span>Красота</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-clinics" aria-controls="industries-panel-clinics" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#tooth" /></svg><span>Клиники</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-car" aria-controls="industries-panel-car" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#car" /></svg><span>Автосервис</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-fitness" aria-controls="industries-panel-fitness" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dumbbell" /></svg><span>Фитнес</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-education" aria-controls="industries-panel-education" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#school" /></svg><span>Обучение</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-repair" aria-controls="industries-panel-repair" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wrench" /></svg><span>Ремонт</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-cleaning" aria-controls="industries-panel-cleaning" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#cleaning" /></svg><span>Клининг</span></button>
-            <button class="s-industries__tab" type="button" role="tab" id="industries-tab-weddings" aria-controls="industries-panel-weddings" aria-selected="false" tabindex="-1"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dress" /></svg><span>Свадьбы</span></button>
-          </div>
-        </div>
+  <div class="s-industries__band reveal" style="--delay: 120ms">
+    <div class="container s-industries__wide">
+    <div class="s-industries__ticker" aria-label="Кому подходит NavCRM" role="group">
+      <div class="s-industries__row" style="--speed: 60s">
+        <ul class="s-industries__group">
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 96px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#hair-dryer" /></svg>Салоны красоты</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#scissor" /></svg>Барбершопы</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#tooth" /></svg>Стоматологии</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 120px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#stethoscope" /></svg>Медицинские центры</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#car" /></svg>Автосервисы</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dumbbell" /></svg>Фитнес-клубы</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 96px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#yoga" /></svg>Йога-студии</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#leaf" /></svg>Массаж и СПА</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#glasses" /></svg>Оптики</li>
+        </ul>
       </div>
-    </div>
-
-    <div class="s-industries__panels card reveal" style="--delay: 160ms">
-      <div class="stage s-industries__stage" aria-hidden="true"><div class="stage__art" aria-hidden="true"></div></div>
-
-      <!-- 1. Beauty -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-beauty" aria-labelledby="industries-tab-beauty" tabindex="0" data-active>
-        <div class="s-industries__copy">
-          <h3>Салоны и барбершопы</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Запись к специалистам с индивидуальными ценами</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Запись на кресла и кабинеты</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Фото до и после в карточке клиента</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Списание материалов по каждой услуге</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Расчёт процентов для каждого специалиста</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Карточка Дильнозы Каримовой с фотографиями до и после окрашивания, последним визитом к Малике 14 сентября и формулой краски.">
-            <div class="ind-comp ind-comp--float-r" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-avatar ui-avatar--lg" data-tint="sky">ДК</span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Дильноза Каримова</p>
-                    <p class="ui-sub">Карточка клиента</p>
-                  </div>
-                  <span class="ind-icon-btn"><svg class="i"><use href="assets/icons.svg#camera" /></svg></span>
-                </div>
-                <div class="ind-photos ind-in" style="--i: 1">
-                  <figure class="ind-photo">
-                    <img class="ind-photo__image" src="assets/photos/salon-before-after.webp" width="1536" height="1024" alt="Волосы до окрашивания: натуральный каштановый цвет" loading="lazy" decoding="async" />
-                    <figcaption class="ind-photo__tag">До</figcaption>
-                  </figure>
-                  <figure class="ind-photo">
-                    <img class="ind-photo__image ind-photo__image--after" src="assets/photos/salon-before-after.webp" width="1536" height="1024" alt="Волосы после окрашивания: пепельно-бежевый балаяж и укладка" loading="lazy" decoding="async" />
-                    <figcaption class="ind-photo__tag">После</figcaption>
-                  </figure>
-                </div>
-                <div class="ind-field ind-in" style="--i: 2">
-                  <p class="ui-label">Последний визит</p>
-                  <div class="ui-row ind-field__value"><span class="ui-avatar" data-person="malika">М</span><span>Окрашивание у Малики, 14 сентября</span></div>
-                </div>
-              </div>
-              <div class="ui-card ui-card--glass ind-float ind-in" style="--i: 3">
-                <span class="ind-swatch"></span>
-                <div>
-                  <p class="ui-label">Формула</p>
-                  <p class="ind-strong">7.1, оксид 6%, 35 мин</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="s-industries__row" style="--speed: 68s" data-dir="reverse">
+        <ul class="s-industries__group">
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#school" /></svg>Учебные центры</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 72px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#language" /></svg>Языковые школы</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#guitar" /></svg>Музыкальные школы</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#baby" /></svg>Детские центры</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 88px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#cleaning" /></svg>Клининг</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wrench" /></svg>Ремонт техники</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#washing-machine" /></svg>Химчистки</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 72px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#hanger" /></svg>Ателье</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#paint-brush" /></svg>Тату-студии</li>
+        </ul>
       </div>
-
-      <!-- 2. Clinics -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-clinics" aria-labelledby="industries-tab-clinics" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Стоматологии, клиники и лаборатории</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>История пациента и аллергии всегда под рукой</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Планы лечения с этапами и стоимостью</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Зубная формула</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Кабинеты и оборудование в расписании</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Формы согласий</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Направления на анализы и защищённые ссылки на результаты</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Карточка пациента Рустама К. с предупреждением об аллергии на пенициллин, зубной формулой с отметками о лечении и планом из трёх этапов: чистка завершена, пломба на зуб 36 запланирована на 4 ноября, затем коронка на зуб 46.">
-            <div class="ind-comp" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-avatar ui-avatar--lg" data-tint="olive">РК</span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Рустам К.</p>
-                    <p class="ui-sub">Карточка пациента</p>
-                  </div>
-                </div>
-                <p class="ind-alert ind-in" style="--i: 1"><svg class="i"><use href="assets/icons.svg#alert" /></svg>Аллергия: пенициллин</p>
-                <div class="ind-block ind-in" style="--i: 2">
-                  <div class="ui-row ui-row--between">
-                    <p class="ui-label">Зубная формула</p>
-                    <p class="ind-legend"><span><i class="ind-key ind-key--treated"></i>Вылечено</span><span><i class="ind-key ind-key--planned"></i>Запланировано</span></p>
-                  </div>
-                  <div class="ind-teeth">
-                    <div class="ind-jaw ind-jaw--upper">
-                      <span class="ind-tooth" data-t="m"></span><span class="ind-tooth is-treated" data-t="m"></span><span class="ind-tooth is-treated" data-t="m"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="c"></span><span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="i"></span>
-                      <span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="c"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth is-treated" data-t="m"></span><span class="ind-tooth" data-t="m"></span><span class="ind-tooth" data-t="m"></span>
-                    </div>
-                    <div class="ind-nums">
-                      <span data-t="m">8</span><span data-t="m">7</span><span data-t="m">6</span><span data-t="p">5</span><span data-t="p">4</span><span data-t="c">3</span><span data-t="i">2</span><span data-t="i">1</span>
-                      <span data-t="i">1</span><span data-t="i">2</span><span data-t="c">3</span><span data-t="p">4</span><span data-t="p">5</span><span data-t="m">6</span><span data-t="m">7</span><span data-t="m">8</span>
-                    </div>
-                    <div class="ind-jaw ind-jaw--lower">
-                      <span class="ind-tooth" data-t="m"></span><span class="ind-tooth" data-t="m"></span><span class="ind-tooth is-planned" data-t="m"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="c"></span><span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="i"></span>
-                      <span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="i"></span><span class="ind-tooth" data-t="c"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth" data-t="p"></span><span class="ind-tooth is-planned" data-t="m"></span><span class="ind-tooth is-treated" data-t="m"></span><span class="ind-tooth" data-t="m"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="ind-block ind-in" style="--i: 3">
-                  <p class="ui-label">План лечения</p>
-                  <ol class="ind-plan">
-                    <li><span class="ind-step">1</span><span class="ind-grow">Чистка</span><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#check" /></svg>Готово</span></li>
-                    <li><span class="ind-step">2</span><span class="ind-grow">Пломба, зуб 36</span><span class="ind-meta"><svg class="i"><use href="assets/icons.svg#calendar" /></svg>4 ноября</span></li>
-                    <li><span class="ind-step">3</span><span class="ind-grow">Коронка, зуб 46</span><span class="ind-meta">Запланировано</span></li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. Car service -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-car" aria-labelledby="industries-tab-car" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Автосервисы, шиномонтаж и детейлинг</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Карточки автомобилей по госномеру и VIN</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>История пробега</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Заказ-наряды с работами и запчастями</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Посты и подъёмники в расписании</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Напоминания о ТО по дате или пробегу</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Заказ-наряд на Toyota Camry 2018 года, номер 4521 AB 01, пост 2, пробег 86 400 км: работа по замене масла: 80 сомони, масло 5W-30 объёмом 4 л: 360 сомони, фильтр: 65 сомони. Следующее ТО на 96 400 км.">
-            <div class="ind-comp ind-comp--float-l" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#car" /></svg></span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Toyota Camry 2018</p>
-                    <span class="ind-plate"><span class="ind-plate__flag"></span><span>4521 AB</span><span class="ind-plate__region">01</span></span>
-                  </div>
-                  <span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#map-pin" /></svg>Пост 2</span>
-                </div>
-                <div class="ind-kv ind-in" style="--i: 1">
-                  <span class="ui-sub">Пробег</span>
-                  <span class="ind-strong">86 400 км</span>
-                </div>
-                <div class="ind-block ind-in" style="--i: 2">
-                  <p class="ui-label">Заказ-наряд</p>
-                  <div class="ind-lines">
-                    <p class="ind-line"><svg class="i"><use href="assets/icons.svg#wrench" /></svg><span class="ind-grow">Замена масла, работа</span><span class="ui-amount ind-amt">80 сомони</span></p>
-                    <p class="ind-line"><svg class="i"><use href="assets/icons.svg#package" /></svg><span class="ind-grow">Масло 5W-30, 4 л</span><span class="ui-amount ind-amt">360 сомони</span></p>
-                    <p class="ind-line"><svg class="i"><use href="assets/icons.svg#package" /></svg><span class="ind-grow">Масляный фильтр</span><span class="ui-amount ind-amt">65 сомони</span></p>
-                    <p class="ind-line ind-line--total"><span class="ind-grow">Итого</span><span class="ui-amount ind-amt">505 сомони</span></p>
-                  </div>
-                </div>
-              </div>
-              <div class="ui-card ui-card--glass ind-float ind-in" style="--i: 3">
-                <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#bell" /></svg></span>
-                <p class="ind-strong">Следующее ТО на 96 400 км</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. Fitness -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-fitness" aria-labelledby="industries-tab-fitness" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Фитнес, йога, танцы и бассейны</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Абонементы с учётом посещений</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Заморозка абонемента</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Групповые занятия с ограничением мест</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Листы ожидания для освободившихся мест</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Расписания тренеров и залов</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Отметка о посещении по QR-коду</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Абонемент на 12 занятий йогой: осталось 7, действует до 30 ноября, заморозка на 5 дней. Хатха-йога в 19:00 в зале 2: занято 14 из 16 мест, 2 человека в листе ожидания. QR-код для отметки о посещении.">
-            <div class="ind-comp ind-comp--float-r" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#yoga" /></svg></span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Йога, 12 занятий</p>
-                    <p class="ui-sub">Действует до 30 ноября</p>
-                  </div>
-                  <span class="ui-status ind-status--frozen"><svg class="i"><use href="assets/icons.svg#snow" /></svg>Заморожен на 5 дней</span>
-                </div>
-                <div class="ind-pass ind-in" style="--i: 1">
-                  <div class="ind-dots"><i></i><i></i><i></i><i></i><i></i><i class="is-left"></i><i class="is-left"></i><i class="is-left"></i><i class="is-left"></i><i class="is-left"></i><i class="is-left"></i><i class="is-left"></i></div>
-                  <p class="ind-strong">Осталось 7</p>
-                </div>
-                <div class="ind-class ind-in" style="--i: 2">
-                  <div class="ui-row">
-                    <span class="ind-time">19:00</span>
-                    <div class="ind-grow">
-                      <p class="ui-title">Хатха-йога</p>
-                      <p class="ui-sub">Зал 2</p>
-                    </div>
-                    <p class="ind-strong">14 из 16 мест</p>
-                  </div>
-                  <div class="ui-meter"><span style="--v: 0.875"></span></div>
-                  <div class="ui-row ui-row--between">
-                    <span class="ind-faces"><span class="ui-avatar" data-tint="coral">Н</span><span class="ui-avatar" data-tint="olive">С</span><span class="ui-avatar" data-tint="sky">П</span><span class="ui-avatar" data-tint="sand">Д</span><span class="ui-avatar ind-faces__more">+10</span></span>
-                    <span class="ui-status ui-status--waiting"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg>2 в листе ожидания</span>
-                  </div>
-                </div>
-              </div>
-              <div class="ui-card ui-card--glass ind-float ind-in" style="--i: 3">
-                <span class="ind-qr"><svg viewBox="0 0 21 21" shape-rendering="crispEdges"><path fill="currentColor" d="M0 0h7v1h-7zM9 0h1v1h-1zM14 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM11 1h1v1h-1zM14 1h1v1h-1zM20 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM11 2h2v1h-2zM14 2h1v1h-1zM16 2h3v1h-3zM20 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h2v1h-2zM14 3h1v1h-1zM16 3h3v1h-3zM20 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h1v1h-1zM12 4h1v1h-1zM14 4h1v1h-1zM16 4h3v1h-3zM20 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM11 5h2v1h-2zM14 5h1v1h-1zM20 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h7v1h-7zM1 8h3v1h-3zM5 8h3v1h-3zM9 8h1v1h-1zM12 8h2v1h-2zM15 8h2v1h-2zM19 8h1v1h-1zM1 9h1v1h-1zM3 9h2v1h-2zM8 9h4v1h-4zM13 9h2v1h-2zM19 9h1v1h-1zM0 10h1v1h-1zM3 10h2v1h-2zM6 10h3v1h-3zM11 10h2v1h-2zM14 10h2v1h-2zM17 10h1v1h-1zM19 10h1v1h-1zM1 11h2v1h-2zM4 11h2v1h-2zM7 11h1v1h-1zM9 11h4v1h-4zM14 11h1v1h-1zM20 11h1v1h-1zM0 12h1v1h-1zM2 12h1v1h-1zM6 12h1v1h-1zM10 12h1v1h-1zM13 12h2v1h-2zM18 12h3v1h-3zM8 13h2v1h-2zM12 13h1v1h-1zM14 13h2v1h-2zM20 13h1v1h-1zM0 14h7v1h-7zM9 14h1v1h-1zM11 14h2v1h-2zM14 14h1v1h-1zM16 14h2v1h-2zM0 15h1v1h-1zM6 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM14 15h1v1h-1zM18 15h1v1h-1zM0 16h1v1h-1zM2 16h3v1h-3zM6 16h1v1h-1zM8 16h1v1h-1zM11 16h1v1h-1zM13 16h4v1h-4zM20 16h1v1h-1zM0 17h1v1h-1zM2 17h3v1h-3zM6 17h1v1h-1zM8 17h1v1h-1zM10 17h4v1h-4zM16 17h1v1h-1zM18 17h1v1h-1zM20 17h1v1h-1zM0 18h1v1h-1zM2 18h3v1h-3zM6 18h1v1h-1zM9 18h3v1h-3zM13 18h1v1h-1zM15 18h4v1h-4zM20 18h1v1h-1zM0 19h1v1h-1zM6 19h1v1h-1zM9 19h5v1h-5zM18 19h2v1h-2zM0 20h7v1h-7zM10 20h1v1h-1zM13 20h5v1h-5z" /></svg></span>
-                <div>
-                  <p class="ui-title">Вход по QR-коду</p>
-                  <p class="ui-sub">Мадина Х.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. Education -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-education" aria-labelledby="industries-tab-education" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Учебные центры и репетиторы</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Группы и регулярные занятия</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Посещаемость в одно нажатие</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Личные кабинеты родителей</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Оплата за месяц или за занятие</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Домашние задания и комментарии преподавателя</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Посещаемость группы английского B1 по понедельникам, средам и пятницам в 16:00 за пять занятий: Амир, Нилуфар, Сорбон и Мехрона. Сорбон пропустил сегодняшнее занятие, его родителю отправлено сообщение.">
-            <div class="ind-comp ind-comp--float-l" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#school" /></svg></span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Английский B1</p>
-                    <p class="ui-sub">Пн Ср Пт 16:00</p>
-                  </div>
-                </div>
-                <div class="ind-att ind-in" style="--i: 1">
-                  <span class="ind-att__today"></span>
-                  <span></span>
-                  <span class="ind-att__day">Пт<b>16</b></span>
-                  <span class="ind-att__day">Пн<b>19</b></span>
-                  <span class="ind-att__day">Ср<b>21</b></span>
-                  <span class="ind-att__day">Пт<b>23</b></span>
-                  <span class="ind-att__day is-today">Сегодня</span>
-
-                  <span class="ind-att__name"><span class="ui-avatar" data-tint="sky">А</span>Амир</span>
-                  <span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span>
-
-                  <span class="ind-att__name"><span class="ui-avatar" data-tint="coral">Н</span>Нилуфар</span>
-                  <span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span>
-
-                  <span class="ind-att__name"><span class="ui-avatar" data-tint="olive">С</span>Сорбон</span>
-                  <span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark ind-mark--no"><svg class="i"><use href="assets/icons.svg#cancel" /></svg></span>
-
-                  <span class="ind-att__name"><span class="ui-avatar" data-tint="sand">М</span>Мехрона</span>
-                  <span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark ind-mark--no"><svg class="i"><use href="assets/icons.svg#cancel" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-mark"><svg class="i"><use href="assets/icons.svg#check" /></svg></span>
-                </div>
-              </div>
-              <div class="ui-card ui-card--glass ind-float ind-in" style="--i: 2">
-                <span class="ui-tile ui-tile--telegram"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
-                <p class="ind-msg">Родителю Сорбона отправлено сообщение о пропуске занятия.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6. Repair -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-repair" aria-labelledby="industries-tab-repair" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Ремонт техники и электроники</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Приём устройства с серийным номером или IMEI</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Фото состояния при приёме</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Этапы ремонта, доступные клиенту</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Запчасти для каждого ремонта</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Уведомление о готовности к выдаче</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Условия гарантии в чеке</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Заказ на ремонт Samsung Galaxy A54 со скрытым IMEI и фотографией разбитого экрана при приёме. Этапы: принято, диагностика, ожидание дисплея в сборе стоимостью 640 сомони, затем выдача. Гарантия 90 дней.">
-            <div class="ind-comp" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ind-thumb">
-                    <svg viewBox="0 0 44 44">
-                      <defs>
-                        <linearGradient id="ind-desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef1f5" /><stop offset="1" stop-color="#dfe4eb" /></linearGradient>
-                        <linearGradient id="ind-glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3d475c" /><stop offset="1" stop-color="#1c2230" /></linearGradient>
-                      </defs>
-                      <rect width="44" height="44" fill="url(#ind-desk)" />
-                      <ellipse cx="22.5" cy="39.5" rx="10" ry="1.6" fill="#0b1220" fill-opacity=".12" />
-                      <rect x="13" y="5" width="18" height="34" rx="3.4" fill="#161b26" />
-                      <rect x="14.4" y="6.6" width="15.2" height="30.8" rx="2.4" fill="url(#ind-glass)" />
-                      <path d="M14.4 9 29.6 22v-6Z" fill="#fff" fill-opacity=".06" />
-                      <path d="m25 11.5-3.2 5.6 2.2 2.6-4.3 6.8-1 6.2M21.8 17.1l-4.6 1.6M24 19.7l4.3 2.5-1 4.6M19.7 26.5l-3.2.8" fill="none" stroke="#fff" stroke-opacity=".82" stroke-width=".55" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                  </span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Samsung Galaxy A54</p>
-                    <p class="ui-sub">IMEI 35 •••• 0921</p>
-                  </div>
-                </div>
-                <ol class="ind-stages ind-in" style="--i: 1">
-                  <li class="is-done"><span class="ind-node"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-grow">Принято</span><span class="ui-sub">24 октября</span></li>
-                  <li class="is-done"><span class="ind-node"><svg class="i"><use href="assets/icons.svg#check" /></svg></span><span class="ind-grow">Диагностика</span><span class="ui-sub">26 октября</span></li>
-                  <li class="is-current">
-                    <span class="ind-node"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg></span>
-                    <div class="ind-grow">
-                      <p class="ind-strong">Ожидание детали</p>
-                      <p class="ind-part"><svg class="i"><use href="assets/icons.svg#package" /></svg><span class="ind-grow">Дисплей в сборе</span><span class="ui-amount ind-amt">640 сомони</span></p>
-                    </div>
-                  </li>
-                  <li><span class="ind-node"></span><span class="ind-grow ui-muted">Готово</span></li>
-                </ol>
-                <p class="ind-foot ind-in" style="--i: 2"><svg class="i"><use href="assets/icons.svg#shield" /></svg>Гарантия 90 дней</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 7. Cleaning -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-cleaning" aria-labelledby="industries-tab-cleaning" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Клининг и выездные услуги</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Адреса клиентов и зоны обслуживания</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Расписание бригад с учётом дороги</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Регулярные заказы</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Фото после выполнения работ</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Подпись клиента при сдаче работ</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="День бригады А: в 09:00 квартира в районе Сино, работа завершена, есть фото и подпись клиента; 25 минут в пути; в 12:00 офис на проспекте Исмоили Сомони; в 15:30 квартира в районе Фирдавси.">
-            <div class="ind-comp" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ui-tile"><svg class="i"><use href="assets/icons.svg#cleaning" /></svg></span>
-                  <div class="ind-grow">
-                    <p class="ui-title">Бригада А</p>
-                    <p class="ui-sub">Сегодня</p>
-                  </div>
-                </div>
-                <ol class="ind-route">
-                  <li class="is-done ind-in" style="--i: 1">
-                    <span class="ind-route__time">09:00</span>
-                    <span class="ind-node"><svg class="i"><use href="assets/icons.svg#check" /></svg></span>
-                    <div>
-                      <p class="ind-strong">Квартира, район Сино</p>
-                      <div class="ind-proof">
-                        <span class="ind-proof__photo">
-                          <img src="assets/illustrations/clean-room.webp" width="72" height="56" alt="Иллюстрация чистой светлой квартиры после уборки" loading="lazy" decoding="async" />
-                        </span>
-                        <span class="ind-proof__sign">
-                          <svg viewBox="0 0 100 30"><path d="M6 21C10 9 16 5 17 11c1 6-5 14-3 15 3 1 7-13 11-12 3 1 0 9 4 8 4-1 5-7 8-6s1 6 5 5 5-7 9-6-1 6 4 5c6-1 13-8 21-9M60 25c10-1 22-2 34-5" fill="none" stroke="#1d3b8a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
-                          <span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#signature" /></svg>Подписано клиентом</span>
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="ind-route__drive ind-in" style="--i: 2"><span></span><span></span><p><svg class="i"><use href="assets/icons.svg#car" /></svg>25 мин в пути</p></li>
-                  <li class="is-current ind-in" style="--i: 3">
-                    <span class="ind-route__time">12:00</span>
-                    <span class="ind-node"></span>
-                    <p class="ind-strong">Офис, проспект Исмоили Сомони</p>
-                  </li>
-                  <li class="ind-in" style="--i: 4">
-                    <span class="ind-route__time">15:30</span>
-                    <span class="ind-node"></span>
-                    <p class="ind-strong">Квартира, район Фирдавси</p>
-                  </li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 8. Weddings -->
-      <div class="s-industries__panel" role="tabpanel" id="industries-panel-weddings" aria-labelledby="industries-tab-weddings" tabindex="0">
-        <div class="s-industries__copy">
-          <h3>Свадебные салоны и прокат платьев</h3>
-          <ul class="s-industries__list">
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Чек-лист невесты до дня свадьбы</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Примерки в календаре</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Доступность платьев по датам</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Залоги, выдача и проверка при возврате</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Время на чистку после каждого возврата</li>
-            <li><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg>Задачи для швей</li>
-          </ul>
-        </div>
-        <div class="s-industries__cell">
-          <div class="s-industries__demo ui" role="img" aria-label="Платье А-114 цвета айвори, размер 44. Календарь с 10 по 19 ноября: занято с 13 по 15 ноября, чистка 16 и 17 ноября, остальные дни свободны. Примерка 6 ноября в 15:00, залог 1 500 сомони оплачен.">
-            <div class="ind-comp" aria-hidden="true">
-              <div class="ui-card ind-card">
-                <div class="ui-row ind-in" style="--i: 0">
-                  <span class="ind-thumb ind-thumb--dress">
-                    <img src="assets/illustrations/wedding-dress.webp" width="44" height="54" alt="Иллюстрация свадебного платья цвета айвори на вешалке" loading="lazy" decoding="async" />
-                  </span>
-                  <div class="ind-grow">
-                    <p class="ui-title">А-114, айвори, размер 44</p>
-                    <p class="ui-sub">Доступность платья</p>
-                  </div>
-                </div>
-                <div class="ind-block ind-in" style="--i: 1">
-                  <div class="ui-row ui-row--between">
-                    <p class="ui-label">Ноябрь</p>
-                    <p class="ind-legend"><span><i class="ind-key ind-key--booked"></i>Занято</span><span><i class="ind-key ind-key--cleaning"></i>Чистка</span><span><i class="ind-key"></i>Свободно</span></p>
-                  </div>
-                  <div class="ind-strip">
-                    <span class="ind-strip__d">Вт<b>10</b></span><span class="ind-strip__d">Ср<b>11</b></span><span class="ind-strip__d">Чт<b>12</b></span><span class="ind-strip__d">Пт<b>13</b></span><span class="ind-strip__d">Сб<b>14</b></span><span class="ind-strip__d">Вс<b>15</b></span><span class="ind-strip__d">Пн<b>16</b></span><span class="ind-strip__d">Вт<b>17</b></span><span class="ind-strip__d">Ср<b>18</b></span><span class="ind-strip__d">Чт<b>19</b></span>
-                    <span class="ind-strip__free" style="grid-column: 1"></span><span class="ind-strip__free" style="grid-column: 2"></span><span class="ind-strip__free" style="grid-column: 3"></span>
-                    <span class="ind-strip__bar ind-strip__bar--booked">Манижа Д.</span>
-                    <span class="ind-strip__bar ind-strip__bar--cleaning"><svg class="i"><use href="assets/icons.svg#cleaning" /></svg></span>
-                    <span class="ind-strip__free" style="grid-column: 9"></span><span class="ind-strip__free" style="grid-column: 10"></span>
-                  </div>
-                </div>
-                <div class="ind-rows ind-in" style="--i: 2">
-                  <p class="ind-kv"><span class="ui-sub"><svg class="i"><use href="assets/icons.svg#calendar" /></svg>Примерка</span><span class="ind-strong">6 ноября, 15:00</span></p>
-                  <p class="ind-kv"><span class="ui-sub"><svg class="i"><use href="assets/icons.svg#wallet" /></svg>Залог</span><span class="ind-kv__end"><span class="ind-strong">1 500 сомони</span><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#check" /></svg>Оплачено</span></span></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="s-industries__row" style="--speed: 64s">
+        <ul class="s-industries__group">
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dress" /></svg>Свадебные салоны</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#camera" /></svg>Фотостудии</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 160px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#paw" /></svg>Ветклиники и груминг</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#restaurant" /></svg>Рестораны</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#coffee" /></svg>Кофейни</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 140px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#hotel" /></svg>Гостиницы</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#flower" /></svg>Цветочные магазины</li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#key" /></svg>Прокат и аренда</li>
+          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 160px"></li>
+          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#legal" /></svg>Юристы и консультанты</li>
+        </ul>
       </div>
     </div>
+    </div>
+  </div>
 
-    <p class="s-industries__note reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>Профиль для салонов и барбершопов уже доступен. Остальные запускаются поэтапно. Уточните у нас статус вашего направления.</p>
+  <div class="container s-industries__cta">
+    <a class="btn btn--accent reveal" style="--delay: 160ms" href="https://t.me/+992070070070" target="_blank" rel="noopener">Расскажите о своём бизнесе<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#chevron-right" /></svg></a>
+  </div>
+</section>
+      <!-- Layout trials for the industries ring (B and F). Each section is the same ring with a different
+     arrangement of title, text and button; keep the one that reads best and delete the rest.
+     The small "Вариант" labels are for comparing only. -->
+
+<section class="s-ring s-ring--lead-below section tone-white" data-section="industries-ring" id="industries-ring-b">
+  <p class="s-ring__tag">Вариант B · Текст после круга, прямо над кнопкой</p>
+  <div class="container s-ring__layout">
+    <div class="s-ring__copy">
+      <h2 class="s-ring__title reveal">Подходит для <span class="text-accent">любого бизнеса</span></h2>
+    </div>
+    <div class="s-ring__stage" style="--n: 18">
+      <ul class="s-ring__list" aria-label="Кому подходит NavCRM">
+          <li class="s-ring__item" style="--i: 0"><span class="s-ring__btn" role="img" aria-label="Салоны красоты"><svg class="i" aria-hidden="true" style="--ox: 0.6; --oy: 1.4"><use href="assets/icons.svg#hair-dryer" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 1"><span class="s-ring__btn" role="img" aria-label="Барбершопы"><svg class="i" aria-hidden="true" style="--ox: -1.2; --oy: 0"><use href="assets/icons.svg#scissor" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 2"><span class="s-ring__btn" role="img" aria-label="Стоматологии"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: 0.4"><use href="assets/icons.svg#tooth" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 3"><span class="s-ring__btn" role="img" aria-label="Медицинские центры"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: 0.3"><use href="assets/icons.svg#stethoscope" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 4"><span class="s-ring__btn" role="img" aria-label="Автосервисы"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#car" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 5"><span class="s-ring__btn" role="img" aria-label="Фитнес-клубы"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dumbbell" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 6"><span class="s-ring__btn" role="img" aria-label="Йога-студии"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -1.2"><use href="assets/icons.svg#yoga" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 7"><span class="s-ring__btn" role="img" aria-label="Массаж и СПА"><svg class="i" aria-hidden="true" style="--ox: -0.9; --oy: -0.2"><use href="assets/icons.svg#leaf" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 8"><span class="s-ring__btn" role="img" aria-label="Оптики"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -1.1"><use href="assets/icons.svg#glasses" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 9"><span class="s-ring__btn" role="img" aria-label="Учебные центры"><svg class="i" aria-hidden="true" style="--ox: -0.5; --oy: 0.3"><use href="assets/icons.svg#school" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 10"><span class="s-ring__btn" role="img" aria-label="Музыкальные школы"><svg class="i" aria-hidden="true" style="--ox: 0.5; --oy: -0.5"><use href="assets/icons.svg#guitar" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 11"><span class="s-ring__btn" role="img" aria-label="Детские центры"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#baby" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 12"><span class="s-ring__btn" role="img" aria-label="Клининг"><svg class="i" aria-hidden="true" style="--ox: -0.3; --oy: -0.5"><use href="assets/icons.svg#cleaning" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 13"><span class="s-ring__btn" role="img" aria-label="Ателье"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -1.4"><use href="assets/icons.svg#hanger" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 14"><span class="s-ring__btn" role="img" aria-label="Фотостудии"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -0.4"><use href="assets/icons.svg#camera" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 15"><span class="s-ring__btn" role="img" aria-label="Ветклиники и груминг"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -0.3"><use href="assets/icons.svg#paw" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 16"><span class="s-ring__btn" role="img" aria-label="Кофейни"><svg class="i" aria-hidden="true" style="--ox: 0.5; --oy: -0.7"><use href="assets/icons.svg#coffee" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 17"><span class="s-ring__btn" role="img" aria-label="Гостиницы"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -0.3"><use href="assets/icons.svg#hotel" /></svg></span></li>
+      </ul>
+      <div class="s-ring__center" aria-hidden="true">
+        <p class="s-ring__name">Ваш бизнес</p>
+        <p class="s-ring__hint">и ещё десятки сфер</p>
+      </div>
+    </div>
+    <div class="s-ring__copy">
+      <p class="s-ring__lead lead reveal" style="--delay: 60ms">Не нашли свою сферу? NavCRM всё равно подойдёт, если вы работаете с клиентами и записями.</p>
+    </div>
+    <div class="s-ring__cta"><a class="btn btn--accent reveal" style="--delay: 120ms" href="https://t.me/+992070070070" target="_blank" rel="noopener">Расскажите о своём бизнесе<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#chevron-right" /></svg></a></div>
+  </div>
+</section>
+
+<section class="s-ring s-ring--inside section tone-white" data-section="industries-ring" id="industries-ring-f">
+  <p class="s-ring__tag">Вариант F · Всё внутри круга: название сферы над заголовком</p>
+  <div class="container s-ring__layout">
+    <div class="s-ring__stage" style="--n: 18">
+      <ul class="s-ring__list" aria-label="Кому подходит NavCRM">
+          <li class="s-ring__item" style="--i: 0"><span class="s-ring__btn" role="img" aria-label="Салоны красоты"><svg class="i" aria-hidden="true" style="--ox: 0.6; --oy: 1.4"><use href="assets/icons.svg#hair-dryer" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 1"><span class="s-ring__btn" role="img" aria-label="Барбершопы"><svg class="i" aria-hidden="true" style="--ox: -1.2; --oy: 0"><use href="assets/icons.svg#scissor" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 2"><span class="s-ring__btn" role="img" aria-label="Стоматологии"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: 0.4"><use href="assets/icons.svg#tooth" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 3"><span class="s-ring__btn" role="img" aria-label="Медицинские центры"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: 0.3"><use href="assets/icons.svg#stethoscope" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 4"><span class="s-ring__btn" role="img" aria-label="Автосервисы"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#car" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 5"><span class="s-ring__btn" role="img" aria-label="Фитнес-клубы"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dumbbell" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 6"><span class="s-ring__btn" role="img" aria-label="Йога-студии"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -1.2"><use href="assets/icons.svg#yoga" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 7"><span class="s-ring__btn" role="img" aria-label="Массаж и СПА"><svg class="i" aria-hidden="true" style="--ox: -0.9; --oy: -0.2"><use href="assets/icons.svg#leaf" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 8"><span class="s-ring__btn" role="img" aria-label="Оптики"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -1.1"><use href="assets/icons.svg#glasses" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 9"><span class="s-ring__btn" role="img" aria-label="Учебные центры"><svg class="i" aria-hidden="true" style="--ox: -0.5; --oy: 0.3"><use href="assets/icons.svg#school" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 10"><span class="s-ring__btn" role="img" aria-label="Музыкальные школы"><svg class="i" aria-hidden="true" style="--ox: 0.5; --oy: -0.5"><use href="assets/icons.svg#guitar" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 11"><span class="s-ring__btn" role="img" aria-label="Детские центры"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#baby" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 12"><span class="s-ring__btn" role="img" aria-label="Клининг"><svg class="i" aria-hidden="true" style="--ox: -0.3; --oy: -0.5"><use href="assets/icons.svg#cleaning" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 13"><span class="s-ring__btn" role="img" aria-label="Ателье"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -1.4"><use href="assets/icons.svg#hanger" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 14"><span class="s-ring__btn" role="img" aria-label="Фотостудии"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -0.4"><use href="assets/icons.svg#camera" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 15"><span class="s-ring__btn" role="img" aria-label="Ветклиники и груминг"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -0.3"><use href="assets/icons.svg#paw" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 16"><span class="s-ring__btn" role="img" aria-label="Кофейни"><svg class="i" aria-hidden="true" style="--ox: 0.5; --oy: -0.7"><use href="assets/icons.svg#coffee" /></svg></span></li>
+          <li class="s-ring__item" style="--i: 17"><span class="s-ring__btn" role="img" aria-label="Гостиницы"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -0.3"><use href="assets/icons.svg#hotel" /></svg></span></li>
+      </ul>
+      <div class="s-ring__center" aria-hidden="true">
+        <p class="s-ring__name">Ваш бизнес</p>
+        <p class="s-ring__hint">и ещё десятки сфер</p>
+      </div>
+    </div>
+    <div class="s-ring__copy">
+      <p class="s-ring__name s-ring__eyebrow" aria-hidden="true">Ваш бизнес</p>
+      <h2 class="s-ring__title reveal">Подходит для <span class="text-accent">любого бизнеса</span></h2>
+      <p class="s-ring__lead lead reveal" style="--delay: 60ms">Не нашли свою сферу? NavCRM всё равно подойдёт, если вы работаете с клиентами и записями.</p>
+      <div class="s-ring__cta"><a class="btn btn--accent reveal" style="--delay: 120ms" href="https://t.me/+992070070070" target="_blank" rel="noopener">Расскажите о своём бизнесе<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#chevron-right" /></svg></a></div>
     </div>
   </div>
 </section>
-      <section class="s-local section" data-section="local" id="local">
+      <section class="s-local section tone-white" data-section="local" id="local">
   <div class="container">
     <div class="section-head">
-      <h2 class="reveal">Создано в Душанбе для местного бизнеса</h2>
+      <h2 class="reveal">Создано <span class="text-accent">в Душанбе</span> для местного бизнеса</h2>
       <p class="lead reveal" style="--delay: 60ms">Большинство CRM создают для других рынков, и бизнесу приходится под них подстраиваться. NavCRM учитывает местные способы оплаты, языки и качество интернета.</p>
     </div>
 
@@ -1229,7 +783,7 @@
           <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wifi-off" /></svg></span>
           <div class="s-local__copy">
             <h3>Работает, даже если пропал интернет</h3>
-            <p>В мобильном приложении расписание, клиенты, касса и склад работают без интернета до конца смены. Когда связь восстановится, изменения синхронизируются. Если записи совпали по времени, NavCRM покажет конфликт, чтобы вы могли его разрешить.</p>
+            <p>В мобильном приложении расписание, клиенты, касса и склад работают без интернета до конца смены. Когда связь восстановится, изменения синхронизируются.</p>
           </div>
         </div>
         <div class="s-local__stage stage">
@@ -1335,54 +889,13 @@
             <p>Наличные, терминалы, Alif QR, DC NEXT и Корти Милли, а также разделение платежей, залоги и долги.</p>
           </div>
         </div>
-        <div class="s-local__well sq" role="img" aria-label="Оплата Ситоры Рахимовой на 260 сомони через Alif QR. Другие способы: наличные, карта, DC NEXT и Корти Милли. Можно разделить платёж, внести залог или учесть долг.">
-          <div class="s-local__picker ui ui-card" aria-hidden="true">
-            <div class="s-local__picker-head">
-              <span class="ui-avatar" data-person="sitora">СР</span>
-              <span class="ui-title">Ситора Рахимова</span>
-              <span class="ui-amount">260 сомони</span>
-            </div>
-            <div class="s-local__methods">
-              <span class="ui-option">Наличные</span>
-              <span class="ui-option">Карта</span>
-              <span class="ui-option is-selected">Alif QR</span>
-              <span class="ui-option">DC NEXT</span>
-              <span class="ui-option">Корти Милли</span>
-            </div>
-            <hr class="ui-divider" />
-            <div class="s-local__extras">
-              <span class="ui-btn ui-btn--soft">Разделить</span>
-              <span class="ui-btn ui-btn--soft">Залог</span>
-              <span class="ui-btn ui-btn--soft">Долг</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product-language example: Russian by default, other languages on request. -->
-      <div class="s-local__card card reveal">
-        <div class="s-local__text">
-          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#language" /></svg></span>
-          <div class="s-local__copy">
-            <h3>Таджикский и русский</h3>
-            <p>Сотрудники и клиенты выбирают удобный язык в NavCRM. Английский тоже доступен.</p>
-          </div>
-        </div>
-        <div class="s-local__well sq">
-          <div class="s-local__langs ui ui-card" data-langs>
-            <div class="ui-seg s-local__seg" style="--i: 1" role="group" aria-label="Язык интерфейса">
-              <div class="ui-seg__thumb" aria-hidden="true"></div>
-              <button type="button" data-lang="tg" aria-pressed="false">Таджикский</button>
-              <button type="button" data-lang="ru" lang="ru" class="is-active" aria-pressed="true">Русский</button>
-              <button type="button" data-lang="en" aria-pressed="false">Английский</button>
-            </div>
-            <span class="ui-btn ui-btn--dark ui-btn--block s-local__new" aria-hidden="true">
-              <span class="s-local__new-swap ui-swap">
-                <span data-lang="tg" lang="tg" data-hidden="true"><svg class="i"><use href="assets/icons.svg#plus" /></svg>Навбати нав</span>
-                <span data-lang="ru" lang="ru"><svg class="i"><use href="assets/icons.svg#plus" /></svg>Новая запись</span>
-                <span data-lang="en" lang="en" data-hidden="true"><svg class="i"><use href="assets/icons.svg#plus" /></svg>New booking</span>
-              </span>
-            </span>
+        <!-- Payment partners: one row of logos, all in the same grey at the same height (local.css) -->
+        <div class="s-local__well s-local__well--plain sq" role="img" aria-label="Оплата через Alif, DC (Dushanbe City), Visa и Корти Милли.">
+          <div class="s-local__logos" aria-hidden="true">
+            <span class="s-local__logo s-local__logo--alif"></span>
+            <span class="s-local__logo s-local__logo--dc"></span>
+            <span class="s-local__logo s-local__logo--visa"></span>
+            <span class="s-local__logo s-local__logo--korti"></span>
           </div>
         </div>
       </div>
@@ -1398,11 +911,15 @@
         </div>
         <div class="s-local__well sq" role="img" aria-label="Напоминание Gulnor Beauty в Telegram: завтра в 10:00 маникюр с гелем у Зарины по адресу Рудаки, 54. Напоминания в Telegram бесплатны, СМС оплачиваются по тарифу оператора.">
           <div class="s-local__tg ui" aria-hidden="true">
-            <div class="s-local__chat-head">
-              <span class="ui-tile ui-tile--telegram"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
-              <span class="s-local__chat-who"><span class="ui-title">Gulnor Beauty</span><span class="ui-sub">бот</span></span>
+            <div class="s-local__chat-head ui-thread-head">
+              <span class="ui-tile ui-tile--telegram"><img src="assets/logos/telegram.svg" alt=""></span>
+              <span class="ui-thread-head__name">Gulnor Beauty<svg class="i"><use href="assets/icons.svg#chevron-right" /></svg></span>
+              <span class="ui-sub">бот в Telegram</span>
             </div>
-            <p class="ui-bubble ui-bubble--in">Напоминаем: завтра в 10:00 у вас маникюр с гелем у Зарины. Рудаки, 54.</p>
+            <div class="ui-msg">
+              <span class="ui-avatar">GB</span>
+              <p class="ui-bubble ui-bubble--in">Напоминаем: завтра в 10:00 у вас маникюр с гелем у Зарины. Рудаки, 54.<span class="ui-tapback">👍</span></p>
+            </div>
             <div class="s-local__cost ui-card">
               <div>
                 <span class="ui-label">Telegram</span>
@@ -1417,50 +934,7 @@
         </div>
       </div>
 
-      <!-- Data: the client list, ready to export -->
-      <div class="s-local__card card reveal">
-        <div class="s-local__text">
-          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#database" /></svg></span>
-          <div class="s-local__copy">
-            <h3>Ваши данные остаются в Таджикистане</h3>
-            <p>Данные хранятся в дата-центре в Таджикистане. Вы можете выгрузить их в Excel в любой момент.</p>
-          </div>
-        </div>
-        <div class="s-local__well sq" role="img" aria-label="Список клиентов: Ситора Рахимова, Нигина С. и Шахло М. Доступна выгрузка в Excel. Данные хранятся в Таджикистане.">
-          <div class="s-local__clients ui ui-card" aria-hidden="true">
-            <div class="s-local__clients-head">
-              <span class="ui-title">Клиенты</span>
-              <span class="ui-btn ui-btn--soft"><svg class="i"><use href="assets/icons.svg#xls" /></svg>Выгрузить в Excel</span>
-            </div>
-            <ul class="s-local__client-list">
-              <li><span class="ui-avatar" data-person="sitora">СР</span><span class="s-local__name">Ситора Рахимова</span><span class="ui-sub">Стрижка и укладка</span></li>
-              <li><span class="ui-avatar">НС</span><span class="s-local__name">Нигина С.</span><span class="ui-sub">Маникюр с гелем</span></li>
-              <li><span class="ui-avatar">ШМ</span><span class="s-local__name">Шахло М.</span><span class="ui-sub">Окрашивание</span></li>
-            </ul>
-            <p class="s-local__where ui-sub"><svg class="i"><use href="assets/icons.svg#maps" /></svg>Хранится в Таджикистане</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Phone -->
-      <div class="s-local__card card reveal">
-        <div class="s-local__text">
-          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#phone" /></svg></span>
-          <div class="s-local__copy">
-            <h3>Компьютер не нужен</h3>
-            <p>Приложения для Android и iOS для владельцев, сотрудников и клиентов, а также версия в браузере для администратора.</p>
-          </div>
-        </div>
-        <div class="s-local__well sq" role="img" aria-label="NavCRM работает на Android, iOS и в браузере.">
-          <ul class="s-local__platforms ui" aria-hidden="true">
-            <li class="ui-card"><svg class="i"><use href="assets/icons.svg#android" /></svg>Android</li>
-            <li class="ui-card"><svg class="i"><use href="assets/icons.svg#apple" /></svg>iOS</li>
-            <li class="ui-card"><svg class="i"><use href="assets/icons.svg#browser" /></svg>Браузер</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Support: the wide card, with real contact links -->
+      <!-- Support: real contact links -->
       <div class="s-local__card s-local__card--support card reveal">
         <div class="s-local__text">
           <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#support" /></svg></span>
@@ -1476,7 +950,7 @@
             <svg class="i s-local__contact-go" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg>
           </a>
           <a class="s-local__contact sq" href="https://t.me/+992070070070" target="_blank" rel="noopener">
-            <span class="ui-tile ui-tile--telegram s-local__contact-tile" aria-hidden="true"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span>
+            <span class="ui-tile ui-tile--telegram s-local__contact-tile" aria-hidden="true"><img src="assets/logos/telegram.svg" alt=""></span>
             <span class="s-local__contact-text"><span class="s-local__contact-label">Telegram</span><span class="s-local__contact-value">t.me/+992070070070</span></span>
             <span class="sr-only">(откроется в Telegram)</span>
             <svg class="i s-local__contact-go" aria-hidden="true"><use href="assets/icons.svg#arrow-up-right" /></svg>
@@ -1486,10 +960,10 @@
     </div>
   </div>
 </section>
-      <section class="s-pricing section" data-section="pricing" id="pricing">
+      <section class="s-pricing section tone-soft" data-section="pricing" id="pricing">
   <div class="container">
     <div class="section-head">
-      <h2 class="reveal">1,5 сомони за состоявшийся визит</h2>
+      <h2 class="reveal"><span class="text-accent">1,5 сомони</span> за состоявшийся визит</h2>
       <p class="lead reveal" style="--delay: 60ms">Без абонентской платы и ограничений на сотрудников, филиалы и функции. За отмены и неявки платить не нужно, поэтому в спокойный месяц расходы меньше.</p>
     </div>
 
@@ -1541,10 +1015,10 @@
     </div>
   </div>
 </section>
-      <section class="s-setup section" data-section="setup" id="setup">
+      <section class="s-setup section tone-white" data-section="setup" id="setup">
   <div class="container">
     <div class="section-head">
-      <h2 class="reveal">Поможем запуститься за один день</h2>
+      <h2 class="reveal">Поможем запуститься <span class="text-accent">за один день</span></h2>
       <p class="lead reveal" style="--delay: 60ms">Настроим систему вместе с вами. Перенос клиентской базы входит в подключение.</p>
     </div>
 
@@ -1695,7 +1169,7 @@
               </div>
               <ul class="s-setup__channels">
                 <li><span class="ui-tile ui-tile--instagram s-setup__ch-icon"><svg class="i"><use href="assets/icons.svg#instagram" /></svg></span><span class="s-setup__grow">Instagram</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
-                <li><span class="ui-tile ui-tile--telegram s-setup__ch-icon"><svg class="i"><use href="assets/icons.svg#telegram" /></svg></span><span class="s-setup__grow">Telegram</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
+                <li><span class="ui-tile ui-tile--telegram s-setup__ch-icon"><img src="assets/logos/telegram.svg" alt=""></span><span class="s-setup__grow">Telegram</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
                 <li><span class="ui-tile s-setup__ch-icon s-setup__ch-icon--plain"><svg class="i"><use href="assets/icons.svg#maps" /></svg></span><span class="s-setup__grow">2ГИС</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
                 <li><span class="ui-tile s-setup__ch-icon s-setup__ch-icon--plain"><svg class="i"><use href="assets/icons.svg#map-pin" /></svg></span><span class="s-setup__grow">Яндекс Карты</span><svg class="i i--bold s-setup__tick"><use href="assets/icons.svg#check" /></svg></li>
               </ul>
@@ -1751,95 +1225,35 @@
     </div>
   </div>
 </section>
-      <section class="s-assistants section" data-section="assistants" id="assistants">
-  <div class="container">
-    <div class="section-head">
-      <h2 class="reveal">Ассистенты, которые понимают <span class="s-assistants__last">ваш язык<span class="sr-only">,</span> <span class="s-assistants__beta chip chip--info"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#sparkles" /></svg>Бета</span></span></h2>
-      <p class="lead reveal" style="--delay: 60ms">Мы тестируем ИИ-ассистентов для клиентов, владельцев и сотрудников. Сейчас это бета-версия: здесь показано, что появится в будущем.</p>
-    </div>
-
-    <div class="s-assistants__grid">
-      <div class="s-assistants__stage stage reveal">
-        <div class="stage__art" aria-hidden="true"></div>
-
-        <div class="s-assistants__demo ui" role="img" aria-label="Переписка с Gulnor Beauty в Instagram Direct. Клиент спрашивает по-таджикски, можно ли записаться на маникюр завтра в пять. Ассистент отвечает по-русски: завтра в 17:00 свободна Зарина, записать вас? Клиент соглашается по-таджикски. Ассистент подтверждает запись по-русски и обещает напомнить за день и за два часа до визита.">
-          <div class="ui-window s-assistants__chat" aria-hidden="true">
-            <div class="s-assistants__head">
-              <span class="ui-avatar ui-avatar--lg s-assistants__brand">GB</span>
-              <div class="s-assistants__grow">
-                <div class="ui-title">Gulnor Beauty</div>
-                <div class="ui-sub">Instagram Direct</div>
-              </div>
-              <span class="ui-tile ui-tile--instagram s-assistants__ig"><svg class="i"><use href="assets/icons.svg#instagram" /></svg></span>
-            </div>
-
-            <div class="s-assistants__thread" data-thread>
-              <div class="s-assistants__msg s-assistants__msg--out" data-m>
-                <p class="ui-bubble ui-bubble--out" lang="tg">Салом, завтра соати 5 маникюр мумкин?</p>
-                <p class="s-assistants__tr">Здравствуйте, можно завтра на маникюр в 5?</p>
-              </div>
-
-              <div class="s-assistants__msg s-assistants__msg--in" data-m data-typing>
-                <span class="ui-avatar s-assistants__brand">GB</span>
-                <div class="s-assistants__slot">
-                  <span class="ui-bubble ui-bubble--in s-assistants__typing"><i></i><i></i><i></i></span>
-                  <p class="ui-bubble ui-bubble--in" lang="ru">Здравствуйте! Завтра в 17:00 свободна Зарина. Записать вас?</p>
-                </div>
-              </div>
-
-              <div class="s-assistants__msg s-assistants__msg--out" data-m>
-                <p class="ui-bubble ui-bubble--out" lang="tg">Ҳа, илтимос</p>
-                <p class="s-assistants__tr">Да, пожалуйста</p>
-              </div>
-
-              <div class="s-assistants__msg s-assistants__msg--in" data-m data-typing>
-                <span class="ui-avatar s-assistants__brand">GB</span>
-                <div class="s-assistants__slot">
-                  <span class="ui-bubble ui-bubble--in s-assistants__typing"><i></i><i></i><i></i></span>
-                  <p class="ui-bubble ui-bubble--in" lang="ru">Готово. Напомним за день и за два часа до визита.</p>
-                </div>
-              </div>
-            </div>
-
-            <div class="s-assistants__composer">
-              <span class="s-assistants__cam"><svg class="i"><use href="assets/icons.svg#camera" /></svg></span>
-              <span class="s-assistants__placeholder">Сообщение</span>
-              <svg class="i"><use href="assets/icons.svg#mic" /></svg>
-              <svg class="i"><use href="assets/icons.svg#image" /></svg>
-            </div>
-          </div>
-        </div>
-
-        <p class="s-assistants__note"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#shield" /></svg><span>Вопросы о здоровье и спорные ситуации сразу передаются администратору.</span></p>
-      </div>
-
-      <ul class="s-assistants__who reveal" style="--delay: 80ms">
-        <li class="s-assistants__row card">
-          <span class="s-assistants__icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#ai-chat" /></svg></span>
-          <div class="s-assistants__copy">
-            <h3>Клиентам</h3>
-            <p>Понимает таджикский, русский и их сочетания в Telegram и Instagram Direct. Отвечает на типовые вопросы, записывает клиентов и переносит визиты.</p>
-          </div>
-        </li>
-        <li class="s-assistants__row card">
-          <span class="s-assistants__icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#chart" /></svg></span>
-          <div class="s-assistants__copy">
-            <h3>Владельцам</h3>
-            <p>Спросите <span class="s-assistants__ask">«Как прошла эта неделя по сравнению с прошлой?»</span> или <span class="s-assistants__ask">«У кого было больше всего записей в октябре?»</span> и получите ответ на основе данных вашего бизнеса.</p>
-          </div>
-        </li>
-        <li class="s-assistants__row card">
-          <span class="s-assistants__icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#mic" /></svg></span>
-          <div class="s-assistants__copy">
-            <h3>Сотрудникам</h3>
-            <p>Краткая история клиента перед визитом и голосовые заметки, которые сразу попадают в его карточку.</p>
-          </div>
-        </li>
-      </ul>
-    </div>
+      <!-- AI statement: the opener for the assistants section below it. One huge sentence with the
+     places the assistants live set into it as icon tiles. The whole block is a glow trigger in
+     view mode, so "ИИ" and the three icons light up in turn while it is on screen. -->
+<section class="s-ai section" id="ai" aria-labelledby="ai-title">
+  <div class="container s-ai__inner" data-glow-trigger="view" data-stagger="90">
+    <h2 id="ai-title" class="s-ai__title">
+      <span class="s-ai__line reveal"><span class="s-ai__word" data-glow>ИИ</span>, встроенный</span>
+      <span class="s-ai__line reveal"><span class="s-ai__item"><span class="s-ai__soft">в</span> <span class="s-ai__tile sq"><svg class="i" data-glow aria-hidden="true" style="--glow-delay: 0.3s"><use href="assets/icons.svg#chat" /></svg></span>чаты,</span> <span class="s-ai__item"><span class="s-ai__tile sq"><svg class="i" data-glow aria-hidden="true" style="--glow-delay: 0.6s"><use href="assets/icons.svg#calendar-check" /></svg></span>записи</span></span>
+      <span class="s-ai__line reveal"><span class="s-ai__item"><span class="s-ai__soft">и</span> <span class="s-ai__tile sq"><svg class="i" data-glow aria-hidden="true" style="--glow-delay: 0.9s"><use href="assets/icons.svg#chart" /></svg></span>отчёты</span></span>
+    </h2>
+    <p class="lead s-ai__lead reveal">Не отдельный чат-бот, а часть NavCRM. Ассистенты знают ваше расписание, клиентов и продажи, поэтому сами записывают клиентов, отвечают на вопросы о бизнесе и понимают таджикский и русский.</p>
   </div>
 </section>
-      <section class="s-faq section" data-section="faq" id="faq">
+      <!--
+      ARCHIVED 2026-10-27: "Assistants" section (id="assistants"), removed from the page at the owner's request.
+
+      Heading "Ассистенты, которые понимают ваш язык" with a Beta chip. An Instagram Direct chat
+      on the left (a client writes in Tajik, the assistant books a manicure in Russian) and three
+      rows on the right: for clients, owners and staff.
+
+      Nothing was deleted: markup in src/partials/assistants.html, styles in
+      landing/css/sections/assistants.css, behaviour in landing/js/sections/assistants.js.
+      With it gone, FAQ, the closing section and the footer swapped tones (faq soft, start white,
+      footer soft) so neighbouring sections still alternate.
+
+      To restore: put back the "@ partial assistants" marker (without the space) here, uncomment
+      the assistants.css link in <head>, swap those three tones back, then run npm run build.
+      -->
+      <section class="s-faq section tone-soft" data-section="faq" id="faq">
   <div class="container s-faq__grid">
     <div class="s-faq__intro">
       <h2 class="reveal">Частые вопросы</h2>
@@ -1899,7 +1313,7 @@
     </div>
   </div>
 </section>
-      <section class="s-start" id="start" aria-labelledby="start-title">
+      <section class="s-start tone-white" id="start" aria-labelledby="start-title">
   <div class="container">
     <div class="stage s-start__stage">
       <!-- the same world as the hero, late in the day: the bookend to the morning sky -->
@@ -1908,7 +1322,7 @@
         <h2 id="start-title" class="reveal">Подключим ваш бизнес</h2>
         <p class="lead reveal" style="--delay: 60ms">Расскажите, чем вы занимаетесь и как работаете сейчас. Вместе выберем профиль, перенесём клиентскую базу и обучим команду, чтобы вы могли начать работу за один день.</p>
         <div class="s-start__actions reveal" style="--delay: 120ms">
-          <a class="btn btn--dark btn--lg" href="https://t.me/+992070070070" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#telegram" /></svg>Написать в Telegram</a>
+          <a class="btn btn--dark btn--lg" href="https://t.me/+992070070070" target="_blank" rel="noopener"><img class="i" src="assets/logos/telegram.svg" alt="">Написать в Telegram</a>
           <a class="btn btn--glass btn--lg" href="tel:+992070070070"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#call" /></svg>Позвонить +992 070 070 070</a>
         </div>
         <p class="s-start__note reveal" style="--delay: 180ms"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#support" /></svg>Поддержка на таджикском и русском.</p>
@@ -1917,7 +1331,7 @@
   </div>
 </section>
     </main>
-    <footer class="s-footer">
+    <footer class="s-footer tone-soft">
   <div class="container">
     <div class="s-footer__top">
       <div class="s-footer__brand">
@@ -1935,7 +1349,7 @@
         <div>
           <h2>Продукт</h2>
           <ul>
-            <li><a href="#how">Как это работает</a></li>
+            <li><a href="#problems">Как это работает</a></li>
             <li><a href="#industries">Отрасли</a></li>
             <li><a href="#pricing">Стоимость</a></li>
             <li><a href="#faq">Вопросы</a></li>

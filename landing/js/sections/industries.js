@@ -1,52 +1,40 @@
-// Industries: a vertical ARIA tablist and stacked panels that crossfade.
-// The visitor picks; nothing auto-advances.
-import { onceVisible } from '../shared.js';
+// Industries: three rows of business capsules that drift sideways in a loop.
+// Each row's list is cloned once so translating the track by -50% wraps seamlessly.
+// Hovering the rows eases them down to half speed rather than stopping them.
+const HOVER_RATE = 0.5;
+const EASE_MS = 400;
 
 export function init(root) {
-  const list = root.querySelector('[role="tablist"]');
-  const tabs = [...list.querySelectorAll('[role="tab"]')];
-  const panels = tabs.map((tab) => root.querySelector(`#${tab.getAttribute('aria-controls')}`));
-  const panelsWrap = root.querySelector('.s-industries__panels');
-  let current = Math.max(
-    0,
-    tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true')
-  );
-
-  const select = (index, { focus = false } = {}) => {
-    if (index !== current) {
-      tabs[current].setAttribute('aria-selected', 'false');
-      tabs[current].tabIndex = -1;
-      panels[current].removeAttribute('data-active');
-      current = index;
-      tabs[current].setAttribute('aria-selected', 'true');
-      tabs[current].removeAttribute('tabindex');
-      panels[current].setAttribute('data-active', '');
-    }
-    if (focus) tabs[current].focus();
-  };
-
-  tabs.forEach((tab, i) => {
-    tab.addEventListener('click', () => {
-      root.removeAttribute('data-keyboard');
-      select(i);
-    });
-    tab.addEventListener('keydown', (e) => {
-      const last = tabs.length - 1;
-      let next = null;
-      if (e.key === 'ArrowDown') next = i === last ? 0 : i + 1;
-      else if (e.key === 'ArrowUp') next = i === 0 ? last : i - 1;
-      else if (e.key === 'Home') next = 0;
-      else if (e.key === 'End') next = last;
-      if (next === null) return;
-      e.preventDefault();
-      root.setAttribute('data-keyboard', '');
-      select(next, { focus: true });
-    });
+  const tracks = [];
+  root.querySelectorAll('.s-industries__row').forEach((row) => {
+    const group = row.querySelector('.s-industries__group');
+    const track = document.createElement('div');
+    track.className = 's-industries__track';
+    const clone = group.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    row.append(track);
+    track.append(group, clone);
+    tracks.push(track);
   });
+  root.setAttribute('data-running', '');
 
-  // The first panel's demo items stagger in the first time the section is seen.
-  root.setAttribute('data-armed', '');
-  onceVisible(panelsWrap, () => requestAnimationFrame(() => root.setAttribute('data-seen', '')), {
-    rootMargin: '0px 0px -20% 0px',
+  // Ease every row's CSS animation toward a playback rate; setting playbackRate keeps position
+  let rate = 1;
+  let raf = 0;
+  const easeTo = (target) => {
+    cancelAnimationFrame(raf);
+    const from = rate;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / EASE_MS);
+      rate = from + (target - from) * (1 - (1 - t) ** 3);
+      tracks.forEach((track) => track.getAnimations().forEach((a) => (a.playbackRate = rate)));
+      if (t < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+  };
+  root.querySelectorAll('.s-industries__ticker').forEach((ticker) => {
+    ticker.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && easeTo(HOVER_RATE));
+    ticker.addEventListener('pointerleave', (e) => e.pointerType === 'mouse' && easeTo(1));
   });
 }
