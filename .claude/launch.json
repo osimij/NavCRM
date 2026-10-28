@@ -21,6 +21,18 @@
         "exec python3 -m http.server \"${PORT:-4321}\" --directory landing"
       ],
       "port": 4321
+    },
+    {
+      "name": "glow-kit",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4330",
+        "--directory",
+        "archive/ai-glow-statement"
+      ],
+      "port": 4330
     }
   ]
 }

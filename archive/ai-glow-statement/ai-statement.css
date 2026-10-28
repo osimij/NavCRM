@@ -1,0 +1,111 @@
+/* AI statement: one big sentence set in three lines, with the places the assistants work (chats,
+   bookings, reports) as icons inside it. The glow preset (glow.css + glow.js) lights "ИИ" and
+   then each tile in turn while the block is on screen.
+
+   Archived from the NavCRM landing page (section #ai). The site's shared styles it relied on are
+   restated at the bottom of this file, so it runs on its own. The site set it in the variable
+   font ALS Hauss Next (licensed, not included): set --ai-font to your own display face. */
+
+/* Black, like the icon band, so the glow reads as light; the glow keeps its dark-surface palette */
+.s-ai {
+  --glow-period: 2s;
+  background: #000;
+  color: #f4f6fa;
+}
+
+.s-ai__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Type play: the sentence in ink at display weight, "ИИ" heavier and lit, the small joining words
+   thin and grey so the nouns and their icons carry the line. */
+.s-ai__title {
+  font-size: min(6rem, 6.8vw);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+.s-ai__line {
+  display: block;
+}
+/* a tile never wraps away from its word, nor a joining word from what it joins */
+.s-ai__item {
+  white-space: nowrap;
+}
+.s-ai__word {
+  --type-weight: 640;
+}
+.s-ai__soft {
+  --type-weight: 250;
+  color: #4a5363;
+}
+
+/* Icons set into the line like capitals: bare glyphs on the baseline, cap-height tall */
+.s-ai__tile {
+  display: inline-grid;
+  place-items: center;
+  width: 0.76em;
+  height: 0.76em;
+  margin-inline: 0.02em 0.1em;
+  vertical-align: -0.03em;
+  color: #2b3c55;
+}
+.s-ai__tile .i {
+  font-size: 0.8em;
+  stroke-width: 1.8;
+}
+
+.s-ai__lead {
+  max-width: 52ch;
+  margin-top: clamp(28px, 3.4vw, 44px);
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+  text-wrap: balance;
+  color: #8a94a6;
+}
+
+/* Phones: the set lines give way to a balanced wrap at a size a phone can hold */
+@media (max-width: 759.98px) {
+  .s-ai__title {
+    font-size: clamp(2rem, 9.6vw, 3rem);
+    line-height: 1.06;
+    white-space: normal;
+    text-wrap: balance;
+  }
+  .s-ai__line {
+    display: inline;
+  }
+}
+
+/* ---------- from the site's shared styles ---------- */
+.s-ai {
+  font-family: var(--ai-font, "Inter", system-ui, sans-serif);
+  padding-block: clamp(96px, 14vw, 200px);
+}
+.s-ai .container {
+  width: min(1240px, 100% - 32px);
+  margin-inline: auto;
+}
+/* zero specificity, so the section's own margins (the lead's margin-top) win */
+:where(.s-ai h2, .s-ai p) {
+  margin: 0;
+}
+/* --type-weight drives both font-weight and a variable font's wght axis */
+.s-ai__title,
+.s-ai__title * {
+  font-weight: var(--type-weight, 500);
+  font-variation-settings: "wght" var(--type-weight, 500);
+}
+.s-ai__lead {
+  line-height: 1.55;
+}
+/* sprite icons: 1em square, drawn with the text colour */
+.s-ai .i {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  stroke-width: 1.6;
+  overflow: visible;
+}

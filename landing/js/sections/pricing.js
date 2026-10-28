@@ -1,19 +1,26 @@
-// Pricing calculator: 1.5 TJS per completed visit, with a rolling odometer.
+// Pricing calculator: 1.5 TJS per completed visit. The owner answers in their own terms (clients
+// a day, working days a month); the sum is written out and the monthly total rolls on an odometer.
 import { fmt } from '../shared.js';
 
 const RATE = 1.5;
-const visitForms = { one: 'визит', few: 'визита', many: 'визитов', other: 'визита' };
-const visitRules = new Intl.PluralRules('ru-RU');
-const visitLabel = (count) => visitForms[visitRules.select(count)];
-const CELLS = 4; // up to 4,500 TJS (3,000 visits)
+const rules = new Intl.PluralRules('ru-RU');
+const plural = (n, forms) => forms[rules.select(n)] ?? forms.other;
+const CLIENTS = { one: 'клиент', few: 'клиента', many: 'клиентов', other: 'клиента' };
+const DAYS = { one: 'день', few: 'дня', many: 'дней', other: 'дня' };
+const CELLS = 4; // up to 6,750 TJS (150 clients a day for 30 days)
 
 export function init(root) {
+  const count = root.querySelector('.s-pricing__count');
   const range = root.querySelector('.s-pricing__range');
-  const visitsOut = root.querySelector('.s-pricing__visits');
+  const steps = [...root.querySelectorAll('[data-step]')];
+  const days = [...root.querySelectorAll('input[name="pricing-days"]')];
   const odo = root.querySelector('[data-odo]');
   const totalText = root.querySelector('[data-total-text]');
-  const working = root.querySelector('[data-working]');
-  const presets = [...root.querySelectorAll('[data-visits]')];
+  const sumDay = root.querySelector('[data-sum-day]');
+  const sumDays = root.querySelector('[data-sum-days]');
+  const perDay = root.querySelector('[data-per-day]');
+  const MIN = Number(range.min);
+  const MAX = Number(range.max);
 
   // Build fixed-width digit cells: d d , d d d style for 4 digits (one comma slot).
   const cells = [];
@@ -56,8 +63,10 @@ export function init(root) {
   document.fonts.ready.then(measure);
 
   let liveTimer = 0;
-  const render = (visits, { announce = true } = {}) => {
-    const total = Math.round(visits * RATE);
+  const render = ({ announce = true } = {}) => {
+    const perDayClients = Number(range.value);
+    const workDays = Number(days.find((d) => d.checked)?.value ?? 26);
+    const total = Math.round(perDayClients * workDays * RATE);
     const digits = String(total).padStart(CELLS, '0').split('').map(Number);
     const len = String(total).length;
     cells.forEach((strip, i) => {
@@ -66,23 +75,32 @@ export function init(root) {
     });
     comma.hidden = len < 4;
 
-    const pct = ((visits - range.min) / (range.max - range.min)) * 100;
-    range.style.setProperty('--p', `${pct}%`);
-    visitsOut.textContent = fmt(visits);
-    working.textContent = `${fmt(visits)} ${visitLabel(visits)} × 1,5 сомони`;
-    presets.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.visits) === visits)));
+    range.style.setProperty('--p', `${((perDayClients - MIN) / (MAX - MIN)) * 100}%`);
+    if (document.activeElement !== count) count.value = perDayClients;
+    steps.forEach((b) => (b.disabled = perDayClients + Number(b.dataset.step) < MIN || perDayClients + Number(b.dataset.step) > MAX));
+    sumDay.textContent = `${perDayClients} ${plural(perDayClients, CLIENTS)}`;
+    sumDays.textContent = `${workDays} ${plural(workDays, DAYS)}`;
+    perDay.textContent = fmt(perDayClients * RATE);
 
     // Announce the result once the value settles, not on every input event.
     clearTimeout(liveTimer);
     if (announce) liveTimer = setTimeout(() => (totalText.textContent = `${fmt(total)} сомони в месяц`), 350);
   };
 
-  range.addEventListener('input', () => render(Number(range.value)));
-  presets.forEach((b) =>
-    b.addEventListener('click', () => {
-      range.value = b.dataset.visits;
-      render(Number(range.value));
-    })
-  );
-  render(Number(range.value), { announce: false });
+  // One value (the slider's) behind the slider, the typed number and the − / + buttons
+  const set = (n) => {
+    range.value = Math.min(MAX, Math.max(MIN, Math.round(n) || MIN));
+    render();
+  };
+  range.addEventListener('input', () => render());
+  count.addEventListener('input', () => {
+    if (count.value !== '') set(Number(count.value));
+  });
+  count.addEventListener('change', () => {
+    count.value = range.value;
+  });
+  count.addEventListener('blur', () => (count.value = range.value));
+  steps.forEach((b) => b.addEventListener('click', () => set(Number(range.value) + Number(b.dataset.step))));
+  days.forEach((d) => d.addEventListener('change', () => render()));
+  render({ announce: false });
 }

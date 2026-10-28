@@ -5,7 +5,8 @@
   "scripts": {
     "icons": "node scripts/build-icons.mjs",
     "dev": "python3 -m http.server 4317 --directory landing",
-    "build": "node scripts/build-page.mjs"
+    "build": "node scripts/build-page.mjs",
+    "app": "npm --prefix navcrm-prototype run build:embed"
   },
   "devDependencies": {
     "@hugeicons/core-free-icons": "^4.3.5"

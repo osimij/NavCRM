@@ -1,76 +1,174 @@
+/* Footer: a dark close to the page (#111, with the dark-surface accent). Brand and quick contact,
+   the link columns and a slim bottom row, then a giant NavCRM wordmark across the full width,
+   cropped by the bottom edge and fading out, with a soft light that follows the pointer. */
 .s-footer {
-  padding: 64px 0 calc(32px + env(safe-area-inset-bottom));
+  --accent: var(--accent-on-dark);
+  position: relative;
+  overflow: hidden;
+  padding-top: clamp(64px, 7vw, 104px);
+  background: #111111;
+  color: #fff;
 }
+
+/* ---------- brand and quick contact ---------- */
 .s-footer__top {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  gap: 40px 64px;
-  padding-top: 40px;
-  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px 48px;
+  padding-bottom: clamp(40px, 4.5vw, 64px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .s-footer__logo {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-size: 1.0625rem;
-  font-weight: var(--type-weight, 400);
+  gap: 12px;
+  font-size: 1.5rem;
   letter-spacing: -0.02em;
   border-radius: 10px;
 }
 .s-footer__mark {
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
 }
 .s-footer__brand p {
-  margin-top: 14px;
-  max-width: 28ch;
-  font-size: var(--fs-sm);
-  color: var(--ink-3);
+  max-width: 36ch;
+  margin-top: 16px;
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.6);
 }
+.s-footer__contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.s-footer__contact .btn .i {
+  font-size: 18px;
+}
+.s-footer__ghost {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+@media (hover: hover) and (pointer: fine) {
+  .s-footer__ghost:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+}
+
+/* ---------- links ---------- */
 .s-footer__cols {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 32px 24px;
+  padding-top: clamp(40px, 4.5vw, 56px);
 }
 .s-footer__cols h2 {
+  margin-bottom: 14px;
   font-size: var(--fs-sm);
   line-height: 1.4;
-  font-weight: var(--type-weight, 400);
   letter-spacing: -0.005em;
-  color: var(--ink);
-  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.42);
 }
 .s-footer__cols ul {
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
-.s-footer__cols a {
-  font-size: var(--fs-sm);
-  color: var(--ink-2);
+.s-footer__cols a,
+.s-footer__up {
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.82);
   border-radius: 4px;
   transition: color 200ms ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .s-footer__cols a:hover {
-    color: var(--ink);
+  .s-footer__cols a:hover,
+  .s-footer__up:hover {
+    color: #fff;
   }
 }
+
 .s-footer__bottom {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 8px 24px;
-  margin-top: 56px;
+  align-items: center;
+  gap: 8px 32px;
+  margin-top: clamp(48px, 5vw, 72px);
   font-size: var(--fs-xs);
-  color: var(--ink-3);
+  color: rgba(255, 255, 255, 0.42);
+}
+.s-footer__up {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  font-size: var(--fs-xs);
+}
+.s-footer__up .i {
+  font-size: 14px;
+  rotate: -45deg;
+}
+
+/* ---------- the wordmark ---------- */
+/* One line the width of the page, sized in vw so it always spans it; its lower part is cut by
+   the footer's edge. The letters fade from a faint white to nothing, and a soft light (--mx/--my
+   from footer.js, in px inside the word) brightens them around the pointer. */
+.s-footer__word {
+  --mx: 50%;
+  --my: 40%;
+  --lit: 0;
+  position: relative;
+  height: 0.62em;
+  margin-top: clamp(24px, 3vw, 40px);
+  font-size: 23.4vw;
+  line-height: 0.8;
+  letter-spacing: -0.065em;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  pointer-events: none;
+  transition: --lit 400ms ease;
+}
+.s-footer__word span {
+  --type-weight: 600;
+  display: block;
+  margin-inline: -0.03em;
+  background:
+    radial-gradient(circle 22vw at var(--mx) var(--my), rgba(255, 255, 255, calc(0.32 * var(--lit))), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 55%, rgba(255, 255, 255, 0) 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@property --lit {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+.s-footer__word.is-lit {
+  --lit: 1;
 }
 
 @media (max-width: 860px) {
   .s-footer__top {
-    grid-template-columns: 1fr;
+    align-items: flex-start;
+    flex-direction: column;
   }
   .s-footer__cols {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 479.98px) {
+  .s-footer__contact {
+    width: 100%;
+  }
+  .s-footer__contact .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+  .s-footer__up {
+    margin-left: 0;
   }
 }

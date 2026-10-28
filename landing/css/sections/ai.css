@@ -1,6 +1,8 @@
 /* AI statement (#ai): the opener for #assistants. One big sentence set in three lines, with the
    places the assistants work (chats, bookings, reports) as icons inside it. The glow preset
-   (css/fx/glow.css) lights "ИИ" and then each tile in turn while the block is on screen. */
+   (css/fx/glow.css) lights "ИИ" and then each tile in turn while the block is on screen.
+   ARCHIVED 2026-10-29: the section is off the page; see src/index.template.html. A standalone copy
+   is in archive/ai-glow-statement/. */
 
 /* Black, like the icon band, so the glow reads as light; the glow keeps its dark-surface palette */
 .s-ai {

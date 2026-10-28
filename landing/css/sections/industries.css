@@ -1,7 +1,8 @@
 /* Industries: one claim (NavCRM fits any business). Title on the left, description on the right,
    then three rows of business capsules, with empty "ghost" capsules between them, drifting in
    opposite directions. industries.js clones each row's list so the loop is seamless; without JS
-   (or with reduced motion) the rows sit still, centred and clipped at the edges. */
+   (or with reduced motion) the rows sit still, centred and clipped at the edges.
+   ARCHIVED 2026-10-29: the section is off the page; see src/index.template.html. */
 
 /* The capsule rows sit in a 1440px column, wider than the copy above them. */
 .s-industries__band {

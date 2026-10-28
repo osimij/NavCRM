@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI statement · glow</title>
+    <link rel="stylesheet" href="glow.css" />
+    <link rel="stylesheet" href="ai-statement.css" />
+    <style>
+      body { margin: 0; background: #000; }
+    </style>
+  </head>
+  <body>
+    <!-- The three icons (Hugeicons, stroke) as an inline sprite. glow.js also follows a <use> into
+         an external sprite file (href="assets/icons.svg#chat"), fetching it once. -->
+    <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+      <symbol id="chat" viewBox="0 0 24 24" fill="none"><path d="M21.5 12C21.5 17.2467 17.2467 21.5 12 21.5C10.3719 21.5 8.8394 21.0904 7.5 20.3687C5.63177 19.362 4.37462 20.2979 3.26592 20.4658C3.09774 20.4913 2.93024 20.4302 2.80997 20.31C2.62741 20.1274 2.59266 19.8451 2.6935 19.6074C3.12865 18.5818 3.5282 16.6382 2.98341 15C2.6698 14.057 2.5 13.0483 2.5 12C2.5 6.75329 6.75329 2.5 12 2.5C17.2467 2.5 21.5 6.75329 21.5 12Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.1257 12H12.0007M8.125 12H8M16.125 12H16M12.2507 12C12.2507 12.1381 12.1388 12.25 12.0007 12.25C11.8627 12.25 11.7507 12.1381 11.7507 12C11.7507 11.8619 11.8627 11.75 12.0007 11.75C12.1388 11.75 12.2507 11.8619 12.2507 12ZM8.25 12C8.25 12.1381 8.13807 12.25 8 12.25C7.86193 12.25 7.75 12.1381 7.75 12C7.75 11.8619 7.86193 11.75 8 11.75C8.13807 11.75 8.25 11.8619 8.25 12ZM16.25 12C16.25 12.1381 16.1381 12.25 16 12.25C15.8619 12.25 15.75 12.1381 15.75 12C15.75 11.8619 15.8619 11.75 16 11.75C16.1381 11.75 16.25 11.8619 16.25 12Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="calendar-check" viewBox="0 0 24 24" fill="none"><path d="M16 2V6M8 2V6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 16V12C21 8.22876 21 6.34315 19.8284 5.17157C18.6569 4 16.7712 4 13 4H11C7.22876 4 5.34315 4 4.17157 5.17157C3 6.34315 3 8.22876 3 12V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 10H21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 19.5H14.5M16.5 22C15.9943 21.5085 14 20.2002 14 19.5C14 18.7998 15.9943 17.4915 16.5 17" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="chart" viewBox="0 0 24 24" fill="none"><path d="M7 17L7 13" stroke="currentColor" stroke-linecap="round"/><path d="M12 17L12 7" stroke="currentColor" stroke-linecap="round"/><path d="M17 17L17 11" stroke="currentColor" stroke-linecap="round"/><path d="M2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12Z" stroke="currentColor" stroke-linejoin="round"/></symbol>
+    </svg>
+
+    <!-- AI statement. The whole block is a glow trigger in view mode, so "ИИ" and the three icons
+         light up in turn (rising --glow-delay) while it is on screen. -->
+    <section class="s-ai" id="ai" aria-labelledby="ai-title">
+      <div class="container s-ai__inner" data-glow-trigger="view">
+        <h2 id="ai-title" class="s-ai__title">
+          <span class="s-ai__line"><span class="s-ai__word" data-glow>ИИ</span>, встроенный</span>
+          <span class="s-ai__line"><span class="s-ai__item"><span class="s-ai__soft">в</span> <span class="s-ai__tile"><svg class="i" data-glow aria-hidden="true" style="--glow-delay: 0.3s"><use href="#chat" /></svg></span>чаты,</span> <span class="s-ai__item"><span class="s-ai__tile"><svg class="i" data-glow aria-hidden="true" style="--glow-delay: 0.6s"><use href="#calendar-check" /></svg></span>записи</span></span>
+          <span class="s-ai__line"><span class="s-ai__item"><span class="s-ai__soft">и</span> <span class="s-ai__tile"><svg class="i" data-glow aria-hidden="true" style="--glow-delay: 0.9s"><use href="#chart" /></svg></span>отчёты</span></span>
+        </h2>
+        <p class="s-ai__lead">Не отдельный чат-бот, а часть NavCRM. Ассистенты знают ваше расписание, клиентов и продажи, поэтому сами записывают клиентов, отвечают на вопросы о бизнесе и понимают таджикский и русский.</p>
+      </div>
+    </section>
+
+    <script type="module">
+      import { initGlow } from './glow.js';
+      initGlow();
+    </script>
+  </body>
+</html>

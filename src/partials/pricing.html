@@ -5,51 +5,61 @@
       <p class="lead reveal" style="--delay: 60ms">Без абонентской платы и ограничений на сотрудников, филиалы и функции. За отмены и неявки платить не нужно, поэтому в спокойный месяц расходы меньше.</p>
     </div>
 
-    <div class="s-pricing__grid">
-      <div class="s-pricing__calc card sq reveal">
-        <div class="s-pricing__row">
-          <label class="s-pricing__label" for="pricing-visits">Состоявшихся визитов в месяц</label>
-          <output class="s-pricing__visits" for="pricing-visits" id="pricing-visits-out">600</output>
-        </div>
+    <!-- Price → try it → what you get. One panel: the two questions on the left, the result on a
+         dark panel on the right with the next step. Under it, everything the price includes as
+         tiles, and the few paid extras as a footnote. -->
+    <div class="s-pricing__panel card sq reveal">
+      <div class="s-pricing__inputs">
+          <div class="s-pricing__q">
+            <label class="s-pricing__label" for="pricing-day">Сколько клиентов вы принимаете в день?</label>
+            <div class="s-pricing__stepper">
+              <button class="s-pricing__step" type="button" data-step="-1" aria-label="На одного клиента меньше"><svg class="i i--bold" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5" stroke="currentColor" stroke-linecap="round" /></svg></button>
+              <input class="s-pricing__count" id="pricing-day" type="number" inputmode="numeric" min="1" max="150" step="1" value="25" aria-describedby="pricing-result" />
+              <button class="s-pricing__step" type="button" data-step="1" aria-label="На одного клиента больше"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#plus" /></svg></button>
+            </div>
+            <input class="s-pricing__range" type="range" min="1" max="150" step="1" value="25" aria-label="Клиентов в день" tabindex="-1" />
+            <div class="s-pricing__scale" aria-hidden="true"><span>1</span><span>150</span></div>
+          </div>
 
-        <input class="s-pricing__range" id="pricing-visits" type="range" min="50" max="3000" step="10" value="600" aria-describedby="pricing-result" />
-        <div class="s-pricing__scale" aria-hidden="true"><span>50</span><span>3 000</span></div>
-
-        <div class="s-pricing__presets" role="group" aria-label="Быстрый выбор количества визитов">
-          <button class="chip" type="button" data-visits="300">300 визитов</button>
-          <button class="chip" type="button" data-visits="600" aria-pressed="true">600 визитов</button>
-          <button class="chip" type="button" data-visits="1000">1 000 визитов</button>
-        </div>
-
-        <div class="s-pricing__result">
-          <p class="s-pricing__result-label">Ваш платёж за месяц</p>
-          <p class="s-pricing__total" id="pricing-result" aria-live="polite">
-            <span class="sr-only" data-total-text>900 сомони в месяц</span>
-            <span class="s-pricing__odo" aria-hidden="true" data-odo></span>
-            <span class="s-pricing__unit" aria-hidden="true">сомони в месяц</span>
-          </p>
-          <p class="s-pricing__working"><span data-working>600 визитов × 1,5 сомони</span></p>
-          <p class="s-pricing__free chip chip--good"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#calendar-remove" /></svg>Неявки и отмены: 0 сомони</p>
-        </div>
+          <fieldset class="s-pricing__q">
+            <legend class="s-pricing__label">Сколько дней в месяц вы работаете?</legend>
+            <div class="s-pricing__days">
+              <label><input type="radio" name="pricing-days" value="22" /><span>22 дня<small>5 дней в неделю</small></span></label>
+              <label><input type="radio" name="pricing-days" value="26" checked /><span>26 дней<small>6 дней в неделю</small></span></label>
+              <label><input type="radio" name="pricing-days" value="30" /><span>30 дней<small>без выходных</small></span></label>
+            </div>
+          </fieldset>
       </div>
 
-      <div class="s-pricing__lists" data-stagger="50">
-        <h3 class="s-pricing__list-title reveal">Включено</h3>
-        <ul class="s-pricing__included">
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Неограниченно сотрудников и филиалов</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Все функции и отраслевые профили</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Напоминания в Telegram</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Настройка и перенос клиентской базы</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>До двух часов обучения сотрудников</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Фиксация тарифа на 12 месяцев</li>
+      <div class="s-pricing__result">
+        <p class="s-pricing__result-label">Ваш платёж</p>
+        <p class="s-pricing__total" id="pricing-result" aria-live="polite">
+          <span class="sr-only" data-total-text>975 сомони в месяц</span>
+          <span class="s-pricing__odo" aria-hidden="true" data-odo></span>
+          <span class="s-pricing__unit" aria-hidden="true">сомони в месяц</span>
+        </p>
+        <p class="s-pricing__sum" aria-hidden="true">
+          <span data-sum-day>25 клиентов</span><b>×</b><span data-sum-days>26 дней</span><b>×</b><span>1,5 сомони</span>
+        </p>
+        <ul class="s-pricing__notes">
+          <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#coins" /></svg><span>Около <b data-per-day>38</b> сомони за рабочий день</span></li>
+          <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#calendar-remove" /></svg><span>Неявки и отмены не считаются: в спокойный месяц платите меньше</span></li>
         </ul>
-
-        <h3 class="s-pricing__list-title s-pricing__list-title--muted reveal">Оплачивается отдельно</h3>
-        <ul class="s-pricing__extra">
-          <li class="reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>СМС по тарифу оператора с предоплаченного баланса</li>
-          <li class="reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>Выезд за пределы Душанбе, дополнительное обучение и доработки по предварительному согласованию</li>
-        </ul>
+        <a class="btn btn--accent btn--lg s-pricing__cta" href="#start">Начать работу<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
       </div>
+    </div>
+
+    <div class="s-pricing__includes">
+      <h3 class="s-pricing__includes-title reveal">Всё это входит в 1,5 сомони</h3>
+      <ul class="s-pricing__tiles" data-stagger="50">
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#users" /></svg></span>Неограниченно сотрудников и филиалов</li>
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dashboard" /></svg></span>Все функции и отраслевые профили</li>
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#telegram" /></svg></span>Напоминания клиентам в Telegram</li>
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#file-import" /></svg></span>Настройка и перенос клиентской базы</li>
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#school" /></svg></span>До двух часов обучения сотрудников</li>
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#lock" /></svg></span>Тариф зафиксирован на 12 месяцев</li>
+      </ul>
+      <p class="s-pricing__extra reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg><span>Оплачивается отдельно: СМС по тарифу оператора с предоплаченного баланса; выезд за пределы Душанбе, дополнительное обучение и доработки по предварительному согласованию.</span></p>
     </div>
   </div>
 </section>

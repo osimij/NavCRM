@@ -205,10 +205,11 @@
 /* The composition is designed at a fixed size and scaled to fit (--s from hero.js). */
 .s-hero__stage {
   --cw: 1240;
-  --ch: 664;
-  /* The visible group runs from x=130 to the composition's right edge.
-     Offset by half that unused space, scaled with the mockups, to center both. */
-  --group-offset: 65px;
+  --ch: 712;
+  /* share of the available width the composition takes (read by hero.js) */
+  --fit: 0.85;
+  /* The window and the phone fill the composition's width, so it needs no offset to centre. */
+  --group-offset: 0px;
   position: relative;
   max-width: 1900px;
   margin-inline: auto;
@@ -270,13 +271,8 @@
   .s-hero__win,
   .s-hero__note,
   .s-hero__tg,
-  .s-hero__main,
-  .s-hero__bk,
-  .s-hero__tab,
-  .s-hero__glyph,
-  .s-hero__chip,
-  .s-hero__arrow,
-  .s-hero__toast {
+  .s-hero__win .s-hero__screen,
+  .s-hero__glyph {
     corner-shape: superellipse(1.6);
   }
 }
@@ -285,9 +281,9 @@
 .s-hero__comp::before {
   content: "";
   position: absolute;
-  left: 190px;
+  left: 60px;
   right: 10px;
-  top: 300px;
+  top: 340px;
   height: 440px;
   z-index: -1;
   border-radius: 50%;
@@ -298,349 +294,44 @@
 
 /* ---------- the app window ---------- */
 .s-hero__win {
-  left: 130px;
+  left: 0;
   top: 0;
-  width: 980px;
-  height: 640px;
-  display: grid;
-  grid-template-columns: 60px minmax(0, 1fr);
+  width: 1120px;
+  height: 700px;
   padding: 8px;
   border-radius: var(--r-xl);
 }
-.s-hero__rail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 8px 8px 8px 0;
-}
-.s-hero__logo {
-  width: 30px;
-  height: 30px;
-  margin: 4px 0 12px;
-  filter: none;
-  box-shadow: none;
-}
-.s-hero__tab {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 36px;
-  border-radius: var(--r-sm);
-  color: #6c788c;
-}
-.s-hero__tab .i {
-  font-size: 19px;
-}
-.s-hero__tab.is-on {
-  color: var(--accent);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.05), 0 1px 2px rgba(11, 18, 32, 0.06), 0 6px 14px -8px rgba(28, 52, 110, 0.3);
-}
-.s-hero__tab--end {
-  margin-top: auto;
-}
-
-.s-hero__main {
+/* Each device runs the real CRM in an iframe laid out at a working size (--vw, the window it
+   believes it has) and scaled down to the screen, so its own breakpoints pick the desktop
+   layout in the window and the phone layout in the phone. */
+.s-hero__screen {
+  --k: calc(var(--sw) / var(--vw));
   position: relative;
-  min-width: 0;
-  padding: 14px 18px 0;
-  border-radius: var(--r-lg);
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.05), 0 1px 3px rgba(11, 18, 32, 0.05);
   overflow: hidden;
-}
-.s-hero__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-.s-hero__date {
-  font-size: 17px;
-  font-weight: var(--type-weight, 400);
-  letter-spacing: -0.022em;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-.s-hero__meta {
-  display: flex;
-  align-items: center;
-  margin-top: 3px;
-  font-size: 12px;
-  color: var(--ink-3);
-  white-space: nowrap;
-}
-.s-hero__dot {
-  width: 3px;
-  height: 3px;
-  margin: 0 7px;
-  border-radius: 50%;
-  background: var(--ink-4);
-}
-.s-hero__count {
-  display: inline-grid;
-  height: 1.4em;
-  margin-right: 0.28em;
-  overflow: hidden;
-  line-height: 1.4em;
-}
-.s-hero__count > span {
-  grid-area: 1 / 1;
-  transition: transform 500ms var(--ease-out), opacity 300ms ease;
-}
-.s-hero__count > span:first-child {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-.s-hero__tools {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.s-hero__chip,
-.s-hero__arrow {
-  display: inline-flex;
-  align-items: center;
-  height: 32px;
-  border-radius: 10px;
-  font-size: 12.5px;
-  font-weight: var(--type-weight, 400);
-  color: var(--ink);
   background: #fff;
-  box-shadow: inset 0 0 0 1px var(--line-2), 0 1px 1px rgba(11, 18, 32, 0.04);
 }
-.s-hero__chip {
-  gap: 6px;
-  padding: 0 8px 0 9px;
+.s-hero__win .s-hero__screen {
+  --sw: 1104;
+  --vw: 1380;
+  height: 100%;
+  border-radius: calc(var(--r-xl) - 8px);
+  box-shadow: 0 0 0 1px rgba(28, 46, 92, 0.08);
 }
-.s-hero__chip .i {
-  font-size: 15px;
-  color: var(--accent);
-}
-.s-hero__chip .s-hero__caret {
-  font-size: 13px;
-  color: var(--ink-3);
-}
-.s-hero__arrow {
-  justify-content: center;
-  width: 32px;
-}
-.s-hero__arrow .i {
-  font-size: 15px;
-  color: var(--ink-2);
-}
-.s-hero__prev {
-  transform: rotate(90deg);
-}
-.s-hero__next {
-  transform: rotate(-90deg);
-}
-.s-hero__new {
-  margin-left: 4px;
-}
-
-.s-hero__staff,
-.s-hero__sched {
-  display: grid;
-  grid-template-columns: var(--gut) repeat(3, minmax(0, 1fr));
-  column-gap: 10px;
-}
-.s-hero__staff {
-  margin-top: 12px;
-  padding-bottom: 10px;
-  box-shadow: 0 1px 0 var(--line);
-}
-.s-hero__who {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-left: 2px;
-  line-height: 1.25;
-}
-.s-hero__who b {
-  display: block;
-  font-size: 13px;
-  font-weight: var(--type-weight, 400);
-}
-.s-hero__who small {
-  display: block;
-  font-size: 11.5px;
-  color: var(--ink-3);
-}
-.s-hero__sched {
-  position: relative;
-  height: calc(var(--hour) * 8 + 20px);
-  padding-top: 10px;
-}
-.s-hero__hours li {
+.s-hero__app {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(10px + var(--hour) * var(--i));
-  height: 0;
-  font-size: 11px;
-  font-weight: var(--type-weight, 400);
-  line-height: 0;
-  color: var(--ink-3);
-}
-.s-hero__hours li::after {
-  content: "";
-  position: absolute;
-  left: calc(var(--gut) + 2px);
-  right: 0;
   top: 0;
-  height: 1px;
-  background: rgba(11, 18, 32, 0.055);
-}
-.s-hero__hours li:nth-child(1) { --i: 0; }
-.s-hero__hours li:nth-child(2) { --i: 1; }
-.s-hero__hours li:nth-child(3) { --i: 2; }
-.s-hero__hours li:nth-child(4) { --i: 3; }
-.s-hero__hours li:nth-child(5) { --i: 4; }
-.s-hero__hours li:nth-child(6) { --i: 5; }
-.s-hero__hours li:nth-child(7) { --i: 6; }
-.s-hero__hours li:nth-child(8) { --i: 7; }
-.s-hero__hours li:nth-child(9) { --i: 8; }
-.s-hero__col {
-  position: relative;
-  grid-row: 1;
-  z-index: 1;
-}
-.s-hero__col:nth-of-type(1) { grid-column: 2; --tint: #e46d93; }
-.s-hero__col:nth-of-type(2) { grid-column: 3; --tint: #2a9d8f; }
-.s-hero__col:nth-of-type(3) { grid-column: 4; --tint: #7b61e8; }
-
-.s-hero__bk {
-  position: absolute;
   left: 0;
-  right: 0;
-  top: calc(var(--hour) * var(--s) + 2px);
-  height: calc(var(--hour) * var(--d) - 4px);
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  padding: 5px 8px 4px 12px;
-  border-radius: 11px;
-  background: #fff;
-  box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.07), 0 1px 2px rgba(11, 18, 32, 0.05), 0 8px 16px -12px rgba(28, 52, 110, 0.4);
-  overflow: hidden;
-  transition: background-color 300ms ease, box-shadow 300ms ease;
-}
-.s-hero__bk::before {
-  content: "";
-  position: absolute;
-  left: 4px;
-  top: 6px;
-  bottom: 6px;
-  width: 3px;
-  border-radius: 2px;
-  background: var(--tint);
-  opacity: 0.85;
-}
-/* Let the short booking fit both text rows with the same padding above and below. */
-.s-hero__bk--fit {
-  height: auto;
-  padding-bottom: 5px;
-}
-/* Leave a gap after a short card expands to fit its text and balanced padding. */
-.s-hero__bk--fit + .s-hero__bk {
-  margin-top: 2px;
-}
-.s-hero__bk p {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  min-width: 0;
-}
-.s-hero__bk b {
-  font-size: 12.5px;
-  font-weight: var(--type-weight, 400);
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-.s-hero__bk small {
-  font-size: 11.5px;
-  color: var(--ink-3);
-  white-space: nowrap;
-  line-height: 1.3;
-}
-.s-hero__bk .ui-status {
-  flex: none;
-}
-.s-hero__price {
-  margin-top: auto;
-  color: var(--ink-2) !important;
-  font-weight: var(--type-weight, 400);
-}
-.s-hero__bk.is-done {
-  background: #f8f9fb;
-}
-.s-hero__bk.is-done::before {
-  opacity: 0.4;
-}
-.s-hero__bk.is-missed b {
-  color: var(--ink-3);
-  text-decoration: line-through;
-  text-decoration-color: rgba(11, 18, 32, 0.3);
-}
-.s-hero__bk.is-live {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, white), color-mix(in srgb, var(--accent) 7%, white));
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 26%, transparent), 0 1px 2px rgba(11, 18, 32, 0.05), 0 10px 20px -12px color-mix(in srgb, var(--accent) 45%, transparent);
-}
-.s-hero__bk.is-new {
-  z-index: 2;
-}
-.s-hero__bk.is-new::after {
-  /* accent ring that fades after the booking lands */
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: inset 0 0 0 2px var(--accent), 0 0 0 4px color-mix(in srgb, var(--accent) 16%, transparent);
+  width: calc(100% / var(--k));
+  height: calc(100% / var(--k));
+  border: 0;
+  transform: scale(var(--k));
+  transform-origin: 0 0;
   opacity: 0;
-  pointer-events: none;
+  transition: opacity 400ms ease;
 }
-.s-hero__umed {
-  justify-items: end;
-}
-
-/* The time now runs under the bookings (it shows only in the gaps), with its time in the gutter. */
-.s-hero__now {
-  position: absolute;
-  left: calc(var(--gut) - 4px);
-  right: 0;
-  top: calc(10px + var(--hour) * var(--t));
-  z-index: 0;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--accent);
-  pointer-events: none;
-}
-.s-hero__now::before {
-  content: "";
-  position: absolute;
-  left: 2px;
-  top: -3px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 2px #fff;
-}
-.s-hero__now span {
-  position: absolute;
-  right: calc(100% + 2px);
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 2px 6px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: var(--type-weight, 400);
-  color: #fff;
-  background: var(--accent);
-  box-shadow: 0 2px 6px -2px color-mix(in srgb, var(--accent) 60%, transparent);
+.s-hero__app.is-ready,
+html:not(.js) .s-hero__app {
+  opacity: 1;
 }
 
 /* ARCHIVED 2026-10-26: Booking notification, originally above the reminder at the
@@ -784,214 +475,50 @@
   left: auto;
   right: 0;
   top: auto;
-  bottom: 12px; /* Extend 12px below the web mockup's lower edge. */
+  bottom: 0; /* 12px below the window's lower edge */
   z-index: 5;
-  width: 212px;
+  width: 250px;
 }
 .s-hero__phone .ui-phone__screen {
-  background: #f4f6fa;
-}
-.s-hero__dash {
-  padding: 8px 12px 0;
-}
-.s-hero__dash-biz {
-  font-size: 14px;
-  font-weight: var(--type-weight, 400);
-  letter-spacing: -0.016em;
-}
-.s-hero__dash-day {
-  font-size: 11px;
-  color: var(--ink-3);
-}
-.s-hero__dash-card {
-  margin-top: 10px;
-  padding: 11px 12px 12px;
-  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
   background: #fff;
-  box-shadow: var(--shadow-xs);
 }
-.s-hero__rev {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  margin-top: 2px;
-  font-size: 25px;
-  font-weight: var(--type-weight, 400);
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-}
-.s-hero__rev small {
-  font-size: 12px;
-  font-weight: var(--type-weight, 400);
-  letter-spacing: 0;
-  color: var(--ink-3);
-}
-.s-hero__visits {
-  margin-top: 1px;
-  font-size: 11.5px;
-  color: var(--ink-2);
-}
-.s-hero__bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  height: 34px;
-  margin-top: 10px;
-}
-.s-hero__bars i {
+.s-hero__phone .s-hero__screen {
+  --sw: 250;
+  --vw: 375;
   flex: 1;
-  height: 100%;
-  border-radius: 3px;
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
-  transform-origin: 50% 100%;
-  transform: scaleY(var(--v));
 }
-.s-hero__bars i.is-now {
-  background: var(--accent);
+/* Touch screens: a veil over the phone lets the page scroll past it; a tap lifts it */
+.s-hero__try {
+  display: none;
 }
-.s-hero__dash-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: var(--shadow-xs);
-  font-size: 12px;
-}
-.s-hero__dash-row b {
-  font-weight: var(--type-weight, 400);
-}
-.s-hero__upnext {
-  margin-top: 12px;
-  padding: 0 2px;
-}
-.s-hero__upnext .ui-label {
-  margin-bottom: 6px;
-}
-.s-hero__upnext-row {
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.25;
-  box-shadow: 0 -1px 0 var(--line);
-}
-.s-hero__upnext-row > p {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-.s-hero__upnext-row b {
-  flex: none;
-  width: 34px;
-  font-weight: var(--type-weight, 400);
-}
-.s-hero__upnext-row span {
-  font-weight: var(--type-weight, 400);
-}
-.s-hero__upnext-row small {
-  display: block;
-  margin-top: 1px;
-  font-size: 11px;
-  font-weight: var(--type-weight, 400);
-  color: var(--ink-3);
-}
-.s-hero__toast {
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  top: calc(100cqw * 66 / 440);
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px 8px 8px;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.06), 0 8px 20px -8px rgba(11, 18, 32, 0.3);
-  line-height: 1.25;
-  /* it slides down out of the status bar behind a clip, so the heading under it never shows
-     through: at every moment each part of it is either fully there or not there */
-  clip-path: inset(-40px round 14px);
-  transition: clip-path 420ms var(--ease-out), transform 420ms var(--ease-out), visibility 0s;
-}
-.s-hero__toast b {
-  display: block;
-  font-size: 11.5px;
-  font-weight: var(--type-weight, 400);
-}
-.s-hero__toast small {
-  display: block;
-  font-size: 11px;
-  color: var(--ink-2);
-}
-.s-hero__toast-tile {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-  color: var(--good);
-  background: var(--good-soft);
-}
-.s-hero__toast-tile .i {
-  font-size: 15px;
-}
-
-/* the app's tab bar along the bottom of the screen */
-.s-hero__tabbar {
-  position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: calc(100cqw * 30 / 440);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 44px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: var(--shadow-xs);
-  color: var(--ink-3);
-}
-.s-hero__tabbar span {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 11px;
-}
-.s-hero__tabbar .i {
-  font-size: 17px;
-}
-.s-hero__tabbar .is-on {
-  color: var(--accent);
-  background: var(--accent-soft);
-}
-
-/* digits that roll in fixed-width cells */
-.s-hero__odo {
-  display: inline-flex;
-}
-.s-hero__odo .d {
-  display: inline-block;
-  width: 0.6em;
-  height: 1.15em;
-  overflow: hidden;
-  text-align: center;
-}
-.s-hero__odo .d > span {
-  display: block;
-  transform: translateY(calc(var(--n, 0) * -1.15em));
-  transition: transform 500ms var(--ease-out);
-}
-.s-hero__odo .d > span > span {
-  display: block;
-  height: 1.15em;
-  line-height: 1.15em;
-}
-.s-hero__odo .c {
-  display: inline-block;
+@media (pointer: coarse) {
+  .s-hero__try {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 14%;
+    border: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 55%, rgba(255, 255, 255, 0.7));
+    font: inherit;
+    cursor: pointer;
+  }
+  .s-hero__try span {
+    padding: 8px 14px;
+    border-radius: var(--r-pill);
+    background: var(--ink);
+    color: #fff;
+    font-size: 13px;
+    box-shadow: var(--shadow-sm);
+  }
+  .s-hero__try[hidden] {
+    display: none;
+  }
 }
 
 /* ---------- drifting cloud shadows ---------- */
@@ -1118,47 +645,8 @@
   visibility: hidden;
   transition: clip-path 560ms var(--ease-out), transform 560ms var(--ease-out), visibility 0s linear 560ms;
 }
-.s-hero__bk[data-slot] {
-  transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
-}
-.s-hero__comp[data-slot="off"] .s-hero__bk[data-slot] {
-  opacity: 0;
-  transform: scale(0.96);
-}
-.s-hero__comp[data-slot="ring"] .s-hero__bk[data-slot]::after {
-  opacity: 1;
-}
-.s-hero__bk[data-slot]::after {
-  transition: opacity 1200ms ease;
-}
-.s-hero__comp[data-slot="off"] .s-hero__count > span:first-child {
-  transform: none;
-  opacity: 1;
-}
-.s-hero__comp[data-slot="off"] .s-hero__count > span:last-child {
-  transform: translateY(100%);
-  opacity: 0;
-}
-.s-hero__comp[data-umed="chair"] [data-umed] {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 4%, white), color-mix(in srgb, var(--accent) 7%, white));
-}
-.s-hero__comp:not([data-umed="chair"]) [data-umed] {
-  background: #fff;
-  box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.07), 0 1px 2px rgba(11, 18, 32, 0.05), 0 8px 16px -12px rgba(28, 52, 110, 0.4);
-}
-.s-hero__comp[data-toast="off"] .s-hero__toast {
-  clip-path: inset(0 0 100% 0 round 14px);
-  transform: translateY(-8px);
-  visibility: hidden;
-  transition: clip-path 420ms var(--ease-out), transform 420ms var(--ease-out), visibility 0s linear 420ms;
-}
 .s-hero__comp[data-reset] .s-hero__note {
   transition-duration: 420ms;
-}
-.s-hero__comp[data-reset] .s-hero__bk[data-slot],
-.s-hero__comp[data-reset] .s-hero__toast {
-  transition-duration: 380ms;
-  transition-timing-function: ease;
 }
 
 /* Short laptop screens (1280x720, 1366x768): the title drops a step so the product starts well
@@ -1191,31 +679,21 @@
 @media (max-width: 1099.98px) {
   .s-hero__stage {
     --cw: 860;
-    --ch: 640;
+    --ch: 612;
   }
   .s-hero__win {
-    left: 130px;
-    width: 600px;
-    height: 620px;
+    width: 760px;
+    height: 600px;
   }
-  .s-hero__staff,
-  .s-hero__sched {
-    grid-template-columns: var(--gut) repeat(2, minmax(0, 1fr));
-  }
-  .s-hero__who:nth-child(4),
-  .s-hero__col:nth-of-type(3) {
-    display: none;
-  }
-  .s-hero__tools .s-hero__arrow {
-    display: none;
+  .s-hero__win .s-hero__screen {
+    --sw: 744;
+    --vw: 1100;
   }
   .s-hero__phone {
-    bottom: 8px; /* Keep the same 12px overlap below the tablet web mockup. */
-    width: 184px;
+    width: 200px;
   }
-  /* one row of what is next, so the screen has no empty band */
-  .s-hero__upnext .s-hero__upnext-row + .s-hero__upnext-row {
-    display: none;
+  .s-hero__phone .s-hero__screen {
+    --sw: 200;
   }
   .s-hero__tg {
     display: none;
@@ -1226,7 +704,7 @@
     width: 300px;
   }
   .s-hero__comp::before {
-    left: 170px;
+    left: 40px;
     right: 0;
   }
 }
@@ -1268,7 +746,8 @@
   }
   .s-hero__stage {
     --cw: 360;
-    --ch: 596;
+    --ch: 756;
+    --fit: 1;
     --group-offset: 0px; /* The single phone is already centered on mobile. */
     margin-top: var(--phone-art, 300px);
   }
@@ -1282,28 +761,25 @@
     width: 360px;
   }
   .s-hero__phone {
-    left: 64px;
+    left: 30px;
     right: auto;
     top: 104px;
     bottom: auto;
-    width: 232px;
+    width: 300px;
+  }
+  .s-hero__phone .s-hero__screen {
+    --sw: 300;
   }
   /* The archived booking card occupied the first 104px on phones. Close that
      space while it is absent; restoring its original markup restores the layout. */
   .s-hero__stage:not(:has([data-note])) {
-    --ch: 492;
+    --ch: 652;
   }
   .s-hero__comp:not(:has([data-note])) .s-hero__phone {
     top: 0;
   }
   .s-hero__comp:not(:has([data-note]))::before {
     top: 96px;
-  }
-  .s-hero__upnext {
-    display: block;
-  }
-  .s-hero__upnext .s-hero__upnext-row + .s-hero__upnext-row {
-    display: grid;
   }
   .s-hero__tg {
     display: none;

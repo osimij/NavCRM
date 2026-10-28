@@ -8,28 +8,28 @@
     <meta name="theme-color" content="#f6f8fb" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="assets/fonts/als-hauss-next-vf.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="css/base.css?v=1.5-btn-soft" />
+    <link rel="stylesheet" href="css/base.css?v=1.5-accent-dark" />
     <link rel="stylesheet" href="css/ui.css?v=1.5-imessage" />
     <link rel="stylesheet" href="css/art.css?v=1.5-offline-art-4" />
     <link rel="stylesheet" href="css/fx/glow.css?v=1.5-glow-shape-3" />
     <link rel="stylesheet" href="css/sections/nav.css?v=1.5-tones" />
-    <link rel="stylesheet" href="css/sections/hero.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/hero.css?v=1.5-hero-statusbar" />
     <link rel="stylesheet" href="css/sections/problems.css?v=1.5-imessage" />
     <!-- ARCHIVED 2026-10-27: How it works section stylesheet. Restore with the section (see <main>). -->
     <!-- <link rel="stylesheet" href="css/sections/how.css?v=1.5-tones" /> -->
     <link rel="stylesheet" href="css/sections/owner.css?v=1.5-plain" />
-    <link rel="stylesheet" href="css/sections/industries.css?v=1.5-cta-below" />
-    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-layouts" />
+    <!-- <link rel="stylesheet" href="css/sections/industries.css?v=1.5-cta-below" /> -->
+    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-flat" />
     <link rel="stylesheet" href="css/sections/local.css?v=1.5-imessage" />
-    <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-extra-gap-2" />
     <link rel="stylesheet" href="css/sections/setup.css?v=1.5-tones" />
-    <link rel="stylesheet" href="css/sections/ai.css?v=1.5-ai-bare-2" />
+    <!-- <link rel="stylesheet" href="css/sections/ai.css?v=1.5-ai-bare-2" /> -->
     <!-- ARCHIVED 2026-10-27: Assistants section stylesheet. Restore with the section (see <main>). -->
     <!-- <link rel="stylesheet" href="css/sections/assistants.css?v=1.5-tones" /> -->
     <link rel="stylesheet" href="css/sections/faq.css?v=1.5-tones" />
     <link rel="stylesheet" href="css/sections/start.css?v=1.5-offline-art-4" />
-    <link rel="stylesheet" href="css/sections/footer.css?v=1.5-tones" />
-    <script type="module" src="js/main.js?v=1.5-four-cards"></script>
+    <link rel="stylesheet" href="css/sections/footer.css?v=1.5-footer-dark" />
+    <script type="module" src="js/main.js?v=1.5-hero-fit"></script>
   </head>
   <body>
     <main id="top">
@@ -54,12 +54,44 @@
       #how, then run npm run build.
       -->
       <!-- @partial owner -->
-      <!-- @partial industries -->
+      <!--
+      ARCHIVED 2026-10-29: "Industries" capsule section (id="industries"), removed from the page at the owner's request.
+
+      Heading "Подходит для любого бизнеса" on the left, the "Не нашли свою сферу?" lead on the
+      right, then three rows of business capsules (icon + name) with empty ghost capsules between
+      them, drifting in opposite directions, and a "Расскажите о своём бизнесе" button below.
+      The industries ring right after it (src/partials/industries-ring.html) makes the same claim,
+      so the "Отрасли" links in the nav and footer now point to #industries-ring.
+
+      Nothing was deleted: markup in src/partials/industries.html, styles in
+      landing/css/sections/industries.css, behaviour in landing/js/sections/industries.js
+      (main.js loads it only when a data-section="industries" element is on the page).
+
+      To restore: put back the "@ partial industries" marker (without the space) here, uncomment
+      the industries.css link in <head>, point the "Отрасли" links back to #industries if wanted,
+      then run npm run build.
+      -->
       <!-- @partial industries-ring -->
       <!-- @partial local -->
       <!-- @partial pricing -->
       <!-- @partial setup -->
-      <!-- @partial ai -->
+      <!--
+      ARCHIVED 2026-10-29: "AI statement" section (id="ai"), removed from the page at the owner's request.
+
+      A black band with one huge sentence, "ИИ, встроенный в чаты, записи и отчёты", with chat,
+      calendar and chart icons set into the line and a lead about the assistants below. "ИИ" and
+      the three icons lit up in turn with the glow preset (css/fx/glow.css, js/fx/glow.js) while
+      the block was on screen.
+
+      Nothing was deleted: markup in src/partials/ai.html, styles in landing/css/sections/ai.css.
+      The glow preset stays in css/fx and js/fx (main.js loads glow.js only when a [data-glow]
+      element is on the page). A standalone, reusable copy of the section and the glow, with a
+      demo page and a write-up of how the glow works, is in archive/ai-glow-statement/.
+      Setup (white) and FAQ (soft) still alternate with it gone.
+
+      To restore: put back the "@ partial ai" marker (without the space) here, uncomment the
+      ai.css link in <head>, then run npm run build.
+      -->
       <!--
       ARCHIVED 2026-10-27: "Assistants" section (id="assistants"), removed from the page at the owner's request.
 

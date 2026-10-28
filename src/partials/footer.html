@@ -1,4 +1,7 @@
-<footer class="s-footer tone-soft">
+<!-- Footer: a dark close to the page. Brand and quick contact on top, the link columns, a slim
+     bottom row, then a giant NavCRM wordmark across the full width, cropped by the edge and
+     fading out; a soft light follows the pointer over it (footer.js). -->
+<footer class="s-footer" data-section="footer">
   <div class="container">
     <div class="s-footer__top">
       <div class="s-footer__brand">
@@ -9,45 +12,52 @@
           </svg>
           <span>NavCRM</span>
         </a>
-        <p>NavCRM создан командой NavTech в Душанбе.</p>
+        <p>Записи, клиенты и касса для сервисного бизнеса. Создан командой NavTech в Душанбе.</p>
       </div>
-
-      <nav class="s-footer__cols" aria-label="Навигация внизу страницы">
-        <div>
-          <h2>Продукт</h2>
-          <ul>
-            <li><a href="#problems">Как это работает</a></li>
-            <li><a href="#industries">Отрасли</a></li>
-            <li><a href="#pricing">Стоимость</a></li>
-            <li><a href="#faq">Вопросы</a></li>
-          </ul>
-        </div>
-        <div>
-          <h2>Клиентам</h2>
-          <ul>
-            <li><a href="https://navcrm.tj/catalog">Найти компанию</a></li>
-          </ul>
-        </div>
-        <div>
-          <h2>Компания</h2>
-          <ul>
-            <li><a href="https://navtech.tj/">NavTech</a></li>
-            <li><a href="https://navcrm.tj/product-terms">Условия использования</a></li>
-          </ul>
-        </div>
-        <div>
-          <h2>Контакты</h2>
-          <ul>
-            <li><a href="tel:+992070070070">+992 070 070 070</a></li>
-            <li><a href="https://t.me/+992070070070" target="_blank" rel="noopener">Telegram</a></li>
-          </ul>
-        </div>
-      </nav>
+      <div class="s-footer__contact">
+        <a class="btn btn--accent" href="https://t.me/+992070070070" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#telegram" /></svg>Написать в Telegram</a>
+        <a class="btn s-footer__ghost" href="tel:+992070070070"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#call" /></svg>+992 070 070 070</a>
+      </div>
     </div>
+
+    <nav class="s-footer__cols" aria-label="Навигация внизу страницы">
+      <div>
+        <h2>Продукт</h2>
+        <ul>
+          <li><a href="#problems">Как это работает</a></li>
+          <li><a href="#industries-ring">Отрасли</a></li>
+          <li><a href="#pricing">Стоимость</a></li>
+          <li><a href="#faq">Вопросы</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Клиентам</h2>
+        <ul>
+          <li><a href="https://navcrm.tj/catalog">Найти компанию</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Компания</h2>
+        <ul>
+          <li><a href="https://navtech.tj/">NavTech</a></li>
+          <li><a href="https://navcrm.tj/product-terms">Условия использования</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Контакты</h2>
+        <ul>
+          <li><a href="tel:+992070070070">+992 070 070 070</a></li>
+          <li><a href="https://t.me/+992070070070" target="_blank" rel="noopener">Telegram</a></li>
+        </ul>
+      </div>
+    </nav>
 
     <div class="s-footer__bottom">
       <p>© 2026 NavTech</p>
       <p>Имена и суммы в примерах приведены для наглядности.</p>
+      <a class="s-footer__up" href="#top">Наверх<svg class="i" aria-hidden="true"><use href="assets/icons.svg#arrow-up-right" /></svg></a>
     </div>
   </div>
+
+  <div class="s-footer__word" aria-hidden="true" data-word><span>NavCRM</span></div>
 </footer>

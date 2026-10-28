@@ -34,6 +34,9 @@
   --accent-soft: color-mix(in srgb, var(--accent) 9%, white);
   --accent-lift: color-mix(in srgb, var(--accent) 85%, white);
   --accent-glow: color-mix(in srgb, var(--accent) 24%, transparent);
+  /* the accent on dark surfaces (#111 and the like): lifted so it reads against black and keeps
+     white text on it legible; a dark panel sets --accent: var(--accent-on-dark) */
+  --accent-on-dark: #3d5bff;
 
   /* Status: always paired with an icon and a label */
   --good: #12935a;
@@ -88,8 +91,10 @@
   --dur-reveal: 800ms;
 
   /* Layout */
-  --container: 1200px;
+  --container: 1440px;
   --gutter: clamp(16px, 4vw, 32px);
+  /* wider side margins for the page below the hero and the scrolled nav: 150px from 1440px wide */
+  --gutter-page: clamp(16px, 10.42vw, 150px);
   --section-y: clamp(96px, 11vw, 168px);
   --nav-h: 56px;
 }
@@ -290,6 +295,13 @@ p {
 }
 
 /* Layout */
+/* Everything below the hero, and the nav once it is scrolled, sits on the wider page margins */
+.section:not(.s-hero),
+.s-start,
+.s-footer,
+.s-nav[data-scrolled="true"] {
+  --gutter: var(--gutter-page);
+}
 .container {
   width: 100%;
   max-width: calc(var(--container) + var(--gutter) * 2);

@@ -27,10 +27,12 @@ function initReveals() {
 async function initSections() {
   const roots = document.querySelectorAll('[data-section]');
   const versions = {
-    hero: '1.5-hero-cards-archived',
+    hero: '1.5-hero-fit',
     industries: '1.5-industry-hover-slow',
-    'industries-ring': '1.5-ring-layouts',
+    'industries-ring': '1.5-ring-white',
     local: '1.5-four-cards',
+    pricing: '1.5-calc-days',
+    footer: '1.5-footer-dark',
   };
   await Promise.all(
     [...roots].map(async (root) => {

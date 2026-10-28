@@ -1,9 +1,9 @@
 // Hero: places the painted sky so its horizon meets the top edge of the product and its cumulus
 // tower stands in clear air beside the copy, scales the product composition to fit, bakes the
-// sky live where the still would be upscaled, and plays a short loop of a working day at
-// Gulnor Beauty.
+// sky live where the still would be upscaled, and brings in the working CRM demo running in the
+// window and the phone.
 
-import { sleep, loopWhileVisible, reducedMotion } from '../shared.js';
+import { reducedMotion } from '../shared.js';
 import { FRAMES, towerOutline } from '../art/frames.js';
 
 const PHONE = matchMedia('(max-width: 759.98px)');
@@ -24,7 +24,6 @@ export function init(root) {
   const imageArt = root.dataset.art === 'image';
 
   if (!imageArt) grain(root.querySelector('.s-hero__grain'));
-  odometers(comp);
 
   // the still fades in over the blurred placeholder once it has decoded
   const showStill = () => still.classList.add('is-ready');
@@ -52,7 +51,11 @@ export function init(root) {
     const cs = getComputedStyle(stage);
     const cw = parseFloat(cs.getPropertyValue('--cw')) || 1200;
     const gutter = parseFloat(getComputedStyle(copy).paddingLeft) || 16;
-    const s = Math.min(1, (W - gutter * 2) / cw);
+    // it may grow past its design size up to the page's content width (--container)
+    const max = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--container')) || cw;
+    // --fit (CSS) shrinks the whole composition proportionally below that width
+    const fit = parseFloat(cs.getPropertyValue('--fit')) || 1;
+    const s = Math.min(max / cw, (W - gutter * 2) / cw) * fit;
     stage.style.setProperty('--s', s.toFixed(4));
     stage.style.removeProperty('--art-gap');
 
@@ -276,132 +279,17 @@ export function init(root) {
   new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; syncPause(); }).observe(frame);
   document.addEventListener('visibilitychange', syncPause);
 
-  /* ---------- the loop ---------- */
-  // The beats the first screen can see come first: a booking arrives, lands at 12:00 and joins
-  // the owner's "next up"; Umed pays and the owner's phone hears about it.
-  // ARCHIVED 2026-10-26: The booking notification, Telegram reminder and its pointer
-  // are preserved as comments in src/partials/hero.html. Their optional hooks below
-  // preserve the original choreography for restoration, while the live schedule
-  // and phone continue without those decorative cards.
-  const tap = comp.querySelector('[data-tap]');
-  const note = comp.querySelector('[data-note]');
-  const confirmBtn = comp.querySelector('[data-confirm]');
-  const keys = comp.querySelector('[data-keys]');
-  const done = comp.querySelector('[data-done]');
-  const chair = comp.querySelector('[data-chair]');
-  const paid = comp.querySelector('[data-paid]');
-  const tg = comp.querySelector('[data-tg]');
-  const next = [...comp.querySelectorAll('[data-next]')];
-
-  const setOdo = (to) => comp.querySelectorAll('[data-odo]').forEach((el) => el._odo?.(to ? el.dataset.odo : el.dataset.from));
-  const setNext = (after) => next.forEach((row) => {
-    row.querySelector('[data-before]').dataset.hidden = String(after);
-    row.querySelector('[data-after]').dataset.hidden = String(!after);
+  /* ---------- the live demo ---------- */
+  // Each device's iframe fades in once the CRM inside it has loaded.
+  comp.querySelectorAll('.s-hero__app').forEach((frame) => {
+    const ready = () => frame.classList.add('is-ready');
+    if (frame.contentDocument?.readyState === 'complete' && frame.contentWindow.location.href !== 'about:blank') ready();
+    else frame.addEventListener('load', ready, { once: true });
   });
-  const setUmed = (isPaid) => {
-    if (isPaid) delete comp.dataset.umed; else comp.dataset.umed = 'chair';
-    chair.dataset.hidden = String(isPaid);
-    paid.dataset.hidden = String(!isPaid);
-  };
-  const setTg = (confirmed) => {
-    if (!keys || !done) return; // Archived reminder is absent from the live DOM.
-    keys.dataset.hidden = String(confirmed);
-    done.dataset.hidden = String(!confirmed);
-  };
-  // If the archived notification is restored, retain its original phone entrance.
-  const startState = ({ keepNote = false } = {}) => {
-    delete comp.dataset.reset;
-    if (note) {
-      if (keepNote) delete comp.dataset.note; else comp.dataset.note = 'off';
-    }
-    comp.dataset.slot = 'off';
-    comp.dataset.toast = 'off';
-    setUmed(false);
-    setTg(false);
-    setNext(false);
-    setOdo(false);
-  };
-  const endState = () => {
-    for (const k of ['note', 'slot', 'umed', 'toast', 'reset']) delete comp.dataset[k];
-    setUmed(true);
-    setTg(true);
-    setNext(true);
-    setOdo(true);
-  };
-  const centerIn = (el) => {
-    let x = el.offsetWidth / 2, y = el.offsetHeight / 2;
-    for (let n = el; n && n !== comp; n = n.offsetParent) { x += n.offsetLeft; y += n.offsetTop; }
-    return [x, y];
-  };
-
-  let runs = 0;
-  async function scene(signal) {
-    // A restored notification is already visible on the first phone loop.
-    const first = runs++ === 0 && PHONE.matches && !!note;
-    startState({ keepNote: first });
-    await sleep(first ? 500 : 900, signal);
-    if (note) {
-      delete comp.dataset.note; // Original archived beat: a booking arrives from Instagram.
-      await sleep(1000, signal);
-    }
-    comp.dataset.slot = 'ring'; // and lands in Malika's column at 12:00
-    setNext(true); // and in the owner's "next up"
-    await sleep(1300, signal);
-    delete comp.dataset.slot;
-    await sleep(400, signal);
-    // Umed, finished at 11:15, pays by Alif QR; the owner's phone hears about it
-    setUmed(true);
-    await sleep(300, signal);
-    delete comp.dataset.toast;
-    setOdo(true);
-    await sleep(1500, signal);
-    if (tg?.offsetParent && confirmBtn && tap && keys && done) {
-      // a client confirms tomorrow's reminder in Telegram
-      const [x, y] = centerIn(confirmBtn);
-      tap.style.transition = 'none';
-      tap.style.setProperty('--tx', `${x + 40}px`);
-      tap.style.setProperty('--ty', `${y + 34}px`);
-      void tap.offsetWidth;
-      tap.style.transition = '';
-      tap.classList.add('is-on');
-      tap.style.setProperty('--tx', `${x}px`);
-      tap.style.setProperty('--ty', `${y}px`);
-      await sleep(560, signal);
-      tap.classList.add('is-press');
-      confirmBtn.classList.add('is-press');
-      await sleep(160, signal);
-      tap.classList.remove('is-press');
-      confirmBtn.classList.remove('is-press');
-      setTg(true);
-      await sleep(260, signal);
-      tap.classList.remove('is-on');
-    } else {
-      setTg(true);
-    }
-    await sleep(3600, signal);
-    // everything that changed goes back to the start one piece at a time, then the day plays again
-    comp.dataset.reset = '';
-    const steps = [
-      () => setTg(false),
-      () => { comp.dataset.toast = 'off'; },
-      () => setOdo(false),
-      () => setUmed(false),
-      () => setNext(false),
-      () => { comp.dataset.slot = 'off'; },
-      ...(note ? [() => { comp.dataset.note = 'off'; }] : []),
-    ];
-    for (const step of steps) {
-      step();
-      await sleep(70, signal);
-    }
-    await sleep(520, signal);
-  }
-
-  if (!reducedMotion.matches) startState({ keepNote: PHONE.matches });
-  // The phone is now the visible mobile anchor; a restored notification takes priority.
-  const loopTarget = PHONE.matches ? (note || comp.querySelector('[data-phone]') || comp) : comp;
-  loopWhileVisible(loopTarget, scene, { final: endState, threshold: PHONE.matches ? 0.3 : 0.2 });
-  reducedMotion.addEventListener?.('change', (e) => e.matches && endState());
+  // On touch screens the phone is veiled so a swipe over it scrolls the page; a tap hands it over.
+  comp.querySelector('[data-try]')?.addEventListener('click', (e) => {
+    e.currentTarget.hidden = true;
+  });
 
   /* ---------- lensing on the window's glass (Chromium), once the entrance has settled ---------- */
   setTimeout(() => lensAll(comp), reducedMotion.matches ? 0 : 1300);
@@ -416,45 +304,6 @@ function reducedData() {
 }
 
 /* Digits that roll in fixed-width cells: each digit is a strip of 0 to 9 moved by transform. */
-function odometers(scope) {
-  scope.querySelectorAll('[data-odo]').forEach((el) => {
-    const text = el.textContent.trim();
-    el.textContent = '';
-    el.setAttribute('aria-hidden', 'true');
-    const cells = [...text].map((ch) => {
-      if (!/\d/.test(ch)) {
-        const c = document.createElement('span');
-        c.className = 'c';
-        c.textContent = ch;
-        el.append(c);
-        return null;
-      }
-      const d = document.createElement('span');
-      d.className = 'd';
-      const strip = document.createElement('span');
-      for (let i = 0; i < 10; i++) {
-        const n = document.createElement('span');
-        n.textContent = String(i);
-        strip.append(n);
-      }
-      d.append(strip);
-      el.append(d);
-      return d;
-    });
-    el._odo = (value) => {
-      const digits = String(value).replace(/\D/g, '');
-      let k = digits.length - 1;
-      for (let i = cells.length - 1; i >= 0; i--) {
-        if (!cells[i]) continue;
-        cells[i].style.setProperty('--n', digits[k] ?? '0');
-        k--;
-      }
-    };
-    el._odo(el.dataset.odo);
-  });
-}
-
-/* Fine film grain: a small tile of monochrome noise, made once. */
 function grain(el) {
   if (!el) return;
   try {

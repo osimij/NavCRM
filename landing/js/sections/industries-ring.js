@@ -9,7 +9,7 @@ const SPIN_EASE_MS = 700;
 export function init(root) {
   const stage = root.querySelector('.s-ring__stage');
   const circles = [...root.querySelectorAll('.s-ring__btn')];
-  // Every place that shows the current business name (the ring's middle, an eyebrow above the title)
+  // The ring's middle, which shows the current business name
   const names = [...root.querySelectorAll('.s-ring__name')].map((el) => ({ el, idle: el.textContent }));
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 

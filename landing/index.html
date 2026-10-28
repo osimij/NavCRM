@@ -8,28 +8,28 @@
     <meta name="theme-color" content="#f6f8fb" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="assets/fonts/als-hauss-next-vf.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="css/base.css?v=1.5-btn-soft" />
+    <link rel="stylesheet" href="css/base.css?v=1.5-accent-dark" />
     <link rel="stylesheet" href="css/ui.css?v=1.5-imessage" />
     <link rel="stylesheet" href="css/art.css?v=1.5-offline-art-4" />
     <link rel="stylesheet" href="css/fx/glow.css?v=1.5-glow-shape-3" />
     <link rel="stylesheet" href="css/sections/nav.css?v=1.5-tones" />
-    <link rel="stylesheet" href="css/sections/hero.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/hero.css?v=1.5-hero-statusbar" />
     <link rel="stylesheet" href="css/sections/problems.css?v=1.5-imessage" />
     <!-- ARCHIVED 2026-10-27: How it works section stylesheet. Restore with the section (see <main>). -->
     <!-- <link rel="stylesheet" href="css/sections/how.css?v=1.5-tones" /> -->
     <link rel="stylesheet" href="css/sections/owner.css?v=1.5-plain" />
-    <link rel="stylesheet" href="css/sections/industries.css?v=1.5-cta-below" />
-    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-layouts" />
+    <!-- <link rel="stylesheet" href="css/sections/industries.css?v=1.5-cta-below" /> -->
+    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-flat" />
     <link rel="stylesheet" href="css/sections/local.css?v=1.5-imessage" />
-    <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-tones" />
+    <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-extra-gap-2" />
     <link rel="stylesheet" href="css/sections/setup.css?v=1.5-tones" />
-    <link rel="stylesheet" href="css/sections/ai.css?v=1.5-ai-bare-2" />
+    <!-- <link rel="stylesheet" href="css/sections/ai.css?v=1.5-ai-bare-2" /> -->
     <!-- ARCHIVED 2026-10-27: Assistants section stylesheet. Restore with the section (see <main>). -->
     <!-- <link rel="stylesheet" href="css/sections/assistants.css?v=1.5-tones" /> -->
     <link rel="stylesheet" href="css/sections/faq.css?v=1.5-tones" />
     <link rel="stylesheet" href="css/sections/start.css?v=1.5-offline-art-4" />
-    <link rel="stylesheet" href="css/sections/footer.css?v=1.5-tones" />
-    <script type="module" src="js/main.js?v=1.5-four-cards"></script>
+    <link rel="stylesheet" href="css/sections/footer.css?v=1.5-footer-dark" />
+    <script type="module" src="js/main.js?v=1.5-hero-fit"></script>
   </head>
   <body>
     <main id="top">
@@ -42,7 +42,7 @@
       <a class="s-nav__brand" href="#top" aria-label="NavCRM, в начало страницы">NavCRM</a>
       <nav class="s-nav__links" aria-label="Основная навигация">
         <a href="#problems">Как это работает</a>
-        <a href="#industries">Отрасли</a>
+        <a href="#industries-ring">Отрасли</a>
         <a href="#pricing">Стоимость</a>
         <a href="#faq">Вопросы</a>
       </nav>
@@ -59,7 +59,7 @@
   <div class="s-nav__menu" id="nav-menu" hidden>
     <nav aria-label="Основная навигация на мобильном">
       <a href="#problems">Как это работает</a>
-      <a href="#industries">Отрасли</a>
+      <a href="#industries-ring">Отрасли</a>
       <a href="#pricing">Стоимость</a>
       <a href="#faq">Вопросы</a>
     </nav>
@@ -93,73 +93,12 @@
       <!-- cloud shadows drifting over the sea and the glass; a pre-rendered texture moved by CSS -->
       <div class="s-hero__drift" aria-hidden="true"></div>
 
-      <div
-        class="s-hero__comp ui"
-        data-comp
-        role="img"
-        aria-label="Рабочий день в NavCRM в салоне Gulnor Beauty на Рудаки, 54: расписание Малики, Фарруха и Зарины, новая запись Ситоры Рахимовой на 12:00 и телефон владельца с выручкой 6 240 сомони за 31 визит."
-      >
-        <div class="s-hero__win" data-win data-lens data-lens-bezel="26" data-lens-scale="60" data-lens-blur="18" aria-hidden="true">
-          <div class="s-hero__rail">
-            <svg class="s-hero__logo" viewBox="0 0 32 32">
-              <rect width="32" height="32" rx="9" fill="var(--accent)" />
-              <path d="M10.5 22V10.5l11 11V10" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <span class="s-hero__tab is-on"><svg class="i"><use href="assets/icons.svg#calendar" /></svg></span>
-            <span class="s-hero__tab"><svg class="i"><use href="assets/icons.svg#users" /></svg></span>
-            <span class="s-hero__tab"><svg class="i"><use href="assets/icons.svg#receipt" /></svg></span>
-            <span class="s-hero__tab"><svg class="i"><use href="assets/icons.svg#package" /></svg></span>
-            <span class="s-hero__tab"><svg class="i"><use href="assets/icons.svg#chart" /></svg></span>
-            <span class="s-hero__tab s-hero__tab--end"><svg class="i"><use href="assets/icons.svg#settings" /></svg></span>
-          </div>
-
-          <div class="s-hero__main">
-            <div class="s-hero__head">
-              <div class="s-hero__when">
-                <p class="s-hero__date">Сегодня, вторник, 27 октября</p>
-                <p class="s-hero__meta">Gulnor Beauty<span class="s-hero__dot"></span><span class="s-hero__count" data-count><span>10</span><span>11</span></span> записей</p>
-              </div>
-              <div class="s-hero__tools">
-                <span class="s-hero__chip"><svg class="i"><use href="assets/icons.svg#store" /></svg>Рудаки, 54<svg class="i s-hero__caret"><use href="assets/icons.svg#chevron-down" /></svg></span>
-                <span class="s-hero__arrow"><svg class="i s-hero__prev"><use href="assets/icons.svg#chevron-down" /></svg></span>
-                <span class="s-hero__arrow"><svg class="i s-hero__next"><use href="assets/icons.svg#chevron-down" /></svg></span>
-                <span class="ui-btn ui-btn--dark s-hero__new"><svg class="i"><use href="assets/icons.svg#plus" /></svg>Новая запись</span>
-              </div>
-            </div>
-
-            <div class="s-hero__staff">
-              <span></span>
-              <span class="s-hero__who"><span class="ui-avatar ui-avatar--lg" data-person="malika">М</span><span><b>Малика</b><small>Парикмахер</small></span></span>
-              <span class="s-hero__who"><span class="ui-avatar ui-avatar--lg" data-person="farrukh">Ф</span><span><b>Фаррух</b><small>Барбер</small></span></span>
-              <span class="s-hero__who"><span class="ui-avatar ui-avatar--lg" data-person="zarina">З</span><span><b>Зарина</b><small>Маникюр</small></span></span>
-            </div>
-
-            <div class="s-hero__sched">
-              <ol class="s-hero__hours">
-                <li>09:00</li><li>10:00</li><li>11:00</li><li>12:00</li><li>13:00</li><li>14:00</li><li>15:00</li><li>16:00</li><li>17:00</li>
-              </ol>
-              <div class="s-hero__col" data-person="malika">
-                <div class="s-hero__bk is-done" style="--s: 0; --d: 1"><p><b>Нигина С.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span></p><small>09:00 Стрижка и укладка</small></div>
-                <div class="s-hero__bk is-live" style="--s: 1.5; --d: 2"><p><b>Шахло М.</b><span class="ui-status ui-status--chair"><svg class="i"><use href="assets/icons.svg#scissor" /></svg>У мастера</span></p><small>10:30 Окрашивание</small><small class="s-hero__price">450 сомони</small></div>
-                <div class="s-hero__bk is-new" data-slot style="--s: 3; --d: 1"><p><b>Ситора Рахимова</b><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Подтверждено</span></p><small>12:00 Стрижка и укладка</small></div>
-                <div class="s-hero__bk" style="--s: 4; --d: 1.5"><p><b>Парвина А.</b><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Подтверждено</span></p><small>13:00 Кератин</small></div>
-              </div>
-              <div class="s-hero__col" data-person="farrukh">
-                <div class="s-hero__bk s-hero__bk--fit is-done" style="--s: 0; --d: 0.75"><p><b>Рустам К.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span></p><small>09:00 Мужская стрижка</small></div>
-                <div class="s-hero__bk is-done is-missed" style="--s: 0.75; --d: 0.75"><p><b>Бахром Т.</b><span class="ui-status ui-status--noshow"><svg class="i"><use href="assets/icons.svg#cancel" /></svg>Неявка</span></p><small>09:45 Мужская стрижка</small></div>
-                <div class="s-hero__bk is-live" data-umed style="--s: 1.5; --d: 0.75">
-                  <p><b>Умед Н.</b><span class="ui-swap s-hero__umed"><span class="ui-status ui-status--paid" data-paid><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span><span class="ui-status ui-status--chair" data-chair data-hidden="true"><svg class="i"><use href="assets/icons.svg#scissor" /></svg>У мастера</span></span></p>
-                  <small>10:30 Мужская стрижка</small>
-                </div>
-                <div class="s-hero__bk s-hero__bk--fit" style="--s: 5; --d: 0.75"><p><b>Джамшед Р.</b><span class="ui-status ui-status--waiting"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg>Ожидает</span></p><small>14:00 Мужская стрижка</small></div>
-              </div>
-              <div class="s-hero__col" data-person="zarina">
-                <div class="s-hero__bk is-done" style="--s: 0; --d: 1.5"><p><b>Манижа Д.</b><span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span></p><small>09:00 Маникюр с гелем</small></div>
-                <div class="s-hero__bk" style="--s: 6.5; --d: 1.5"><p><b>Дильноза К.</b><span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Подтверждено</span></p><small>15:30 Маникюр с гелем</small></div>
-              </div>
-              <!-- the time now: the line runs under the bookings, its time sits in the gutter -->
-              <div class="s-hero__now" style="--t: 2.333"><span>11:20</span></div>
-            </div>
+      <!-- The working CRM prototype (navcrm-prototype, built into landing/app by its build:embed
+           script) runs in both devices: every tab, sheet and form responds, as in the product. -->
+      <div class="s-hero__comp ui" data-comp>
+        <div class="s-hero__win" data-win data-lens data-lens-bezel="26" data-lens-scale="60" data-lens-blur="18">
+          <div class="s-hero__screen">
+            <iframe class="s-hero__app" src="app/embed.html#/" title="NavCRM: демо на компьютере, можно нажимать" loading="eager"></iframe>
           </div>
         </div>
 
@@ -219,42 +158,15 @@
         </div>
         -->
 
-        <div class="s-hero__phone ui-phone" data-phone aria-hidden="true">
+        <div class="s-hero__phone ui-phone" data-phone>
           <div class="ui-phone__screen">
-            <span class="ui-phone__island"></span>
+            <span class="ui-phone__island" aria-hidden="true"></span>
             <img class="ui-phone__status" src="assets/device/status-bar.png" width="3064" height="432" alt="" />
-            <div class="s-hero__toast" data-toast>
-              <span class="s-hero__toast-tile"><svg class="i i--bold"><use href="assets/icons.svg#check" /></svg></span>
-              <span><b>Оплата получена</b><small>80 сомони, Alif QR</small></span>
+            <div class="s-hero__screen">
+              <iframe class="s-hero__app" src="app/embed.html#/" title="NavCRM: демо на телефоне, можно нажимать" loading="eager"></iframe>
             </div>
-            <div class="s-hero__dash">
-              <p class="s-hero__dash-biz">Gulnor Beauty</p>
-              <p class="s-hero__dash-day">Сегодня</p>
-              <div class="s-hero__dash-card">
-                <span class="ui-label">Выручка</span>
-                <p class="s-hero__rev"><span class="s-hero__odo" data-odo="6240" data-from="6160">6 240</span><small>сомони</small></p>
-                <p class="s-hero__visits"><span class="s-hero__odo" data-odo="31" data-from="30">31</span> визит</p>
-                <div class="s-hero__bars"><i style="--v: 0.34"></i><i style="--v: 0.62"></i><i style="--v: 0.8"></i><i style="--v: 0.56"></i><i style="--v: 0.7"></i><i style="--v: 0.92"></i><i style="--v: 0.48"></i><i class="is-now" style="--v: 0.3"></i></div>
-              </div>
-              <div class="s-hero__dash-row"><span class="ui-label">В кассе</span><b>2 180 сомони</b></div>
-              <div class="s-hero__upnext">
-                <p class="ui-label">Далее</p>
-                <div class="ui-swap s-hero__upnext-row" data-next>
-                  <p data-before><b>13:00</b><span>Парвина А.<small>Кератин, Малика</small></span></p>
-                  <p data-after><b>12:00</b><span>Ситора Рахимова<small>Стрижка и укладка, Малика</small></span></p>
-                </div>
-                <div class="ui-swap s-hero__upnext-row" data-next>
-                  <p data-before><b>14:00</b><span>Джамшед Р.<small>Мужская стрижка, Фаррух</small></span></p>
-                  <p data-after><b>13:00</b><span>Парвина А.<small>Кератин, Малика</small></span></p>
-                </div>
-              </div>
-            </div>
-            <div class="s-hero__tabbar">
-              <span class="is-on"><svg class="i"><use href="assets/icons.svg#dashboard" /></svg></span>
-              <span><svg class="i"><use href="assets/icons.svg#calendar" /></svg></span>
-              <span><svg class="i"><use href="assets/icons.svg#users" /></svg></span>
-              <span><svg class="i"><use href="assets/icons.svg#settings" /></svg></span>
-            </div>
+            <!-- touch screens: the page keeps scrolling past the phone until it is tapped -->
+            <button class="s-hero__try" type="button" data-try><span>Нажмите, чтобы попробовать</span></button>
           </div>
         </div>
 
@@ -622,79 +534,27 @@
     </div>
   </div>
 </section>
-      <section class="s-industries section tone-soft" data-section="industries" id="industries">
-  <div class="container">
-    <div class="section-head">
-      <h2 class="reveal">Подходит для <span class="text-accent">любого бизнеса</span></h2>
-      <p class="lead reveal" style="--delay: 60ms">Не нашли свою сферу? NavCRM всё равно подойдёт, если вы работаете с клиентами и записями.</p>
-    </div>
-  </div>
+      <!--
+      ARCHIVED 2026-10-29: "Industries" capsule section (id="industries"), removed from the page at the owner's request.
 
-  <div class="s-industries__band reveal" style="--delay: 120ms">
-    <div class="container s-industries__wide">
-    <div class="s-industries__ticker" aria-label="Кому подходит NavCRM" role="group">
-      <div class="s-industries__row" style="--speed: 60s">
-        <ul class="s-industries__group">
-          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 96px"></li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#hair-dryer" /></svg>Салоны красоты</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#scissor" /></svg>Барбершопы</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#tooth" /></svg>Стоматологии</li>
-          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 120px"></li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#stethoscope" /></svg>Медицинские центры</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#car" /></svg>Автосервисы</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dumbbell" /></svg>Фитнес-клубы</li>
-          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 96px"></li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#yoga" /></svg>Йога-студии</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#leaf" /></svg>Массаж и СПА</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#glasses" /></svg>Оптики</li>
-        </ul>
-      </div>
-      <div class="s-industries__row" style="--speed: 68s" data-dir="reverse">
-        <ul class="s-industries__group">
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#school" /></svg>Учебные центры</li>
-          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 72px"></li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#language" /></svg>Языковые школы</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#guitar" /></svg>Музыкальные школы</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#baby" /></svg>Детские центры</li>
-          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 88px"></li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#cleaning" /></svg>Клининг</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wrench" /></svg>Ремонт техники</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#washing-machine" /></svg>Химчистки</li>
-          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 72px"></li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#hanger" /></svg>Ателье</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#paint-brush" /></svg>Тату-студии</li>
-        </ul>
-      </div>
-      <div class="s-industries__row" style="--speed: 64s">
-        <ul class="s-industries__group">
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dress" /></svg>Свадебные салоны</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#camera" /></svg>Фотостудии</li>
-          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 160px"></li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#paw" /></svg>Ветклиники и груминг</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#restaurant" /></svg>Рестораны</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#coffee" /></svg>Кофейни</li>
-          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 140px"></li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#hotel" /></svg>Гостиницы</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#flower" /></svg>Цветочные магазины</li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#key" /></svg>Прокат и аренда</li>
-          <li class="s-industries__pill s-industries__pill--ghost" aria-hidden="true" style="--w: 160px"></li>
-          <li class="s-industries__pill"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#legal" /></svg>Юристы и консультанты</li>
-        </ul>
-      </div>
-    </div>
-    </div>
-  </div>
+      Heading "Подходит для любого бизнеса" on the left, the "Не нашли свою сферу?" lead on the
+      right, then three rows of business capsules (icon + name) with empty ghost capsules between
+      them, drifting in opposite directions, and a "Расскажите о своём бизнесе" button below.
+      The industries ring right after it (src/partials/industries-ring.html) makes the same claim,
+      so the "Отрасли" links in the nav and footer now point to #industries-ring.
 
-  <div class="container s-industries__cta">
-    <a class="btn btn--accent reveal" style="--delay: 160ms" href="https://t.me/+992070070070" target="_blank" rel="noopener">Расскажите о своём бизнесе<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#chevron-right" /></svg></a>
-  </div>
-</section>
-      <!-- Layout trials for the industries ring (B and F). Each section is the same ring with a different
-     arrangement of title, text and button; keep the one that reads best and delete the rest.
-     The small "Вариант" labels are for comparing only. -->
+      Nothing was deleted: markup in src/partials/industries.html, styles in
+      landing/css/sections/industries.css, behaviour in landing/js/sections/industries.js
+      (main.js loads it only when a data-section="industries" element is on the page).
 
-<section class="s-ring s-ring--lead-below section tone-white" data-section="industries-ring" id="industries-ring-b">
-  <p class="s-ring__tag">Вариант B · Текст после круга, прямо над кнопкой</p>
+      To restore: put back the "@ partial industries" marker (without the space) here, uncomment
+      the industries.css link in <head>, point the "Отрасли" links back to #industries if wanted,
+      then run npm run build.
+      -->
+      <!-- Industries: the businesses NavCRM suits as coloured circles on a ring; each has its own colour,
+     and the lit circle grows and fills with it. -->
+
+<section class="s-ring s-ring--lead-below s-ring--pop section tone-white" data-section="industries-ring" id="industries-ring">
   <div class="container s-ring__layout">
     <div class="s-ring__copy">
       <h2 class="s-ring__title reveal">Подходит для <span class="text-accent">любого бизнеса</span></h2>
@@ -729,44 +589,6 @@
       <p class="s-ring__lead lead reveal" style="--delay: 60ms">Не нашли свою сферу? NavCRM всё равно подойдёт, если вы работаете с клиентами и записями.</p>
     </div>
     <div class="s-ring__cta"><a class="btn btn--accent reveal" style="--delay: 120ms" href="https://t.me/+992070070070" target="_blank" rel="noopener">Расскажите о своём бизнесе<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#chevron-right" /></svg></a></div>
-  </div>
-</section>
-
-<section class="s-ring s-ring--inside section tone-white" data-section="industries-ring" id="industries-ring-f">
-  <p class="s-ring__tag">Вариант F · Всё внутри круга: название сферы над заголовком</p>
-  <div class="container s-ring__layout">
-    <div class="s-ring__stage" style="--n: 18">
-      <ul class="s-ring__list" aria-label="Кому подходит NavCRM">
-          <li class="s-ring__item" style="--i: 0"><span class="s-ring__btn" role="img" aria-label="Салоны красоты"><svg class="i" aria-hidden="true" style="--ox: 0.6; --oy: 1.4"><use href="assets/icons.svg#hair-dryer" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 1"><span class="s-ring__btn" role="img" aria-label="Барбершопы"><svg class="i" aria-hidden="true" style="--ox: -1.2; --oy: 0"><use href="assets/icons.svg#scissor" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 2"><span class="s-ring__btn" role="img" aria-label="Стоматологии"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: 0.4"><use href="assets/icons.svg#tooth" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 3"><span class="s-ring__btn" role="img" aria-label="Медицинские центры"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: 0.3"><use href="assets/icons.svg#stethoscope" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 4"><span class="s-ring__btn" role="img" aria-label="Автосервисы"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#car" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 5"><span class="s-ring__btn" role="img" aria-label="Фитнес-клубы"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dumbbell" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 6"><span class="s-ring__btn" role="img" aria-label="Йога-студии"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -1.2"><use href="assets/icons.svg#yoga" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 7"><span class="s-ring__btn" role="img" aria-label="Массаж и СПА"><svg class="i" aria-hidden="true" style="--ox: -0.9; --oy: -0.2"><use href="assets/icons.svg#leaf" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 8"><span class="s-ring__btn" role="img" aria-label="Оптики"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -1.1"><use href="assets/icons.svg#glasses" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 9"><span class="s-ring__btn" role="img" aria-label="Учебные центры"><svg class="i" aria-hidden="true" style="--ox: -0.5; --oy: 0.3"><use href="assets/icons.svg#school" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 10"><span class="s-ring__btn" role="img" aria-label="Музыкальные школы"><svg class="i" aria-hidden="true" style="--ox: 0.5; --oy: -0.5"><use href="assets/icons.svg#guitar" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 11"><span class="s-ring__btn" role="img" aria-label="Детские центры"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#baby" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 12"><span class="s-ring__btn" role="img" aria-label="Клининг"><svg class="i" aria-hidden="true" style="--ox: -0.3; --oy: -0.5"><use href="assets/icons.svg#cleaning" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 13"><span class="s-ring__btn" role="img" aria-label="Ателье"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -1.4"><use href="assets/icons.svg#hanger" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 14"><span class="s-ring__btn" role="img" aria-label="Фотостудии"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -0.4"><use href="assets/icons.svg#camera" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 15"><span class="s-ring__btn" role="img" aria-label="Ветклиники и груминг"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -0.3"><use href="assets/icons.svg#paw" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 16"><span class="s-ring__btn" role="img" aria-label="Кофейни"><svg class="i" aria-hidden="true" style="--ox: 0.5; --oy: -0.7"><use href="assets/icons.svg#coffee" /></svg></span></li>
-          <li class="s-ring__item" style="--i: 17"><span class="s-ring__btn" role="img" aria-label="Гостиницы"><svg class="i" aria-hidden="true" style="--ox: 0; --oy: -0.3"><use href="assets/icons.svg#hotel" /></svg></span></li>
-      </ul>
-      <div class="s-ring__center" aria-hidden="true">
-        <p class="s-ring__name">Ваш бизнес</p>
-        <p class="s-ring__hint">и ещё десятки сфер</p>
-      </div>
-    </div>
-    <div class="s-ring__copy">
-      <p class="s-ring__name s-ring__eyebrow" aria-hidden="true">Ваш бизнес</p>
-      <h2 class="s-ring__title reveal">Подходит для <span class="text-accent">любого бизнеса</span></h2>
-      <p class="s-ring__lead lead reveal" style="--delay: 60ms">Не нашли свою сферу? NavCRM всё равно подойдёт, если вы работаете с клиентами и записями.</p>
-      <div class="s-ring__cta"><a class="btn btn--accent reveal" style="--delay: 120ms" href="https://t.me/+992070070070" target="_blank" rel="noopener">Расскажите о своём бизнесе<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#chevron-right" /></svg></a></div>
-    </div>
   </div>
 </section>
       <section class="s-local section tone-white" data-section="local" id="local">
@@ -967,51 +789,61 @@
       <p class="lead reveal" style="--delay: 60ms">Без абонентской платы и ограничений на сотрудников, филиалы и функции. За отмены и неявки платить не нужно, поэтому в спокойный месяц расходы меньше.</p>
     </div>
 
-    <div class="s-pricing__grid">
-      <div class="s-pricing__calc card sq reveal">
-        <div class="s-pricing__row">
-          <label class="s-pricing__label" for="pricing-visits">Состоявшихся визитов в месяц</label>
-          <output class="s-pricing__visits" for="pricing-visits" id="pricing-visits-out">600</output>
-        </div>
+    <!-- Price → try it → what you get. One panel: the two questions on the left, the result on a
+         dark panel on the right with the next step. Under it, everything the price includes as
+         tiles, and the few paid extras as a footnote. -->
+    <div class="s-pricing__panel card sq reveal">
+      <div class="s-pricing__inputs">
+          <div class="s-pricing__q">
+            <label class="s-pricing__label" for="pricing-day">Сколько клиентов вы принимаете в день?</label>
+            <div class="s-pricing__stepper">
+              <button class="s-pricing__step" type="button" data-step="-1" aria-label="На одного клиента меньше"><svg class="i i--bold" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5" stroke="currentColor" stroke-linecap="round" /></svg></button>
+              <input class="s-pricing__count" id="pricing-day" type="number" inputmode="numeric" min="1" max="150" step="1" value="25" aria-describedby="pricing-result" />
+              <button class="s-pricing__step" type="button" data-step="1" aria-label="На одного клиента больше"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#plus" /></svg></button>
+            </div>
+            <input class="s-pricing__range" type="range" min="1" max="150" step="1" value="25" aria-label="Клиентов в день" tabindex="-1" />
+            <div class="s-pricing__scale" aria-hidden="true"><span>1</span><span>150</span></div>
+          </div>
 
-        <input class="s-pricing__range" id="pricing-visits" type="range" min="50" max="3000" step="10" value="600" aria-describedby="pricing-result" />
-        <div class="s-pricing__scale" aria-hidden="true"><span>50</span><span>3 000</span></div>
-
-        <div class="s-pricing__presets" role="group" aria-label="Быстрый выбор количества визитов">
-          <button class="chip" type="button" data-visits="300">300 визитов</button>
-          <button class="chip" type="button" data-visits="600" aria-pressed="true">600 визитов</button>
-          <button class="chip" type="button" data-visits="1000">1 000 визитов</button>
-        </div>
-
-        <div class="s-pricing__result">
-          <p class="s-pricing__result-label">Ваш платёж за месяц</p>
-          <p class="s-pricing__total" id="pricing-result" aria-live="polite">
-            <span class="sr-only" data-total-text>900 сомони в месяц</span>
-            <span class="s-pricing__odo" aria-hidden="true" data-odo></span>
-            <span class="s-pricing__unit" aria-hidden="true">сомони в месяц</span>
-          </p>
-          <p class="s-pricing__working"><span data-working>600 визитов × 1,5 сомони</span></p>
-          <p class="s-pricing__free chip chip--good"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#calendar-remove" /></svg>Неявки и отмены: 0 сомони</p>
-        </div>
+          <fieldset class="s-pricing__q">
+            <legend class="s-pricing__label">Сколько дней в месяц вы работаете?</legend>
+            <div class="s-pricing__days">
+              <label><input type="radio" name="pricing-days" value="22" /><span>22 дня<small>5 дней в неделю</small></span></label>
+              <label><input type="radio" name="pricing-days" value="26" checked /><span>26 дней<small>6 дней в неделю</small></span></label>
+              <label><input type="radio" name="pricing-days" value="30" /><span>30 дней<small>без выходных</small></span></label>
+            </div>
+          </fieldset>
       </div>
 
-      <div class="s-pricing__lists" data-stagger="50">
-        <h3 class="s-pricing__list-title reveal">Включено</h3>
-        <ul class="s-pricing__included">
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Неограниченно сотрудников и филиалов</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Все функции и отраслевые профили</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Напоминания в Telegram</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Настройка и перенос клиентской базы</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>До двух часов обучения сотрудников</li>
-          <li class="reveal"><span class="s-pricing__tick"><svg class="i i--bold" aria-hidden="true"><use href="assets/icons.svg#check" /></svg></span>Фиксация тарифа на 12 месяцев</li>
+      <div class="s-pricing__result">
+        <p class="s-pricing__result-label">Ваш платёж</p>
+        <p class="s-pricing__total" id="pricing-result" aria-live="polite">
+          <span class="sr-only" data-total-text>975 сомони в месяц</span>
+          <span class="s-pricing__odo" aria-hidden="true" data-odo></span>
+          <span class="s-pricing__unit" aria-hidden="true">сомони в месяц</span>
+        </p>
+        <p class="s-pricing__sum" aria-hidden="true">
+          <span data-sum-day>25 клиентов</span><b>×</b><span data-sum-days>26 дней</span><b>×</b><span>1,5 сомони</span>
+        </p>
+        <ul class="s-pricing__notes">
+          <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#coins" /></svg><span>Около <b data-per-day>38</b> сомони за рабочий день</span></li>
+          <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#calendar-remove" /></svg><span>Неявки и отмены не считаются: в спокойный месяц платите меньше</span></li>
         </ul>
-
-        <h3 class="s-pricing__list-title s-pricing__list-title--muted reveal">Оплачивается отдельно</h3>
-        <ul class="s-pricing__extra">
-          <li class="reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>СМС по тарифу оператора с предоплаченного баланса</li>
-          <li class="reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg>Выезд за пределы Душанбе, дополнительное обучение и доработки по предварительному согласованию</li>
-        </ul>
+        <a class="btn btn--accent btn--lg s-pricing__cta" href="#start">Начать работу<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
       </div>
+    </div>
+
+    <div class="s-pricing__includes">
+      <h3 class="s-pricing__includes-title reveal">Всё это входит в 1,5 сомони</h3>
+      <ul class="s-pricing__tiles" data-stagger="50">
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#users" /></svg></span>Неограниченно сотрудников и филиалов</li>
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#dashboard" /></svg></span>Все функции и отраслевые профили</li>
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#telegram" /></svg></span>Напоминания клиентам в Telegram</li>
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#file-import" /></svg></span>Настройка и перенос клиентской базы</li>
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#school" /></svg></span>До двух часов обучения сотрудников</li>
+          <li class="reveal"><span class="s-pricing__tile-icon"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#lock" /></svg></span>Тариф зафиксирован на 12 месяцев</li>
+      </ul>
+      <p class="s-pricing__extra reveal"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#info" /></svg><span>Оплачивается отдельно: СМС по тарифу оператора с предоплаченного баланса; выезд за пределы Душанбе, дополнительное обучение и доработки по предварительному согласованию.</span></p>
     </div>
   </div>
 </section>
@@ -1225,19 +1057,23 @@
     </div>
   </div>
 </section>
-      <!-- AI statement: the opener for the assistants section below it. One huge sentence with the
-     places the assistants live set into it as icon tiles. The whole block is a glow trigger in
-     view mode, so "ИИ" and the three icons light up in turn while it is on screen. -->
-<section class="s-ai section" id="ai" aria-labelledby="ai-title">
-  <div class="container s-ai__inner" data-glow-trigger="view" data-stagger="90">
-    <h2 id="ai-title" class="s-ai__title">
-      <span class="s-ai__line reveal"><span class="s-ai__word" data-glow>ИИ</span>, встроенный</span>
-      <span class="s-ai__line reveal"><span class="s-ai__item"><span class="s-ai__soft">в</span> <span class="s-ai__tile sq"><svg class="i" data-glow aria-hidden="true" style="--glow-delay: 0.3s"><use href="assets/icons.svg#chat" /></svg></span>чаты,</span> <span class="s-ai__item"><span class="s-ai__tile sq"><svg class="i" data-glow aria-hidden="true" style="--glow-delay: 0.6s"><use href="assets/icons.svg#calendar-check" /></svg></span>записи</span></span>
-      <span class="s-ai__line reveal"><span class="s-ai__item"><span class="s-ai__soft">и</span> <span class="s-ai__tile sq"><svg class="i" data-glow aria-hidden="true" style="--glow-delay: 0.9s"><use href="assets/icons.svg#chart" /></svg></span>отчёты</span></span>
-    </h2>
-    <p class="lead s-ai__lead reveal">Не отдельный чат-бот, а часть NavCRM. Ассистенты знают ваше расписание, клиентов и продажи, поэтому сами записывают клиентов, отвечают на вопросы о бизнесе и понимают таджикский и русский.</p>
-  </div>
-</section>
+      <!--
+      ARCHIVED 2026-10-29: "AI statement" section (id="ai"), removed from the page at the owner's request.
+
+      A black band with one huge sentence, "ИИ, встроенный в чаты, записи и отчёты", with chat,
+      calendar and chart icons set into the line and a lead about the assistants below. "ИИ" and
+      the three icons lit up in turn with the glow preset (css/fx/glow.css, js/fx/glow.js) while
+      the block was on screen.
+
+      Nothing was deleted: markup in src/partials/ai.html, styles in landing/css/sections/ai.css.
+      The glow preset stays in css/fx and js/fx (main.js loads glow.js only when a [data-glow]
+      element is on the page). A standalone, reusable copy of the section and the glow, with a
+      demo page and a write-up of how the glow works, is in archive/ai-glow-statement/.
+      Setup (white) and FAQ (soft) still alternate with it gone.
+
+      To restore: put back the "@ partial ai" marker (without the space) here, uncomment the
+      ai.css link in <head>, then run npm run build.
+      -->
       <!--
       ARCHIVED 2026-10-27: "Assistants" section (id="assistants"), removed from the page at the owner's request.
 
@@ -1331,7 +1167,10 @@
   </div>
 </section>
     </main>
-    <footer class="s-footer tone-soft">
+    <!-- Footer: a dark close to the page. Brand and quick contact on top, the link columns, a slim
+     bottom row, then a giant NavCRM wordmark across the full width, cropped by the edge and
+     fading out; a soft light follows the pointer over it (footer.js). -->
+<footer class="s-footer" data-section="footer">
   <div class="container">
     <div class="s-footer__top">
       <div class="s-footer__brand">
@@ -1342,47 +1181,54 @@
           </svg>
           <span>NavCRM</span>
         </a>
-        <p>NavCRM создан командой NavTech в Душанбе.</p>
+        <p>Записи, клиенты и касса для сервисного бизнеса. Создан командой NavTech в Душанбе.</p>
       </div>
-
-      <nav class="s-footer__cols" aria-label="Навигация внизу страницы">
-        <div>
-          <h2>Продукт</h2>
-          <ul>
-            <li><a href="#problems">Как это работает</a></li>
-            <li><a href="#industries">Отрасли</a></li>
-            <li><a href="#pricing">Стоимость</a></li>
-            <li><a href="#faq">Вопросы</a></li>
-          </ul>
-        </div>
-        <div>
-          <h2>Клиентам</h2>
-          <ul>
-            <li><a href="https://navcrm.tj/catalog">Найти компанию</a></li>
-          </ul>
-        </div>
-        <div>
-          <h2>Компания</h2>
-          <ul>
-            <li><a href="https://navtech.tj/">NavTech</a></li>
-            <li><a href="https://navcrm.tj/product-terms">Условия использования</a></li>
-          </ul>
-        </div>
-        <div>
-          <h2>Контакты</h2>
-          <ul>
-            <li><a href="tel:+992070070070">+992 070 070 070</a></li>
-            <li><a href="https://t.me/+992070070070" target="_blank" rel="noopener">Telegram</a></li>
-          </ul>
-        </div>
-      </nav>
+      <div class="s-footer__contact">
+        <a class="btn btn--accent" href="https://t.me/+992070070070" target="_blank" rel="noopener"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#telegram" /></svg>Написать в Telegram</a>
+        <a class="btn s-footer__ghost" href="tel:+992070070070"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#call" /></svg>+992 070 070 070</a>
+      </div>
     </div>
+
+    <nav class="s-footer__cols" aria-label="Навигация внизу страницы">
+      <div>
+        <h2>Продукт</h2>
+        <ul>
+          <li><a href="#problems">Как это работает</a></li>
+          <li><a href="#industries-ring">Отрасли</a></li>
+          <li><a href="#pricing">Стоимость</a></li>
+          <li><a href="#faq">Вопросы</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Клиентам</h2>
+        <ul>
+          <li><a href="https://navcrm.tj/catalog">Найти компанию</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Компания</h2>
+        <ul>
+          <li><a href="https://navtech.tj/">NavTech</a></li>
+          <li><a href="https://navcrm.tj/product-terms">Условия использования</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Контакты</h2>
+        <ul>
+          <li><a href="tel:+992070070070">+992 070 070 070</a></li>
+          <li><a href="https://t.me/+992070070070" target="_blank" rel="noopener">Telegram</a></li>
+        </ul>
+      </div>
+    </nav>
 
     <div class="s-footer__bottom">
       <p>© 2026 NavTech</p>
       <p>Имена и суммы в примерах приведены для наглядности.</p>
+      <a class="s-footer__up" href="#top">Наверх<svg class="i" aria-hidden="true"><use href="assets/icons.svg#arrow-up-right" /></svg></a>
     </div>
   </div>
+
+  <div class="s-footer__word" aria-hidden="true" data-word><span>NavCRM</span></div>
 </footer>
   </body>
 </html>
