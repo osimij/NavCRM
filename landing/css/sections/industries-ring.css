@@ -11,7 +11,8 @@
   margin-inline: auto;
 }
 /* The ring turns slowly; each circle turns back by the same amount so its icon stays upright.
-   Both use the individual rotate property, so the circles' own transforms are left alone. */
+   Both use the individual rotate property, so the circles' own transforms are left alone.
+   The spin only runs while the ring is on screen (data-live, from industries-ring.js). */
 .s-ring__list {
   --spin: 70s;
   position: absolute;
@@ -19,10 +20,14 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  animation: s-ring-spin var(--spin) linear infinite;
+  animation: s-ring-spin var(--spin) linear infinite paused;
 }
 .s-ring__list .s-ring__btn {
-  animation: s-ring-spin var(--spin) linear infinite reverse;
+  animation: s-ring-spin var(--spin) linear infinite reverse paused;
+}
+.s-ring__stage[data-live] .s-ring__list,
+.s-ring__stage[data-live] .s-ring__list .s-ring__btn {
+  animation-play-state: running;
 }
 @keyframes s-ring-spin {
   to {
@@ -89,7 +94,7 @@ html:not(.js) .s-ring__item {
   opacity: 1;
 }
 
-/* The name in the middle; it settles in each time it changes */
+/* The name in the middle; it settles in each time it changes (animated from industries-ring.js) */
 .s-ring__center {
   position: absolute;
   inset: 22%;
@@ -107,20 +112,10 @@ html:not(.js) .s-ring__item {
   color: var(--ink);
   text-wrap: balance;
 }
-.s-ring__name.is-new {
-  animation: s-ring-name 360ms var(--ease-out) both;
-}
 .s-ring__hint {
   margin: 0;
   font-size: clamp(0.8125rem, 2.8cqi, 1.0625rem);
   color: var(--ink-3);
-}
-@keyframes s-ring-name {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-    filter: blur(3px);
-  }
 }
 
 /* Layout: title, ring, text and button stacked */
@@ -190,12 +185,10 @@ html:not(.js) .s-ring__item {
   color: var(--ink-3);
   background-color: #fff;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 6%, transparent);
-  will-change: transform;
   transition:
     transform var(--pop),
     background-color var(--pop),
-    color var(--pop),
-    box-shadow var(--pop);
+    color var(--pop);
 }
 .s-ring--pop .s-ring__btn .i {
   opacity: 1;
@@ -203,11 +196,10 @@ html:not(.js) .s-ring__item {
 .s-ring--pop .s-ring__btn.is-spot {
   color: #fff;
   background-color: var(--tone);
-  box-shadow: none;
   transform: scale(1.22);
 }
-/* the lit circle grows over its neighbours */
-.s-ring__item:has(.is-spot) {
+/* the lit circle grows over its neighbours (the class is set from industries-ring.js) */
+.s-ring__item.is-up {
   z-index: 2;
 }
 
@@ -216,7 +208,6 @@ html:not(.js) .s-ring__item {
   .s-ring__btn {
     transition: none;
   }
-  .s-ring__name.is-new,
   .s-ring__list,
   .s-ring__list .s-ring__btn {
     animation: none;

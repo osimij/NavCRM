@@ -5,7 +5,8 @@
     </div>
 
     <!-- Each tile: a grey well holding a piece of product, then one statement:
-         ink, then a grey continuation. -->
+         ink, then a grey continuation. The payments and offline cards came over from the
+         "Made in Dushanbe" section and keep its card design (local.css): icon, well, title and text. -->
     <ul class="s-problems__grid" data-stagger="50">
       <!-- 1. AI replies and books -->
       <li class="s-problems__card s-problems__card--ai sq reveal">
@@ -63,43 +64,27 @@
         <h3 class="s-problems__say">Напоминания уходят сами. <span>Обзванивать никого не нужно.</span></h3>
       </li>
 
-      <!-- 3. Reviews: the rating, and where each review goes -->
-      <li class="s-problems__card s-problems__card--reviews sq reveal">
-        <div class="s-problems__stage ui" aria-hidden="true">
-          <div class="s-problems__reviews">
-            <div class="s-problems__score">
-              <span class="s-problems__num">4,9</span>
-              <span class="s-problems__stars" style="--n: 5">★★★★★</span>
-            </div>
-            <div class="s-problems__stack">
-              <div class="ui-card s-problems__route">
-                <span class="s-problems__stars" style="--n: 5">★★★★★</span>
-                <svg class="i s-problems__arrow"><use href="assets/icons.svg#arrow-right" /></svg>
-                <span class="s-problems__route-to s-problems__route-to--good"><svg class="i"><use href="assets/icons.svg#map-pin" /></svg>2ГИС и Яндекс Карты</span>
-              </div>
-              <div class="ui-card s-problems__route">
-                <span class="s-problems__stars" style="--n: 2">★★★★★</span>
-                <svg class="i s-problems__arrow"><use href="assets/icons.svg#arrow-right" /></svg>
-                <span class="s-problems__route-to"><svg class="i"><use href="assets/icons.svg#lock" /></svg>Лично директору</span>
-              </div>
-            </div>
+      <!-- 3. Payments (from the archived "Made in Dushanbe" section, in its own card design) -->
+      <li class="s-local__card s-problems__card--payments card sq reveal">
+        <div class="s-local__text">
+          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wallet" /></svg></span>
+          <div class="s-local__copy">
+            <h3>Местные платежи под контролем</h3>
+            <p>Наличные, терминалы, Alif QR, DC NEXT и Корти Милли, а также разделение платежей, залоги и долги.</p>
           </div>
         </div>
-        <h3 class="s-problems__say">Отзывы после каждого визита. <span>Хорошие идут на карты, плохие лично директору.</span></h3>
-      </li>
-
-      <!-- 4. Payroll -->
-      <li class="s-problems__card s-problems__card--pay sq reveal">
-        <div class="s-problems__stage ui" aria-hidden="true">
-          <div class="s-problems__figure">
-            <span class="s-problems__num s-problems__num--good">+412</span>
-            <span class="s-problems__unit"><span class="ui-avatar" data-person="malika">М</span>сомони Малике за сегодня</span>
+        <!-- Payment partners: one row of logos, all in the same grey at the same height (local.css) -->
+        <div class="s-local__well s-local__well--plain sq" role="img" aria-label="Оплата через Alif, DC (Dushanbe City), Visa и Корти Милли.">
+          <div class="s-local__logos" aria-hidden="true">
+            <span class="s-local__logo s-local__logo--alif"></span>
+            <span class="s-local__logo s-local__logo--dc"></span>
+            <span class="s-local__logo s-local__logo--visa"></span>
+            <span class="s-local__logo s-local__logo--korti"></span>
           </div>
         </div>
-        <h3 class="s-problems__say">Зарплата без калькулятора. <span>Каждый видит свой заработок за день.</span></h3>
       </li>
 
-      <!-- 5. Waitlist: the cancelled booking hands its slot to the next person -->
+      <!-- 4. Waitlist: the cancelled booking hands its slot to the next person -->
       <li class="s-problems__card s-problems__card--wait sq reveal">
         <div class="s-problems__stage ui" aria-hidden="true">
           <div class="s-problems__handover">
@@ -123,7 +108,7 @@
         <h3 class="s-problems__say">Отмена? <span>Окно сразу уходит первому из листа ожидания.</span></h3>
       </li>
 
-      <!-- 6. Cash -->
+      <!-- 5. Cash -->
       <li class="s-problems__card s-problems__card--cash sq reveal">
         <div class="s-problems__stage ui" aria-hidden="true">
           <div class="s-problems__figure">
@@ -134,7 +119,7 @@
         <h3 class="s-problems__say">Касса не сходится? <span>Отчёт смены покажет это сразу.</span></h3>
       </li>
 
-      <!-- 7. Stock: a running-low item and the order that is already drafted -->
+      <!-- 6. Stock: a running-low item and the order that is already drafted -->
       <li class="s-problems__card s-problems__card--stock sq reveal">
         <div class="s-problems__stage ui" aria-hidden="true">
           <div class="s-problems__pair">
@@ -153,7 +138,7 @@
         <h3 class="s-problems__say">Шампунь не кончится внезапно. <span>Заказ поставщику уже готов.</span></h3>
       </li>
 
-      <!-- 8. Birthdays and win-back: the two messages it sends on its own -->
+      <!-- 7. Birthdays and win-back: the two messages it sends on its own -->
       <li class="s-problems__card s-problems__card--return sq reveal">
         <div class="s-problems__stage ui" aria-hidden="true">
           <div class="s-problems__pair">
@@ -168,6 +153,109 @@
           </div>
         </div>
         <h3 class="s-problems__say">Помнит дни рождения. <span>И пишет тем, кто не был 60 дней.</span></h3>
+      </li>
+
+      <!-- 8. Offline (from the archived "Made in Dushanbe" section, in its own card design): today's
+           schedule on a phone that loses its connection. local.js plays it, loaded by data-section. -->
+      <li data-section="local" class="s-local__card s-local__card--offline s-problems__card--offline card sq reveal">
+        <div class="s-local__text">
+          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wifi-off" /></svg></span>
+          <div class="s-local__copy">
+            <h3>Работает, даже если пропал интернет</h3>
+            <p>В мобильном приложении расписание, клиенты, касса и склад работают без интернета до конца смены. Когда связь восстановится, изменения синхронизируются.</p>
+          </div>
+        </div>
+        <div class="s-local__stage stage">
+          <div class="stage__art" aria-hidden="true"></div>
+          <!-- Ships in the end state (no JS, reduced motion). The script starts it from "online". -->
+          <div class="s-local__offline ui" role="img" aria-label="Приложение NavCRM на телефоне с записями Gulnor Beauty на сегодня. Интернет пропадает, три изменения сохраняются на телефоне, а после восстановления связи синхронизируются." data-offline data-phase="synced" data-rows="3">
+            <div class="ui-phone ui-phone--lifted s-local__phone" aria-hidden="true">
+              <div class="ui-phone__screen">
+                <img class="ui-phone__status" src="assets/device/status-bar.svg" width="725" height="102" alt="" />
+
+                <div class="s-local__app">
+                  <div class="s-local__app-head">
+                    <div>
+                      <p class="ui-h">Сегодня</p>
+                      <p class="ui-sub">Вторник, 27 октября</p>
+                    </div>
+                    <span class="s-local__branch"><svg class="i"><use href="assets/icons.svg#maps" /></svg>Рудаки, 54</span>
+                  </div>
+
+                  <div class="s-local__body">
+                    <!-- Connection banner and the changes kept on the phone, stacked over the schedule -->
+                    <div class="s-local__queue">
+                      <div class="s-local__net ui-card ui-swap">
+                        <div class="s-local__net-state" data-net="offline" data-hidden="true">
+                          <span class="ui-tile ui-tile--warn"><svg class="i"><use href="assets/icons.svg#wifi-off" /></svg></span>
+                          <span class="s-local__net-text"><span class="ui-title">Нет интернета.</span><span class="ui-sub" data-sub="saved">3 изменения сохранены на телефоне</span></span>
+                        </div>
+                        <div class="s-local__net-state" data-net="synced">
+                          <span class="ui-tile ui-tile--good">
+                            <span class="ui-swap">
+                              <span class="s-local__spin" data-sync="spin" data-hidden="true"><svg class="i"><use href="assets/icons.svg#sync" /></svg></span>
+                              <svg class="i" data-sync="done"><use href="assets/icons.svg#check-circle" /></svg>
+                            </span>
+                          </span>
+                          <span class="s-local__net-text"><span class="ui-title">Связь восстановлена.</span><span class="ui-sub" data-sub="synced">Всё синхронизировано.</span></span>
+                        </div>
+                      </div>
+
+                      <div class="s-local__change ui-card" data-row="1">
+                        <span class="s-local__change-icon"><svg class="i"><use href="assets/icons.svg#calendar" /></svg></span>
+                        <span class="s-local__change-text">Запись добавлена, 14:20</span>
+                        <span class="s-local__tick"><svg class="i" data-tick="saved"><use href="assets/icons.svg#clock" /></svg><svg class="i" data-tick="done"><use href="assets/icons.svg#check-circle" /></svg></span>
+                      </div>
+                      <div class="s-local__change ui-card" data-row="2">
+                        <span class="s-local__change-icon"><svg class="i"><use href="assets/icons.svg#cash" /></svg></span>
+                        <span class="s-local__change-text">Оплата 180 сомони, наличные</span>
+                        <span class="s-local__tick"><svg class="i" data-tick="saved"><use href="assets/icons.svg#clock" /></svg><svg class="i" data-tick="done"><use href="assets/icons.svg#check-circle" /></svg></span>
+                      </div>
+                      <div class="s-local__change ui-card" data-row="3">
+                        <span class="s-local__change-icon"><svg class="i"><use href="assets/icons.svg#package" /></svg></span>
+                        <span class="s-local__change-text">Склад: списана 1 ед. шампуня</span>
+                        <span class="s-local__tick"><svg class="i" data-tick="saved"><use href="assets/icons.svg#clock" /></svg><svg class="i" data-tick="done"><use href="assets/icons.svg#check-circle" /></svg></span>
+                      </div>
+                    </div>
+
+                    <ul class="s-local__sched">
+                      <li class="s-local__booking ui-card">
+                        <span class="s-local__time">13:00</span>
+                        <span class="s-local__who"><span class="s-local__name">Нигина С.</span><span class="ui-sub">Маникюр с гелем</span></span>
+                        <span class="ui-status ui-status--paid"><svg class="i"><use href="assets/icons.svg#check-circle" /></svg>Оплачено</span>
+                      </li>
+                      <li class="s-local__booking ui-card">
+                        <span class="s-local__time">14:00</span>
+                        <span class="s-local__who"><span class="s-local__name">Умед Н.</span><span class="ui-sub">Мужская стрижка</span></span>
+                        <span class="ui-status ui-status--chair"><svg class="i"><use href="assets/icons.svg#scissor" /></svg>У мастера</span>
+                      </li>
+                      <li class="s-local__booking ui-card">
+                        <span class="s-local__time">15:00</span>
+                        <span class="s-local__who"><span class="s-local__name">Ситора Рахимова</span><span class="ui-sub">Стрижка и укладка</span></span>
+                        <span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Подтверждено</span>
+                      </li>
+                      <li class="s-local__booking ui-card">
+                        <span class="s-local__time">16:00</span>
+                        <span class="s-local__who"><span class="s-local__name">Шахло М.</span><span class="ui-sub">Окрашивание</span></span>
+                        <span class="ui-status ui-status--waiting"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg>Ожидает</span>
+                      </li>
+                      <li class="s-local__booking ui-card">
+                        <span class="s-local__time">17:30</span>
+                        <span class="s-local__who"><span class="s-local__name">Рустам К.</span><span class="ui-sub">Оформление бороды</span></span>
+                        <span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#calendar-check" /></svg>Подтверждено</span>
+                      </li>
+                      <li class="s-local__booking ui-card">
+                        <span class="s-local__time">18:00</span>
+                        <span class="s-local__who"><span class="s-local__name">Парвина А.</span><span class="ui-sub">Кератин</span></span>
+                        <span class="ui-status ui-status--waiting"><svg class="i"><use href="assets/icons.svg#hourglass" /></svg>Ожидает</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </li>
     </ul>
   </div>

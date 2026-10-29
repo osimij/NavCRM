@@ -5,7 +5,7 @@
    the viewport height (--sh), so the whole dashboard can be seen at once under the nav. */
 .s-owner__frame {
   --phone-w: 340px;
-  --phone-h: calc(var(--phone-w) * 956 / 440);
+  --phone-h: calc(var(--phone-w) * 654.07 / 301);
   --sw: 1;
   --sh: 1;
   --s: min(var(--sw), var(--sh));

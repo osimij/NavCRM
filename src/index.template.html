@@ -9,19 +9,20 @@
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="assets/fonts/als-hauss-next-vf.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="css/base.css?v=1.5-accent-dark" />
-    <link rel="stylesheet" href="css/ui.css?v=1.5-imessage" />
+    <link rel="stylesheet" href="css/ui.css?v=1.5-phone-figma-2" />
     <link rel="stylesheet" href="css/art.css?v=1.5-offline-art-4" />
     <link rel="stylesheet" href="css/fx/glow.css?v=1.5-glow-shape-3" />
     <link rel="stylesheet" href="css/sections/nav.css?v=1.5-tones" />
     <link rel="stylesheet" href="css/sections/hero.css?v=1.5-hero-statusbar" />
-    <link rel="stylesheet" href="css/sections/problems.css?v=1.5-imessage" />
+    <link rel="stylesheet" href="css/sections/problems.css?v=1.5-merged" />
     <!-- ARCHIVED 2026-10-27: How it works section stylesheet. Restore with the section (see <main>). -->
     <!-- <link rel="stylesheet" href="css/sections/how.css?v=1.5-tones" /> -->
-    <link rel="stylesheet" href="css/sections/owner.css?v=1.5-plain" />
+    <link rel="stylesheet" href="css/sections/owner.css?v=1.5-phone-figma" />
     <!-- <link rel="stylesheet" href="css/sections/industries.css?v=1.5-cta-below" /> -->
-    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-grey" />
-    <link rel="stylesheet" href="css/sections/local.css?v=1.5-imessage" />
-    <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-day-outline-2" />
+    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-perf" />
+    <!-- local.css stays: the problems bento uses its offline and payments cards (see <main>) -->
+    <link rel="stylesheet" href="css/sections/local.css?v=1.5-merged" />
+    <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-merged" />
     <link rel="stylesheet" href="css/sections/setup.css?v=1.5-tones" />
     <!-- <link rel="stylesheet" href="css/sections/ai.css?v=1.5-ai-bare-2" /> -->
     <!-- ARCHIVED 2026-10-27: Assistants section stylesheet. Restore with the section (see <main>). -->
@@ -29,7 +30,7 @@
     <link rel="stylesheet" href="css/sections/faq.css?v=1.5-tones" />
     <link rel="stylesheet" href="css/sections/start.css?v=1.5-offline-art-4" />
     <link rel="stylesheet" href="css/sections/footer.css?v=1.5-footer-black" />
-    <script type="module" src="js/main.js?v=1.5-hero-fit"></script>
+    <script type="module" src="js/main.js?v=1.5-merged"></script>
   </head>
   <body>
     <main id="top">
@@ -72,7 +73,23 @@
       then run npm run build.
       -->
       <!-- @partial industries-ring -->
-      <!-- @partial local -->
+      <!--
+      ARCHIVED 2026-10-29: "Made in Dushanbe" section (id="local"), merged into the problems bento at the owner's request.
+
+      Heading "Создано в Душанбе для местного бизнеса" with a lead about local payments, languages and
+      internet. Four cards: offline phone demo (wide), local payments (partner logos), free Telegram
+      reminders, and support contacts. The offline and payments cards now sit in the "Рутину NavCRM
+      берёт на себя" bento (src/partials/problems.html), in place of the reviews and payroll tiles
+      (those two are kept in src/partials/problems-archived-tiles.html). local.css stays loaded for
+      them, and the offline card loads local.js through its own data-section="local".
+      With the section gone, pricing follows the #fafafa ring directly, so it got a hairline on top.
+
+      Nothing was deleted: the full section in src/partials/local.html, styles in
+      landing/css/sections/local.css, behaviour in landing/js/sections/local.js.
+
+      To restore: put back the "@ partial local" marker (without the space) here and take the two
+      cards out of problems.html (restoring the archived tiles), then run npm run build.
+      -->
       <!-- @partial pricing -->
       <!-- @partial setup -->
       <!--

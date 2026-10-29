@@ -29,8 +29,8 @@ async function initSections() {
   const versions = {
     hero: '1.5-hero-fit',
     industries: '1.5-industry-hover-slow',
-    'industries-ring': '1.5-ring-white',
-    local: '1.5-four-cards',
+    'industries-ring': '1.5-ring-hover',
+    local: '1.5-merged',
     pricing: '1.5-calc-days',
     footer: '1.5-footer-dark',
   };

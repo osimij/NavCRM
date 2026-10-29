@@ -456,61 +456,42 @@
   transition: transform 700ms var(--ease-out);
 }
 
-/* Shared iPhone display: 440 x 956 pt. The supplied status bar scales as one SVG.
-   A separate outer ring paints the bezel without consuming any screen space. */
+/* Shared iPhone, as drawn in Figma (NavCRM, "Frame 56"): a bezel-less white screen, 301 x 654 pt
+   (725 x 1575 in the file) with 45 pt corners, and the status bar on top. Sizes are kept in
+   those 301 pt, so the phone scales as one piece at any width. */
 .ui-phone {
   position: relative;
   width: 280px;
-  aspect-ratio: 440 / 956;
-  padding: 0;
-  border-radius: 15.3% / 7.3%;
-  background: transparent;
+  aspect-ratio: 301 / 654.07;
+  border-radius: 14.95% / 6.88%; /* 45 pt of 301 x 654 */
   container-type: inline-size;
 }
-.ui-phone::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow: 0 0 0 calc(100cqw * 5.05 / 307) #DCDCDE;
-  pointer-events: none;
+/* On a busy background (gradient art, another window behind it) the phone casts a shadow: a tight
+   contact shadow where it meets the surface and a long, soft one falling below it */
+.ui-phone--lifted {
+  box-shadow:
+    0 0 0 0.5px rgba(11, 18, 32, 0.06),
+    0 1px 2px rgba(11, 18, 32, 0.08),
+    0 6px 14px -4px rgba(11, 18, 32, 0.12),
+    0 22px 44px -14px rgba(11, 18, 32, 0.24),
+    0 46px 90px -30px rgba(11, 18, 32, 0.28);
 }
 .ui-phone__screen {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: var(--bg);
+  background: #fff;
   overflow: hidden;
   container-type: inline-size;
 }
-.ui-phone__island {
-  position: absolute;
-  top: calc(100cqw * 13.42 / 440);
-  left: 50%;
-  width: calc(100cqw * 120.88 / 440);
-  height: calc(100cqw * 36.26 / 440);
-  border-radius: 999px;
-  background: #000;
-  transform: translateX(-50%);
-  z-index: 3;
-}
+/* The top of the Figma frame (NavCRM, "Frame 56"): Dynamic Island, 9:41 and the status icons,
+   exported as one SVG (assets/device/status-bar.svg, the frame's top 102 of 725 units, without its
+   white fill). 42.4 pt of the 301 pt screen, so the apps below keep their place. */
 .ui-phone__status {
   display: block;
+  flex: none;
   width: 100%;
   height: auto;
-}
-.ui-phone__screen::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: calc(100cqw * 8 / 440);
-  width: calc(100cqw * 134 / 440);
-  height: calc(100cqw * 5 / 440);
-  border-radius: 999px;
-  background: #000;
-  transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 5;
 }
 
 /* Tap indicator for scripted demos: move with transform, press with .is-press */

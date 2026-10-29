@@ -1,0 +1,42 @@
+<!-- ARCHIVED 2026-10-29: two tiles taken out of the "Рутину NavCRM берёт на себя" bento
+     (src/partials/problems.html) when the "Made in Dushanbe" section was merged into it; the offline
+     and payments cards took their places. Their styles are still in problems.css
+     (.s-problems__card--reviews, .s-problems__card--pay, .s-problems__reviews, .s-problems__figure).
+     To restore: paste the <li> back into .s-problems__grid and give it a grid slot in the desktop
+     bento at the end of problems.css. -->
+
+      <!-- 3. Reviews: the rating, and where each review goes -->
+      <li class="s-problems__card s-problems__card--reviews sq reveal">
+        <div class="s-problems__stage ui" aria-hidden="true">
+          <div class="s-problems__reviews">
+            <div class="s-problems__score">
+              <span class="s-problems__num">4,9</span>
+              <span class="s-problems__stars" style="--n: 5">★★★★★</span>
+            </div>
+            <div class="s-problems__stack">
+              <div class="ui-card s-problems__route">
+                <span class="s-problems__stars" style="--n: 5">★★★★★</span>
+                <svg class="i s-problems__arrow"><use href="assets/icons.svg#arrow-right" /></svg>
+                <span class="s-problems__route-to s-problems__route-to--good"><svg class="i"><use href="assets/icons.svg#map-pin" /></svg>2ГИС и Яндекс Карты</span>
+              </div>
+              <div class="ui-card s-problems__route">
+                <span class="s-problems__stars" style="--n: 2">★★★★★</span>
+                <svg class="i s-problems__arrow"><use href="assets/icons.svg#arrow-right" /></svg>
+                <span class="s-problems__route-to"><svg class="i"><use href="assets/icons.svg#lock" /></svg>Лично директору</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h3 class="s-problems__say">Отзывы после каждого визита. <span>Хорошие идут на карты, плохие лично директору.</span></h3>
+      </li>
+
+      <!-- 4. Payroll -->
+      <li class="s-problems__card s-problems__card--pay sq reveal">
+        <div class="s-problems__stage ui" aria-hidden="true">
+          <div class="s-problems__figure">
+            <span class="s-problems__num s-problems__num--good">+412</span>
+            <span class="s-problems__unit"><span class="ui-avatar" data-person="malika">М</span>сомони Малике за сегодня</span>
+          </div>
+        </div>
+        <h3 class="s-problems__say">Зарплата без калькулятора. <span>Каждый видит свой заработок за день.</span></h3>
+      </li>

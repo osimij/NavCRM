@@ -2,6 +2,11 @@
    result on a dark panel on the right with the next step), then what the price includes as tiles
    and the paid extras as a footnote. */
 
+/* Pricing follows the #fafafa industries ring directly (both soft), so a hairline sets it apart */
+.s-pricing {
+  border-top: 1px solid color-mix(in srgb, var(--ink) 6%, transparent);
+}
+
 /* ---------- the panel ---------- */
 .s-pricing__panel {
   /* one size for the two big numbers: clients a day and the total */

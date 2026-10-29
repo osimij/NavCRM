@@ -1,3 +1,6 @@
+<!-- ARCHIVED 2026-10-29 (see the note in src/index.template.html). Its offline and payments cards
+     now live in the problems bento (src/partials/problems.html); this file keeps the whole section
+     as it was, with the reminders and support cards. local.css stays loaded for the moved cards. -->
 <section class="s-local section tone-white" data-section="local" id="local">
   <div class="container">
     <div class="section-head">
@@ -19,10 +22,9 @@
           <div class="stage__art" aria-hidden="true"></div>
           <!-- Ships in the end state (no JS, reduced motion). The script starts it from "online". -->
           <div class="s-local__offline ui" role="img" aria-label="Приложение NavCRM на телефоне с записями Gulnor Beauty на сегодня. Интернет пропадает, три изменения сохраняются на телефоне, а после восстановления связи синхронизируются." data-offline data-phase="synced" data-rows="3">
-            <div class="ui-phone s-local__phone" aria-hidden="true">
+            <div class="ui-phone ui-phone--lifted s-local__phone" aria-hidden="true">
               <div class="ui-phone__screen">
-                <span class="ui-phone__island"></span>
-                <img class="ui-phone__status" src="assets/device/status-bar.png" width="3064" height="432" alt="" />
+                <img class="ui-phone__status" src="assets/device/status-bar.svg" width="725" height="102" alt="" />
 
                 <div class="s-local__app">
                   <div class="s-local__app-head">
