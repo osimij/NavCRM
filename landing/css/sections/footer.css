@@ -1,4 +1,4 @@
-/* Footer: a dark close to the page (#111, with the dark-surface accent). Brand and quick contact,
+/* Footer: a black close to the page (#000, with the dark-surface accent). Brand and quick contact,
    the link columns and a slim bottom row, then a giant NavCRM wordmark across the full width,
    cropped by the bottom edge and fading out, with a soft light that follows the pointer. */
 .s-footer {
@@ -6,7 +6,7 @@
   position: relative;
   overflow: hidden;
   padding-top: clamp(64px, 7vw, 104px);
-  background: #111111;
+  background: #000;
   color: #fff;
 }
 

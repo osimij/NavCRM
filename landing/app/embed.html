@@ -9,8 +9,10 @@
       /* The hero's devices show the app without scrollbars; panes still scroll by wheel and touch. */
       * { scrollbar-width: none; }
       *::-webkit-scrollbar { display: none; }
+      /* The home page doesn't scroll (see LockHome in src/embed.tsx), so the wheel reaches the landing. */
+      html[data-locked] #main-content { overflow-y: hidden; }
     </style>
-    <script type="module" crossorigin src="./assets/embed-CKBhaA5O.js"></script>
+    <script type="module" crossorigin src="./assets/embed-DPpVQ4RQ.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/embed-BGMXquZU.css">
   </head>
   <body>

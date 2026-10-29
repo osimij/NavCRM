@@ -157,8 +157,8 @@ html:not(.js) .s-ring__item {
   margin-top: calc(28px - var(--block-gap));
 }
 
-/* A plain #fafafa section, and every business gets its own colour: a white circle with the
-   icon in that colour. The lit circle grows and, over the same stretch, fills with the colour
+/* A plain #fafafa section, and every business gets its own colour: a white circle with a
+   grey icon. The lit circle grows and, over the same stretch, fills with the colour
    while the icon turns white.
    The colours run once around the ring as one spectrum, clockwise from the top: red, orange,
    green, teal, blue, indigo, violet, pink. All 18 share one OKLCH lightness (63.5%) with chroma
@@ -187,7 +187,7 @@ html:not(.js) .s-ring__item {
 .s-ring--pop .s-ring__item:nth-child(18) { --tone: #dc5382; } /* гостиницы */
 .s-ring--pop .s-ring__btn {
   --pop: 600ms cubic-bezier(0.65, 0, 0.35, 1);
-  color: var(--tone);
+  color: var(--ink-3);
   background-color: #fff;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 6%, transparent);
   will-change: transform;
