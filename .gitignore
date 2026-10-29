@@ -2,3 +2,6 @@
 node_modules/
 # temporary art-direction prototypes
 landing/lab/
+
+# separate repo (github.com/osimij/navcrm-prototype)
+navcrm-prototype/

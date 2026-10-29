@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1342" height="467" viewBox="0 0 1342 467" fill="none">
+  <!-- The closing call's rings (Figma NavCRM 194:1657): five 706 pt circles in thin white, some faded -->
+  <g stroke="#fff" stroke-width="1" vector-effect="non-scaling-stroke">
+    <circle cx="-17" cy="854" r="352.5" opacity="0.2" vector-effect="non-scaling-stroke" />
+    <circle cx="1112" cy="732" r="352.5" opacity="0.5" vector-effect="non-scaling-stroke" />
+    <circle cx="1485" cy="365" r="352.5" vector-effect="non-scaling-stroke" />
+    <circle cx="-161" cy="209" r="352.5" vector-effect="non-scaling-stroke" />
+    <circle cx="41" cy="612" r="352.5" opacity="0.2" vector-effect="non-scaling-stroke" />
+  </g>
+</svg>

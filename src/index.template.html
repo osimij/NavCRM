@@ -14,12 +14,12 @@
     <link rel="stylesheet" href="css/fx/glow.css?v=1.5-glow-shape-3" />
     <link rel="stylesheet" href="css/sections/nav.css?v=1.5-tones" />
     <link rel="stylesheet" href="css/sections/hero.css?v=1.5-hero-statusbar" />
-    <link rel="stylesheet" href="css/sections/problems.css?v=1.5-merged" />
+    <link rel="stylesheet" href="css/sections/problems.css?v=1.5-odometer-4" />
     <!-- ARCHIVED 2026-10-27: How it works section stylesheet. Restore with the section (see <main>). -->
     <!-- <link rel="stylesheet" href="css/sections/how.css?v=1.5-tones" /> -->
     <link rel="stylesheet" href="css/sections/owner.css?v=1.5-phone-figma" />
     <!-- <link rel="stylesheet" href="css/sections/industries.css?v=1.5-cta-below" /> -->
-    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-perf" />
+    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-accent" />
     <!-- local.css stays: the problems bento uses its offline and payments cards (see <main>) -->
     <link rel="stylesheet" href="css/sections/local.css?v=1.5-merged" />
     <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-merged" />
@@ -28,7 +28,8 @@
     <!-- ARCHIVED 2026-10-27: Assistants section stylesheet. Restore with the section (see <main>). -->
     <!-- <link rel="stylesheet" href="css/sections/assistants.css?v=1.5-tones" /> -->
     <link rel="stylesheet" href="css/sections/faq.css?v=1.5-tones" />
-    <link rel="stylesheet" href="css/sections/start.css?v=1.5-offline-art-4" />
+    <!-- ARCHIVED 2026-10-29: closing call stylesheet. Restore with the section (see <main>). -->
+    <!-- <link rel="stylesheet" href="css/sections/start.css?v=1.5-cta-rings" /> -->
     <link rel="stylesheet" href="css/sections/footer.css?v=1.5-footer-black" />
     <script type="module" src="js/main.js?v=1.5-merged"></script>
   </head>
@@ -125,7 +126,23 @@
       the assistants.css link in <head>, swap those three tones back, then run npm run build.
       -->
       <!-- @partial faq -->
-      <!-- @partial start -->
+      <!--
+      ARCHIVED 2026-10-29: closing call section (id="start"), taken off the page at the owner's request,
+      to be refined later.
+
+      Its latest version follows Figma (NavCRM, 194:1657): a blue panel, #006bc6 to #4cbfff, crossed
+      by five thin white rings, with "Подключим ваш бизнес", the lead about setup in one day, and two
+      pills, a white "Написать в Telegram" and an outlined "Позвонить".
+      The "Начать работу" buttons in the hero and pricing pointed at #start; they now go to the
+      footer's contact buttons (#contact). The nav's two buttons became "Войти" (navcrm.tj/login).
+
+      Nothing was deleted: markup in src/partials/start.html, styles in
+      landing/css/sections/start.css, the rings in landing/assets/art/cta-rings.svg. The earlier
+      evening-sky look is in git history (commit ab5967f).
+
+      To restore: put back the "@ partial start" marker (without the space) here, uncomment the
+      start.css link in <head>, point the hero and pricing links back at #start, then run npm run build.
+      -->
     </main>
     <!-- @partial footer -->
   </body>

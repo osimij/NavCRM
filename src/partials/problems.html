@@ -1,12 +1,13 @@
-<section class="s-problems section tone-soft" data-section="problems" id="problems">
+<section class="s-problems section tone-white" data-section="problems" id="problems">
   <div class="container s-problems__inner">
     <div class="section-head section-head--center">
-      <h2 class="reveal">Рутину NavCRM <span class="text-accent">берёт на себя</span></h2>
+      <h2 class="reveal">Меньше рутины, <span class="text-accent">больше времени на&nbsp;клиентов</span></h2>
+      <p class="lead reveal" style="--delay: 60ms">Записи, напоминания, касса, склад и&nbsp;сообщения клиентам NavCRM ведёт сам, даже когда пропал интернет.</p>
     </div>
 
-    <!-- Each tile: a grey well holding a piece of product, then one statement:
-         ink, then a grey continuation. The payments and offline cards came over from the
-         "Made in Dushanbe" section and keep its card design (local.css): icon, well, title and text. -->
+    <!-- Every tile is the same: a grey well holding a piece of product, then one statement under it,
+         ink and then a grey continuation. The payments and offline tiles came over from the archived
+         "Made in Dushanbe" section; only their wells keep its pieces (logos, the offline phone). -->
     <ul class="s-problems__grid" data-stagger="50">
       <!-- 1. AI replies and books -->
       <li class="s-problems__card s-problems__card--ai sq reveal">
@@ -40,41 +41,20 @@
             </div>
           </div>
         </div>
-        <div class="s-problems__copy">
-          <p class="s-problems__eyebrow"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#brain" /></svg>ИИ-администратор</p>
-          <h3 class="s-problems__say">Отвечает клиентам 24/7. <span>Сам находит свободное окно в Instagram и Telegram и записывает.</span></h3>
-        </div>
+        <h3 class="s-problems__say">ИИ-администратор отвечает клиентам 24/7. <span>Сам находит свободное окно в Instagram и Telegram и записывает.</span></h3>
       </li>
 
-      <!-- 2. Reminders: the two Telegram notifications, a day and two hours before -->
+      <!-- 2. Reminders: the two Telegram notifications (Figma: Resources → "Reminders tile") on a lock-screen gradient -->
       <li class="s-problems__card s-problems__card--remind sq reveal">
-        <div class="s-problems__stage ui" aria-hidden="true">
-          <div class="s-problems__stack">
-            <div class="ui-card s-problems__row s-problems__row--read">
-              <span class="ui-tile ui-tile--telegram"><img src="assets/logos/telegram.svg" alt=""></span>
-              <span class="s-problems__lines"><span class="s-problems__top"><span class="ui-title">Gulnor Beauty</span><span class="ui-sub">за 24 ч</span></span><span class="ui-sub">Завтра в 14:30 стрижка у Малики</span></span>
-            </div>
-            <div class="ui-card s-problems__row">
-              <span class="ui-tile ui-tile--telegram"><img src="assets/logos/telegram.svg" alt=""></span>
-              <span class="s-problems__lines"><span class="s-problems__top"><span class="ui-title">Gulnor Beauty</span><span class="ui-sub">за 2 ч</span></span><span class="ui-sub">Нигина, ждём вас сегодня в 14:30</span></span>
-              <span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#check" /></svg>Приду</span>
-            </div>
-          </div>
+        <div class="s-problems__stage s-problems__lock">
+          <img src="assets/art/reminders.webp" width="412" height="162" alt="Два напоминания в Telegram от Gulnor Beauty: «Завтра в 14:30 стрижка у Малики» и «Нигина, ждём вас сегодня в 14:30»." loading="lazy" decoding="async" />
         </div>
         <h3 class="s-problems__say">Напоминания уходят сами. <span>Обзванивать никого не нужно.</span></h3>
       </li>
 
-      <!-- 3. Payments (from the archived "Made in Dushanbe" section, in its own card design) -->
-      <li class="s-local__card s-problems__card--payments card sq reveal">
-        <div class="s-local__text">
-          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wallet" /></svg></span>
-          <div class="s-local__copy">
-            <h3>Местные платежи под контролем</h3>
-            <p>Наличные, терминалы, Alif QR, DC NEXT и Корти Милли, а также разделение платежей, залоги и долги.</p>
-          </div>
-        </div>
-        <!-- Payment partners: one row of logos, all in the same grey at the same height (local.css) -->
-        <div class="s-local__well s-local__well--plain sq" role="img" aria-label="Оплата через Alif, DC (Dushanbe City), Visa и Корти Милли.">
+      <!-- 3. Payments: the partners' logos, all in the same grey at the same height (local.css) -->
+      <li class="s-problems__card s-problems__card--payments sq reveal">
+        <div class="s-problems__stage" role="img" aria-label="Оплата через Alif, DC (Dushanbe City), Visa и Корти Милли.">
           <div class="s-local__logos" aria-hidden="true">
             <span class="s-local__logo s-local__logo--alif"></span>
             <span class="s-local__logo s-local__logo--dc"></span>
@@ -82,6 +62,7 @@
             <span class="s-local__logo s-local__logo--korti"></span>
           </div>
         </div>
+        <h3 class="s-problems__say">Местные платежи под контролем. <span>Наличные, терминалы, Alif QR, DC NEXT и Корти Милли, а ещё разделение платежей, залоги и долги.</span></h3>
       </li>
 
       <!-- 4. Waitlist: the cancelled booking hands its slot to the next person -->
@@ -111,9 +92,20 @@
       <!-- 5. Cash -->
       <li class="s-problems__card s-problems__card--cash sq reveal">
         <div class="s-problems__stage ui" aria-hidden="true">
-          <div class="s-problems__figure">
-            <span class="s-problems__num s-problems__num--bad">−40</span>
-            <span class="s-problems__unit">сомони: 2 140 в кассе из 2 180</span>
+          <!-- The shift report at closing: the counted total rolls in under the expected one, digit by
+               digit, and the one column that differs lights up red. --d is each counted digit. -->
+          <div class="ui-card s-problems__count">
+            <span class="s-problems__count-head">
+              <span class="s-problems__head"><span class="ui-tile"><svg class="i"><use href="assets/icons.svg#cash" /></svg></span><span class="ui-title">Закрытие смены</span></span>
+              <span class="ui-sub">Малика · 21:04</span>
+            </span>
+            <dl class="s-problems__tally">
+              <dt>Ожидалось</dt>
+              <dd><span>2</span><span>1</span><span>8</span><span>0</span></dd>
+              <dt>В кассе</dt>
+              <dd class="s-problems__odo"><span style="--d: 2"><i>01234567890123456789</i></span><span style="--d: 1"><i>01234567890123456789</i></span><span style="--d: 4"><i>01234567890123456789</i></span><span style="--d: 0"><i>01234567890123456789</i></span></dd>
+            </dl>
+            <span class="s-problems__gap"><b><svg class="i"><use href="assets/icons.svg#alert" /></svg>−40 сомони</b>наличных не хватает</span>
           </div>
         </div>
         <h3 class="s-problems__say">Касса не сходится? <span>Отчёт смены покажет это сразу.</span></h3>
@@ -155,17 +147,10 @@
         <h3 class="s-problems__say">Помнит дни рождения. <span>И пишет тем, кто не был 60 дней.</span></h3>
       </li>
 
-      <!-- 8. Offline (from the archived "Made in Dushanbe" section, in its own card design): today's
-           schedule on a phone that loses its connection. local.js plays it, loaded by data-section. -->
-      <li data-section="local" class="s-local__card s-local__card--offline s-problems__card--offline card sq reveal">
-        <div class="s-local__text">
-          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wifi-off" /></svg></span>
-          <div class="s-local__copy">
-            <h3>Работает, даже если пропал интернет</h3>
-            <p>В мобильном приложении расписание, клиенты, касса и склад работают без интернета до конца смены. Когда связь восстановится, изменения синхронизируются.</p>
-          </div>
-        </div>
-        <div class="s-local__stage stage">
+      <!-- 8. Offline: today's schedule on a phone that loses its connection (its app is styled in
+           local.css). local.js plays it, loaded by data-section. -->
+      <li data-section="local" class="s-problems__card s-problems__card--offline sq reveal">
+        <div class="s-problems__stage s-local__stage stage">
           <div class="stage__art" aria-hidden="true"></div>
           <!-- Ships in the end state (no JS, reduced motion). The script starts it from "online". -->
           <div class="s-local__offline ui" role="img" aria-label="Приложение NavCRM на телефоне с записями Gulnor Beauty на сегодня. Интернет пропадает, три изменения сохраняются на телефоне, а после восстановления связи синхронизируются." data-offline data-phase="synced" data-rows="3">
@@ -256,6 +241,7 @@
             </div>
           </div>
         </div>
+        <h3 class="s-problems__say">Работает, даже если пропал интернет. <span>Расписание, клиенты, касса и склад работают в приложении до конца смены, а потом всё синхронизируется.</span></h3>
       </li>
     </ul>
   </div>

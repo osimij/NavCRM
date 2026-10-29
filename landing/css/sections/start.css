@@ -1,5 +1,5 @@
-/* Final call: the bookend to the hero. The same world late in the day, with the copy and the two
-   ways to reach a person set over the warm evening sky. */
+/* Final call (Figma NavCRM 194:1657): a blue panel, deep at the top and light at the bottom, crossed
+   by thin white rings, with white copy and two pill buttons, one filled and one outlined. */
 
 .s-start {
   padding-block: clamp(8px, 2vw, 24px) clamp(72px, 9vw, 128px);
@@ -8,60 +8,67 @@
 .s-start__stage {
   display: grid;
   place-items: center;
-  min-height: clamp(540px, 46vw, 640px);
+  min-height: clamp(420px, 34vw, 480px);
   padding: clamp(56px, 7vw, 96px) var(--gutter);
   text-align: center;
+  box-shadow: none;
 }
-/* The evening plate (the hero's world under a low, warm sun); a still, never a live render. */
 .s-start__stage .stage__art {
-  background-color: #dfe6f3;
-  background-image: image-set(url("../../assets/art/stage-start.webp") 1x, url("../../assets/art/stage-start@2x.webp") 2x);
-  background-size: cover;
-  background-position: 50% 62%;
-}
-/* a soft lift of the light behind the copy, so the lines never sit on the bright cloud edge */
-.s-start__stage .stage__art::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(52% 46% at 50% 46%, rgba(255, 248, 240, 0.4), rgba(255, 248, 240, 0) 100%);
+  background:
+    url("../../assets/art/cta-rings.svg") center / cover no-repeat,
+    linear-gradient(180deg, #006bc6 0%, #4cbfff 100%);
 }
 
 .s-start__copy {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 660px;
+  max-width: 760px;
 }
 .s-start__copy h2 {
-  max-width: 14ch;
-  color: #0a1324;
+  max-width: none;
+  color: #fff;
 }
 .s-start__copy .lead {
-  max-width: 46ch;
-  text-wrap: balance;
+  --type-weight: 375;
+  max-width: 50ch;
   margin-top: 20px;
-  color: #34415a;
+  font-size: clamp(1.0625rem, 0.8rem + 0.85vw, 1.5rem);
+  line-height: 1.35;
+  text-wrap: balance;
+  color: rgba(255, 255, 255, 0.8);
 }
 .s-start__actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: 18px;
   margin-top: 32px;
 }
-.s-start__note {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 20px;
-  font-size: var(--fs-sm);
-  font-weight: var(--type-weight, 400);
-  color: #3a465b;
+/* Both pills are the same size: white with near-black text, and a thin white outline */
+.s-start__btn {
+  --type-weight: 450;
+  --btn-h: clamp(48px, 3.2vw + 12px, 61px);
+  padding: 0 clamp(20px, 1.8vw, 25px);
+  font-size: clamp(1rem, 0.75rem + 0.75vw, 1.4375rem);
 }
-.s-start__note .i {
-  font-size: 18px;
-  color: var(--accent-ink);
+.s-start__btn--main {
+  color: rgba(29, 29, 31, 0.8);
+  background: #fff;
+}
+.s-start__btn--line {
+  color: #fff;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+@media (hover: hover) and (pointer: fine) {
+  .s-start__btn--main:hover {
+    color: #1d1d1f;
+  }
+  .s-start__btn--line:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.8);
+  }
 }
 
 @media (max-width: 759.98px) {
@@ -70,12 +77,10 @@
     padding: 56px 20px 64px;
     border-radius: var(--r-xl);
   }
-  .s-start__stage .stage__art {
-    background-position: 74% 70%;
-  }
   .s-start__actions {
     flex-direction: column;
     align-items: stretch;
+    gap: 12px;
     width: 100%;
     max-width: 360px;
   }

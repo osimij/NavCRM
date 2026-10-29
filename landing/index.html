@@ -14,12 +14,12 @@
     <link rel="stylesheet" href="css/fx/glow.css?v=1.5-glow-shape-3" />
     <link rel="stylesheet" href="css/sections/nav.css?v=1.5-tones" />
     <link rel="stylesheet" href="css/sections/hero.css?v=1.5-hero-statusbar" />
-    <link rel="stylesheet" href="css/sections/problems.css?v=1.5-merged" />
+    <link rel="stylesheet" href="css/sections/problems.css?v=1.5-odometer-4" />
     <!-- ARCHIVED 2026-10-27: How it works section stylesheet. Restore with the section (see <main>). -->
     <!-- <link rel="stylesheet" href="css/sections/how.css?v=1.5-tones" /> -->
     <link rel="stylesheet" href="css/sections/owner.css?v=1.5-phone-figma" />
     <!-- <link rel="stylesheet" href="css/sections/industries.css?v=1.5-cta-below" /> -->
-    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-perf" />
+    <link rel="stylesheet" href="css/sections/industries-ring.css?v=1.5-ring-accent" />
     <!-- local.css stays: the problems bento uses its offline and payments cards (see <main>) -->
     <link rel="stylesheet" href="css/sections/local.css?v=1.5-merged" />
     <link rel="stylesheet" href="css/sections/pricing.css?v=1.5-merged" />
@@ -28,7 +28,8 @@
     <!-- ARCHIVED 2026-10-27: Assistants section stylesheet. Restore with the section (see <main>). -->
     <!-- <link rel="stylesheet" href="css/sections/assistants.css?v=1.5-tones" /> -->
     <link rel="stylesheet" href="css/sections/faq.css?v=1.5-tones" />
-    <link rel="stylesheet" href="css/sections/start.css?v=1.5-offline-art-4" />
+    <!-- ARCHIVED 2026-10-29: closing call stylesheet. Restore with the section (see <main>). -->
+    <!-- <link rel="stylesheet" href="css/sections/start.css?v=1.5-cta-rings" /> -->
     <link rel="stylesheet" href="css/sections/footer.css?v=1.5-footer-black" />
     <script type="module" src="js/main.js?v=1.5-merged"></script>
   </head>
@@ -49,7 +50,7 @@
       </nav>
 
       <div class="s-nav__actions">
-        <a class="btn btn--dark btn--sm" href="#start">Начать работу</a>
+        <a class="btn btn--dark btn--sm" href="https://navcrm.tj/login">Войти</a>
         <button class="s-nav__toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Открыть меню">
           <svg class="i" aria-hidden="true"><use href="assets/icons.svg#menu" /></svg>
         </button>
@@ -64,7 +65,7 @@
       <a href="#pricing">Стоимость</a>
       <a href="#faq">Вопросы</a>
     </nav>
-    <a class="btn btn--dark s-nav__menu-cta" href="#start">Начать работу</a>
+    <a class="btn btn--dark s-nav__menu-cta" href="https://navcrm.tj/login">Войти</a>
   </div>
 </header>
     </div>
@@ -85,7 +86,7 @@
         <p class="lead s-hero__lead"><span class="s-hero__intro">CRM для салонов, клиник, автосервисов, студий и других сервисных компаний.</span></p>
       </div>
       <div class="s-hero__actions">
-        <a class="btn btn--dark btn--lg" href="#start">Начать работу<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
+        <a class="btn btn--dark btn--lg" href="#contact">Начать работу<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
         <a class="btn btn--glass btn--lg" href="#problems">Как это работает</a>
       </div>
     </div>
@@ -181,15 +182,16 @@
     </div>
   </div>
 </section>
-      <section class="s-problems section tone-soft" data-section="problems" id="problems">
+      <section class="s-problems section tone-white" data-section="problems" id="problems">
   <div class="container s-problems__inner">
     <div class="section-head section-head--center">
-      <h2 class="reveal">Рутину NavCRM <span class="text-accent">берёт на себя</span></h2>
+      <h2 class="reveal">Меньше рутины, <span class="text-accent">больше времени на&nbsp;клиентов</span></h2>
+      <p class="lead reveal" style="--delay: 60ms">Записи, напоминания, касса, склад и&nbsp;сообщения клиентам NavCRM ведёт сам, даже когда пропал интернет.</p>
     </div>
 
-    <!-- Each tile: a grey well holding a piece of product, then one statement:
-         ink, then a grey continuation. The payments and offline cards came over from the
-         "Made in Dushanbe" section and keep its card design (local.css): icon, well, title and text. -->
+    <!-- Every tile is the same: a grey well holding a piece of product, then one statement under it,
+         ink and then a grey continuation. The payments and offline tiles came over from the archived
+         "Made in Dushanbe" section; only their wells keep its pieces (logos, the offline phone). -->
     <ul class="s-problems__grid" data-stagger="50">
       <!-- 1. AI replies and books -->
       <li class="s-problems__card s-problems__card--ai sq reveal">
@@ -223,41 +225,20 @@
             </div>
           </div>
         </div>
-        <div class="s-problems__copy">
-          <p class="s-problems__eyebrow"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#brain" /></svg>ИИ-администратор</p>
-          <h3 class="s-problems__say">Отвечает клиентам 24/7. <span>Сам находит свободное окно в Instagram и Telegram и записывает.</span></h3>
-        </div>
+        <h3 class="s-problems__say">ИИ-администратор отвечает клиентам 24/7. <span>Сам находит свободное окно в Instagram и Telegram и записывает.</span></h3>
       </li>
 
-      <!-- 2. Reminders: the two Telegram notifications, a day and two hours before -->
+      <!-- 2. Reminders: the two Telegram notifications (Figma: Resources → "Reminders tile") on a lock-screen gradient -->
       <li class="s-problems__card s-problems__card--remind sq reveal">
-        <div class="s-problems__stage ui" aria-hidden="true">
-          <div class="s-problems__stack">
-            <div class="ui-card s-problems__row s-problems__row--read">
-              <span class="ui-tile ui-tile--telegram"><img src="assets/logos/telegram.svg" alt=""></span>
-              <span class="s-problems__lines"><span class="s-problems__top"><span class="ui-title">Gulnor Beauty</span><span class="ui-sub">за 24 ч</span></span><span class="ui-sub">Завтра в 14:30 стрижка у Малики</span></span>
-            </div>
-            <div class="ui-card s-problems__row">
-              <span class="ui-tile ui-tile--telegram"><img src="assets/logos/telegram.svg" alt=""></span>
-              <span class="s-problems__lines"><span class="s-problems__top"><span class="ui-title">Gulnor Beauty</span><span class="ui-sub">за 2 ч</span></span><span class="ui-sub">Нигина, ждём вас сегодня в 14:30</span></span>
-              <span class="ui-status ui-status--confirmed"><svg class="i"><use href="assets/icons.svg#check" /></svg>Приду</span>
-            </div>
-          </div>
+        <div class="s-problems__stage s-problems__lock">
+          <img src="assets/art/reminders.webp" width="412" height="162" alt="Два напоминания в Telegram от Gulnor Beauty: «Завтра в 14:30 стрижка у Малики» и «Нигина, ждём вас сегодня в 14:30»." loading="lazy" decoding="async" />
         </div>
         <h3 class="s-problems__say">Напоминания уходят сами. <span>Обзванивать никого не нужно.</span></h3>
       </li>
 
-      <!-- 3. Payments (from the archived "Made in Dushanbe" section, in its own card design) -->
-      <li class="s-local__card s-problems__card--payments card sq reveal">
-        <div class="s-local__text">
-          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wallet" /></svg></span>
-          <div class="s-local__copy">
-            <h3>Местные платежи под контролем</h3>
-            <p>Наличные, терминалы, Alif QR, DC NEXT и Корти Милли, а также разделение платежей, залоги и долги.</p>
-          </div>
-        </div>
-        <!-- Payment partners: one row of logos, all in the same grey at the same height (local.css) -->
-        <div class="s-local__well s-local__well--plain sq" role="img" aria-label="Оплата через Alif, DC (Dushanbe City), Visa и Корти Милли.">
+      <!-- 3. Payments: the partners' logos, all in the same grey at the same height (local.css) -->
+      <li class="s-problems__card s-problems__card--payments sq reveal">
+        <div class="s-problems__stage" role="img" aria-label="Оплата через Alif, DC (Dushanbe City), Visa и Корти Милли.">
           <div class="s-local__logos" aria-hidden="true">
             <span class="s-local__logo s-local__logo--alif"></span>
             <span class="s-local__logo s-local__logo--dc"></span>
@@ -265,6 +246,7 @@
             <span class="s-local__logo s-local__logo--korti"></span>
           </div>
         </div>
+        <h3 class="s-problems__say">Местные платежи под контролем. <span>Наличные, терминалы, Alif QR, DC NEXT и Корти Милли, а ещё разделение платежей, залоги и долги.</span></h3>
       </li>
 
       <!-- 4. Waitlist: the cancelled booking hands its slot to the next person -->
@@ -294,9 +276,20 @@
       <!-- 5. Cash -->
       <li class="s-problems__card s-problems__card--cash sq reveal">
         <div class="s-problems__stage ui" aria-hidden="true">
-          <div class="s-problems__figure">
-            <span class="s-problems__num s-problems__num--bad">−40</span>
-            <span class="s-problems__unit">сомони: 2 140 в кассе из 2 180</span>
+          <!-- The shift report at closing: the counted total rolls in under the expected one, digit by
+               digit, and the one column that differs lights up red. --d is each counted digit. -->
+          <div class="ui-card s-problems__count">
+            <span class="s-problems__count-head">
+              <span class="s-problems__head"><span class="ui-tile"><svg class="i"><use href="assets/icons.svg#cash" /></svg></span><span class="ui-title">Закрытие смены</span></span>
+              <span class="ui-sub">Малика · 21:04</span>
+            </span>
+            <dl class="s-problems__tally">
+              <dt>Ожидалось</dt>
+              <dd><span>2</span><span>1</span><span>8</span><span>0</span></dd>
+              <dt>В кассе</dt>
+              <dd class="s-problems__odo"><span style="--d: 2"><i>01234567890123456789</i></span><span style="--d: 1"><i>01234567890123456789</i></span><span style="--d: 4"><i>01234567890123456789</i></span><span style="--d: 0"><i>01234567890123456789</i></span></dd>
+            </dl>
+            <span class="s-problems__gap"><b><svg class="i"><use href="assets/icons.svg#alert" /></svg>−40 сомони</b>наличных не хватает</span>
           </div>
         </div>
         <h3 class="s-problems__say">Касса не сходится? <span>Отчёт смены покажет это сразу.</span></h3>
@@ -338,17 +331,10 @@
         <h3 class="s-problems__say">Помнит дни рождения. <span>И пишет тем, кто не был 60 дней.</span></h3>
       </li>
 
-      <!-- 8. Offline (from the archived "Made in Dushanbe" section, in its own card design): today's
-           schedule on a phone that loses its connection. local.js plays it, loaded by data-section. -->
-      <li data-section="local" class="s-local__card s-local__card--offline s-problems__card--offline card sq reveal">
-        <div class="s-local__text">
-          <span class="s-local__icon sq"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#wifi-off" /></svg></span>
-          <div class="s-local__copy">
-            <h3>Работает, даже если пропал интернет</h3>
-            <p>В мобильном приложении расписание, клиенты, касса и склад работают без интернета до конца смены. Когда связь восстановится, изменения синхронизируются.</p>
-          </div>
-        </div>
-        <div class="s-local__stage stage">
+      <!-- 8. Offline: today's schedule on a phone that loses its connection (its app is styled in
+           local.css). local.js plays it, loaded by data-section. -->
+      <li data-section="local" class="s-problems__card s-problems__card--offline sq reveal">
+        <div class="s-problems__stage s-local__stage stage">
           <div class="stage__art" aria-hidden="true"></div>
           <!-- Ships in the end state (no JS, reduced motion). The script starts it from "online". -->
           <div class="s-local__offline ui" role="img" aria-label="Приложение NavCRM на телефоне с записями Gulnor Beauty на сегодня. Интернет пропадает, три изменения сохраняются на телефоне, а после восстановления связи синхронизируются." data-offline data-phase="synced" data-rows="3">
@@ -439,6 +425,7 @@
             </div>
           </div>
         </div>
+        <h3 class="s-problems__say">Работает, даже если пропал интернет. <span>Расписание, клиенты, касса и склад работают в приложении до конца смены, а потом всё синхронизируется.</span></h3>
       </li>
     </ul>
   </div>
@@ -742,7 +729,7 @@
           <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#coins" /></svg><span>Около <b data-per-day>38</b> сомони за рабочий день</span></li>
           <li><svg class="i" aria-hidden="true"><use href="assets/icons.svg#calendar-remove" /></svg><span>Неявки и отмены не считаются: в спокойный месяц платите&nbsp;меньше</span></li>
         </ul>
-        <a class="btn btn--accent btn--lg s-pricing__cta" href="#start">Начать работу<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
+        <a class="btn btn--accent btn--lg s-pricing__cta" href="#contact">Начать работу<svg class="i i--nudge" aria-hidden="true"><use href="assets/icons.svg#arrow-right" /></svg></a>
       </div>
     </div>
 
@@ -1062,28 +1049,28 @@
     </div>
   </div>
 </section>
-      <section class="s-start tone-white" id="start" aria-labelledby="start-title">
-  <div class="container">
-    <div class="stage s-start__stage">
-      <!-- the same world as the hero, late in the day: the bookend to the morning sky -->
-      <div class="stage__art" aria-hidden="true"></div>
-      <div class="s-start__copy">
-        <h2 id="start-title" class="reveal">Подключим ваш бизнес</h2>
-        <p class="lead reveal" style="--delay: 60ms">Расскажите, чем вы занимаетесь и как работаете сейчас. Вместе выберем профиль, перенесём клиентскую базу и обучим команду, чтобы вы могли начать работу за один день.</p>
-        <div class="s-start__actions reveal" style="--delay: 120ms">
-          <a class="btn btn--dark btn--lg" href="https://t.me/+992070070070" target="_blank" rel="noopener"><img class="i" src="assets/logos/telegram.svg" alt="">Написать в Telegram</a>
-          <a class="btn btn--glass btn--lg" href="tel:+992070070070"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#call" /></svg>Позвонить +992 070 070 070</a>
-        </div>
-        <p class="s-start__note reveal" style="--delay: 180ms"><svg class="i" aria-hidden="true"><use href="assets/icons.svg#support" /></svg>Поддержка на таджикском и русском.</p>
-      </div>
-    </div>
-  </div>
-</section>
+      <!--
+      ARCHIVED 2026-10-29: closing call section (id="start"), taken off the page at the owner's request,
+      to be refined later.
+
+      Its latest version follows Figma (NavCRM, 194:1657): a blue panel, #006bc6 to #4cbfff, crossed
+      by five thin white rings, with "Подключим ваш бизнес", the lead about setup in one day, and two
+      pills, a white "Написать в Telegram" and an outlined "Позвонить".
+      The "Начать работу" buttons in the hero and pricing pointed at #start; they now go to the
+      footer's contact buttons (#contact). The nav's two buttons became "Войти" (navcrm.tj/login).
+
+      Nothing was deleted: markup in src/partials/start.html, styles in
+      landing/css/sections/start.css, the rings in landing/assets/art/cta-rings.svg. The earlier
+      evening-sky look is in git history (commit ab5967f).
+
+      To restore: put back the "@ partial start" marker (without the space) here, uncomment the
+      start.css link in <head>, point the hero and pricing links back at #start, then run npm run build.
+      -->
     </main>
     <!-- Footer: a dark close to the page. Brand and quick contact on top, the link columns, a slim
      bottom row, then a giant NavCRM wordmark across the full width, cropped by the edge and
      fading out; a soft light follows the pointer over it (footer.js). -->
-<footer class="s-footer" data-section="footer">
+<footer class="s-footer" id="contact" data-section="footer">
   <div class="container">
     <div class="s-footer__top">
       <div class="s-footer__brand">

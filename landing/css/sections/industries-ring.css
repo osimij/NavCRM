@@ -152,34 +152,11 @@ html:not(.js) .s-ring__item {
   margin-top: calc(28px - var(--block-gap));
 }
 
-/* A plain #fafafa section, and every business gets its own colour: a white circle with a
-   grey icon. The lit circle grows and, over the same stretch, fills with the colour
-   while the icon turns white.
-   The colours run once around the ring as one spectrum, clockwise from the top: red, orange,
-   green, teal, blue, indigo, violet, pink. All 18 share one OKLCH lightness (63.5%) with chroma
-   capped at 0.175, so none is louder or muddier than its neighbours; the olive/yellow-green band
-   is left out, and each keeps at least 3.2:1 contrast with the white icon on the lit circle. */
+/* A plain #fafafa section: a white circle with a grey icon for each business. The lit circle
+   grows and, over the same stretch, fills with the accent while the icon turns white. */
 .s-ring.s-ring--pop {
   background: #fafafa;
 }
-.s-ring--pop .s-ring__item:nth-child(1) { --tone: #e05461; }  /* салоны красоты */
-.s-ring--pop .s-ring__item:nth-child(2) { --tone: #e0593c; }  /* барбершопы */
-.s-ring--pop .s-ring__item:nth-child(3) { --tone: #d86400; }  /* стоматологии */
-.s-ring--pop .s-ring__item:nth-child(4) { --tone: #c37605; }  /* медцентры */
-.s-ring--pop .s-ring__item:nth-child(5) { --tone: #0aa565; }  /* автосервисы */
-.s-ring--pop .s-ring__item:nth-child(6) { --tone: #07a283; }  /* фитнес */
-.s-ring--pop .s-ring__item:nth-child(7) { --tone: #089f98; }  /* йога */
-.s-ring--pop .s-ring__item:nth-child(8) { --tone: #0a9da9; }  /* массаж и спа */
-.s-ring--pop .s-ring__item:nth-child(9) { --tone: #059abb; }  /* оптики */
-.s-ring--pop .s-ring__item:nth-child(10) { --tone: #0995d1; } /* учебные центры */
-.s-ring--pop .s-ring__item:nth-child(11) { --tone: #218cf0; } /* музыкальные школы */
-.s-ring--pop .s-ring__item:nth-child(12) { --tone: #5c82f3; } /* детские центры */
-.s-ring--pop .s-ring__item:nth-child(13) { --tone: #7f77ef; } /* клининг */
-.s-ring--pop .s-ring__item:nth-child(14) { --tone: #9b6de4; } /* ателье */
-.s-ring--pop .s-ring__item:nth-child(15) { --tone: #b164d2; } /* фотостудии */
-.s-ring--pop .s-ring__item:nth-child(16) { --tone: #c45cbb; } /* ветклиники */
-.s-ring--pop .s-ring__item:nth-child(17) { --tone: #d256a0; } /* кофейни */
-.s-ring--pop .s-ring__item:nth-child(18) { --tone: #dc5382; } /* гостиницы */
 .s-ring--pop .s-ring__btn {
   --pop: 600ms cubic-bezier(0.65, 0, 0.35, 1);
   color: var(--ink-3);
@@ -195,7 +172,7 @@ html:not(.js) .s-ring__item {
 }
 .s-ring--pop .s-ring__btn.is-spot {
   color: #fff;
-  background-color: var(--tone);
+  background-color: var(--accent);
   transform: scale(1.22);
 }
 /* the lit circle grows over its neighbours (the class is set from industries-ring.js) */
